@@ -1,0 +1,14 @@
+.logo {
+    transition: transform 0.3s;
+  }
+  
+  .logo:hover {
+    transform: scale(2.25); 
+  }
+  .nav-item {
+    transition: background-color 0.3s;
+  }
+  
+  .nav-item:hover {
+    background-color: #e5e7eb; 
+  }
