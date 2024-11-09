@@ -1,11 +1,12 @@
 import React from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Map, Plane, Compass, Sun, Star, Wind } from 'lucide-react';
-import FloatingElement from './../ui/FloatingElement'; // Corrected path
-import ParallaxBackground from './../ui/ParallaxBackground'; // Corrected path
-import InteractiveGlobe from './../ui/InteractiveGlobe'; // Corrected path
-import AnimatedSearchBar from './../ui/AnimatedSearchBar'; // Corrected path
-import DestinationCard from './../ui/DestinationCard'; // Corrected path
+import FloatingElement from './../ui/FloatingElement'; 
+import ParallaxBackground from './../ui/ParallaxBackground'; 
+import InteractiveGlobe from './../ui/InteractiveGlobe'; 
+import AnimatedSearchBar from './../ui/AnimatedSearchBar'; 
+import DestinationCard from './../ui/DestinationCard'; 
+import ImageDisplay from '../ui/ImageDisplay/ImageDisplay';
 
 const Home = () => {
   const { scrollY } = useScroll();
@@ -14,7 +15,7 @@ const Home = () => {
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-900 via-purple-900 to-blue-900 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-blue-500 via-blue-600 to-blue-700 relative overflow-hidden">
       <ParallaxBackground />
       
       {/* Hero Section */}
@@ -51,10 +52,10 @@ const Home = () => {
               transition={{ duration: 0.8 }}
             >
               <h1 className="text-6xl font-bold leading-tight mb-6 text-white">
-                Discover Your
+                Explore The World With
                 <div className="relative inline-block ml-4">
                   <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
-                    Adventure
+                    TAB
                   </span>
                   <motion.div
                     className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 blur-xl opacity-30"
@@ -72,7 +73,6 @@ const Home = () => {
                 Embark on a journey of discovery. Let us guide you through the world's most breathtaking destinations.
               </p>
               
-              <AnimatedSearchBar />
             </motion.div>
 
             <motion.div
@@ -81,9 +81,10 @@ const Home = () => {
               transition={{ duration: 0.8 }}
               className="flex justify-center"
             >
-              <InteractiveGlobe />
+              <ImageDisplay/>
             </motion.div>
           </div>
+          <AnimatedSearchBar />
         </div>
 
         <motion.div
