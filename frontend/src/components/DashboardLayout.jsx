@@ -6,7 +6,7 @@ import {
   LogOut, Bell, Search, Calendar, MapPin, Users, 
   ChevronDown, LayoutDashboard, Bookmark 
 } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/Card';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/Card';
 import NavItem from './NavItem';
 
 const DashboardLayout = () => {
