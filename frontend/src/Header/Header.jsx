@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Button } from 'reactstrap';
 import { NavLink, Link } from 'react-router-dom';
 import { Menu } from 'lucide-react';
-import logo from '../img/TAB.gif';
+import logo from '../images/TAB.gif';
 import './header.css'
 
 const nav_links = [

@@ -1,6 +1,6 @@
 // src/components/DashboardLayout.jsx
 import React, { useState } from 'react';
-import logo from '../img/TAB.gif';
+import logo from '../images/TAB.gif';
 import { 
   Home, Menu, Plane, Hotel, Car, CreditCard, Settings, 
   LogOut, Bell, Search, Calendar, MapPin, Users, 
