@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Map, Plane, Compass, Sun, Star, Wind, Globe2 } from 'lucide-react';
+import { Map, Plane, Compass, Sun, Star, Wind, Globe2, Calendar, Users, CreditCard,  Award } from 'lucide-react';
 import { NavLink, Link } from 'react-router-dom';
 import FloatingElement from './../ui/FloatingElement'; 
 import ParallaxBackground from './../ui/ParallaxBackground'; 
@@ -8,10 +8,29 @@ import InteractiveGlobe from './../ui/InteractiveGlobe';
 import AnimatedSearchBar from '../ui/SearchBar/AnimatedSearchBar'; 
 import DestinationCard from '../ui/Card/DestinationCard'; 
 import ImageDisplay from '../ui/ImageDisplay/ImageDisplay';
+import user1 from '../images/hitler.jpg';
+import user2 from '../images/trump.jpg';
 import '../styles/home.css'
 
 
-
+const testimonials = [
+  {
+    id: 1,
+    name: "Adolf Hitler",
+    location: "Braunau am Inn, Austria",
+    comment: "The best travel experience of my life! The personalized itinerary was perfect.",
+    rating: 5,
+    image: user1
+  },
+  {
+    id: 2,
+    name: "Donald Trump",
+    location: "New York, USA",
+    comment: "Exceptional service and amazing destinations. Will definitely book again!",
+    rating: 4,
+    image: user2
+  }
+];
 
 const Home = () => {
   const { scrollY } = useScroll();
@@ -97,9 +116,11 @@ const Home = () => {
             >
               <AnimatedSearchBar />
             </motion.div>
+
+            
           
         </div>
-
+        
         <motion.div
           className="absolute bottom-10 left-1/2 -translate-x-1/2"
           animate={{
@@ -113,6 +134,44 @@ const Home = () => {
           <Wind className="w-8 h-8 text-gray-400" />
         </motion.div>
       </section>
+
+
+      {/* Why Choose Us Section */}
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-4xl font-bold mb-4 text-gray-800">Why Choose Us</h2>
+            <p className="text-gray-600">Experience the difference with our premium travel services</p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            {[
+              { icon: Calendar, title: "Easy Booking", description: "Simple and secure booking process" },
+              { icon: Users, title: "Expert Guides", description: "Professional local guides worldwide" },
+              { icon: CreditCard, title: "Best Prices", description: "Guaranteed best rates and offers" },
+              { icon: Award, title: "24/7 Support", description: "Round-the-clock customer service" }
+            ].map((feature, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="text-center"
+              >
+                <feature.icon className="w-12 h-12 mx-auto mb-4 text-blue-600" />
+                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+                <p className="text-gray-600">{feature.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+      {/* Why Choose Us Section End*/}
 
       {/* Features Section */}
       <section className="relative py-20">
@@ -154,6 +213,53 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+
+      {/* Testimonials Section */}
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-4xl font-bold mb-4 text-gray-800">What Our Travelers Say</h2>
+            <p className="text-gray-600">Real experiences from real travelers</p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {testimonials.map((testimonial) => (
+              <motion.div
+                key={testimonial.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="bg-white p-6 rounded-lg shadow-lg"
+              >
+                <div className="flex items-center mb-4">
+                  <img
+                    src={testimonial.image}
+                    alt={testimonial.name}
+                    className="w-12 h-12 rounded-full mr-4"
+                  />
+                  <div>
+                    <h4 className="font-semibold">{testimonial.name}</h4>
+                    <p className="text-gray-600 text-sm">{testimonial.location}</p>
+                  </div>
+                </div>
+                <p className="text-gray-700 mb-4">{testimonial.comment}</p>
+                <div className="flex">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 text-yellow-400" />
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+      {/*Testimonials Section End*/}
     </div>
   );
 };
