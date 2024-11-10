@@ -1,12 +1,17 @@
 import React from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Map, Plane, Compass, Sun, Star, Wind } from 'lucide-react';
+import { Map, Plane, Compass, Sun, Star, Wind, Globe2 } from 'lucide-react';
+import { NavLink, Link } from 'react-router-dom';
 import FloatingElement from './../ui/FloatingElement'; 
 import ParallaxBackground from './../ui/ParallaxBackground'; 
 import InteractiveGlobe from './../ui/InteractiveGlobe'; 
 import AnimatedSearchBar from '../ui/SearchBar/AnimatedSearchBar'; 
-import DestinationCard from './../ui/DestinationCard'; 
+import DestinationCard from '../ui/Card/DestinationCard'; 
 import ImageDisplay from '../ui/ImageDisplay/ImageDisplay';
+import '../styles/home.css'
+
+
+
 
 const Home = () => {
   const { scrollY } = useScroll();
@@ -41,7 +46,7 @@ const Home = () => {
             className="absolute bottom-20 left-10"
           >
             <FloatingElement delay={0.5}>
-              <Star className="w-20 h-20 text-purple-400" />
+              <i className="ri-hotel-line hotel__icon"></i>
             </FloatingElement>
           </motion.div>
 
@@ -52,9 +57,9 @@ const Home = () => {
               transition={{ duration: 0.8 }}
             >
               <h1 className="text-6xl font-bold leading-tight mb-6 text-gray-800">
-                Explore The World With
+                Travel Everywhere With
                 <div className="relative inline-block ml-4">
-                  <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500">
+                  <span className="text-gradient">
                     TAB
                   </span>
                   <motion.div
@@ -120,10 +125,11 @@ const Home = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mt-20">
             <DestinationCard
-              title="Exotic Locations"
+              title="Exotic Tours"
               description="Discover hidden paradises and untouched natural wonders"
               icon={Map}
               delay={0.2}
+              destinationUrl="/exotic_tours"
             />
             <DestinationCard
               title="Luxury Travel"

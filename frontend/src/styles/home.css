@@ -22,6 +22,15 @@
     margin-bottom: 2rem;
 }
 
+.text-gradient{
+    padding: relative;
+    z-index: 10;
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    background-image: linear-gradient(to right, #0066ff, #0033cc);
+    
+}
 .primary__btn1 {
     background: linear-gradient(90deg, #004ff9,#fff94c);
     border: none;
@@ -54,4 +63,10 @@
 
 .hero__img-box{
     padding-top: 2rem;
+}
+
+.hotel__icon{
+    font-size: 50px;
+    color: #0033cc;
+    
 }
