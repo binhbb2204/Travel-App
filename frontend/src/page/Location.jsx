@@ -25,19 +25,23 @@ const Location = () => {
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
+            
+            <FloatingElement delay={0.2}>
             <motion.div
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="inline-block p-3 bg-blue-100 rounded-full mb-4"
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+            
+              className="inline-block p-3 bg-blue-100 rounded-full mb-2"
             >
-            </motion.div>
+              </motion.div>
+            </FloatingElement>
             <h1 className="text-5xl font-bold mb-4 text-blue-900">Discover Our Tours</h1>
             <p className="text-xl text-blue-700">Experience the city like never before</p>
-          </motion.div>
+            </motion.div>
+
           <section>
             <Container>
-                
                 <Row>
                     <FeaturedTourList/>
                 </Row>

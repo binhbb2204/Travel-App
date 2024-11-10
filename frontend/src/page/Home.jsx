@@ -89,7 +89,15 @@ const Home = () => {
               <ImageDisplay/>
             </motion.div>
           </div>
-          <AnimatedSearchBar />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8 }}
+              className="flex justify-center"
+            >
+              <AnimatedSearchBar />
+            </motion.div>
+          
         </div>
 
         <motion.div
