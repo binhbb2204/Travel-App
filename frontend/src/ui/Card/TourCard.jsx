@@ -44,13 +44,13 @@ const TourCard = ({ tour }) => {
             <Link to ={`/tours/${id}`}>{title}</Link>
           </h3>
 
-          <div className="flex items-center justify-between mb-4 text-sm text-gray-600">
+          {/* <div className="flex items-center justify-between mb-4 text-sm text-gray-600">
             
             <div className="flex items-center space-x-1">
               <Users className="w-4 h-4" />
               <span>Max: {maxGroupSize}</span>
             </div>
-          </div>
+          </div> */}
 
           <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2">
             
