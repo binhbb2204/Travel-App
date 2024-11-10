@@ -4,7 +4,7 @@ import { Map, Plane, Compass, Sun, Star, Wind } from 'lucide-react';
 import FloatingElement from './../ui/FloatingElement'; 
 import ParallaxBackground from './../ui/ParallaxBackground'; 
 import InteractiveGlobe from './../ui/InteractiveGlobe'; 
-import AnimatedSearchBar from './../ui/AnimatedSearchBar'; 
+import AnimatedSearchBar from '../ui/SearchBar/AnimatedSearchBar'; 
 import DestinationCard from './../ui/DestinationCard'; 
 import ImageDisplay from '../ui/ImageDisplay/ImageDisplay';
 

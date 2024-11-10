@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Compass, Calendar, Users, Search } from 'lucide-react';
-import { Button } from './Button';
+import { Button } from '../Button';
 import './animated-search-bar.css';
 
 const AnimatedSearchBar = () => {
