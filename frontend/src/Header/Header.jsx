@@ -4,6 +4,7 @@ import { NavLink, Link } from 'react-router-dom';
 import { Menu } from 'lucide-react';
 import logo from '../img/TAB.gif';
 import './header.css'
+
 const nav_links = [
   {
     path: '/home',
@@ -22,7 +23,6 @@ const nav_links = [
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
 
-  
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
@@ -35,7 +35,7 @@ const Header = () => {
   return (
     <header className={`fixed w-full z-50 transition-all duration-300 ${
       isScrolled 
-        ? 'bg-blue-900/90 backdrop-blur-md shadow-lg' 
+        ? 'bg-white/30 backdrop-blur-sm shadow-lg' 
         : 'bg-transparent'
     }`}>
       <Container>
@@ -53,7 +53,7 @@ const Header = () => {
                   <li className="nav__item" key={index}>
                     <NavLink 
                       to={item.path}
-                      className="text-blue-100 hover:text-white transition-colors duration-200 font-medium"
+                      className="text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium"
                     >
                       {item.display}
                     </NavLink>
@@ -65,17 +65,19 @@ const Header = () => {
             {/* Auth Buttons */}
             <div className="nav__right d-flex align-items-center gap-4">
               <div className="nav__btns d-flex align-items-center gap-4">
-                <Button className="px-6 py-2 rounded-full bg-transparent border-2 border-blue-400 text-blue-100 hover:bg-blue-400 hover:text-white transition-all duration-200">
-                  <Link to='/login'>Login</Link>
+                <Button className="custom-gradient-login-btn">
+                  <Link to='/login' className="no-underline">Login</Link>
                 </Button>
-                <Button className="px-6 py-2 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 text-white hover:from-blue-500 hover:to-purple-500 transition-all duration-200">
-                  <Link to='/register'>Register</Link>
+                <Button className="custom-gradient-btn">
+                  <Link to='/register' className="text-white no-underline">Register</Link>
                 </Button>
               </div>
               
               {/* Mobile Menu Button */}
               <button className="mobile_menu block lg:hidden">
-                <Menu className="w-6 h-6 text-blue-100" />
+                <Menu className={`w-6 h-6 ${
+                  isScrolled ? 'text-gray-700' : 'text-white'
+                }`} />
               </button>
             </div>
           </div>

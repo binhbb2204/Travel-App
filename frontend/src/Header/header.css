@@ -42,5 +42,31 @@
     z-index: 999;
 }
 
+.custom-gradient-btn {
+    background: linear-gradient(to right, #0066ff, #0033cc);
+    padding: 0.75rem 1.5rem;  
+    border-radius: 9999px;    
+    color: white;
+    transition: all 0.2s;
+    width: max-content;              
+    height: max-content; 
+}
+
+.custom-gradient-btn:hover {
+    background: linear-gradient(to right, #0052cc, #002080);
+} 
+
+.custom-gradient-login-btn {
+    padding: 0.5rem 1.5rem; 
+    border-radius: 9999px; 
+    background-color: transparent;
+    border: 2px solid #3b82f6; 
+    color: #3b82f6; 
+    transition: all 0.2s; 
+}
+.custom-gradient-login-btn:hover{
+    background: linear-gradient(to right, #0052cc, #002080);
+}
   
+ 
 

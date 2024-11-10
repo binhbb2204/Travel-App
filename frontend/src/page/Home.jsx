@@ -15,7 +15,7 @@ const Home = () => {
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-500 via-blue-600 to-blue-700 relative overflow-hidden">
+    <div className="min-h-screen bg-white relative overflow-hidden">
       <ParallaxBackground />
       
       {/* Hero Section */}
@@ -29,7 +29,7 @@ const Home = () => {
             className="absolute top-10 right-10"
           >
             <FloatingElement delay={0.2}>
-              <Sun className="w-16 h-16 text-yellow-500/50" />
+              <Sun className="w-16 h-16 text-yellow-400" />
             </FloatingElement>
           </motion.div>
 
@@ -41,7 +41,7 @@ const Home = () => {
             className="absolute bottom-20 left-10"
           >
             <FloatingElement delay={0.5}>
-              <Star className="w-20 h-20 text-purple-500/50" />
+              <Star className="w-20 h-20 text-purple-400" />
             </FloatingElement>
           </motion.div>
 
@@ -51,14 +51,14 @@ const Home = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <h1 className="text-6xl font-bold leading-tight mb-6 text-white">
+              <h1 className="text-6xl font-bold leading-tight mb-6 text-gray-800">
                 Explore The World With
                 <div className="relative inline-block ml-4">
-                  <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+                  <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500">
                     TAB
                   </span>
                   <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 blur-xl opacity-30"
+                    className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-400 blur-xl opacity-30"
                     animate={{
                       scale: [1, 1.2, 1],
                     }}
@@ -69,7 +69,7 @@ const Home = () => {
                   />
                 </div>
               </h1>
-              <p className="text-xl text-blue-100 mb-8">
+              <p className="text-xl text-gray-600 mb-8">
                 Embark on a journey of discovery. Let us guide you through the world's most breathtaking destinations.
               </p>
               
@@ -97,7 +97,7 @@ const Home = () => {
             repeat: Infinity,
           }}
         >
-          <Wind className="w-8 h-8 text-white/50" />
+          <Wind className="w-8 h-8 text-gray-400" />
         </motion.div>
       </section>
 
@@ -110,10 +110,10 @@ const Home = () => {
             transition={{ duration: 0.5 }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-bold mb-4 text-white">
+            <h2 className="text-4xl font-bold mb-4 text-gray-800">
               Unforgettable Experiences Await
             </h2>
-            <p className="text-blue-100 max-w-2xl mx-auto">
+            <p className="text-gray-600 max-w-2xl mx-auto">
               Choose your perfect adventure from our carefully curated experiences
             </p>
           </motion.div>
