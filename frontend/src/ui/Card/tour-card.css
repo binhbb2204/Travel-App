@@ -1,5 +1,5 @@
 .tour__img {
-    height: 12rem; /* Controls the image height */
+    height: 12rem; 
     overflow: hidden;
     border-radius: 5px 5px 0 0;
     position: relative;
@@ -18,16 +18,31 @@
 }
 
 .card {
+    height: 100%;
     border: none !important;
     box-shadow: rgba(0, 0, 0, 0.2) 0px 18px 50px -10px;
-    border-radius: 5px; /* Adjusts the card's border radius */
-    overflow: hidden; /* Ensures content stays within the card */
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; 
+    justify-content: space-between;
     transition: box-shadow 0.3s;
 }
 
 .card:hover {
     box-shadow: rgba(0, 0, 0, 0.3) 0px 20px 60px -12px;
 }
+
+.card-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 3; 
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal; 
+    height: 4rem; 
+}
+
 
 .featured-badge {
     position: absolute;

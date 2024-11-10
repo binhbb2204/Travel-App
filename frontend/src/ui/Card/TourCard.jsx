@@ -40,7 +40,7 @@ const TourCard = ({ tour }) => {
             </div>
           </div>
 
-          <h3 className="text-lg font-semibold text-gray-900 mb-3 hover:text-blue-600 transition-colors duration-200">
+          <h3 className="text-lg font-semibold text-gray-900 mb-3 hover:text-blue-600 transition-colors duration-200 card-title">
             <Link to ={`/tours/${id}`}>{title}</Link>
           </h3>
 
