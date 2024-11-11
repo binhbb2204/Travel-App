@@ -76,7 +76,7 @@
         padding: 1rem;
     }
     .logo img{
-        width: 100%;
+        width: 20%;
     }
 
     .menu{
@@ -96,6 +96,15 @@
 }
 
 @media screen and (max-width: 480px) {
+    .header{
+        flex-direction: column;
+        height: auto;
+        line-height: normal;
+        padding: 1rem;
+    }
+    .logo img{
+        width: 10%;
+    }
     .nav__item a {
         font-size: 0.9rem;
         padding: 0.5rem;
