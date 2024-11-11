@@ -1,0 +1,24 @@
+.card__size{
+    height: 100%;
+    padding: 1.5rem; /*p-6 in tailwind = 1.5rem, p-1 = 0.25rem*/
+    background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.5));
+    backdrop-filter: blur(24px); /* backdrop-blur-lg, where `lg` is typically around 24px */
+    border: none; /* border-none */
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); /* shadow-xl */
+}
+.icon__position{
+    position: absolute;
+    top: -1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.icon__element{
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(to bottom right, #0066ff, #0033cc);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
