@@ -8,29 +8,9 @@ import InteractiveGlobe from './../ui/InteractiveGlobe';
 import AnimatedSearchBar from '../ui/SearchBar/AnimatedSearchBar'; 
 import DestinationCard from '../ui/Card/DestinationCard'; 
 import ImageDisplay from '../ui/ImageDisplay/ImageDisplay';
-import user1 from '../images/hitler.jpg';
-import user2 from '../images/trump.jpg';
 import '../styles/home.css'
+import testimonials from '../data/testimonials';
 
-
-const testimonials = [
-  {
-    id: 1,
-    name: "Adolf Hitler",
-    location: "Braunau am Inn, Austria",
-    comment: "The best travel experience of my life! The personalized itinerary was perfect.",
-    rating: 5,
-    image: user1
-  },
-  {
-    id: 2,
-    name: "Donald Trump",
-    location: "New York, USA",
-    comment: "Exceptional service and amazing destinations. Will definitely book again!",
-    rating: 4,
-    image: user2
-  }
-];
 
 const Home = () => {
   const { scrollY } = useScroll();
