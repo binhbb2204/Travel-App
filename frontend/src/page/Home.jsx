@@ -55,7 +55,7 @@ const Home = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <h1 className="text-6xl font-bold leading-tight mb-6 text-gray-800">
+              <h1 className="custom-heading">
                 Travel Everywhere With
                 <div className="relative inline-block ml-4">
                   <span className="text-gradient">

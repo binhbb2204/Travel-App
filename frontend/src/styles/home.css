@@ -22,6 +22,14 @@
     margin-bottom: 2rem;
 }
 
+.custom-heading {
+    font-size: 3.75rem; 
+    font-weight: 700;   
+    line-height: 1.25;  
+    margin-bottom: 1.5rem; 
+    color: #2d3748;     
+}
+
 .text-gradient{
     padding: relative;
     z-index: 10;
@@ -92,6 +100,15 @@
       font-size: 1rem;
       line-height: 1.8rem;
     }
+
+    .custom-heading {
+        font-size: 2.55rem; 
+        font-weight: 600;   
+        line-height: 1.05;  
+        margin-bottom: 1.2rem; 
+        color: #2d3748;     
+    }
+
     .hero__img-box img, .hero__img-box video {
       height: 250px; /* Reduce height for better fit */
     }
@@ -111,6 +128,14 @@
     }
     .hero__content {
       padding-top: 2rem;
+    }
+
+    .custom-heading {
+        font-size: 1.55rem; 
+        font-weight: 500;   
+        line-height: 0.95;  
+        margin-bottom: 1rem; 
+        color: #2d3748;     
     }
     .primary__btn1 {
       font-size: 0.9rem;
