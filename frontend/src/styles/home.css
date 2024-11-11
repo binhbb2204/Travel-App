@@ -80,4 +80,40 @@
     background: linear-gradient(to right, #60a5fa, #a78bfa); 
     filter: blur(20px); 
     opacity: 0.3;
-  }
+}
+
+
+  @media (max-width: 768px) {
+    /* For tablets and smaller screens */
+    .hero__content h1 {
+      font-size: 2.5rem; /* Adjust to a smaller size */
+    }
+    .hero__description {
+      font-size: 1rem;
+      line-height: 1.8rem;
+    }
+    .hero__img-box img, .hero__img-box video {
+      height: 250px; /* Reduce height for better fit */
+    }
+    .primary__btn1 {
+      font-size: 1rem; /* Slightly smaller font */
+      padding: 0.5rem 1.5rem;
+    }
+}
+  
+  /* For mobile screens */
+  @media (max-width: 480px) {
+    .hero__content h1 {
+      font-size: 2rem; /* Smaller size for mobile */
+    }
+    .hero__img-box img, .hero__img-box video {
+      height: 200px; /* Further reduce height */
+    }
+    .hero__content {
+      padding-top: 2rem;
+    }
+    .primary__btn1 {
+      font-size: 0.9rem;
+      padding: 0.5rem 1rem;
+    }
+}

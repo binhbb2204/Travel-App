@@ -68,5 +68,42 @@
     background: linear-gradient(to right, #0052cc, #002080);
 }
   
- 
+@media screen and (max-width: 768px) {
+    .header{
+        flex-direction: column;
+        height: auto;
+        line-height: normal;
+        padding: 1rem;
+    }
+    .logo img{
+        width: 100%;
+    }
+
+    .menu{
+        flex-direction: column;
+        display: none;
+    }
+
+    .nav__item a {
+        font-size: 1rem;
+        padding: 0.75rem;
+    }
+
+    .mobile__menu {
+        display: block; 
+        cursor: pointer;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .nav__item a {
+        font-size: 0.9rem;
+        padding: 0.5rem;
+    }
+
+    .custom-gradient-btn, .custom-gradient-login-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+}
 
