@@ -3,7 +3,7 @@
     border-radius: 50px;
     box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
     width: 100%;
-    max-width: 1000px; /* Adjust as necessary to fit your design */
+    max-width: 1000px; 
     margin-top: 50px;
     display: flex;
     flex-wrap: wrap;
@@ -52,5 +52,4 @@
     border-radius: 10px 5px 10px 5px;
     cursor: pointer;
 }
-
 

@@ -4,10 +4,10 @@ import { MapPin, Star, Users, Clock } from 'lucide-react';
 import { Card, CardContent } from './Card';
 import { Link } from 'react-router-dom';
 import './tour-card.css'; // Import the CSS
-
+import calculateAvgRating from '../../utils/avgRating';
 const TourCard = ({ tour }) => {
-  const {id, title, city, photo, price, featured, avgRating, reviews, maxGroupSize = 8 } = tour;
-
+  const {id, title, city, photo, price, featured, reviews, maxGroupSize = 8 } = tour;
+  const {totalRating, avgRating} = calculateAvgRating(reviews)
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -35,8 +35,13 @@ const TourCard = ({ tour }) => {
             </div>
             <div className="flex items-center space-x-1">
               <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
-              <span className="text-sm font-medium">{avgRating}</span>
-              <span className="text-sm text-gray-500">({reviews.length})</span>
+              <span className="text-sm font-medium">
+                {avgRating === 0 ? null : avgRating}
+                {totalRating === 0 ? 
+                  'Not Rated' 
+                  : <span className="text-sm text-gray-500">({reviews.length})</span>}
+              </span>
+              
             </div>
           </div>
 
@@ -53,7 +58,6 @@ const TourCard = ({ tour }) => {
           </div> */}
 
           <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2">
-            
             <Link to ={`/tours/${id}`}>Book Now</Link>
           </button>
         </CardContent>

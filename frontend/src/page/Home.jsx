@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Map, Plane, Compass, Sun, Star, Wind, Globe2, Calendar, Users, CreditCard,  Award } from 'lucide-react';
+import { Map, Plane, Compass, Sun, Star, Wind, Globe2, Calendar, Users, CreditCard,  Award, } from 'lucide-react';
 import { NavLink, Link } from 'react-router-dom';
 import FloatingElement from './../ui/FloatingElement'; 
 import ParallaxBackground from './../ui/ParallaxBackground'; 
@@ -265,3 +265,4 @@ const Home = () => {
 };
 
 export default Home;
+
