@@ -70,3 +70,14 @@
     color: #0033cc;
     
 }
+
+.icon__element {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(to right, #60a5fa, #a78bfa); 
+    filter: blur(20px); 
+    opacity: 0.3;
+  }

@@ -62,7 +62,7 @@ const Home = () => {
                     TAB
                   </span>
                   <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-400 blur-xl opacity-30"
+                    
                     animate={{
                       scale: [1, 1.2, 1],
                     }}
