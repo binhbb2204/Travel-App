@@ -36,4 +36,4 @@ const DestinationCard = ({ title, description, icon: Icon, delay, destinationUrl
   );
 };
 
-export default DestinationCard;
+export default DestinationCard
