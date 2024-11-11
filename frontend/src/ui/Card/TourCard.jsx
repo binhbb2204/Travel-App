@@ -45,7 +45,7 @@ const TourCard = ({ tour }) => {
             </div>
           </div>
 
-          <h3 className="text-lg font-semibold text-gray-900 mb-3 hover:text-blue-600 transition-colors duration-200 card-title">
+          <h3 className="card-title">
             <Link to ={`/tours/${id}`}>{title}</Link>
           </h3>
 
@@ -57,7 +57,7 @@ const TourCard = ({ tour }) => {
             </div>
           </div> */}
 
-          <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2">
+          <button className="book__button">
             <Link to ={`/tours/${id}`}>Book Now</Link>
           </button>
         </CardContent>

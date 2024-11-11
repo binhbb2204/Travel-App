@@ -62,7 +62,7 @@ const Home = () => {
                     TAB
                   </span>
                   <motion.div
-                    
+                    className="TAB__element"
                     animate={{
                       scale: [1, 1.2, 1],
                     }}

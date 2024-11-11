@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom'; 
 import { Card, CardContent, CardHeader, CardTitle } from './Card';
-
+import './destination-card.css'
 const DestinationCard = ({ title, description, icon: Icon, delay, destinationUrl }) => {
   const navigate = useNavigate(); 
 
@@ -19,9 +19,9 @@ const DestinationCard = ({ title, description, icon: Icon, delay, destinationUrl
       className="relative"
       onClick={handleCardClick} 
     >
-      <Card className="p-6 bg-gradient-to-br from-white/90 to-white/50 backdrop-blur-lg border-none shadow-xl">
-        <div className="absolute -top-6 left-1/2 -translate-x-1/2">
-          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center">
+      <Card className="card__size">
+        <div className="icon__position">
+          <div className="icon__element">
             <Icon className="w-6 h-6 text-white" />
           </div>
         </div>
