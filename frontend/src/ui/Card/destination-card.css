@@ -1,4 +1,5 @@
 .card__size{
+    height: 100%;
     padding: 1.5rem; /*p-6 in tailwind = 1.5rem, p-1 = 0.25rem*/
     background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.5));
     backdrop-filter: blur(24px); /* backdrop-blur-lg, where `lg` is typically around 24px */
