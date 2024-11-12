@@ -1,183 +1,216 @@
+/* Gradient Background */
 .hero-gradient {
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(147, 197, 253, 0.1) 100%);
-  }
-  
-  /* Stats Section Animations */
-  .stat-card {
-    transition: transform 0.3s ease;
-  }
-  
-  .stat-card:hover {
-    transform: translateY(-5px);
-  }
-  
-  /* Team Member Card Styles */
-  .team-member-card {
-    transition: all 0.3s ease;
-  }
-  
-  .team-member-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  }
-  
-  .team-member-image {
-    transition: transform 0.3s ease;
-  }
-  
-  .team-member-card:hover .team-member-image {
-    transform: scale(1.05);
-  }
-  
-  /* Mission Section Styles */
-  .mission-list-item {
-    transition: all 0.3s ease;
-  }
-  
-  .mission-list-item:hover {
-    transform: translateX(10px);
-  }
-  
-  /* Custom Background Pattern */
-  .bg-pattern {
-    background-image: radial-gradient(circle at 1px 1px, #e5e7eb 1px, transparent 0);
-    background-size: 20px 20px;
-  }
-  
-  /* Responsive Text Styles */
-  @media (max-width: 768px) {
-    .section-title {
-      font-size: 2rem;
-    }
-    
-    .section-subtitle {
-      font-size: 1rem;
-    }
-  }
-  
-  /* Stats Animation */
-  .stat-number {
-    animation: countUp 2s ease-out forwards;
-  }
-  
-  @keyframes countUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  /* Mission Image Overlay */
-  .mission-image-overlay {
-    position: relative;
-  }
-  
-  .mission-image-overlay::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.2) 100%);
-    pointer-events: none;
-  }
-  
-  /* Team Member Social Links */
-  .social-links {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(147, 197, 253, 0.1) 100%);
+}
+
+/* Custom Background Pattern */
+.bg-pattern {
+  background-image: radial-gradient(circle at 1px 1px, #e5e7eb 1px, transparent 0);
+  background-size: 20px 20px;
+}
+
+/* Team Member Card Styles */
+.team-member-card {
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.team-member-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Team Member Image */
+.team-image-container {
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.team-member-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Stats Card Styles */
+.stat-card {
+  position: relative;
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, transparent 0%, rgba(59, 130, 246, 0.1) 100%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.stat-card:hover::after {
+  opacity: 1;
+}
+
+/* Mission Section Styles */
+.mission-list {
+  list-style: none;
+}
+
+.mission-list-item {
+  transition: all 0.3s ease;
+}
+
+.mission-list-item:hover {
+  transform: translateX(10px);
+}
+
+.mission-list-item::before {
+  content: '→';
+  color: #3b82f6;
+  margin-right: 0.5rem;
+  transition: transform 0.3s ease;
+}
+
+.mission-list-item:hover::before {
+  transform: translateX(5px);
+}
+
+/* Stats Animation */
+.stat-number {
+  animation: countUp 2s ease-out forwards;
+}
+
+@keyframes countUp {
+  from {
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transform: translateY(20px);
   }
-  
-  .team-member-card:hover .social-links {
+
+  to {
     opacity: 1;
+    transform: translateY(0);
   }
-  
-  /* Custom Scrollbar */
-  .about-container {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(59, 130, 246, 0.5) transparent;
+}
+
+/* Mission Image Overlay */
+.mission-image-overlay {
+  position: relative;
+}
+
+.mission-image-overlay::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.2) 100%);
+  pointer-events: none;
+}
+
+/* Team Member Social Links */
+.social-links {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.team-member-card:hover .social-links {
+  opacity: 1;
+}
+
+/* Custom Scrollbar */
+.about-container {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(59, 130, 246, 0.5) transparent;
+}
+
+.about-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.about-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.about-container::-webkit-scrollbar-thumb {
+  background-color: rgba(59, 130, 246, 0.5);
+  border-radius: 3px;
+}
+
+/* Responsive Text Styles */
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 2rem;
   }
-  
-  .about-container::-webkit-scrollbar {
-    width: 6px;
+
+  .section-subtitle {
+    font-size: 1rem;
   }
-  
-  .about-container::-webkit-scrollbar-track {
-    background: transparent;
+}
+
+/* Responsive Padding Adjustments */
+@media (max-width: 640px) {
+  .section-padding {
+    padding: 2rem 1rem;
   }
-  
-  .about-container::-webkit-scrollbar-thumb {
-    background-color: rgba(59, 130, 246, 0.5);
-    border-radius: 3px;
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .section-padding {
+    padding: 3rem 2rem;
   }
-  
-  /* Mission List Item Markers */
-  .mission-list {
-    list-style: none;
+}
+
+@media (min-width: 1025px) {
+  .section-padding {
+    padding: 4rem 3rem;
   }
-  
-  .mission-list-item::before {
-    content: '→';
-    color: #3b82f6;
-    margin-right: 0.5rem;
-    transition: transform 0.3s ease;
-  }
-  
-  .mission-list-item:hover::before {
-    transform: translateX(5px);
-  }
-  
-  /* Stats Card Hover Effect */
-  .stat-card::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, transparent 0%, rgba(59, 130, 246, 0.1) 100%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  
-  .stat-card:hover::after {
-    opacity: 1;
-  }
-  
-  /* Team Member Card Image Container */
-  .team-image-container {
-    overflow: hidden;
-    position: relative;
-  }
-  
-  .team-image-container img {
-    transition: transform 0.3s ease;
-  }
-  
-  .team-member-card:hover .team-image-container img {
-    transform: scale(1.1);
-  }
-  
-  /* Responsive Padding Adjustments */
-  @media (max-width: 640px) {
-    .section-padding {
-      padding: 2rem 1rem;
-    }
-  }
-  
-  @media (min-width: 641px) and (max-width: 1024px) {
-    .section-padding {
-      padding: 3rem 2rem;
-    }
-  }
-  
-  @media (min-width: 1025px) {
-    .section-padding {
-      padding: 4rem 3rem;
-    }
-  }
+}
+
+/* Background Image Container */
+.bg-image-container {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bg-image-container:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Team Member Image Container */
+.team-image-container {
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Ensure the transition matches */
+}
+
+/* Team Member Image Hover Effect */
+.team-image-container div {
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Match the timing with the background */
+}
+
+.team-image-container:hover div {
+  transform: scale(1.1); /* Scale effect on hover */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Shadow effect */
+}
+
+/* Background Image Container */
+.bg-image-container {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Keep this consistent */
+}
+
+.bg-image-container:hover {
+  transform: scale(1.05); /* Scale effect */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Shadow effect */
+}
