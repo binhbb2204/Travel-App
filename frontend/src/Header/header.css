@@ -42,7 +42,7 @@
     z-index: 999;
 }
 
-.custom-gradient-btn {
+.custom-gradient-btn{
     background: linear-gradient(to right, #0066ff, #0033cc);
     padding: 0.75rem 1.5rem;  
     border-radius: 9999px;    
@@ -52,11 +52,11 @@
     height: max-content; 
 }
 
-.custom-gradient-btn:hover {
+.custom-gradient-btn:hover{
     background: linear-gradient(to right, #0052cc, #002080);
 } 
 
-.custom-gradient-login-btn {
+.custom-gradient-login-btn{
     padding: 0.5rem 1.5rem; 
     border-radius: 9999px; 
     background-color: transparent;
@@ -67,49 +67,50 @@
 .custom-gradient-login-btn:hover{
     background: linear-gradient(to right, #0052cc, #002080);
 }
-  
+/* This one is for mobile device header cuz ye, size of screen is different, so */
 @media only screen and (max-width: 992px) {
-    .navigation {
-      width: 100%;
-      height: 100%;
-      position: fixed;
-      top: 0;
+    .navigation{
+        width: 280px;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: -280px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(8px);
+        z-index: 999;
+        transition: all 0.3s ease;
+        box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+    }
+  
+    .menu{
+        padding: 80px 20px 0 20px;
+        position: relative;
+        top: 0;
+        left: 0;
+        transform: none;
+        flex-direction: column;
+        align-items: flex-start !important;
+    }
+  
+    .show__menu{
       left: 0;
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(8px);
-      z-index: 999;
-      display: none;
     }
   
-    .menu {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      flex-direction: column;
-      gap: 2rem !important;
-    }
-  
-    .show__menu {
-      display: block;
-    }
-  
-    .nav__right .nav__btns {
+    .nav__right .nav__btns{
       display: none !important;
     }
-  
-    .mobile_menu {
+    .nav__item{
+        width: 100%;
+        padding: 8px 0;
+    }
+
+    .nav__item a{
+        display: block;
+        font-size: 1.1rem;
+        font-weight: 500;
+    }
+    .mobile_menu{
       display: block !important;
-      z-index: 1000;
-    }
-  
-    .nav__item a {
-      font-size: 1.2rem;
-      font-weight: 500;
-    }
-  
-    .nav__right {
-      position: relative;
       z-index: 1000;
     }
 }
@@ -121,3 +122,10 @@
     }
 }
 
+.mobile_menu {
+    color: #000 !important; /* Use your preferred color */
+}
+  
+  .mobile_menu svg {
+    stroke-width: 2px; /* Makes the icon more visible */
+}
