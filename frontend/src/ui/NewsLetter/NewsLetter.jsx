@@ -49,20 +49,20 @@ const NewsLetter = () => {
                             className="px-6 py-2.5 rounded-3xl text-gray-800 w-full md:w-96 focus:outline-none focus:ring-2 focus:ring-yellow-400"
                             required
                             />
-                            <Button
+                            <button
                             type="submit"
-                            className="px-8 py-2.5 bg-yellow-400 text-gray-900 rounded-3xl font-semibold hover:bg-yellow-300 transition-colors flex items-center justify-center gap-2"
+                            className="px-8 py-2.5 rounded-3xl bg-yellow-400 text-gray-900 font-semibold hover:bg-yellow-300 transition-colors flex items-center justify-center gap-2"
                             >
                                 Subscribe
                                 <Send className="w-4 h-4" />
-                            </Button>
+                            </button>
                         </div>
                         {status && (
                             <motion.p
                             initial = {{opacity: 0}}
                             animate = {{opacity: 1}}
                             className={`text-sm mt-2 
-                                ${status === 'Thank you for subscribing! :D' ? 'text-green-300' : 'text-red-300'}`}
+                                ${status === 'Thank you for subscribing! :D' ? 'text-green-700' : 'text-red-700'}`}
 
                             >
                                 {status}
