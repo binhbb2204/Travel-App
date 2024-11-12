@@ -62,7 +62,7 @@ const NewsLetter = () => {
                             initial = {{opacity: 0}}
                             animate = {{opacity: 1}}
                             className={`text-sm mt-2 
-                                ${status === 'Thank you for subscribing! :D' ? 'text-green-700' : 'text-red-700'}`}
+                                ${status === 'Thank you for subscribing! :D' ? 'text-red-700' : 'text-green-700'}`}
 
                             >
                                 {status}
