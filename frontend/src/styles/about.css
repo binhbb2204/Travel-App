@@ -12,6 +12,8 @@
 /* Team Member Card Styles */
 .team-member-card {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+  position: relative;
 }
 
 .team-member-card:hover {
@@ -23,6 +25,7 @@
 .team-image-container {
   overflow: hidden;
   position: relative;
+  z-index: 0;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -35,6 +38,17 @@
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
+.team-image-container:nth-child(1) img {
+  object-position: top;
+}
+
+.team-image-container:nth-child(2) img {
+  object-position: center;
+}
+
+.team-image-container:nth-child(3) img {
+  object-position: bottom;
+}
 /* Stats Card Styles */
 .stat-card {
   position: relative;
