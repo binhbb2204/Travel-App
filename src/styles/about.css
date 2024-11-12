@@ -54,6 +54,7 @@
 .team-image-container:nth-child(3) img {
   object-position: bottom;
 }
+
 /* Stats Card Styles */
 .stat-card {
   position: relative;
@@ -112,12 +113,13 @@
 
 @keyframes countUp {
   from {
-      opacity: 0;
-      transform: translateY(20px);
+    opacity: 0;
+    transform: translateY(20px);
   }
+
   to {
-      opacity: 1;
-      transform: translateY(0);
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -169,30 +171,30 @@
 /* Responsive Text Styles */
 @media (max-width: 768px) {
   .section-title {
-      font-size: 2rem;
+    font-size: 2rem;
   }
 
   .section-subtitle {
-      font-size: 1rem;
+    font-size: 1rem;
   }
 }
 
 /* Responsive Padding Adjustments */
 @media (max-width: 640px) {
   .section-padding {
-      padding: 2rem 1rem;
+    padding: 2rem 1rem;
   }
 }
 
 @media (min-width: 641px) and (max-width: 1024px) {
   .section-padding {
-      padding: 3rem 2rem;
+    padding: 3rem 2rem;
   }
 }
 
 @media (min-width: 1025px) {
   .section-padding {
-      padding: 4rem 3rem;
+    padding: 4rem 3rem;
   }
 }
 

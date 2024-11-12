@@ -35,7 +35,7 @@ const Header = () => {
   }, []);
 
   return (
-    <header className={`fixed w-full z-50 transition-all duration-300 ${
+    <header className={`sticky__header fixed w-full z-50 transition-all duration-300 ${
       isScrolled 
         ? 'bg-white/30 backdrop-blur-sm shadow-lg' 
         : 'bg-transparent'
