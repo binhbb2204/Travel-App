@@ -30,9 +30,10 @@
     margin-bottom: 1rem;
 }
 
-.social-links{
+.social__links{
     display: flex;
-    gap: 1rem;
+    gap: 4rem;
+    
 }
 
 .social-link{
