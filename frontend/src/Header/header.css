@@ -12,12 +12,12 @@
     margin-bottom: 0;
 
 }
-/* .nav__item a{
+.nav__item a{
     text-decoration: none;
     color: var(--heading-color);
     font-weight: 500;
     font-size: 1.1rem;
-} */
+}
 
 .nav__item a.active__link{
     color: var(--secondary-color);
@@ -113,19 +113,26 @@
       display: block !important;
       z-index: 1000;
     }
+    .mobile_menu{
+    color: #000 !important; /* Use your preferred color */
+    }
+  
+  .mobile_menu svg{
+    stroke-width: 2px; /* Makes the icon more visible */
+    }
 }
   
   /* Optional: Adjust logo size for mobile */
   @media only screen and (max-width: 768px) {
-    .logo img {
+    .logo img{
       width: 120px;
+    }
+    .mobile_menu{
+        color: #000 !important; /* Use your preferred color */
+    }
+      
+      .mobile_menu svg{
+        stroke-width: 2px; /* Makes the icon more visible */
     }
 }
 
-.mobile_menu {
-    color: #000 !important; /* Use your preferred color */
-}
-  
-  .mobile_menu svg {
-    stroke-width: 2px; /* Makes the icon more visible */
-}
