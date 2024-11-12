@@ -76,7 +76,11 @@ const Header = () => {
               </div>
               
               {/* Mobile Menu Button */}
-              <button className="mobile_menu block lg:hidden" onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}>
+              <button 
+                className="mobile_menu block lg:hidden" 
+                onClick={() => setMobileMenuOpen(!isMobileMenuOpen)} 
+                style={{ color: '#000' }}
+              >
                 {isMobileMenuOpen ? 
                     <X className={`w-6 h-6 ${isScrolled ? 'text-gray-700' : 'text-white'}`}/> 
                     : <Menu className={`w-6 h-6 ${

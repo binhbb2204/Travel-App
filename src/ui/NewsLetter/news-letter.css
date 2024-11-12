@@ -1,0 +1,4 @@
+.newsletter-container {
+    position: relative;
+    z-index: 1; /* Adjust this to test */
+}
