@@ -68,7 +68,7 @@ const About = () => {
                                 key={index}
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5, delay: index * 0.1 }}
+                                transition={{ duration: 0.5, delay: 0.1 }}
                                 className="text-center"
                             >
                                 <stat.icon className="w-8 h-8 mx-auto mb-4 text-blue-600" />
@@ -137,8 +137,9 @@ const About = () => {
                             <motion.div
                                 key={index}
                                 initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5, delay: index * 0.1 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                whileHover={{ y: -5 }}
+                                transition={{  duration: 0.3 }}
                                 className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 hover:shadow-xl"
                             >
                                 <div className="team-image-container relative h-48 bg-gray-200">
