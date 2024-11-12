@@ -1,42 +1,42 @@
-.hero-gradient {
+.hero-gradient{
     background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(147, 197, 253, 0.1) 100%);
-  }
+}
   
-  /* Stats Section Animations */
-  .stat-card {
-    transition: transform 0.3s ease;
-  }
+/* Stats Section Animations */
+.stat-card {
+  transition: transform 0.3s ease;
+}
   
-  .stat-card:hover {
-    transform: translateY(-5px);
-  }
+.stat-card:hover {
+  transform: translateY(-5px);
+}
   
-  /* Team Member Card Styles */
-  .team-member-card {
-    transition: all 0.3s ease;
-  }
+/* Team Member Card Styles */
+.team-member-card {
+  transition: all 0.3s ease;
+}
   
-  .team-member-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  }
+.team-member-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
   
-  .team-member-image {
-    transition: transform 0.3s ease;
-  }
+.team-member-image {
+  transition: transform 0.3s ease;
+}
   
-  .team-member-card:hover .team-member-image {
-    transform: scale(1.05);
-  }
+.team-member-card:hover .team-member-image {
+  transform: scale(1.05);
+}
   
-  /* Mission Section Styles */
-  .mission-list-item {
-    transition: all 0.3s ease;
-  }
+/* Mission Section Styles */
+.mission-list-item {
+  transition: all 0.3s ease;
+}
   
-  .mission-list-item:hover {
-    transform: translateX(10px);
-  }
+.mission-list-item:hover {
+  transform: translateX(10px);
+}
   
   /* Custom Background Pattern */
   .bg-pattern {

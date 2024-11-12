@@ -1,6 +1,9 @@
 import React from 'react';
 import { Facebook, Twitter, Instagram, Youtube, Mail, Phone, MapPin } from 'lucide-react';
-import './footer.css'
+import { Link } from 'react-router-dom';
+import { Nav } from 'reactstrap';
+import './footer.css';
+
 const Footer = () => {
     return (
         <footer className = "footer">
@@ -33,12 +36,35 @@ const Footer = () => {
                     <div>
                       <h3 className="footer-title">Quick Links</h3>
                       <ul className="quick-links">
-                          <li><a href="#" className="quick-link">About Us</a></li>
+                          <li><Link to="/about" className="quick-link">About Us</Link></li>
+                          <li><Link to="/tours" className="quick-link">Tours</Link></li>
+                          <li><Link to="/exotic_tours" className="quick-link">Destinations</Link></li>
                           <li><a href="#" className="quick-link">Travel Blog</a></li>
                           <li><a href="#" className="quick-link">Contact Us</a></li>
                       </ul>
                     </div>
+
+                    <div>
+                      <h3 className="footer-title">Contact Us</h3>
+                      <ul className="contact-list">
+                        <li className="contact-item">
+                          <Mail className="contact-icon " />
+                          <span>ITCSIU222xx@student.hcmiu.edu.vn</span>
+                        </li>
+                        <li className="contact-item">
+                          <Phone className="contact-icon" />
+                          <span>+84 74760xxx</span>
+                        </li>
+                        <li className="contact-item">
+                          <MapPin className="contact-icon" />
+                          <span>đoán xem</span>
+                        </li>
+                      </ul>
+                    </div>
                 </div>
+            </div>
+            <div className="footer-bottom items-center justify-center">
+              <p>© {new Date().getFullYear()} TAB Travel. All rights reserved.</p>
             </div>
         </footer>
     )
