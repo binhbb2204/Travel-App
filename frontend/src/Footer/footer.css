@@ -1,6 +1,7 @@
 .footer{
     background: linear-gradient(to right, #2563eb, #1d4ed8);
     color: white;
+    
 }
 
 .footer-container{
@@ -30,9 +31,10 @@
     margin-bottom: 1rem;
 }
 
-.social-links{
+.social__links{
     display: flex;
-    gap: 1rem;
+    gap: 4rem;
+    
 }
 
 .social-link{
