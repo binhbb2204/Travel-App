@@ -4,6 +4,7 @@ import { NavLink, Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import logo from '../images/TAB.gif';
 import './header.css'
+import '../styles/about.css';
 
 const nav_links = [
   {
@@ -11,7 +12,7 @@ const nav_links = [
     display: 'Home'
   },
   {
-    path: '#',
+    path: '/about',
     display: 'About'
   },
   {
