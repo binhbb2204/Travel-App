@@ -1,0 +1,55 @@
+
+.login__img{
+    width: 60%;
+    text-align: center;
+}
+
+.login__img img {
+    width: 70%;
+    object-fit: contain;
+}
+
+.login__form{
+    padding: 50px;
+    background: var(blue);
+    position: relative;
+    width: 100%;
+    align-items: center;
+    align-content: center;
+}
+
+.login__container{
+    box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+    margin-top: 100px;
+}
+
+.login__form .user{
+    width: 80px;
+    height: 700px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -9%);
+}
+
+.login__form .user img{
+    width: 100%;
+}
+
+.login__form h2 {
+    color: #fff;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.login__form{
+    width: 40%;
+}
+
+.login__form input{
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    border: none;
+    font-size: 1rem;
+    color: blue;
+}
