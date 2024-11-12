@@ -1,10 +1,12 @@
 {
   "files": {
-    "main.css": "/Travel-App/static/css/main.6b8bfa66.css",
-    "main.js": "/Travel-App/static/js/main.366f59eb.js",
+    "main.css": "/Travel-App/static/css/main.8d1c6bbf.css",
+    "main.js": "/Travel-App/static/js/main.95095d43.js",
+    "static/media/nature.jpg": "/Travel-App/static/media/nature.6b84bd928c5be1dcee25.jpg",
     "static/media/remixicon.svg?t=1730118419915": "/Travel-App/static/media/remixicon.0551ce0fd52a1a7b1230.svg",
     "static/media/911.gif": "/Travel-App/static/media/911.3d2793df974843b6a026.gif",
     "static/media/TAB.gif": "/Travel-App/static/media/TAB.366e7de46527a7f10bf8.gif",
+    "static/media/image.png": "/Travel-App/static/media/image.31d40c6a89728d697264.png",
     "static/media/Notre-Dame.png": "/Travel-App/static/media/Notre-Dame.1ea5a43bfbd25a5098da.png",
     "static/media/tour-img06.jpg": "/Travel-App/static/media/tour-img06.61ab969a7f3f172fa8c0.jpg",
     "static/media/tour-img05.jpg": "/Travel-App/static/media/tour-img05.f86cd200463751a5e2ed.jpg",
@@ -12,24 +14,28 @@
     "static/media/tour-img03.jpg": "/Travel-App/static/media/tour-img03.67d4e55212aa6fc6661c.jpg",
     "static/media/tour-img07.jpg": "/Travel-App/static/media/tour-img07.35a4d493feed183aa360.jpg",
     "static/media/tour-img01.jpg": "/Travel-App/static/media/tour-img01.ebe022b6df0c82aeec72.jpg",
+    "static/media/binhbb.jpg": "/Travel-App/static/media/binhbb.847aa1da40a13bf72c3e.jpg",
     "static/media/tour-img04.jpg": "/Travel-App/static/media/tour-img04.e9b40920b0c3a962bce9.jpg",
     "static/media/remixicon.eot?t=1730118419915": "/Travel-App/static/media/remixicon.918a6e24637af868f0ae.eot",
     "static/media/remixicon.ttf?t=1730118419915": "/Travel-App/static/media/remixicon.13d81601cf448c068ce1.ttf",
+    "static/media/thuan.jpg": "/Travel-App/static/media/thuan.06fa1dfde3cbcb5651a7.jpg",
     "static/media/hitler.jpg": "/Travel-App/static/media/hitler.d029a6cf833a362054e4.jpg",
     "static/media/hero-img02.jpg": "/Travel-App/static/media/hero-img02.c5c2185a4223b66365fb.jpg",
     "static/media/remixicon.woff?t=1730118419915": "/Travel-App/static/media/remixicon.442ee771ea7ae5b713e4.woff",
     "static/media/remixicon.woff2?t=1730118419915": "/Travel-App/static/media/remixicon.11bc908555df35c11b24.woff2",
+    "static/media/ice.jpg": "/Travel-App/static/media/ice.42beef1b39592c846e16.jpg",
     "static/media/trump.jpg": "/Travel-App/static/media/trump.70f6d65ce901f802e3fc.jpg",
+    "static/media/trueuser.png": "/Travel-App/static/media/trueuser.79e2447ed37c7104264e.png",
     "static/media/slick.svg": "/Travel-App/static/media/slick.2630a3e3eab21c607e21.svg",
     "static/media/slick.eot": "/Travel-App/static/media/slick.a4e97f5a2a64f0ab1323.eot",
     "static/media/slick.ttf": "/Travel-App/static/media/slick.c94f7671dcc99dce43e2.ttf",
     "static/media/slick.woff": "/Travel-App/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/Travel-App/index.html",
-    "main.6b8bfa66.css.map": "/Travel-App/static/css/main.6b8bfa66.css.map",
-    "main.366f59eb.js.map": "/Travel-App/static/js/main.366f59eb.js.map"
+    "main.8d1c6bbf.css.map": "/Travel-App/static/css/main.8d1c6bbf.css.map",
+    "main.95095d43.js.map": "/Travel-App/static/js/main.95095d43.js.map"
   },
   "entrypoints": [
-    "static/css/main.6b8bfa66.css",
-    "static/js/main.366f59eb.js"
+    "static/css/main.8d1c6bbf.css",
+    "static/js/main.95095d43.js"
   ]
 }
