@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Button } from 'reactstrap';
 import { NavLink, Link } from 'react-router-dom';
-import { Menu } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import logo from '../images/TAB.gif';
 import './header.css'
 
@@ -22,6 +22,7 @@ const nav_links = [
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,14 +47,15 @@ const Header = () => {
               <img src={logo} alt=""/>
             </div>
 
-            {/* Navigation Menu */}
-            <div className="navigation">
+            {/* Navigation Menu - for Desktop */}
+            <div className={`navigation ${isMobileMenuOpen ? 'show__menu' : ''}`}>
               <ul className="menu d-flex align-items-center gap-8">
                 {nav_links.map((item, index) => (
                   <li className="nav__item" key={index}>
                     <NavLink 
                       to={item.path}
                       className="text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium"
+                      onClick={() => setMobileMenuOpen(false)}
                     >
                       {item.display}
                     </NavLink>
@@ -74,10 +76,13 @@ const Header = () => {
               </div>
               
               {/* Mobile Menu Button */}
-              <button className="mobile_menu block lg:hidden">
-                <Menu className={`w-6 h-6 ${
-                  isScrolled ? 'text-gray-700' : 'text-white'
-                }`} />
+              <button className="mobile_menu block lg:hidden" onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}>
+                {isMobileMenuOpen ? 
+                    <X className={`w-6 h-6 ${isScrolled ? 'text-gray-700' : 'text-white'}`}/> 
+                    : <Menu className={`w-6 h-6 ${
+                      isScrolled ? 'text-gray-700' : 'text-white'
+                    }`} />
+                }
               </button>
             </div>
           </div>
