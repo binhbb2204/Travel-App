@@ -1,5 +1,5 @@
 .login__background {
-    background-image: url('/src/images/Welcome.jpg');
+    background-image: url('/src/images/honolulu.jpg');
     background-size: cover;
     background-position: center;
     display: flex;
@@ -106,7 +106,7 @@
     width: 100%;
     padding: 10px 16px 10px 38px;
     border-radius: 99px;
-    border: solid 3px transparent;
+    border: solid 1px transparent;
     border-color: black;
     background: rgb(255, 255, 255, 0.1);
     outline: none;
