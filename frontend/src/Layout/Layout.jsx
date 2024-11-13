@@ -12,14 +12,16 @@ const Layout = () => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
   return (
-    <>
+    <div className="layout__container">
+    {/* <> */}
       <Header />
-      
-      <Routers />
-
-      
+      <main className='main__content'>
+        <Routers />
+      </main>
       <Footer/>
-    </>
+    {/* </> */}
+    </div>
+    
   )
 };
 
