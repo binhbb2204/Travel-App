@@ -1,15 +1,23 @@
 .register__background {
-    background-image: url('/src/images/Welcome.jpg');
+    background-image: url('/src/images/honolulu.jpg'); 
     background-size: cover;
     background-position: center;
     display: flex;
     justify-content: center; 
     align-items: center;
+    align-content: center;
     flex-direction: column;
+    transform: scale(1.05);
+    transition: transform 1s ease;
+    min-height: 100vh;
+}
+
+.register__background.active {
+    transform: scale(1); 
 }
 
 .register__container {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: white; 
     width: 50%;
     padding: 24px;
     border-radius: 16px;
@@ -17,11 +25,17 @@
     backdrop-filter: blur(25px);
     box-shadow: 0px 0px 30px 20px rgba(0, 0, 0, 0.1);
     transform: translateY(-20px);
-    color: white;
+    color: black; 
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 0 auto; 
+    opacity: 0; 
+    transition: opacity 1s ease; 
+}
+
+.register__container.active {
+    opacity: 1; 
 }
 
 .register__title {
@@ -29,6 +43,21 @@
     display: flex;
     justify-content: center;
     font-size: 2rem;
+}
+
+.register__title h2 {   /* For glowing effect */
+    padding: relative;
+    font-weight: 500;
+    z-index: 10;
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    background-image: linear-gradient(to right, #0066ff, #0033cc);
+    text-shadow: 
+        0 0 1px #0066ff,
+        0 0 5px #0066ff,
+        0 0 50px #0033cc,
+        0 0 50px #0033cc;
 }
 
 .register__input {
@@ -51,11 +80,12 @@
     width: 100%;
     padding: 10px 16px 10px 38px;
     border-radius: 99px;
-    border: solid 3px transparent;
+    border: solid 1px transparent;
+    border-color: black; 
     background: rgba(255, 255, 255, 0.1);
     outline: none;
-    caret-color: white;
-    color: white;
+    caret-color: black; 
+    color: black; 
     font-weight: 500;
     transition: 0.25s;
 }
@@ -65,7 +95,11 @@
 }
 
 .register__input input::placeholder {
-    color: rgba(255, 255, 255, 0.75);
+    color: rgba(0, 0, 0, 0.75); 
+}
+
+.register__input::-ms-reveal{
+    filter: invert(100%);
 }
 
 .register__input i {
@@ -74,6 +108,10 @@
     left: 14px;
     font-size: 18px;
     transition: 0.25s;
+}
+
+.register__input input:focus + i {
+    color: white;
 }
 
 .register__btn {
@@ -104,4 +142,49 @@
 
 .create__link:hover {
     text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .hero_content h1 {
+        font-size: 2rem;
+    }
+
+    .hero_description {
+        font-size: 0.9rem; 
+        line-height: 1.5rem; 
+    }
+
+    .form_container {
+        padding: 10px; 
+    }
+
+    .button {
+        width: 100%; 
+        padding: 12px; 
+    }
+}
+
+  /* For mobile screens */
+  @media (max-width: 480px) {
+    .hero__content h1 {
+      font-size: 2rem; /* Smaller size for mobile */
+    }
+    .hero__img-box img, .hero__img-box video {
+      height: 200px; /* Further reduce height */
+    }
+    .hero__content {
+      padding-top: 2rem;
+    }
+
+    .custom-heading {
+        font-size: 1.55rem; 
+        font-weight: 730;   
+        line-height: 0.95;  
+        margin-bottom: 1rem; 
+        color: #2d3748;     
+    }
+    .primary__btn1 {
+      font-size: 0.9rem;
+      padding: 0.5rem 1rem;
+    }
 }
