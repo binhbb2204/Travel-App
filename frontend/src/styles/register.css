@@ -154,7 +154,6 @@
         line-height: 1.5rem; 
     }
 
-
     .form_container {
         padding: 10px; 
     }
@@ -162,5 +161,30 @@
     .button {
         width: 100%; 
         padding: 12px; 
+    }
+}
+
+  /* For mobile screens */
+  @media (max-width: 480px) {
+    .hero__content h1 {
+      font-size: 2rem; /* Smaller size for mobile */
+    }
+    .hero__img-box img, .hero__img-box video {
+      height: 200px; /* Further reduce height */
+    }
+    .hero__content {
+      padding-top: 2rem;
+    }
+
+    .custom-heading {
+        font-size: 1.55rem; 
+        font-weight: 730;   
+        line-height: 0.95;  
+        margin-bottom: 1rem; 
+        color: #2d3748;     
+    }
+    .primary__btn1 {
+      font-size: 0.9rem;
+      padding: 0.5rem 1rem;
     }
 }

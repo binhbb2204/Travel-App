@@ -81,7 +81,7 @@ const About = () => {
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
+                        transition={{ duration: 0.9 }}
                         className="text-center max-w-3xl mx-auto"
                     >
                         <h1 className="text-3xl md:text-3xl font-bold mb-6 text-gray-800">
@@ -100,7 +100,7 @@ const About = () => {
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5 }}
+                        transition={{ duration: 0.9 }}
                         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
                     >
                         {stats.map((stat, index) => (
@@ -108,7 +108,7 @@ const About = () => {
                                 key={index}
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5, delay: index * 0.1 }}
+                                transition={{ duration: 1, delay: index * 0.1 }}
                                 className="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center text-center stats-card"
                             >
                                 <stat.icon className="w-12 h-12 mb-4 text-blue-600" />
@@ -126,7 +126,7 @@ const About = () => {
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5 }}
+                        transition={{ duration: 0.9 }}
                         className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center"
                     >
                         <div>
@@ -164,7 +164,7 @@ const About = () => {
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5 }}
+                        transition={{ duration: 0.9 }}
                         className="text-center mb-12"
                     >
                         <h2 className="text-3xl md:text-3xl font-bold mb-4 text-gray-800">Meet Our Team</h2>
@@ -177,7 +177,7 @@ const About = () => {
                                 key={index}
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5, delay: index * 0.1 }}
+                                transition={{ duration: 0.9, delay: index * 0.1 }}
                                 className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 hover:shadow-xl"
                             >
                                 <div className="team-image-container relative h-48 bg-gray-200">
