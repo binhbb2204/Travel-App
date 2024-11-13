@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 
 import {Container, Row, Col, Form, FormGroup, Button} from "reactstrap";
-import {Link} from 'react-router-dom'
-import '../styles/login.css'
+import {Link} from 'react-router-dom';
+import '../styles/login.css';
 
-import loginImg from '../images/image.png'
-import userIcon from '../images/trueuser.png'
+import loginImg from '../images/image.png';
+import userIcon from '../images/trueuser.png';
 
 const Login = () => {
 
@@ -22,30 +22,43 @@ const Login = () => {
     e.preventDefault();
   }
 
-  return <section>
-    <Container className='Container__test'>
+  return <section className='login__background min-h-screen overflow-hidden'>
+    <Container>
       <Row>
         <Col lg='8' className="m-auto">
-          <div className="login__containter d-flex justify-content-between">
-            <div className="login__img">
-              <img src={loginImg} alt="" />
-            </div>
+          <div className="login__container">
             <div className="login__form">
-              <div className="user">
-                <img src={userIcon} alt="" />
+              <div className='login__title'>
+                <h2>Welcome to </h2>
+                <h1>TAB</h1>
               </div>
-              <h2>Login</h2>
+
               <Form>
-                <FormGroup>
-                  <input type="email" placeholder="email" required id="email" onChange={handleChange} />
-                </FormGroup>
-                <FormGroup>
-                  <input type="password" placeholder="Password" required id="password" onChange={handleChange} />
-                </FormGroup>
-                <Button className="btn secondary__btn auth__btn"
+                <section className="login__input">
+                  <FormGroup className='email__box'>
+                    <i class='bx bxs-user'></i>
+                    <input type="email" placeholder="Email" required id="email" onChange={handleChange} />
+                  </FormGroup>
+                  <FormGroup className='password__box'>
+                    <i class='bx bxs-lock-alt'></i>
+                    <input type="password" placeholder="Password" required id="password" onChange={handleChange} />
+                  </FormGroup>
+                </section>
+                <section className="remember-forgot__box">
+                <div className="remember-me">
+                  <input type="checkbox" name="remember-me" id="remember-me" />
+                  <label for="remember-me">
+                    <h5>Remember me</h5>
+                  </label>
+                </div>
+                <div className="forgot-password">
+                <Link to='register'>Forgot password?</Link>
+                </div>
+              </section>
+                <Button className="login__btn"
                 type="submit">Login</Button>
               </Form>
-              <p>Don't have an account? <Link to='register'>Create</Link></p>
+              <p className="register__link">Don't have an account? <Link to='register' className="create__link">Create</Link></p>
             </div>
           </div>
         </Col>
