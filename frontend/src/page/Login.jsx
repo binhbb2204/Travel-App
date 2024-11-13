@@ -52,13 +52,13 @@ const Login = () => {
                   </label>
                 </div>
                 <div className="forgot-password">
-                <Link to='register'>Forgot password?</Link>
+                <Link to='/register'>Forgot password?</Link>
                 </div>
               </section>
                 <Button className="login__btn"
                 type="submit">Login</Button>
               </Form>
-              <p className="register__link">Don't have an account? <Link to='register' className="create__link">Create</Link></p>
+              <p className="register__link">Don't have an account? <Link to='/register' className="create__link">Create</Link></p>
             </div>
           </div>
         </Col>
