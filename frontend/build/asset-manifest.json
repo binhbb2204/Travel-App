@@ -1,8 +1,9 @@
 {
   "files": {
-    "main.css": "/Travel-App/static/css/main.8d1c6bbf.css",
-    "main.js": "/Travel-App/static/js/main.95095d43.js",
-    "static/media/nature.jpg": "/Travel-App/static/media/nature.6b84bd928c5be1dcee25.jpg",
+    "main.css": "/Travel-App/static/css/main.a943f0ef.css",
+    "main.js": "/Travel-App/static/js/main.623d3473.js",
+    "static/media/home-bg-final_2.mp4": "/Travel-App/static/media/home-bg-final_2.a3d92ad55ac741ab2136.mp4",
+    "static/media/travel.jpg": "/Travel-App/static/media/travel.1104b5feb884b11acb68.jpg",
     "static/media/remixicon.svg?t=1730118419915": "/Travel-App/static/media/remixicon.0551ce0fd52a1a7b1230.svg",
     "static/media/911.gif": "/Travel-App/static/media/911.3d2793df974843b6a026.gif",
     "static/media/TAB.gif": "/Travel-App/static/media/TAB.366e7de46527a7f10bf8.gif",
@@ -10,6 +11,7 @@
     "static/media/Notre-Dame.png": "/Travel-App/static/media/Notre-Dame.1ea5a43bfbd25a5098da.png",
     "static/media/tour-img06.jpg": "/Travel-App/static/media/tour-img06.61ab969a7f3f172fa8c0.jpg",
     "static/media/tour-img05.jpg": "/Travel-App/static/media/tour-img05.f86cd200463751a5e2ed.jpg",
+    "static/media/honolulu.jpg": "/Travel-App/static/media/honolulu.baad89a37b6af079ec44.jpg",
     "static/media/tour-img02.jpg": "/Travel-App/static/media/tour-img02.4094c02b469d48da4dfb.jpg",
     "static/media/tour-img03.jpg": "/Travel-App/static/media/tour-img03.67d4e55212aa6fc6661c.jpg",
     "static/media/tour-img07.jpg": "/Travel-App/static/media/tour-img07.35a4d493feed183aa360.jpg",
@@ -24,6 +26,18 @@
     "static/media/remixicon.woff?t=1730118419915": "/Travel-App/static/media/remixicon.442ee771ea7ae5b713e4.woff",
     "static/media/remixicon.woff2?t=1730118419915": "/Travel-App/static/media/remixicon.11bc908555df35c11b24.woff2",
     "static/media/ice.jpg": "/Travel-App/static/media/ice.42beef1b39592c846e16.jpg",
+    "static/media/Emirates.png": "/Travel-App/static/media/Emirates.1c98517d3f0c96b54afd.png",
+    "static/media/AirAsia.jpg": "/Travel-App/static/media/AirAsia.f58a1727eee2622ff922.jpg",
+    "static/media/Trip.png": "/Travel-App/static/media/Trip.5368da4a2473e2be5ba7.png",
+    "static/media/Expedia.png": "/Travel-App/static/media/Expedia.d606b99b3476981fb9ee.png",
+    "static/media/Trivago.jpg": "/Travel-App/static/media/Trivago.e79bc1c4d7483087ca65.jpg",
+    "static/media/VietjetAir.png": "/Travel-App/static/media/VietjetAir.0c80679914b7ae677abe.png",
+    "static/media/QatarAirways.jpg": "/Travel-App/static/media/QatarAirways.590a224dc23a4c0b51b9.jpg",
+    "static/media/Agoda.png": "/Travel-App/static/media/Agoda.ab5fab4e4e50414f881f.png",
+    "static/media/Traveloka.png": "/Travel-App/static/media/Traveloka.c7bf12bcb09bbbc538a8.png",
+    "static/media/VietnamAirlines.png": "/Travel-App/static/media/VietnamAirlines.97440041495e27d44433.png",
+    "static/media/EtihadAirways.png": "/Travel-App/static/media/EtihadAirways.cddc207803ebf1ff437c.png",
+    "static/media/AmericanAirlines.png": "/Travel-App/static/media/AmericanAirlines.881dcf5126790a51f192.png",
     "static/media/trump.jpg": "/Travel-App/static/media/trump.70f6d65ce901f802e3fc.jpg",
     "static/media/trueuser.png": "/Travel-App/static/media/trueuser.79e2447ed37c7104264e.png",
     "static/media/slick.svg": "/Travel-App/static/media/slick.2630a3e3eab21c607e21.svg",
@@ -31,11 +45,11 @@
     "static/media/slick.ttf": "/Travel-App/static/media/slick.c94f7671dcc99dce43e2.ttf",
     "static/media/slick.woff": "/Travel-App/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/Travel-App/index.html",
-    "main.8d1c6bbf.css.map": "/Travel-App/static/css/main.8d1c6bbf.css.map",
-    "main.95095d43.js.map": "/Travel-App/static/js/main.95095d43.js.map"
+    "main.a943f0ef.css.map": "/Travel-App/static/css/main.a943f0ef.css.map",
+    "main.623d3473.js.map": "/Travel-App/static/js/main.623d3473.js.map"
   },
   "entrypoints": [
-    "static/css/main.8d1c6bbf.css",
-    "static/js/main.95095d43.js"
+    "static/css/main.a943f0ef.css",
+    "static/js/main.623d3473.js"
   ]
 }
