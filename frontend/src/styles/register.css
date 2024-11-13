@@ -45,7 +45,7 @@
     font-size: 2rem;
 }
 
-.register__title h2 {
+.register__title h2 {   /* For glowing effect */
     padding: relative;
     font-weight: 500;
     z-index: 10;
@@ -142,4 +142,25 @@
 
 .create__link:hover {
     text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .hero_content h1 {
+        font-size: 2rem;
+    }
+
+    .hero_description {
+        font-size: 0.9rem; 
+        line-height: 1.5rem; 
+    }
+
+
+    .form_container {
+        padding: 10px; 
+    }
+
+    .button {
+        width: 100%; 
+        padding: 12px; 
+    }
 }
