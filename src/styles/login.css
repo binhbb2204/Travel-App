@@ -1,5 +1,5 @@
 .login__background {
-    background-image: url('/src/images/Welcome.jpg');
+    background-image: url('/src/images/honolulu.jpg');
     background-size: cover;
     background-position: center;
     display: flex;
@@ -7,11 +7,18 @@
     align-items: center;
     align-content: center;
     flex-direction: column;
+    transform: scale(1.05);
+    transition: transform 1s ease;
+    min-height: 100vh;
+}
 
+.login__background.active{
+    transform: scale(1); 
 }
 
 .login__container{
-    background-color: rgb(0, 0, 0, 0.1);
+    /* background-color: rgb(255, 255, 255, 0.3); */
+    background-color: white;
     width: 50%;
     padding: 24px;
     border-radius: 16px;
@@ -19,11 +26,17 @@
     backdrop-filter: blur(25px);
     box-shadow: 0px 0px 30px 20px rgb(0, 0, 0, 0.1);
     transform: translateY(-20px);
-    color: white;
+    color: black;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 0 auto; 
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.login__container.active {
+    opacity: 1;
 }
 
 .login__title{
@@ -41,7 +54,40 @@
     background-clip: text;
     -webkit-background-clip: text;
     background-image: linear-gradient(to right, #0066ff, #0033cc);
+    text-shadow:
+    /* 0 0 5px #fff,
+    0 0 1px #fff, */
+    0 0 1px #0066ff,
+    0 0 5px #0066ff,
+    0 0 50px #0033cc,
+    0 0 50px #0033cc;
 }
+
+/* .TAB__element {
+    top: 2%;
+    left: 50%;
+    width: 20%; 
+    height: 20%;
+    background: linear-gradient(to right, #60a5fa, #0033cc); 
+    filter: blur(20px); 
+    opacity: 1;
+    z-index: -1; 
+    border-radius: 50%;
+    margin: 0 auto;
+} */
+
+/* .tab__element::before {
+    content: "";
+    position: absolute;
+    width: 15%; 
+    height: 10%; 
+    background: linear-gradient(to right, #60a5fa, #0033cc); 
+    filter: blur(20px); 
+    opacity: 1;
+    border-radius: 50%; 
+    z-index: -1; 
+    animation: glow-pulse 2s infinite ease-in-out;
+} */
 
 .login__input{
     display: flex;
@@ -60,11 +106,12 @@
     width: 100%;
     padding: 10px 16px 10px 38px;
     border-radius: 99px;
-    border: solid 3px transparent;
+    border: solid 1px transparent;
+    border-color: black;
     background: rgb(255, 255, 255, 0.1);
     outline: none;
-    caret-color: white;
-    color: white;
+    caret-color: black;
+    color: black;
     font-weight: 500;
     transition: 0.25s;
 }
@@ -74,7 +121,7 @@
 }
 
 .login__input input::placeholder{
-    color: rgb(255, 255, 255, 0.75);
+    color: rgb(0, 0, 0, 0.75);
 }
 
 .login__input::-ms-reveal{

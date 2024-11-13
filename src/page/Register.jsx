@@ -11,7 +11,7 @@ const Register = () => {
         confirmPassword: '',
         phone: '',
     });
-    const navigate = useNavigate(); // Initialize useNavigate
+    const navigate = useNavigate(); 
 
     const handleChange = (e) => {
         setFormData(prev => ({ ...prev, [e.target.id]: e.target.value }));
