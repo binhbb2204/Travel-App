@@ -58,6 +58,7 @@ const About = () => {
     return (
         <div className="min-h-screen bg-white relative overflow-hidden">
             <ParallaxBackground />
+            <div className="h-16 md:h-24"></div>    {/* seperate the header and the video */}
             {/* Video Section */}
             <section className="video-section relative w-full">
                 <div className="absolute inset-0 z-10">
