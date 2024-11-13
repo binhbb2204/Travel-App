@@ -6,8 +6,8 @@ import teamMemberImage1 from '../images/binhbb.jpg';
 import teamMemberImage2 from '../images/ice.jpg';
 import teamMemberImage3 from '../images/thuan.jpg';
 import backgroundImage from '../images/nature_2.jpg';
-import aboutVideo from '../images/home-bg-final_2.mp4';
-
+// import aboutVideo from '../images/home-bg-final_2.mp4';
+import aboutVideo from '../images/AboutUs.mp4';
 import AirAsia from '../images/logo/AirAsia.jpg';
 import QatarAirways from '../images/logo/QatarAirways.jpg';
 import Trivago from '../images/logo/Trivago.jpg';
