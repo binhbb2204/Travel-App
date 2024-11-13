@@ -34,7 +34,7 @@ const Header = () => {
   }, []);
 
   return (
-    <header className={`sticky__header fixed w-full z-50 transition-all duration-300 ${
+    <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
       isScrolled 
         ? 'bg-white/30 backdrop-blur-sm shadow-lg' 
         : 'bg-transparent'
@@ -54,7 +54,14 @@ const Header = () => {
                   <li className="nav__item" key={index}>
                     <NavLink 
                       to={item.path}
-                      className="text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium"
+                      className={({isActive})=> `
+                        ${isScrolled ? 'text-gray-700' : 'text-gray-700'}
+                        hover:text-blue-600
+                        transition-colors
+                        duration-200
+                        font-medium
+                        ${isActive ? 'active-nav-link' : ''}
+                      `}
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       {item.display}
@@ -67,7 +74,7 @@ const Header = () => {
             {/* Auth Buttons */}
             <div className="nav__right d-flex align-items-center gap-4">
               <div className="nav__btns d-flex align-items-center gap-4">
-                <Button className="custom-gradient-login-btn">
+                <Button className="custom-gradient-login-btn md:bg-white">
                   <Link to='/login' className="no-underline">Login</Link>
                 </Button>
                 <Button className="custom-gradient-btn">
