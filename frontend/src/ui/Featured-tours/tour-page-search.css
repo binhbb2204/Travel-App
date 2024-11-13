@@ -1,0 +1,23 @@
+.custom-label {
+    display: block; /* block */
+    font-size: 0.875rem; /* text-sm (14px) */
+    font-weight: 500; /* font-medium */
+    color: #374151; /* text-gray-700 */
+    margin-bottom: 0.25rem; /* mb-1 (4px) */
+}
+.custom-input {
+    width: 100%; /* w-full */
+    padding: 0.5rem; /* p-2 */
+    border: 1px solid #d1d5db; /* border (default light gray color) */
+    border-radius: 0.5rem; /* rounded-lg (8px border radius) */
+    color: #374151; /* text-gray-700 */
+  
+    outline: none; /* Removes default browser outline */
+    transition: border-color 0.2s, box-shadow 0.2s; /* Smooth transition for focus */
+}
+  
+.custom-input:focus {
+    border-color: #3b82f6; /* focus:border-blue-500 */
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5); /* focus:ring-2 and focus:ring-blue-500 */
+}
+

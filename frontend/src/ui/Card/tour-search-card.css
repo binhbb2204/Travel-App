@@ -1,0 +1,18 @@
+.custom-input {
+    width: 2.5rem; /* w-10 (40px) */
+    padding-left: 2.5rem; /* pl-10 (40px) */
+    padding-right: 1rem; /* pr-4 (16px) */
+    padding-top: 0.75rem; /* py-3 (12px top and bottom) */
+    padding-bottom: 0.75rem; /* py-3 */
+    border: 1px solid #d1d5db; /* border (default light gray color) */
+    border-radius: 0.5rem; /* rounded-lg (8px border radius) */
+  
+    /* For focus state */
+    outline: none; /* Removes default browser outline */
+    transition: border-color 0.2s, box-shadow 0.2s; /* Smooth transition for focus */
+}
+  
+  .custom-input:focus {
+    border-color: #3b82f6; /* focus:border-blue-500 */
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5); /* focus:ring-2 and focus:ring-blue-500 */
+}
