@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import { motion } from 'framer-motion';
 
 import {Container, Row, Col, Form, FormGroup, Button} from "reactstrap";
 import {Link} from 'react-router-dom';
@@ -14,23 +15,46 @@ const Login = () => {
     password:undefined
   });
 
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(()=>{
+    setIsVisible(true);
+  }, []);
+
   const handleChange = e =>{
     setCredentials(prev => ({...prev, [e.target.id]: e.target.value}));
   };
 
   const handleClick = e =>{
-    e.preventDefault();
+    e.preventDefault(); 
   }
 
-  return <section className='login__background min-h-screen overflow-hidden'>
+  return <section className={`login__background ${isVisible ? 'active' : ''}`}>
     <Container>
       <Row>
         <Col lg='8' className="m-auto">
-          <div className="login__container">
+          <div className={`login__container ${isVisible ? 'active' : ''}`}>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="test"
+            >
             <div className="login__form">
               <div className='login__title'>
                 <h2>Welcome to </h2>
-                <h1>TAB</h1>
+                <h1 className='tab__element'>TAB
+                  {/* <motion.div
+                    className="TAB__element"
+                    animate={{
+                      scale: [1, 1.2, 1],
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                    }}
+                  />   */}
+                </h1>
               </div>
 
               <Form>
@@ -60,6 +84,7 @@ const Login = () => {
               </Form>
               <p className="register__link">Don't have an account? <Link to='register' className="create__link">Create</Link></p>
             </div>
+            </motion.div>
           </div>
         </Col>
       </Row>
