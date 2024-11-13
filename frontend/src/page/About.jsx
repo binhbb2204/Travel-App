@@ -6,6 +6,17 @@ import teamMemberImage1 from '../images/binhbb.jpg';
 import teamMemberImage2 from '../images/ice.jpg';
 import teamMemberImage3 from '../images/thuan.jpg';
 import backgroundImage from '../images/nature_2.jpg';
+import aboutVideo from '../images/home-bg-final_2.mp4';
+
+import AirAsia from '../images/logo/AirAsia.jpg';
+import QatarAirways from '../images/logo/QatarAirways.jpg';
+import Trivago from '../images/logo/Trivago.jpg';
+import Emirates from '../images/logo/Emirates.png';
+import Expedia from '../images/logo/Expedia.png';
+import Traveloka from '../images/logo/Traveloka.png';
+import VietjetAir from '../images/logo/VietjetAir.png';
+import VietnamAirlines from '../images/logo/VietnamAirlines.png';
+
 import '../styles/about.css';
 
 const About = () => {
@@ -40,6 +51,22 @@ const About = () => {
     return (
         <div className="min-h-screen bg-white relative overflow-hidden">
             <ParallaxBackground />
+            {/* Video Section */}
+            <section className="video-section relative w-full">
+                <div className="absolute inset-0 z-10">
+                    <video
+                        className="w-full h-full object-cover"
+                        autoPlay
+                        loop
+                        muted
+                    >
+                        <source src={aboutVideo} type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <div className="relative z-20 flex flex-col items-center justify-center h-full">
+                </div>
+            </section>
 
             {/* Hero Section */}
             <section className="relative pt-20 pb-12 md:py-20">
@@ -163,20 +190,19 @@ const About = () => {
                 </div>
             </section>
 
-            {/* Core Values Section */}
-            <section className="py-12 md:py-20">
-                <div className="container mx-auto px-4">
-                    <h2 className="text-3xl md:text-4xl font-bold text-center mb-6 text-gray-800">Our Core Values</h2>
-                    <p className="text-gray-600 text-center mb-8">
-                        We stand for integrity, sustainability, and excellence in every journey we undertake.
-                    </p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {["Integrity", "Sustainability", "Community Support"].map((value, index) => (
-                            <div key={index} className="bg-white rounded-lg shadow-lg p-6 text-center">
-                                <h3 className="text-xl font-semibold mb-4">{value}</h3>
-                                <p className="text-gray-600">We prioritize {value.toLowerCase()} in our operations.</p>
-                            </div>
-                        ))}
+            {/* Sponsors' Logos */}
+            <section className="py-12 md:py-20 bg-gray-50">
+                <div className="container mx-auto px-4 text-center">
+                    <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-800">Our Sponsors</h2>
+                    <div className="flex flex-wrap justify-center mt-4">
+                        <img src={AirAsia} alt="Air Asia" className="logo mx-2" />
+                        <img src={QatarAirways} alt="Qatar Airways" className="logo mx-2" />
+                        <img src={Emirates} alt="Emirates" className="logo mx-2" />
+                        <img src={VietjetAir} alt="Vietjet Air" className="logo mx-2" />
+                        <img src={VietnamAirlines} alt="Vietnam Airlines" className="logo mx-2" />
+                        <img src={Trivago} alt="Trivago" className="logo mx-2" />
+                        <img src={Traveloka} alt="Traveloka" className="logo mx-2" />
+                        <img src={Expedia} alt="Expedia" className="logo mx-2" />
                     </div>
                 </div>
             </section>
