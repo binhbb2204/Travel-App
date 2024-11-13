@@ -1,0 +1,107 @@
+.register__background {
+    background-image: url('/src/images/Welcome.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    flex-direction: column;
+}
+
+.register__container {
+    background-color: rgba(0, 0, 0, 0.1);
+    width: 50%;
+    padding: 24px;
+    border-radius: 16px;
+    border: solid 5px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(25px);
+    box-shadow: 0px 0px 30px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(-20px);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto; 
+}
+
+.register__title {
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+.register__input {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 20px;
+    position: relative;
+}
+
+.name__box,
+.email__box,
+.phone__box,
+.password__box,
+.confirm-password__box {
+    display: flex;
+}
+
+.register__input input {
+    width: 100%;
+    padding: 10px 16px 10px 38px;
+    border-radius: 99px;
+    border: solid 3px transparent;
+    background: rgba(255, 255, 255, 0.1);
+    outline: none;
+    caret-color: white;
+    color: white;
+    font-weight: 500;
+    transition: 0.25s;
+}
+
+.register__input input:focus {
+    border: solid 3px rgba(255, 255, 255, 0.25);
+}
+
+.register__input input::placeholder {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.register__input i {
+    position: absolute;
+    transform: translateY(85%);
+    left: 14px;
+    font-size: 18px;
+    transition: 0.25s;
+}
+
+.register__btn {
+    width: 100%;
+    margin-top: 24px;
+    padding: 10px;
+    background: #3b82f6;
+    border: none;
+    border-radius: 99px;
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+    outline: transparent 3px solid;
+    transition: 0.1s;
+}
+
+.register__btn:hover {
+    background: linear-gradient(to right, #0052cc, #002080);
+}
+
+.login__link {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.create__link:hover {
+    text-decoration: underline;
+}
