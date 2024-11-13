@@ -5,7 +5,8 @@ import ParallaxBackground from '../ui/ParallaxBackground';
 import teamMemberImage1 from '../images/binhbb.jpg';
 import teamMemberImage2 from '../images/ice.jpg';
 import teamMemberImage3 from '../images/thuan.jpg';
-import backgroundImage from '../images/nature.jpg';
+import backgroundImage from '../images/nature_2.jpg';
+import '../styles/about.css';
 
 const About = () => {
     const teamMembers = [
@@ -25,7 +26,7 @@ const About = () => {
             name: "Nguyen Minh Thuan",
             role: "Project Member",
             image: teamMemberImage3,
-            description: "Data researcher and developer. Passionate in planting Thai Jackfruit "
+            description: "Data researcher and developer. Passionate in planting Thai Jackfruit"
         },
     ];
 
@@ -62,21 +63,26 @@ const About = () => {
             {/* Stats Section */}
             <section className="py-12 bg-gray-50">
                 <div className="container mx-auto px-4">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+                    >
                         {stats.map((stat, index) => (
                             <motion.div
                                 key={index}
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5, delay: 0.1 }}
-                                className="text-center"
+                                transition={{ duration: 0.5, delay: index * 0.1 }}
+                                className="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center text-center stats-card"
                             >
-                                <stat.icon className="w-8 h-8 mx-auto mb-4 text-blue-600" />
-                                <h3 className="text-3xl font-bold text-gray-800 mb-2">{stat.number}</h3>
+                                <stat.icon className="w-12 h-12 mb-4 text-blue-600" />
+                                <h3 className="text-4xl font-bold text-gray-800 mb-2">{stat.number}</h3>
                                 <p className="text-gray-600">{stat.label}</p>
                             </motion.div>
                         ))}
-                    </div>
+                    </motion.div>
                 </div>
             </section>
 
@@ -131,15 +137,13 @@ const About = () => {
                         <p className="text-gray-600">The passionate individuals behind your extraordinary travels</p>
                     </motion.div>
 
-                    {/* Team Member Section */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {teamMembers.map((member, index) => (
                             <motion.div
                                 key={index}
                                 initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                whileHover={{ y: -5 }}
-                                transition={{  duration: 0.3 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5, delay: index * 0.1 }}
                                 className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 hover:shadow-xl"
                             >
                                 <div className="team-image-container relative h-48 bg-gray-200">
@@ -154,6 +158,24 @@ const About = () => {
                                     <p className="text-gray-600">{member.description}</p>
                                 </div>
                             </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Core Values Section */}
+            <section className="py-12 md:py-20">
+                <div className="container mx-auto px-4">
+                    <h2 className="text-3xl md:text-4xl font-bold text-center mb-6 text-gray-800">Our Core Values</h2>
+                    <p className="text-gray-600 text-center mb-8">
+                        We stand for integrity, sustainability, and excellence in every journey we undertake.
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {["Integrity", "Sustainability", "Community Support"].map((value, index) => (
+                            <div key={index} className="bg-white rounded-lg shadow-lg p-6 text-center">
+                                <h3 className="text-xl font-semibold mb-4">{value}</h3>
+                                <p className="text-gray-600">We prioritize {value.toLowerCase()} in our operations.</p>
+                            </div>
                         ))}
                     </div>
                 </div>
