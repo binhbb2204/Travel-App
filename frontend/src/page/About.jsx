@@ -8,12 +8,15 @@ import teamMemberImage3 from '../images/thuan.jpg';
 import backgroundImage from '../images/travel.jpg';
 import aboutVideo from '../images/home-bg-final_2.mp4';
 
-import AirAsia from '../images/logo/AirAsia.jpg';
 import QatarAirways from '../images/logo/QatarAirways.jpg';
 import Trivago from '../images/logo/Trivago.jpg';
+import Agoda from '../images/logo/Agoda.png';
+import AmericanAirlines from '../images/logo/AmericanAirlines.png';
 import Emirates from '../images/logo/Emirates.png';
+import EtihadAirways from '../images/logo/EtihadAirways.png';
 import Expedia from '../images/logo/Expedia.png';
 import Traveloka from '../images/logo/Traveloka.png';
+import Trip from '../images/logo/Trip.png';
 import VietjetAir from '../images/logo/VietjetAir.png';
 import VietnamAirlines from '../images/logo/VietnamAirlines.png';
 
@@ -198,17 +201,19 @@ const About = () => {
             <section className="py-12 md:py-20 bg-gray-50">
                 <div className="container mx-auto px-4 text-center">
                     <h2 className="text-3xl md:text-3xl font-bold mb-6 text-gray-800">Our Sponsors</h2>
-                    <div className="flex flex-wrap justify-center mt-4">
-                        <img src={AirAsia} alt="Air Asia" style={{ height: '4rem', width: 'auto' }} className="mx-2" />
-                        <img src={QatarAirways} alt="Qatar Airways" style={{ height: '4rem', width: 'auto' }} className="logo mx-2" />
-                        <img src={Emirates} alt="Emirates" style={{ height: '4rem', width: 'auto' }} className="logo mx-2" />
-                        <img src={VietjetAir} alt="Vietjet Air" style={{ height: '4rem', width: 'auto' }} className="logo mx-2" />
-                        <img src={VietnamAirlines} alt="Vietnam Airlines" style={{ height: '4rem', width: 'auto' }} className="logo mx-2" />
+                    <div className="flex flex-wrap justify-center">
+                        <img src={EtihadAirways} alt="Etihad Airways" style={{ height: '5rem', width: 'auto' }} className="mx-2" />
+                        <img src={QatarAirways} alt="Qatar Airways" style={{ height: '5rem', width: 'auto' }} className="logo mx-2" />
+                        <img src={AmericanAirlines} alt="American Airlines" style={{ height: '5rem', width: 'auto' }} className="logo mx-2" />
+                        <img src={VietjetAir} alt="Vietjet Air" style={{ height: '5rem', width: 'auto' }} className="logo mx-2" />
+                        <img src={VietnamAirlines} alt="Vietnam Airlines" style={{ height: '5rem', width: 'auto' }} className="logo mx-2" />
                     </div>
                     <div className="flex flex-wrap justify-center">
                         <img src={Trivago} alt="Trivago" style={{ height: '5rem', width: 'auto' }} className="logo mx-2" />
                         <img src={Traveloka} alt="Traveloka" style={{ height: '5rem', width: 'auto' }} className="logo mx-2" />
                         <img src={Expedia} alt="Expedia" style={{ height: '5rem', width: 'auto' }} className="logo mx-2" />
+                        <img src={Agoda} alt="Agoda" style={{ height: '5rem', width: 'auto' }} className="logo mx-2" />
+                        <img src={Trip} alt="Trip.com" style={{ height: '5rem', width: 'auto' }} className="logo mx-2" />
                     </div>
                 </div>
             </section>
