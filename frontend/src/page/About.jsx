@@ -5,7 +5,7 @@ import ParallaxBackground from '../ui/ParallaxBackground';
 import teamMemberImage1 from '../images/binhbb.jpg';
 import teamMemberImage2 from '../images/ice.jpg';
 import teamMemberImage3 from '../images/thuan.jpg';
-import backgroundImage from '../images/nature_2.jpg';
+import backgroundImage from '../images/travel.jpg';
 import aboutVideo from '../images/home-bg-final_2.mp4';
 
 import AirAsia from '../images/logo/AirAsia.jpg';
@@ -45,7 +45,11 @@ const About = () => {
         { number: "10k+", label: "Happy Travelers", icon: Heart },
         { number: "50+", label: "Destinations", icon: Globe },
         { number: "100+", label: "Local Guides", icon: Users },
-        { number: "15+", label: "Years Experience", icon: Award }
+        { number: "15+", label: "Years Experience", icon: Award },
+        { number: "200+", label: "Travel Packages", icon: Target },
+        { number: "5k+", label: "Reviews", icon: Award },
+        { number: "30+", label: "Countries Visited", icon: Globe },
+        { number: "80%", label: "Customer Satisfaction", icon: Heart }
     ];
 
     return (
@@ -193,16 +197,18 @@ const About = () => {
             {/* Sponsors' Logos */}
             <section className="py-12 md:py-20 bg-gray-50">
                 <div className="container mx-auto px-4 text-center">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-800">Our Sponsors</h2>
+                    <h2 className="text-3xl md:text-3xl font-bold mb-6 text-gray-800">Our Sponsors</h2>
                     <div className="flex flex-wrap justify-center mt-4">
-                        <img src={AirAsia} alt="Air Asia" className="logo mx-2" />
-                        <img src={QatarAirways} alt="Qatar Airways" className="logo mx-2" />
-                        <img src={Emirates} alt="Emirates" className="logo mx-2" />
-                        <img src={VietjetAir} alt="Vietjet Air" className="logo mx-2" />
-                        <img src={VietnamAirlines} alt="Vietnam Airlines" className="logo mx-2" />
-                        <img src={Trivago} alt="Trivago" className="logo mx-2" />
-                        <img src={Traveloka} alt="Traveloka" className="logo mx-2" />
-                        <img src={Expedia} alt="Expedia" className="logo mx-2" />
+                        <img src={AirAsia} alt="Air Asia" style={{ height: '4rem', width: 'auto' }} className="mx-2" />
+                        <img src={QatarAirways} alt="Qatar Airways" style={{ height: '4rem', width: 'auto' }} className="logo mx-2" />
+                        <img src={Emirates} alt="Emirates" style={{ height: '4rem', width: 'auto' }} className="logo mx-2" />
+                        <img src={VietjetAir} alt="Vietjet Air" style={{ height: '4rem', width: 'auto' }} className="logo mx-2" />
+                        <img src={VietnamAirlines} alt="Vietnam Airlines" style={{ height: '4rem', width: 'auto' }} className="logo mx-2" />
+                    </div>
+                    <div className="flex flex-wrap justify-center">
+                        <img src={Trivago} alt="Trivago" style={{ height: '5rem', width: 'auto' }} className="logo mx-2" />
+                        <img src={Traveloka} alt="Traveloka" style={{ height: '5rem', width: 'auto' }} className="logo mx-2" />
+                        <img src={Expedia} alt="Expedia" style={{ height: '5rem', width: 'auto' }} className="logo mx-2" />
                     </div>
                 </div>
             </section>
