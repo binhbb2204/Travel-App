@@ -45,7 +45,7 @@
     font-size: 2rem;
 }
 
-.register__title h2 {   /* For glowing effect */
+.register__title h2 {
     padding: relative;
     font-weight: 500;
     z-index: 10;
@@ -54,10 +54,10 @@
     -webkit-background-clip: text;
     background-image: linear-gradient(to right, #0066ff, #0033cc);
     text-shadow: 
-        0 0 1px #0066ff,
         0 0 5px #0066ff,
-        0 0 50px #0033cc,
-        0 0 50px #0033cc;
+        0 0 50px #0066ff,
+        0 0 500px #0033cc,
+        0 0 500px #0033cc;
 }
 
 .register__input {
@@ -72,33 +72,40 @@
 .email__box,
 .phone__box,
 .password__box,
-.confirm-password__box {
+.confirm-password__box,
+.gender__box {
     display: flex;
+    position: relative;
+    margin-bottom: 15px;
 }
 
-.register__input input {
+.register__input input,
+.gender__box select {
     width: 100%;
     padding: 10px 16px 10px 38px;
     border-radius: 99px;
-    border: solid 1px transparent;
-    border-color: black; 
+    border: solid 1px black;
     background: rgba(255, 255, 255, 0.1);
     outline: none;
-    caret-color: black; 
-    color: black; 
+    caret-color: black;
+    color: rgba(0, 0, 0, 0.75);
     font-weight: 500;
     transition: 0.25s;
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.25);
 }
 
-.register__input input:focus {
-    border: solid 3px rgba(255, 255, 255, 0.25);
+.register__input input:focus,
+.gender__box select:focus {
+    border: solid 1px black;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.25);
 }
 
-.register__input input::placeholder {
-    color: rgba(0, 0, 0, 0.75); 
+.register__input input::placeholder,
+.gender__box select option:first-of-type {
+    color: rgba(0, 0, 0, 0.75);
 }
 
-.register__input::-ms-reveal{
+.register__input::-ms-reveal {
     filter: invert(100%);
 }
 
@@ -110,13 +117,40 @@
     transition: 0.25s;
 }
 
-.register__input input:focus + i {
-    color: white;
+.gender__box select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+}
+
+.gender__box select option {
+    background: white;
+    color: rgba(0, 0, 0, 0.75);
+}
+
+.gender__box select option[value=""] {
+    color: rgba(0, 0, 0, 0.75);
+}
+
+.gender__box select:not(:invalid) {
+    color: rgba(0, 0, 0, 0.75);
+}
+
+.gender__box::after {
+    content: '▼';
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.75);
 }
 
 .register__btn {
     width: 100%;
-    margin-top: 24px;
+    margin-top: 15px;
     padding: 10px;
     background: #3b82f6;
     border: none;
@@ -150,41 +184,40 @@
     }
 
     .hero_description {
-        font-size: 0.9rem; 
-        line-height: 1.5rem; 
+        font-size: 0.9rem;
+        line-height: 1.5rem;
     }
 
     .form_container {
-        padding: 10px; 
+        padding: 10px;
     }
 
     .button {
-        width: 100%; 
-        padding: 12px; 
+        width: 100%;
+        padding: 12px;
     }
 }
 
-  /* For mobile screens */
-  @media (max-width: 480px) {
+@media (max-width: 480px) {
     .hero__content h1 {
-      font-size: 2rem; /* Smaller size for mobile */
+        font-size: 2rem;
     }
     .hero__img-box img, .hero__img-box video {
-      height: 200px; /* Further reduce height */
+        height: 200px;
     }
     .hero__content {
-      padding-top: 2rem;
+        padding-top: 2rem;
     }
 
     .custom-heading {
-        font-size: 1.55rem; 
-        font-weight: 730;   
-        line-height: 0.95;  
-        margin-bottom: 1rem; 
-        color: #2d3748;     
+        font-size: 1.55rem;
+        font-weight: 730;
+        line-height: 0.95;
+        margin-bottom: 1rem;
+        color: #2d3748;
     }
     .primary__btn1 {
-      font-size: 0.9rem;
-      padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
     }
 }
