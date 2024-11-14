@@ -1,17 +1,25 @@
 {
   "files": {
-    "main.css": "/Travel-App/static/css/main.36ad5e69.css",
-    "main.js": "/Travel-App/static/js/main.1caf99e3.js",
+    "main.css": "/Travel-App/static/css/main.01e6901c.css",
+    "main.js": "/Travel-App/static/js/main.cdde2255.js",
     "static/media/home-bg-final_2.mp4": "/Travel-App/static/media/home-bg-final_2.a3d92ad55ac741ab2136.mp4",
+    "static/media/bg6.png": "/Travel-App/static/media/bg6.90a037b4b26757369600.png",
+    "static/media/bg3.png": "/Travel-App/static/media/bg3.487c1970a526b5b88038.png",
+    "static/media/bg5.png": "/Travel-App/static/media/bg5.e2f50504b6b50f5dc08f.png",
+    "static/media/bg1.png": "/Travel-App/static/media/bg1.78a69dad9a8b68c5186e.png",
+    "static/media/easterEgg.png": "/Travel-App/static/media/easterEgg.b651b053ac48be4816ff.png",
+    "static/media/bg2.png": "/Travel-App/static/media/bg2.fc939483631690b59f6a.png",
     "static/media/travel.jpg": "/Travel-App/static/media/travel.1104b5feb884b11acb68.jpg",
+    "static/media/bg9.png": "/Travel-App/static/media/bg9.bd9e98d87aaa7103dcdf.png",
+    "static/media/bg8.png": "/Travel-App/static/media/bg8.515c25b5f8aeb3eb6543.png",
+    "static/media/bg4.png": "/Travel-App/static/media/bg4.62cb984c8d963cb3b918.png",
     "static/media/remixicon.svg?t=1730118419915": "/Travel-App/static/media/remixicon.0551ce0fd52a1a7b1230.svg",
     "static/media/911.gif": "/Travel-App/static/media/911.3d2793df974843b6a026.gif",
     "static/media/TAB.gif": "/Travel-App/static/media/TAB.366e7de46527a7f10bf8.gif",
-    "static/media/image.png": "/Travel-App/static/media/image.31d40c6a89728d697264.png",
     "static/media/Notre-Dame.png": "/Travel-App/static/media/Notre-Dame.1ea5a43bfbd25a5098da.png",
     "static/media/tour-img06.jpg": "/Travel-App/static/media/tour-img06.61ab969a7f3f172fa8c0.jpg",
     "static/media/tour-img05.jpg": "/Travel-App/static/media/tour-img05.f86cd200463751a5e2ed.jpg",
-    "static/media/honolulu.jpg": "/Travel-App/static/media/honolulu.baad89a37b6af079ec44.jpg",
+    "static/media/bg7.jpg": "/Travel-App/static/media/bg7.baad89a37b6af079ec44.jpg",
     "static/media/tour-img02.jpg": "/Travel-App/static/media/tour-img02.4094c02b469d48da4dfb.jpg",
     "static/media/tour-img03.jpg": "/Travel-App/static/media/tour-img03.67d4e55212aa6fc6661c.jpg",
     "static/media/tour-img07.jpg": "/Travel-App/static/media/tour-img07.35a4d493feed183aa360.jpg",
@@ -39,17 +47,16 @@
     "static/media/EtihadAirways.png": "/Travel-App/static/media/EtihadAirways.cddc207803ebf1ff437c.png",
     "static/media/AmericanAirlines.png": "/Travel-App/static/media/AmericanAirlines.881dcf5126790a51f192.png",
     "static/media/trump.jpg": "/Travel-App/static/media/trump.70f6d65ce901f802e3fc.jpg",
-    "static/media/trueuser.png": "/Travel-App/static/media/trueuser.79e2447ed37c7104264e.png",
     "static/media/slick.svg": "/Travel-App/static/media/slick.2630a3e3eab21c607e21.svg",
     "static/media/slick.eot": "/Travel-App/static/media/slick.a4e97f5a2a64f0ab1323.eot",
     "static/media/slick.ttf": "/Travel-App/static/media/slick.c94f7671dcc99dce43e2.ttf",
     "static/media/slick.woff": "/Travel-App/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/Travel-App/index.html",
-    "main.36ad5e69.css.map": "/Travel-App/static/css/main.36ad5e69.css.map",
-    "main.1caf99e3.js.map": "/Travel-App/static/js/main.1caf99e3.js.map"
+    "main.01e6901c.css.map": "/Travel-App/static/css/main.01e6901c.css.map",
+    "main.cdde2255.js.map": "/Travel-App/static/js/main.cdde2255.js.map"
   },
   "entrypoints": [
-    "static/css/main.36ad5e69.css",
-    "static/js/main.1caf99e3.js"
+    "static/css/main.01e6901c.css",
+    "static/js/main.cdde2255.js"
   ]
 }
