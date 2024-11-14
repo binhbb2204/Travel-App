@@ -4,7 +4,8 @@ import TourSearchCard from '../ui/Card/TourSearchCard';
 import TourCard from '../ui/Card/TourCard';
 import { Filter } from 'lucide-react';
 import tourData from '../data/tourData';
-const ToursPage = () => {
+
+const Tours = () => {
   const [searchParams, setSearchParams] = useState({
     keyword: '',
     country: '',
@@ -15,26 +16,31 @@ const ToursPage = () => {
     groupSize: 'any'
   });
 
-  const [activeView, setActiveView] = useState('grid'); // 'grid' or 'list'
+  // Add state for storing filtered results and search status
+  const [searchResults, setSearchResults] = useState([]);
+  const [hasSearched, setHasSearched] = useState(false);
+  const [activeView, setActiveView] = useState('grid');
 
-  //Country testing
   const countries = ["Italy", "France", "Spain", "Greece"];
   const cities = {
     "Italy": ["Rome", "Venice", "Florence"],
     // ... other cities
   };
-  const filteredTours = tourData.filter(tour => {
-    const matchesKeyword = tour.title.toLowerCase().includes(searchParams.keyword.toLowerCase());
-    const matchesCountry = !searchParams.country || tour.country === searchParams.country;
-    const matchesCity = !searchParams.city || tour.city === searchParams.city;
-    const matchesMinPrice = !searchParams.minPrice || tour.price >= parseInt(searchParams.minPrice);
-    const matchesMaxPrice = !searchParams.maxPrice || tour.price <= parseInt(searchParams.maxPrice);
-    const matchesDuration = searchParams.duration === 'any' || tour.duration === parseInt(searchParams.duration);
-    const matchesGroupSize = searchParams.groupSize === 'any' || tour.maxGroupSize >= parseInt(searchParams.groupSize);
 
-    return matchesKeyword && matchesCountry && matchesCity && 
-           matchesMinPrice && matchesMaxPrice && matchesDuration && matchesGroupSize;
-  });
+  const filterTours = () => {
+    return tourData.filter(tour => {
+      const matchesKeyword = tour.title.toLowerCase().includes(searchParams.keyword.toLowerCase());
+      const matchesCountry = !searchParams.country || tour.country === searchParams.country;
+      const matchesCity = !searchParams.city || tour.city === searchParams.city;
+      const matchesMinPrice = !searchParams.minPrice || tour.price >= parseInt(searchParams.minPrice);
+      const matchesMaxPrice = !searchParams.maxPrice || tour.price <= parseInt(searchParams.maxPrice);
+      const matchesDuration = searchParams.duration === 'any' || tour.duration === parseInt(searchParams.duration);
+      const matchesGroupSize = searchParams.groupSize === 'any' || tour.maxGroupSize >= parseInt(searchParams.groupSize);
+
+      return matchesKeyword && matchesCountry && matchesCity && 
+             matchesMinPrice && matchesMaxPrice && matchesDuration && matchesGroupSize;
+    });
+  };
 
   const handleSearchChange = (e) => {
     const { name, value } = e.target;
@@ -47,7 +53,9 @@ const ToursPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Additional submit logic if needed
+    const filteredResults = filterTours();
+    setSearchResults(filteredResults);
+    setHasSearched(true);
   };
 
   return (
@@ -84,59 +92,75 @@ const ToursPage = () => {
         </div>
       </motion.div>
 
-      {/* Results Section */}
-      <div className="container mx-auto px-4 py-8">
-        {/* Mobile View Toggle */}
-        <div className="lg:hidden flex justify-between items-center mb-4">
-          <h2 className="text-lg font-semibold">Available Tours</h2>
-          <div className="flex space-x-2">
-            <button
-              onClick={() => setActiveView('grid')}
-              className={`p-2 rounded ${activeView === 'grid' ? 'bg-blue-100 text-blue-600' : 'text-gray-600'}`}
-            >
-              Grid
-            </button>
-            <button
-              onClick={() => setActiveView('list')}
-              className={`p-2 rounded ${activeView === 'list' ? 'bg-blue-100 text-blue-600' : 'text-gray-600'}`}
-            >
-              List
-            </button>
+      {/* Results Section - Only show if search has been performed */}
+      {hasSearched && (
+        <div className="container mx-auto px-4 py-8">
+          {/* Mobile View Toggle */}
+          <div className="lg:hidden flex justify-between items-center mb-4">
+            <h2 className="text-lg font-semibold">Available Tours</h2>
+            <div className="flex space-x-2">
+              <button
+                onClick={() => setActiveView('grid')}
+                className={`p-2 rounded ${activeView === 'grid' ? 'bg-blue-100 text-blue-600' : 'text-gray-600'}`}
+              >
+                Grid
+              </button>
+              <button
+                onClick={() => setActiveView('list')}
+                className={`p-2 rounded ${activeView === 'list' ? 'bg-blue-100 text-blue-600' : 'text-gray-600'}`}
+              >
+                List
+              </button>
+            </div>
           </div>
-        </div>
 
-        {/* Tours Grid/List */}
-        <div className={`
-          ${activeView === 'grid' 
-            ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6'
-            : 'flex flex-col space-y-4'
-          }
-        `}>
-          {filteredTours.map(tour => (
+          {/* Tours Grid/List */}
+          <div className={`
+            ${activeView === 'grid' 
+              ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6'
+              : 'flex flex-col space-y-4'
+            }
+          `}>
+            {searchResults.map(tour => (
+              <motion.div
+                key={tour.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className={activeView === 'list' ? 'w-full' : ''}
+              >
+                <TourCard tour={tour} viewMode={activeView} />
+              </motion.div>
+            ))}
+          </div>
+
+          {/* No Results Message */}
+          {searchResults.length === 0 && (
             <motion.div
-              key={tour.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              className={activeView === 'list' ? 'w-full' : ''}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-center py-8"
             >
-              <TourCard tour={tour} viewMode={activeView} />
+              <p className="text-xl text-gray-600">No tours found matching your criteria.</p>
+              <p className="text-gray-500 mt-2">Try adjusting your search filters.</p>
             </motion.div>
-          ))}
+          )}
         </div>
+      )}
 
-        {/* No Results Message */}
-        {filteredTours.length === 0 && (
+      {/* Show initial message when no search has been performed */}
+      {!hasSearched && (
+        <div className="container mx-auto px-4 py-8">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="text-center py-8"
           >
-            <p className="text-xl text-gray-600">No tours found matching your criteria.</p>
-            <p className="text-gray-500 mt-2">Try adjusting your search filters.</p>
+            <p className="text-xl text-gray-600">Start your search to discover available tours.</p>
+            <p className="text-gray-500 mt-2">Use the search filters above to find your perfect tour.</p>
           </motion.div>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* Mobile Bottom Navigation */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t p-4">
@@ -152,4 +176,4 @@ const ToursPage = () => {
   );
 };
 
-export default ToursPage;
+export default Tours;
