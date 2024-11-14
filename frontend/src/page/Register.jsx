@@ -8,7 +8,9 @@ const Register = () => {
   const genderOptions = [
     { value: 'male', label: 'Male' },
     { value: 'female', label: 'Female' },
-    { value: 'other', label: 'Other' },
+    { value: 'attackhelicopter', label: 'Attack Helicopter' },
+    { value: 'binh', label: 'Binh' },
+    { value: 'an', label: 'An' },
     // Add more genders here C:
   ];
 
