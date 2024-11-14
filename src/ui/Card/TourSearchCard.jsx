@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Car, ChevronDown, ChevronUp, Search } from 'lucide-react'
+import { Car, ChevronDown, ChevronUp, Search, X } from 'lucide-react'
 import { Card, CardContent } from './Card'
 import { motion, AnimatePresence } from 'framer-motion';
 import { LocationFilters,  PriceFilter, TourDetailsFilters } from '../Featured-tours/ToursPageSearchComponent';
@@ -8,18 +8,19 @@ const TourSearchCard = ({searchParams, onSearchChange, countries, cities, onSubm
     const [isFilterOpen, setIsFilterOpen] = useState(false)
     return (
         <div className="w-full">
-            {/* This one is for mobile */}
-            <div className="lg:hidden w-full">
-                <div className="relative w-full mb-4">
+            {/* Mobile Search */}
+            <div className="lg:hidden mb-4">
+                <div className="relative">
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"/>
                     <input
                     type="text"
                     name="keyword"
                     placeholder="Search tours..."
-                    className="w-10 
+                    className="w-full 
                             pl-10 
                             pr-4 
                             py-3 
+                            text-gray-700
                             border rounded-lg 
                             focus:ring-2 
                             focus:ring-blue-500
@@ -28,25 +29,20 @@ const TourSearchCard = ({searchParams, onSearchChange, countries, cities, onSubm
                     onChange={onSearchChange}
                     />
                 </div>
+            </div>
+
+            {/* Mobile Filters */}
+            <div className="lg:hidden">
                 <button
-                onClick={() =>
-                    setIsFilterOpen(!isFilterOpen)
-                }
-                className="w-full 
-                        flex items-center 
-                        justify-center 
-                        space-x-2 
-                        bg-blue-600 
-                        text-white 
-                        py-3 
-                        rounded-lg 
-                        mb-4"
+                onClick={() =>setIsFilterOpen(!isFilterOpen)}
+                className="w-full flex items-center justify-center space-x-2 bg-blue-600 text-white py-3 rounded-lg mb-4"
                 >
                     <span>Filters</span>
-                    {isFilterOpen ? <ChevronUp size={20}/> : <ChevronDown size={20}/>}
+                    {isFilterOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
                 </button>
             </div>
-            {/* This if for desktop */}
+
+            {/* Desktop Submit */}
             <div className="hidden lg:block">
                 <DesktopSearchForm 
                     searchParams={searchParams}
@@ -71,58 +67,57 @@ const TourSearchCard = ({searchParams, onSearchChange, countries, cities, onSubm
                 exit={{ y: "100%" }}
                 className="w-full bg-white rounded-t-xl p-4 max-h-[90vh] overflow-y-auto"
                 >
-                <div className="flex justify-between items-center mb-4">
-                    <h3 className="text-lg font-semibold">Filters</h3>
+                    <div className="flex justify-between items-center mb-4">
+                        <h3 className="text-lg font-semibold">Filters</h3>
+                        <button
+                        onClick={() => setIsFilterOpen(false)}
+                        className="p-2 hover:bg-gray-100 rounded-full"
+                        >
+                            <X size={20} />
+                        </button>
+                    </div>
+                    <form onSubmit={(e) => {
+                    e.preventDefault();
+                    onSubmit(e);
+                    setIsFilterOpen(false);
+                    }} className="space-y-4">
+
+                    {/* Location Filters */}
+                    <div className="space-y-4">
+                        <h4 className="font-medium text-gray-700">Location</h4>
+                        <LocationFilters 
+                        searchParams={searchParams}
+                        onSearchChange={onSearchChange}
+                        countries={countries}
+                        cities={cities}
+                        />
+                     </div>
+
+                    {/* Price Filter */}
+                    <div className="space-y-4">
+                        <h4 className="font-medium text-gray-700">Price Range</h4>
+                        <PriceFilter 
+                        searchParams={searchParams}
+                        onSearchChange={onSearchChange}
+                    />
+                    </div>
+
+                    {/* Tour Details Filters */}
+                    <div className="space-y-4">
+                        <h4 className="font-medium text-gray-700">Tour Details</h4>
+                        <TourDetailsFilters 
+                        searchParams={searchParams}
+                        onSearchChange={onSearchChange}
+                    />
+                    </div>
+
                     <button
-                    onClick={() => setIsFilterOpen(false)}
-                    className="p-2 hover:bg-gray-100 rounded-full"
+                    type="submit"
+                    className="w-full bg-blue-600 text-white py-3 rounded-lg mt-4"
                     >
-                        <X size={20} />
+                    Apply Filters
                     </button>
-                </div>
-
-                <form onSubmit={(e) => {
-                e.preventDefault();
-                onSubmit(e);
-                setIsFilterOpen(false);
-                }} className="space-y-4">
-
-                {/* Location Filters */}
-                <div className="space-y-4">
-                  <h4 className="font-medium text-gray-700">Location</h4>
-                  <LocationFilters 
-                    searchParams={searchParams}
-                    onSearchChange={onSearchChange}
-                    countries={countries}
-                    cities={cities}
-                  />
-                </div>
-
-                {/* Price Filter */}
-                <div className="space-y-4">
-                  <h4 className="font-medium text-gray-700">Price Range</h4>
-                  <PriceFilter 
-                    searchParams={searchParams}
-                    onSearchChange={onSearchChange}
-                  />
-                </div>
-
-                {/* Tour Details Filters */}
-                <div className="space-y-4">
-                  <h4 className="font-medium text-gray-700">Tour Details</h4>
-                  <TourDetailsFilters 
-                    searchParams={searchParams}
-                    onSearchChange={onSearchChange}
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full bg-blue-600 text-white py-3 rounded-lg mt-4"
-                >
-                  Apply Filters
-                </button>
-                </form>
+                    </form>
                 </motion.div>
             </motion.div>
             )}

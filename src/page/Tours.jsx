@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+
 import TourSearchCard from '../ui/Card/TourSearchCard';
 import TourCard from '../ui/Card/TourCard';
 import { Filter } from 'lucide-react';
@@ -16,31 +17,43 @@ const Tours = () => {
     groupSize: 'any'
   });
 
-  // Add state for storing filtered results and search status
-  const [searchResults, setSearchResults] = useState([]);
-  const [hasSearched, setHasSearched] = useState(false);
+  const [searchResults, setSearchResults] = useState(tourData);
   const [activeView, setActiveView] = useState('grid');
+  const [hasSubmitted, setHasSubmitted] = useState(false);
 
-  const countries = ["Italy", "France", "Spain", "Greece"];
-  const cities = {
-    "Italy": ["Rome", "Venice", "Florence"],
-    // ... other cities
+  // Country and city data
+  const countries = [...new Set(tourData.map(tour => tour.country))];
+  const cities = tourData.reduce((acc, tour) => {
+
+    // Initialize the country if it doesn't exist yet
+    if(!acc[tour.country]){
+      acc[tour.country] = [];
+    }
+
+    // Only add the city if it's not already in the list for that country
+    if(!acc[tour.country].includes(tour.city)){
+      acc[tour.country].push(tour.city);
+    }
+    return acc;
+  }, {})
+
+  const getQueryParams = () => {
+    const params = new URLSearchParams(location.search); // Use URLSearchParams to parse query string
+    return {
+      keyword: params.get('keyword') || '',
+      country: params.get('country') || '',
+      city: params.get('city') || '',
+      minPrice: params.get('minPrice') || '',
+      maxPrice: params.get('maxPrice') || '',
+      duration: params.get('duration') || 'any',
+      groupSize: params.get('groupSize') || 'any',
+    };
   };
-
-  const filterTours = () => {
-    return tourData.filter(tour => {
-      const matchesKeyword = tour.title.toLowerCase().includes(searchParams.keyword.toLowerCase());
-      const matchesCountry = !searchParams.country || tour.country === searchParams.country;
-      const matchesCity = !searchParams.city || tour.city === searchParams.city;
-      const matchesMinPrice = !searchParams.minPrice || tour.price >= parseInt(searchParams.minPrice);
-      const matchesMaxPrice = !searchParams.maxPrice || tour.price <= parseInt(searchParams.maxPrice);
-      const matchesDuration = searchParams.duration === 'any' || tour.duration === parseInt(searchParams.duration);
-      const matchesGroupSize = searchParams.groupSize === 'any' || tour.maxGroupSize >= parseInt(searchParams.groupSize);
-
-      return matchesKeyword && matchesCountry && matchesCity && 
-             matchesMinPrice && matchesMaxPrice && matchesDuration && matchesGroupSize;
-    });
-  };
+  useEffect(() => {
+    const params = getQueryParams();
+    setSearchParams(params);
+    handleSearch(params);
+  }, [location.search]);
 
   const handleSearchChange = (e) => {
     const { name, value } = e.target;
@@ -51,11 +64,26 @@ const Tours = () => {
     }));
   };
 
+  const handleSearch = (params) => {
+    const filteredResults = tourData.filter(tour => {
+      const matchesKeyword = tour.title.toLowerCase().includes(params.keyword.toLowerCase());
+      const matchesCountry = !params.country || tour.country === params.country;
+      const matchesCity = !params.city || tour.city === params.city;
+      const matchesMinPrice = !params.minPrice || tour.price >= parseInt(params.minPrice);
+      const matchesMaxPrice = !params.maxPrice || tour.price <= parseInt(params.maxPrice);
+      const matchesDuration = params.duration === 'any' || tour.duration === parseInt(params.duration);
+      const matchesGroupSize = params.groupSize === 'any' || tour.maxGroupSize >= parseInt(params.groupSize);
+
+      return matchesKeyword && matchesCountry && matchesCity && matchesMinPrice && matchesMaxPrice && matchesDuration && matchesGroupSize;
+    });
+    
+    setSearchResults(filteredResults);
+    setHasSubmitted(true);
+  };
+  
   const handleSubmit = (e) => {
     e.preventDefault();
-    const filteredResults = filterTours();
-    setSearchResults(filteredResults);
-    setHasSearched(true);
+    handleSearch(searchParams);
   };
 
   return (
@@ -68,13 +96,13 @@ const Tours = () => {
       </div>
 
       {/* Hero Section with Search */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className="bg-blue-900 text-white py-8 lg:py-16 mt-14 lg:mt-0"
       >
         <div className="container mx-auto px-4">
-          <motion.h1 
+          <motion.h1
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             className="text-3xl lg:text-4xl font-bold text-center mb-6 lg:mb-8 mt-5 lg:mt-7"
@@ -85,6 +113,7 @@ const Tours = () => {
           <TourSearchCard
             searchParams={searchParams}
             onSearchChange={handleSearchChange}
+            onSearch={handleSearch}
             countries={countries}
             cities={cities}
             onSubmit={handleSubmit}
@@ -92,8 +121,8 @@ const Tours = () => {
         </div>
       </motion.div>
 
-      {/* Results Section - Only show if search has been performed */}
-      {hasSearched && (
+      {/* Results Section */}
+      {hasSubmitted && (
         <div className="container mx-auto px-4 py-8">
           {/* Mobile View Toggle */}
           <div className="lg:hidden flex justify-between items-center mb-4">
@@ -115,12 +144,7 @@ const Tours = () => {
           </div>
 
           {/* Tours Grid/List */}
-          <div className={`
-            ${activeView === 'grid' 
-              ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6'
-              : 'flex flex-col space-y-4'
-            }
-          `}>
+          <div className={`${activeView === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6' : 'flex flex-col space-y-4'}`}>
             {searchResults.map(tour => (
               <motion.div
                 key={tour.id}
@@ -145,20 +169,6 @@ const Tours = () => {
               <p className="text-gray-500 mt-2">Try adjusting your search filters.</p>
             </motion.div>
           )}
-        </div>
-      )}
-
-      {/* Show initial message when no search has been performed */}
-      {!hasSearched && (
-        <div className="container mx-auto px-4 py-8">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center py-8"
-          >
-            <p className="text-xl text-gray-600">Start your search to discover available tours.</p>
-            <p className="text-gray-500 mt-2">Use the search filters above to find your perfect tour.</p>
-          </motion.div>
         </div>
       )}
 
