@@ -5,13 +5,24 @@ import { motion } from 'framer-motion';
 import '../styles/register.css';
 
 const Register = () => {
+  const genderOptions = [
+    { value: 'male', label: 'Male' },
+    { value: 'female', label: 'Female' },
+    { value: 'attackhelicopter', label: 'Attack Helicopter' },
+    { value: 'binh', label: 'Binh' },
+    { value: 'an', label: 'An' },
+    // Add more genders here C:
+  ];
+
   const [formData, setFormData] = useState({
     name: '',
+    gender: '',
     email: '',
     password: '',
     confirmPassword: '',
     phone: '',
   });
+
   const [isVisible, setIsVisible] = useState(false);
   const navigate = useNavigate();
 
@@ -30,10 +41,10 @@ const Register = () => {
   };
 
   return (
-    <motion.section 
-      className='register__background' 
-      initial={{ scale: 1.05 }} 
-      animate={{ scale: 1 }} 
+    <motion.section
+      className='register__background'
+      initial={{ scale: 1.05 }}
+      animate={{ scale: 1 }}
       transition={{ duration: 0.1 }}
     >
       <Container>
@@ -43,7 +54,7 @@ const Register = () => {
               className={`register__container ${isVisible ? 'active' : ''}`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }} 
+              transition={{ duration: 0.8 }}
             >
               <div className="register__form">
                 <div className='register__title'>
@@ -56,6 +67,22 @@ const Register = () => {
                     <FormGroup className='name__box'>
                       <i className='bx bxs-user'></i>
                       <input type="text" placeholder="Name" required id="name" onChange={handleChange} />
+                    </FormGroup>
+                    <FormGroup className='gender__box'>
+                      <i className='bx bx-male-female'></i>
+                      <select
+                        id="gender"
+                        onChange={handleChange}
+                        required
+                        value={formData.gender}
+                      >
+                        <option value="">Select Gender</option>
+                        {genderOptions.map(gender => (
+                          <option key={gender.value} value={gender.value}>
+                            {gender.label}
+                          </option>
+                        ))}
+                      </select>
                     </FormGroup>
                     <FormGroup className='email__box'>
                       <i className='bx bxs-envelope'></i>
