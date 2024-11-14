@@ -5,8 +5,8 @@ import { Container, Row, Col, Form, FormGroup, Button } from "reactstrap";
 import { Link } from 'react-router-dom';
 import '../styles/login.css';
 
-import loginImg from '../images/image.png';
-import userIcon from '../images/trueuser.png';
+// import loginImg from '../images/image.png';
+// import userIcon from '../images/trueuser.png';
 
 const Login = () => {
 
