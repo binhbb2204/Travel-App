@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Travel-App/static/css/main.01e6901c.css",
-    "main.js": "/Travel-App/static/js/main.cdde2255.js",
+    "main.js": "/Travel-App/static/js/main.6867a3bb.js",
     "static/media/home-bg-final_2.mp4": "/Travel-App/static/media/home-bg-final_2.a3d92ad55ac741ab2136.mp4",
     "static/media/bg6.png": "/Travel-App/static/media/bg6.90a037b4b26757369600.png",
     "static/media/bg3.png": "/Travel-App/static/media/bg3.487c1970a526b5b88038.png",
@@ -53,10 +53,10 @@
     "static/media/slick.woff": "/Travel-App/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/Travel-App/index.html",
     "main.01e6901c.css.map": "/Travel-App/static/css/main.01e6901c.css.map",
-    "main.cdde2255.js.map": "/Travel-App/static/js/main.cdde2255.js.map"
+    "main.6867a3bb.js.map": "/Travel-App/static/js/main.6867a3bb.js.map"
   },
   "entrypoints": [
     "static/css/main.01e6901c.css",
-    "static/js/main.cdde2255.js"
+    "static/js/main.6867a3bb.js"
   ]
 }
