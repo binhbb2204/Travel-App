@@ -1,5 +1,19 @@
+@keyframes backgroundChange {
+    0% { background-image: url('/src/images/bg6.png'); }
+    10% { background-image: url('/src/images/bg1.png'); }
+    20% { background-image: url('/src/images/bg2.png'); }
+    30% { background-image: url('/src/images/bg9.png'); }
+    40% { background-image: url('/src/images/bg3.png'); }
+    50% { background-image: url('/src/images/bg8.png'); }
+    60% { background-image: url('/src/images/easterEgg.png'); }
+    70% { background-image: url('/src/images/bg4.png'); }
+    80% { background-image: url('/src/images/bg7.jpg'); }
+    90% { background-image: url('/src/images/bg5.png'); }
+    100% { background-image: url('/src/images/bg6.png'); }
+} 
+
 .login__background {
-    background-image: url('/src/images/honolulu.jpg');
+    background-image: url('/src/images/bg7.jpg');
     background-size: cover;
     background-position: center;
     display: flex;
@@ -7,9 +21,12 @@
     align-items: center;
     align-content: center;
     flex-direction: column;
-    transform: scale(1.05);
-    transition: transform 1s ease;
+    /* transform: scale(1.05);
+    transition: transform 1s ease; */
     min-height: 100vh;
+    background-repeat: no-repeat;
+    animation: backgroundChange 33s infinite ease-in-out;
+    transition: opscity 1s ease;
 }
 
 .login__background.active{
@@ -57,10 +74,10 @@
     text-shadow:
     /* 0 0 5px #fff,
     0 0 1px #fff, */
-    0 0 1px #0066ff,
     0 0 5px #0066ff,
-    0 0 50px #0033cc,
-    0 0 50px #0033cc;
+    0 0 50px #0066ff,
+    0 0 500px #0033cc,
+    0 0 500px #0033cc;
 }
 
 /* .TAB__element {
