@@ -3,6 +3,7 @@ import { Container, Row, Button } from 'reactstrap';
 import { NavLink, Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import logo from '../images/TAB.gif';
+import { motion } from 'framer-motion';
 import './header.css'
 
 const nav_links = [
@@ -72,7 +73,7 @@ const Header = () => {
             </div>
 
             {/* Auth Buttons */}
-            <div className="nav__right d-flex align-items-center gap-4">
+            {/* <div className={`nav__right d-flex align-items-center gap-4 ${isMobileMenuOpen ? 'logreg__menu' : ''}`}>
               <div className="nav__btns d-flex align-items-center gap-4">
                 <Button className="custom-gradient-login-btn md:bg-white">
                   <Link to='/login' className="no-underline">Login</Link>
@@ -81,9 +82,38 @@ const Header = () => {
                   <Link to='/register' className="text-white no-underline">Register</Link>
                 </Button>
               </div>
-              
-              {/* Mobile Menu Button */}
-              <button 
+            </div> */}
+
+            <div className={`nav__right d-flex align-items-center gap-4`}>
+              {/* Conditionally display the buttons or menu based on isMobileMenuOpen */}
+              {isMobileMenuOpen ? (
+                <motion.div
+                  className="logreg__menu"
+                  initial={{ x: '-100%', opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ duration: 0.3, ease: 'easeOut' }}
+                >
+                  <Button className="custom-gradient-login-btn md:bg-white">
+                    <Link to='/login' className="no-underline">Login</Link>
+                  </Button>
+                  <Button className="custom-gradient-btn">
+                    <Link to='/register' className="text-white no-underline">Register</Link>
+                  </Button>
+                </motion.div>
+              ) : (
+                <div className="nav__btns d-flex align-items-center gap-4">
+                  <Button className="custom-gradient-login-btn md:bg-white">
+                    <Link to='/login' className="no-underline">Login</Link>
+                  </Button>
+                  <Button className="custom-gradient-btn">
+                    <Link to='/register' className="text-white no-underline">Register</Link>
+                  </Button>
+                </div>
+              )}
+            </div>
+            
+            {/* Mobile Menu Button */}
+            <button 
                 className="mobile_menu block lg:hidden" 
                 onClick={() => setMobileMenuOpen(!isMobileMenuOpen)} 
                 style={{ color: '#000' }}
@@ -95,7 +125,6 @@ const Header = () => {
                     }`} />
                 }
               </button>
-            </div>
           </div>
         </Row>
       </Container>
