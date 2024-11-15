@@ -107,7 +107,7 @@
     .logreg__menu {
         display: flex;
         position: absolute;
-        left: 5%;
+        left: 37px;
         top: 0;
         width: 100%;
         gap: 8px;
