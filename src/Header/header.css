@@ -104,6 +104,21 @@
         padding: 8px 0;
     }
 
+    .logreg__menu {
+        display: flex;
+        position: absolute;
+        left: 37px;
+        top: 0;
+        width: 100%;
+        gap: 8px;
+        margin-top: 10px;
+        z-index: 1000;
+    }
+
+      .nav__btns {
+        display: block;
+      }
+
     .nav__item a{
         display: block;
         font-size: 1.1rem;
