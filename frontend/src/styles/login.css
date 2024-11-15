@@ -25,8 +25,8 @@
     transition: transform 1s ease; */
     min-height: 100vh;
     background-repeat: no-repeat;
-    animation: backgroundChange 33s infinite ease-in-out;
-    transition: opscity 1s ease;
+    animation: backgroundChange 30s infinite ease-in-out;
+    /* transition: opscity 1s ease; */
 }
 
 .login__background.active{
@@ -130,11 +130,7 @@
     caret-color: black;
     color: black;
     font-weight: 500;
-    transition: 0.25s;
-}
-
-.login__input input:focus{
-    border: solid 3px rgb(255, 255, 255, 0.25);
+    /* transition: 0.25s; */
 }
 
 .login__input input::placeholder{
