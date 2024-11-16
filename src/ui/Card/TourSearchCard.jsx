@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
 import { Car, ChevronDown, ChevronUp, Search, X } from 'lucide-react'
 import { Card, CardContent } from './Card'
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
 import { LocationFilters,  PriceFilter, TourDetailsFilters } from '../Featured-tours/ToursPageSearchComponent';
 
 
 
 const TourSearchCard = ({searchParams, onSearchChange, countries, cities, onSubmit}) => {
-
     const handleClearSearch = () => {
         onSearchChange({ target: { name: 'keyword', value: '' } });
     };
@@ -17,7 +16,15 @@ const TourSearchCard = ({searchParams, onSearchChange, countries, cities, onSubm
         onSubmit(e);
     };
     
-    const [isFilterOpen, setIsFilterOpen] = useState(false)
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
+    const y = useMotionValue(0);
+    const opacity = useTransform(y, [0, 200], [0.5, 0]);
+
+    const handleDragEnd = (event, info) => {
+        if(info.offset.y > 100){
+            setIsFilterOpen(false);
+        }
+    }
     return (
         <div className="w-full">
             {/* Mobile Search */}
@@ -100,19 +107,30 @@ const TourSearchCard = ({searchParams, onSearchChange, countries, cities, onSubm
                     className="lg:hidden fixed inset-0 z-50 bg-gray-900/50 flex items-end"
                 >
                     <motion.div
+                    drag="y"
+                    dragConstraints={{ top: 0 }}
+                    onDragEnd={handleDragEnd}
+                    style={{ y }}
                     initial={{ y: "100%" }}
                     animate={{ y: 0 }}
                     exit={{ y: "100%" }}
+                    transition={{ type: "spring", damping: 25, stiffness: 200 }}
                     className="w-full bg-white rounded-t-xl p-4 max-h-[90vh] overflow-y-auto"
-                    >
-                        <div className="flex justify-between items-center mb-4">
-                            <h3 className="text-lg font-semibold">Filters</h3>
-                            <button
-                            onClick={() => setIsFilterOpen(false)}
-                            className="p-2 hover:bg-gray-100 rounded-full"
-                            >
-                                <X size={20} />
-                            </button>
+                    >   
+                        {/* Drag Handle */}
+                        <div className="w-full h-6 flex items-center justify-center cursor-grab active:cursor-grabbing">
+                            <div className="w-10 h-1 bg-gray-300 rounded-full" />
+                        </div>
+                        <div className="p-4">
+                            <div className="flex justify-between items-center mb-4">
+                                <h3 className="text-lg font-semibold">Filters</h3>
+                                <button
+                                onClick={() => setIsFilterOpen(false)}
+                                className="p-2 hover:bg-gray-100 rounded-full"
+                                >
+                                    <X size={20} />
+                                </button>
+                            </div>
                         </div>
                         <form onSubmit={(e) => {
                         e.preventDefault();

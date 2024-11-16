@@ -119,10 +119,8 @@ const Header = () => {
                 style={{ color: '#000' }}
               >
                 {isMobileMenuOpen ? 
-                    <X className={`w-6 h-6 ${isScrolled ? 'text-gray-700' : 'text-white'}`}/> 
-                    : <Menu className={`w-6 h-6 ${
-                      isScrolled ? 'text-gray-700' : 'text-white'
-                    }`} />
+                    <X className={'w-6 h-6 text-gray-700'}/> 
+                    : <Menu className={'w-6 h-6 text-gray-700'} />
                 }
               </button>
           </div>
