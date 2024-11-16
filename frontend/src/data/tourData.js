@@ -1,5 +1,5 @@
 export const tourData = [
-    {
+  {
       id: 1,
       title: "Historical City Tour",
       country: "Italy",
@@ -8,16 +8,10 @@ export const tourData = [
       price: 99,
       duration: 3,
       featured: true,
-      reviews: [
-        { rating: 5 },
-        { rating: 4 },
-        { rating: 5 },
-        { rating: 4 },
-        { rating: 5 }
-      ],
+      reviews: [{ rating: 5 }, { rating: 4 }, { rating: 5 }, { rating: 4 }, { rating: 5 }],
       maxGroupSize: 8
-    },
-    {
+  },
+  {
       id: 2,
       title: "Cultural Experience",
       country: "France",
@@ -26,16 +20,10 @@ export const tourData = [
       price: 129,
       duration: 2,
       featured: false,
-      reviews: [
-        { rating: 5 },
-        { rating: 5 },
-        { rating: 4 },
-        { rating: 5 },
-        { rating: 4 }
-      ],
+      reviews: [{ rating: 5 }, { rating: 5 }, { rating: 4 }, { rating: 5 }, { rating: 4 }],
       maxGroupSize: 6
-    },
-    {
+  },
+  {
       id: 3,
       title: "Coastal Hike",
       country: "Greece",
@@ -44,16 +32,10 @@ export const tourData = [
       price: 149,
       duration: 4,
       featured: true,
-      reviews: [
-        { rating: 4 },
-        { rating: 4 },
-        { rating: 5 },
-        { rating: 5 },
-        { rating: 4 }
-      ],
+      reviews: [{ rating: 4 }, { rating: 4 }, { rating: 5 }, { rating: 5 }, { rating: 4 }],
       maxGroupSize: 10
-    },
-    {
+  },
+  {
       id: 4,
       title: "Foodie Adventure",
       country: "Spain",
@@ -62,16 +44,10 @@ export const tourData = [
       price: 199,
       duration: 3,
       featured: false,
-      reviews: [
-        { rating: 5 },
-        { rating: 4 },
-        { rating: 5 },
-        { rating: 4 },
-        { rating: 5 }
-      ],
+      reviews: [{ rating: 5 }, { rating: 4 }, { rating: 5 }, { rating: 4 }, { rating: 5 }],
       maxGroupSize: 8
-    },
-    {
+  },
+  {
       id: 5,
       title: "Baroque Architecture Tour",
       country: "Italy",
@@ -80,15 +56,249 @@ export const tourData = [
       price: 89,
       duration: 2,
       featured: true,
-      reviews: [
-        { rating: 4 },
-        { rating: 5 },
-        { rating: 4 },
-        { rating: 5 },
-        { rating: 4 }
-      ],
+      reviews: [{ rating: 4 }, { rating: 5 }, { rating: 4 }, { rating: 5 }, { rating: 4 }],
       maxGroupSize: 12
-    }
-  ];
+  },
+  {
+      id: 6,
+      title: "Desert Safari",
+      country: "UAE",
+      city: "Dubai",
+      photo: "/api/placeholder/400/300",
+      price: 120,
+      duration: 1,
+      featured: true,
+      reviews: [{ rating: 5 }, { rating: 4 }, { rating: 5 }, { rating: 5 }, { rating: 4 }],
+      maxGroupSize: 15
+  },
+  {
+      id: 7,
+      title: "Mountain Trek",
+      country: "Nepal",
+      city: "Kathmandu",
+      photo: "/api/placeholder/400/300",
+      price: 250,
+      duration: 5,
+      featured: true,
+      reviews: [{ rating: 5 }, { rating: 5 }, { rating: 4 }, { rating: 5 }, { rating: 5 }],
+      maxGroupSize: 8
+  },
+  {
+      id: 8,
+      title: "Safari Wildlife Tour",
+      country: "South Africa",
+      city: "Kruger National Park",
+      photo: "/api/placeholder/400/300",
+      price: 300,
+      duration: 4,
+      featured: false,
+      reviews: [{ rating: 4 }, { rating: 4 }, { rating: 5 }, { rating: 5 }, { rating: 5 }],
+      maxGroupSize: 10
+  },
+  {
+      id: 9,
+      title: "Ski Adventure",
+      country: "Switzerland",
+      city: "Zermatt",
+      photo: "/api/placeholder/400/300",
+      price: 350,
+      duration: 3,
+      featured: true,
+      reviews: [{ rating: 5 }, { rating: 5 }, { rating: 5 }, { rating: 4 }, { rating: 4 }],
+      maxGroupSize: 12
+  },
+  {
+      id: 10,
+      title: "Tropical Island Tour",
+      country: "Thailand",
+      city: "Phuket",
+      photo: "/api/placeholder/400/300",
+      price: 180,
+      duration: 2,
+      featured: false,
+      reviews: [{ rating: 4 }, { rating: 4 }, { rating: 5 }, { rating: 4 }, { rating: 5 }],
+      maxGroupSize: 15
+  },
+  {
+      id: 11,
+      title: "Northern Lights Experience",
+      country: "Iceland",
+      city: "Reykjavik",
+      photo: "/api/placeholder/400/300",
+      price: 220,
+      duration: 1,
+      featured: true,
+      reviews: [{ rating: 5 }, { rating: 5 }, { rating: 4 }, { rating: 5 }, { rating: 5 }],
+      maxGroupSize: 20
+  },
+  {
+      id: 12,
+      title: "Wine Tasting Tour",
+      country: "France",
+      city: "Bordeaux",
+      photo: "/api/placeholder/400/300",
+      price: 110,
+      duration: 1,
+      featured: false,
+      reviews: [{ rating: 4 }, { rating: 5 }, { rating: 5 }, { rating: 5 }, { rating: 4 }],
+      maxGroupSize: 10
+  },
+  {
+      id: 13,
+      title: "Historical Temples Visit",
+      country: "Japan",
+      city: "Kyoto",
+      photo: "/api/placeholder/400/300",
+      price: 140,
+      duration: 2,
+      featured: true,
+      reviews: [{ rating: 5 }, { rating: 5 }, { rating: 5 }, { rating: 4 }, { rating: 4 }],
+      maxGroupSize: 8
+  },
+  {
+      id: 14,
+      title: "Rainforest Expedition",
+      country: "Brazil",
+      city: "Manaus",
+      photo: "/api/placeholder/400/300",
+      price: 270,
+      duration: 3,
+      featured: false,
+      reviews: [{ rating: 4 }, { rating: 4 }, { rating: 5 }, { rating: 5 }, { rating: 5 }],
+      maxGroupSize: 12
+  },
+  {
+      id: 15,
+      title: "Culinary Journey",
+      country: "Italy",
+      city: "Florence",
+      photo: "/api/placeholder/400/300",
+      price: 180,
+      duration: 1,
+      featured: false,
+      reviews: [{ rating: 5 }, { rating: 5 }, { rating: 4 }, { rating: 4 }, { rating: 5 }],
+      maxGroupSize: 6
+  },
+  {
+      id: 16,
+      title: "Hot Air Balloon Ride",
+      country: "Turkey",
+      city: "Cappadocia",
+      photo: "/api/placeholder/400/300",
+      price: 210,
+      duration: 1,
+      featured: true,
+      reviews: [{ rating: 5 }, { rating: 5 }, { rating: 5 }, { rating: 5 }, { rating: 4 }],
+      maxGroupSize: 10
+  },
+  {
+      id: 17,
+      title: "Art and History Walk",
+      country: "Netherlands",
+      city: "Amsterdam",
+      photo: "/api/placeholder/400/300",
+      price: 150,
+      duration: 2,
+      featured: false,
+      reviews: [{ rating: 4 }, { rating: 4 }, { rating: 5 }, { rating: 5 }, { rating: 4 }],
+      maxGroupSize: 15
+  },
+  {
+      id: 18,
+      title: "Forest Retreat",
+      country: "Canada",
+      city: "Vancouver",
+      photo: "/api/placeholder/400/300",
+      price: 160,
+      duration: 2,
+      featured: true,
+      reviews: [{ rating: 5 }, { rating: 5 }, { rating: 5 }, { rating: 4 }, { rating: 4 }],
+      maxGroupSize: 10
+  },
+  {
+      id: 19,
+      title: "Scenic Train Tour",
+      country: "Switzerland",
+      city: "Lucerne",
+      photo: "/api/placeholder/400/300",
+      price: 300,
+      duration: 3,
+      featured: false,
+      reviews: [{ rating: 5 }, { rating: 4 }, { rating: 4 }, { rating: 5 }, { rating: 5 }],
+      maxGroupSize: 20
+  },
+  {
+      id: 20,
+      title: "River Cruise",
+      country: "Germany",
+      city: "Cologne",
+      photo: "/api/placeholder/400/300",
+      price: 130,
+      duration: 2,
+      featured: true,
+      reviews: [{ rating: 4 }, { rating: 5 }, { rating: 5 }, { rating: 4 }, { rating: 4 }],
+      maxGroupSize: 25
+  },
+  {
+      id: 21,
+      title: "Local Markets Tour",
+      country: "Morocco",
+      city: "Marrakech",
+      photo: "/api/placeholder/400/300",
+      price: 90,
+      duration: 1,
+      featured: false,
+      reviews: [{ rating: 4 }, { rating: 5 }, { rating: 5 }, { rating: 4 }, { rating: 5 }],
+      maxGroupSize: 12
+  },
+  {
+      id: 22,
+      title: "Wine and Cheese Tasting",
+      country: "Spain",
+      city: "Madrid",
+      photo: "/api/placeholder/400/300",
+      price: 100,
+      duration: 1,
+      featured: true,
+      reviews: [{ rating: 5 }, { rating: 4 }, { rating: 5 }, { rating: 5 }, { rating: 4 }],
+      maxGroupSize: 8
+  },
+  {
+      id: 23,
+      title: "Volcano Exploration",
+      country: "Indonesia",
+      city: "Bali",
+      photo: "/api/placeholder/400/300",
+      price: 210,
+      duration: 2,
+      featured: false,
+      reviews: [{ rating: 5 }, { rating: 5 }, { rating: 4 }, { rating: 4 }, { rating: 4 }],
+      maxGroupSize: 10
+  },
+  {
+      id: 24,
+      title: "Medieval Castles Tour",
+      country: "Czech Republic",
+      city: "Prague",
+      photo: "/api/placeholder/400/300",
+      price: 170,
+      duration: 2,
+      featured: true,
+      reviews: [{ rating: 5 }, { rating: 4 }, { rating: 5 }, { rating: 5 }, { rating: 4 }],
+      maxGroupSize: 15
+  },
+  {
+      id: 25,
+      title: "City Bike Tour",
+      country: "Denmark",
+      city: "Copenhagen",
+      photo: "https://via.placeholder.com/400x300",
+      price: 80,
+      duration: 1,
+      featured: false,
+      reviews: [{ rating: 4 }, { rating: 4 }, { rating: 5 }, { rating: 5 }, { rating: 5 }],
+      maxGroupSize: 12
+  }
+];
 
 export default tourData;
