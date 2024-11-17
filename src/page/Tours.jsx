@@ -4,7 +4,7 @@ import TourSearchCard from '../ui/Card/TourSearchCard';
 import TourCard from '../ui/Card/TourCard';
 import tourData from '../data/tourData';
 import Pagination from '../ui/Pagination/Pagination';
-
+import '../styles/tours.css'
 const Tours = () => {
   // Initialize state
   const [searchParams, setSearchParams] = useState({
@@ -105,7 +105,7 @@ const Tours = () => {
       <motion.div 
         initial={{ opacity: 0 }} 
         animate={{ opacity: 1 }} 
-        className="bg-blue-900 text-white py-8 lg:py-16 mt-14 lg:mt-0"
+        className="search__background text-white py-8 lg:py-16 mt-14 lg:mt-0"
       >
         <div className="container mx-auto px-4">
           <motion.h1 

@@ -29,15 +29,19 @@
     transition: box-shadow 0.3s;
 }
 
+
 .card:hover {
     box-shadow: rgba(0, 0, 0, 0.3) 0px 20px 60px -12px;
 }
-
+.city{
+    
+}
 .card-title {
     height: 4rem; 
     font-size: 1.125rem;
     font-weight: 600;
     display: -webkit-box;
+    padding-top: 0.5rem;
     -webkit-line-clamp: 3; 
     -webkit-box-orient: vertical;
     overflow: hidden;

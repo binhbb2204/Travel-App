@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import './tour-card.css'; // Import the CSS
 import calculateAvgRating from '../../utils/avgRating';
 const TourCard = ({ tour }) => {
-  const {id, title, city, photo, price, featured, reviews, maxGroupSize = 8 } = tour;
+  const {id, title, city, photo, price, featured, reviews} = tour;
   const {totalRating, avgRating} = calculateAvgRating(reviews)
   return (
     <motion.div
@@ -31,7 +31,7 @@ const TourCard = ({ tour }) => {
           <div className="flex justify-between items-center mb-3">
             <div className="flex items-center space-x-1 text-gray-600">
               <MapPin className="w-4 h-4 text-blue-500" />
-              <span className="text-sm">{city}</span>
+              <span className="text-sm h-5">{city}</span>
             </div>
             <div className="flex items-center space-x-1">
               <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
