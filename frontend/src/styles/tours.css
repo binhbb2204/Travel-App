@@ -1,0 +1,8 @@
+.search__background{
+    background-image: url('/src/images/bg7.jpg');
+    background-size: cover;
+    background-position: center center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
