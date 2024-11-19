@@ -378,7 +378,9 @@ const CommentSection = () => {
             {/* This will show emoji option like Fb */}
             {showEmojiPicker && (
                     <div className="absolute right-0 z-50 mt-2">
-                        <EmojiPicker onEmojiClick={onEmojiClick} />
+                        <EmojiPicker
+                            onEmojiClick={(emojiObject) => onEmojiClick(emojiObject, false)}
+                        />
                     </div>
             )}
 
