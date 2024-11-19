@@ -2,9 +2,15 @@
 import React from 'react';
 
 // Avatar component for displaying a user's avatar
-export const Avatar = ({ children, className = '' }) => (
-  <div className={`flex items-center justify-center rounded-full overflow-hidden ${className}`}>
-    {children}
+export const Avatar = ({ src, fallback, className = '' }) => (
+  <div className={`w-8 h-8 rounded-full overflow-hidden bg-gray-200 ${className}`}>
+    {src ? (
+      <img src={src} alt={fallback} className="w-full h-full object-cover" />
+    ) : (
+      <div className="w-full h-full flex items-center justify-center bg-blue-500 text-white">
+        {fallback}
+      </div>
+    )}
   </div>
 );
 
