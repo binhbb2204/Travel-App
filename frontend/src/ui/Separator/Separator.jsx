@@ -2,7 +2,8 @@
 import React from 'react';
 
 // Separator component for rendering a horizontal or vertical line
-export const Separator = ({ orientation = 'horizontal', className = '' }) => {
-  const styles = orientation === 'vertical' ? 'border-l' : 'border-b';
-  return <div className={`${styles} ${className} border-gray-300`} />;
-};
+export const Separator = ({ orientation = 'horizontal', className = '' }) => (
+  <div 
+    className={`${orientation === 'vertical' ? 'h-full w-px' : 'h-px w-full'} ${className}`}
+  />
+);

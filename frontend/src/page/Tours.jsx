@@ -86,7 +86,7 @@ const Tours = () => {
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
-    window.scrollTo(0, 400); // Scroll to top when changing pages
+    window.scrollTo(0, 300); // Scroll to top when changing pages
   };
 
   // Calculate total pages
