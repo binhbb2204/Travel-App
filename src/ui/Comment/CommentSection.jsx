@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ThumbsUp, MessageCircle, Send, X, Trash2, Star, Heart, Smile, Frown, Meh, SmilePlusIcon } from 'lucide-react';
 import EmojiPicker from 'emoji-picker-react';
 import './comment-section.css'
@@ -108,13 +108,15 @@ const CommentSection = () => {
         if (!finalReplyContent && replyingToUser) {
         finalReplyContent = " ";
         }
-
+        
+        const hasMention = finalReplyContent.startsWith(`@${replyingToUser}`);
+        
         if (!finalReplyContent) return;
         const reply = {
             id: Date.now(),
             user: "Current User",
             content: finalReplyContent,
-            replyingTo: replyingToUser,
+            replyingTo:  hasMention ? replyingToUser : null,
             likes: 0,
             hasLiked: false,
             timestamp: new Date().toLocaleString(),
@@ -145,6 +147,27 @@ const CommentSection = () => {
         setReplyingToUser(null);
         setReplyContent("");
     };
+    const handleInputChange = (e) => {
+        setReplyContent(e.target.value);
+    };
+
+    const handgleReplyKeyDown = (e) => {
+        if(e.key === 'Backspace' && 
+            replyingToUser && 
+            replyContent === `@${replyingToUser}` && 
+            e.target.selectionStart === e.target.selectionEnd){
+            
+            e.preventDefault();
+            setReplyingToUser(null);
+            setReplyContent('');
+        }
+    }
+    useEffect(() => {
+        // Set initial value when replyingToUser changes
+        if (replyingToUser) {
+          setReplyContent(`@${replyingToUser}`);
+        }
+    }, [replyingToUser]);
 
     const DeleteDialog = () => (
         showDeleteDialog && (
@@ -198,12 +221,16 @@ const CommentSection = () => {
                             )}
                         </div>
                         <p className="text-sm mt-1 flex items-center space-x-1">
-                            {comment.replyingTo && (
-                                <span className="font-semibold text-blue-600 mr-1 inline">
-                                    {comment.replyingTo}
+                            {comment.replyingTo ? (
+                                <span>
+                                    <span className="font-semibold text-blue-600">@{comment.replyingTo}</span>
+                                    {' '}
+                                    {comment.content.replace(`@${comment.replyingTo}`, '').trim()}
                                 </span>
+                            ): (
+                                <span>{comment.content}</span>
                             )}
-                            <span>{comment.content}</span>
+                            
                         </p>
                     </div>
                     <div className="flex items-center gap-3 mt-1 text-xs">
@@ -251,31 +278,19 @@ const CommentSection = () => {
                             </div>
                             <div className="flex-grow flex gap-2">
                                 <div className="flex-grow relative">
-                                    {replyingToUser && (
-                                        <div className="absolute left-3 top-1/2 -translate-y-1/2 
-                                                        flex items-center gap-1 
-                                                        bg-blue-100 
-                                                        text-blue-600 
-                                                        px-2 py-1 rounded-full">
-                                            <span className="font-semibold text-sm">@{replyingToUser}</span>
-                                            <button
-                                            onClick={() => setReplyingToUser(null)}
-                                            className="text-blue-600 hover:text-blue-800"
-                                            >
-                                                <X className="w-4 h-4" />
-                                            </button>
-                                        </div>
-                                    )}
+                                    
                                     <input
                                         type="text"
                                         value={replyContent}
-                                        onChange={(e) => setReplyContent(e.target.value)}
+                                        onChange={handleInputChange}
+                                        onKeyDown={handgleReplyKeyDown}
                                         placeholder="Write a reply..."
-                                        className="w-full px-3 py-1 
-                                                bg-gray-100 rounded-full text-sm 
-                                                focus:outline-none 
-                                                focus:ring-2 
-                                                focus:ring-blue-500 pl-16"
+                                        className={`w-full px-3 py-1 bg-gray-100 rounded-full text-sm 
+                                            focus:outline-none focus:ring-2 focus:ring-blue-500
+                                            ${replyingToUser ? 'pl-[calc(3rem+var(--username-width))]' : 'pl-16'}`}
+                                        style={{
+                                            '--username-width': replyingToUser ? `${replyingToUser.length * 0.7}rem` : '0rem'
+                                        }}
                                         autoFocus
                                     />
                                     <div className="absolute right-7 top-1/2 -translate-y-1/2">
