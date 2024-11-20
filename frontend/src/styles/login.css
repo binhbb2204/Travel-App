@@ -208,3 +208,13 @@
 .create__link:hover{
     text-decoration: underline;
 }
+
+@media (max-width: 480px) {
+    .login__container{
+        width: 100%;
+        padding: 12px;
+    }
+    .remember-forgot__box{
+        gap: 20px;
+    }
+}

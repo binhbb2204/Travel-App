@@ -9,6 +9,9 @@ import Login from '../page/Login'
 import Register from '../page/Register'
 import Location from '../page/Location'
 import AddTourForm from '../ui/Adder/AddTourForm'
+import Accommodations from '../page/Accommodations'
+import Transportations from '../page/Transportations'
+
 const Routers = () => {
   const handleAddTour = async (formData) => {
     try {
@@ -46,6 +49,8 @@ const Routers = () => {
       <Route path='/tours/search' element={<SearchResultList />} />
       <Route path='/exotic_tours' element={<Location />} />
       <Route path='/add-tour' element={<AddTourForm onSubmit={handleAddTour} />} />
+      <Route path='/accommodations' element={<Accommodations />} />
+      <Route path='/transportations' element={<Transportations />} />
 
     </Routes>
   )
