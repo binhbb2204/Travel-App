@@ -7,6 +7,7 @@ import ImageCarousel from '../ui/ImageCarousel/ImageCarousel';
 import calculateAvgRating from '../utils/avgRating';
 import '../styles/tour-details.css'
 import CommentSection from '../ui/Comment/CommentSection';
+import Booking from '../Booking/Booking';
 const TourDetails = () => {
   const {id} = useParams();
 
@@ -101,14 +102,16 @@ const TourDetails = () => {
                   </div>
 
                   {/* Reviews Preview */}
-                  {reviews && <CommentSection />}
+                  {reviews && <CommentSection tourId={id}/>}
                 </div>
               </div>
             </div>  
           </Col>
 
           <Col lg='4'>
-          
+            <div className="booking-wrapper">
+              <Booking tour={tour} avgRating={avgRating} />
+            </div>
           </Col>
         </Row>
       </section>

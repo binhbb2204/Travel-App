@@ -216,25 +216,15 @@
 }
 
 @media (max-width: 480px) {
-    .hero__content h1 {
-        font-size: 2rem;
+    .register__container{
+        width: 100%;
     }
-    .hero__img-box img, .hero__img-box video {
-        height: 200px;
-    }
-    .hero__content {
-        padding-top: 2rem;
-    }
-
-    .custom-heading {
-        font-size: 1.55rem;
-        font-weight: 730;
-        line-height: 0.95;
-        margin-bottom: 1rem;
-        color: #2d3748;
-    }
-    .primary__btn1 {
-        font-size: 0.9rem;
-        padding: 0.5rem 1rem;
+    /* .register__title h2{
+        margin-top: 20px;
+    } */
+    .register__title{
+        display: flex;
+        align-items: center;
+        padding-bottom: 20px;
     }
 }

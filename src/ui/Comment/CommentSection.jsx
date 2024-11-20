@@ -11,7 +11,7 @@ const ReactionIcons = {
     sad: Frown,
 };
 
-const CommentSection = () => {
+const CommentSection = ({ tourId }) => {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
     const [rating, setRating] = useState(0);
@@ -22,11 +22,17 @@ const CommentSection = () => {
     const [replyingToUser, setReplyingToUser] = useState(null);
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const [showReplyEmojiPicker, setShowReplyEmojiPicker] = useState(false);
+    useEffect(() => {
+        // fetch comments for this specific tour
+        // For now, just reset comments when tourId changes
+        setComments([]);
+    }, [tourId]);
     const addComment = () => {
         if (!newComment.trim()) return;
     
         const comment = {
             id: Date.now(),
+            tourId: tourId,
             user: "Current User",
             content: newComment,
             rating: rating,
@@ -40,6 +46,7 @@ const CommentSection = () => {
         setComments([comment, ...comments]);
         setNewComment("");
         setRating(0);
+        // Here you would typically save the reply to your backend
     };
 
     const onEmojiClick = (emojiObject, isReply = false) => {
@@ -110,11 +117,12 @@ const CommentSection = () => {
         }
         
         const hasMention = finalReplyContent.startsWith(`@${replyingToUser}`);
-        
+
         if (!finalReplyContent) return;
         const reply = {
             id: Date.now(),
             user: "Current User",
+            tourId: tourId,
             content: finalReplyContent,
             replyingTo:  hasMention ? replyingToUser : null,
             likes: 0,
@@ -146,6 +154,8 @@ const CommentSection = () => {
         setReplyingTo(null);
         setReplyingToUser(null);
         setReplyContent("");
+
+        // Here you would typically save the reply to your backend
     };
     const handleInputChange = (e) => {
         setReplyContent(e.target.value);
@@ -173,8 +183,8 @@ const CommentSection = () => {
         showDeleteDialog && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
                 <div className="bg-white rounded-lg p-4 max-w-md w-full mx-4">
-                    <h3 className="text-lg font-semibold mb-2">Delete Comment</h3>
-                    <p className="text-gray-600 mb-4">
+                    <h3 className="text-base md:text-lg font-semibold mb-2">Delete Comment</h3>
+                    <p className="text-sm md:text-base text-gray-600 mb-4">
                         Are you sure you want to delete this comment? This action cannot be undone.
                     </p>
                     <div className="flex justify-end gap-2">
@@ -183,13 +193,13 @@ const CommentSection = () => {
                                 setShowDeleteDialog(false);
                                 setCommentToDelete(null);
                             }}
-                            className="px-4 py-2 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors"
+                            className="px-3 md:px-4 py-1.5 md:py-2 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors"
                         >
                             Cancel
                         </button>
                         <button
                             onClick={deleteComment}
-                            className="px-4 py-2 rounded-md bg-red-500 hover:bg-red-600 text-white transition-colors"
+                            className="px-3 md:px-4 py-1.5 md:py-2 rounded-md bg-red-500 hover:bg-red-600 text-white transition-colors"
                         >
                             Delete
                         </button>
@@ -201,29 +211,39 @@ const CommentSection = () => {
 
 
     const RenderComment = ({ comment, depth = 0 }) => (
-        <div className={`mb-2 ${depth > 0 ? 'ml-12' : ''}`}>
+        <div className={`mb-2 ${depth > 0 ? 'ml-4 md:ml-12' : ''}`}>
             <div className="flex gap-2">
                 <div className="flex-shrink-0">
-                    <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold">
+                    <div className="w-6 h-6 md:w-8 md:h-8 
+                                rounded-full 
+                                bg-blue-600 flex items-center justify-center 
+                                text-white text-xs md:text-base font-bold">
                         {comment.user[0]}
                     </div>
                 </div>
-                <div className="flex-grow">
-                    <div className="bg-gray-100 rounded-2xl px-3 py-2">
-                        <div className="flex items-center justify-between">
-                            <div className="font-semibold text-sm">{comment.user}</div>
-                            {!comment.isReply && comment.rating > 0 && (
-                                <div className="flex">
-                                    {[...Array(comment.rating)].map((_, i) => (
-                                        <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
-                                    ))}
+                <div className="flex-grow min-w-0">
+                    <div className="bg-gray-100 rounded-2xl px-2 md:px-3 py-1.5 md:py-2">
+                        <div className="flex items-center justify-between flex-wrap gap-1">
+                            <div className="font-semibold text-xs md:text-sm">{comment.user}</div>
+                            {!comment.isReply && (
+                                <div className="flex items-center">
+                                    {comment.rating === 0 ? (
+                                        <span className="text-xs md:text-sm text-gray-500">Not Rated</span>
+                                    ):
+                                    (
+                                        <div className="flex">
+                                            {[...Array(comment.rating)].map((_, i) => (
+                                                <Star key={i} className="h-3 w-3 md:h-4 md:w-4 text-yellow-400 fill-current"/>
+                                            ))}
+                                        </div>
+                                    )}
                                 </div>
                             )}
                         </div>
-                        <p className="text-sm mt-1 flex items-center space-x-1">
+                        <p className=" text-xs md:text-sm mt-1 break-words">
                             {comment.replyingTo ? (
                                 <span>
-                                    <span className="font-semibold text-blue-600">@{comment.replyingTo}</span>
+                                    <span className="font-semibold text-blue-600">{comment.replyingTo}</span>
                                     {' '}
                                     {comment.content.replace(`@${comment.replyingTo}`, '').trim()}
                                 </span>
@@ -233,7 +253,7 @@ const CommentSection = () => {
                             
                         </p>
                     </div>
-                    <div className="flex items-center gap-3 mt-1 text-xs">
+                    <div className="flex items-center gap-2 text-[10px] md:text-xs flex-wrap">
                         <button 
                             onClick={() => toggleLike(comment.id)}
                             className={`font-semibold ${comment.hasLiked ? 
@@ -248,10 +268,10 @@ const CommentSection = () => {
                         >
                             Reply
                         </button>
-                        <span className="text-gray-500">{comment.timestamp}</span>
+                        <span className="text-gray-500 text-[10px] md:text-xs">{comment.timestamp}</span>
                         {comment.likes > 0 && (
                             <div className="flex items-center gap-1">
-                                <div className="w-4 h-4 rounded-full bg-blue-600 flex items-center justify-center">
+                                <div className="w-3 h-3 md:w-4 md:h-4 rounded-full bg-blue-600 flex items-center justify-center">
                                     <ThumbsUp className="w-2 h-2 text-white" />
                                 </div>
                                 <span className="text-gray-500">{comment.likes}</span>
@@ -264,19 +284,19 @@ const CommentSection = () => {
                             }}
                             className="text-gray-500 hover:text-red-500"
                         >
-                            <Trash2 className="w-4 h-4" />
+                            <Trash2 className="w-3 h-3 md:w-4 md:h-4" />
                         </button>
                     </div>
 
                     {replyingTo === comment.id && (
                         <div className="mt-2 flex gap-2">
-                            <div className="w-6 h-6 rounded-full 
+                            <div className="w-5 h-5 md:w-6 md:h-6 rounded-full 
                                         bg-blue-600 
                                         flex items-center justify-center 
                                         text-white text-xs font-bold">
                                 C
                             </div>
-                            <div className="flex-grow flex gap-2">
+                            <div className="flex-grow flex gap-2 min-w-0">
                                 <div className="flex-grow relative">
                                     
                                     <input
@@ -285,20 +305,21 @@ const CommentSection = () => {
                                         onChange={handleInputChange}
                                         onKeyDown={handgleReplyKeyDown}
                                         placeholder="Write a reply..."
-                                        className={`w-full px-3 py-1 bg-gray-100 rounded-full text-sm 
-                                            focus:outline-none focus:ring-2 focus:ring-blue-500
-                                            ${replyingToUser ? 'pl-[calc(3rem+var(--username-width))]' : 'pl-16'}`}
-                                        style={{
-                                            '--username-width': replyingToUser ? `${replyingToUser.length * 0.7}rem` : '0rem'
-                                        }}
+                                        className="w-full px-2 md:px-3 py-1 
+                                                bg-gray-100 rounded-full 
+                                                text-xs md:text-sm 
+                                                focus:outline-none focus:ring-2 focus:ring-blue-500"
                                         autoFocus
                                     />
-                                    <div className="absolute right-7 top-1/2 -translate-y-1/2">
+                                    <div className="absolute right-2 top-1/2 -translate-y-1/2">
                                         <button 
-                                        onClick={() => setShowReplyEmojiPicker(!showReplyEmojiPicker)}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setShowReplyEmojiPicker(!showReplyEmojiPicker);
+                                        }}
                                         className="p-1 hover:bg-gray-200 rounded-full"
                                         >
-                                            <SmilePlusIcon className="w-5 h-5 text-gray-500" />
+                                            <SmilePlusIcon className="w-4 h-4 md:w-5 md:h-5 text-gray-500" />
                                 
                                         </button>
                                     </div>
@@ -321,7 +342,10 @@ const CommentSection = () => {
                             </div>
                             {showReplyEmojiPicker && (
                                 <div className="absolute right-0 z-50 mt-5">
-                                    <EmojiPicker onEmojiClick={(emojiObject) => onEmojiClick(emojiObject, true)}/>
+                                    <EmojiPicker 
+                                    onEmojiClick={(emojiObject) => onEmojiClick(emojiObject, true)} 
+                                    width={280}
+                                    height={400}/>
                                 </div>
                             )}
                         </div>
@@ -336,9 +360,9 @@ const CommentSection = () => {
     );
 
     return (
-        <div className="max-w-5xl mx-auto p-4 relative" style={{ marginBottom: "15rem" }}>
+        <div className="w-full mx-auto p-2 md:p-4 relative " style={{ marginBottom: "15rem" }}>
             <div className="mb-4">
-                <div className="flex gap-1 mb-2 ml-12">
+                <div className="flex gap-1 mb-2 ml-8 md:ml-12">
                     {[1, 2, 3, 4, 5].map((star) => (
                         <button
                             key={star}
@@ -346,12 +370,15 @@ const CommentSection = () => {
                             className="focus:outline-none"
                         >
                             <Star 
-                                className={`w-6 h-6 ${
+                                className={`w-5 h-5 md:w-6 md:h-6 ${
                                     star <= rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
                                 }`}
                             />
                         </button>
                     ))}
+                    {rating === 0 && (
+                        <span className="text-xs md:text-sm text-gray-500 ml-2 self-center">Not Rated</span>
+                    )}
                 </div>
                 <div className="flex gap-2">
                     <div className="w-8 h-8 rounded-full 
@@ -365,8 +392,8 @@ const CommentSection = () => {
                             type="text"
                             value={newComment}
                             onChange={(e) => setNewComment(e.target.value)}
-                            placeholder="Write a comment..."
-                            className="flex-grow px-4 py-2 
+                            placeholder="Write a review for this tour..."
+                            className="flex-grow px-4 py-1.5 md:py-2 
                                     bg-gray-100 rounded-full 
                                     text-sm 
                                     focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -392,11 +419,18 @@ const CommentSection = () => {
             
             {/* This will show emoji option like Fb */}
             {showEmojiPicker && (
-                    <div className="absolute right-0 z-50 mt-2">
+                <div className="absolute right-0 z-50 mt-2 emoji-picker-container">
+                    <div className="transform scale-75 md:scale-100 origin-top-right">
                         <EmojiPicker
-                            onEmojiClick={(emojiObject) => onEmojiClick(emojiObject, false)}
+                            onEmojiClick={(emojiObject) => {
+                                setNewComment(prev => prev + emojiObject.emoji);
+                                setShowEmojiPicker(false);
+                            }}
+                            width={280}
+                            height={400}
                         />
                     </div>
+                </div>
             )}
 
             <div>

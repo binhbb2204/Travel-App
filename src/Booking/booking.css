@@ -1,0 +1,14 @@
+.phone-input-style {
+    width: 100%;
+    padding: 0.75rem 1rem; 
+    border: 1px solid #d1d5db; 
+    border-radius: 0.5rem; 
+    background-color: #ffffff; 
+    transition: all 0.2s; 
+}
+
+.phone-input-style:focus {
+    border-color: #3b82f6; 
+    outline: none; 
+    box-shadow: 0 0 0 2px #bfdbfe;
+}
