@@ -41,7 +41,7 @@ const TourDetails = () => {
             <div className="max-w-7xl mx-auto px-4 py-4 md:py-8 mt-4">
               <div className="relative mb-6 md:mb-8 rounded-xl overflow-hidden">
                 <div className="aspect-w-16 aspect-h-9 mt-5">
-                  <ImageCarousel images={photos} autoSlideInterval={2000} />
+                  <ImageCarousel images={photos} autoSlideInterval={5000} />
                 </div>
                 <button
                 onClick={() => setIsLiked(!isLiked)}
