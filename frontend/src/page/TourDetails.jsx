@@ -7,6 +7,7 @@ import ImageCarousel from '../ui/ImageCarousel/ImageCarousel';
 import calculateAvgRating from '../utils/avgRating';
 import '../styles/tour-details.css'
 import CommentSection from '../ui/Comment/CommentSection';
+import Booking from '../Booking/Booking';
 const TourDetails = () => {
   const {id} = useParams();
 
@@ -18,20 +19,7 @@ const TourDetails = () => {
   const [showBooking, setShowBooking] = useState(false);
 
 
-  //This is for mobile
-  const BookingPanel = () => {
-    <div className={`fixed inset-0 bg-black bg-opacity-50 z-50 transition-opacity ${showBooking ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-      <div className={`fixed bottom-0 left-0 right-0 bg-white rounded-t-xl p-6 transition-transform transform ${showBooking ? 'translate-y-0' : 'translate-y-full'}`}>
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-xl font-bold">Book Tour</h3>
-          <button onClick={() => setShowBooking(false)}>
-            <X className="w-6 h-6" />
-          </button>
-        </div>
-      </div>
-
-    </div>
-  }
+  
   return (
     <>
       <section>
@@ -40,7 +28,7 @@ const TourDetails = () => {
             <div className="max-w-7xl mx-auto px-4 py-4 md:py-8 mt-4">
               <div className="relative mb-6 md:mb-8 rounded-xl overflow-hidden">
                 <div className="aspect-w-16 aspect-h-9 mt-5">
-                  <ImageCarousel images={photos} autoSlideInterval={2000} />
+                  <ImageCarousel images={photos} autoSlideInterval={5000} />
                 </div>
                 <button
                 onClick={() => setIsLiked(!isLiked)}
@@ -101,14 +89,16 @@ const TourDetails = () => {
                   </div>
 
                   {/* Reviews Preview */}
-                  {reviews && <CommentSection />}
+                  {reviews && <CommentSection tourId={id}/>}
                 </div>
               </div>
             </div>  
           </Col>
 
           <Col lg='4'>
-          
+            <div className="booking-wrapper">
+              <Booking tour={tour} avgRating={avgRating} />
+            </div>
           </Col>
         </Row>
       </section>

@@ -1,0 +1,6 @@
+.booking-wrapper{
+    position: sticky; 
+    top: 95px; 
+    z-index: 10; 
+    margin-top: 2rem; 
+}

@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/Travel-App/static/css/main.1543f362.css",
-    "main.js": "/Travel-App/static/js/main.df829438.js",
+    "main.css": "/Travel-App/static/css/main.c7b34ff5.css",
+    "main.js": "/Travel-App/static/js/main.1ea10761.js",
     "static/media/home-bg-final_2.mp4": "/Travel-App/static/media/home-bg-final_2.a3d92ad55ac741ab2136.mp4",
     "static/media/bg6.png": "/Travel-App/static/media/bg6.90a037b4b26757369600.png",
     "static/media/bg3.png": "/Travel-App/static/media/bg3.487c1970a526b5b88038.png",
@@ -16,6 +16,7 @@
     "static/media/remixicon.svg?t=1730118419915": "/Travel-App/static/media/remixicon.0551ce0fd52a1a7b1230.svg",
     "static/media/911.gif": "/Travel-App/static/media/911.3d2793df974843b6a026.gif",
     "static/media/TAB.gif": "/Travel-App/static/media/TAB.366e7de46527a7f10bf8.gif",
+    "static/media/5.jpeg": "/Travel-App/static/media/5.f522eb671f380faee94f.jpeg",
     "static/media/Notre-Dame.png": "/Travel-App/static/media/Notre-Dame.1ea5a43bfbd25a5098da.png",
     "static/media/tour-img06.jpg": "/Travel-App/static/media/tour-img06.61ab969a7f3f172fa8c0.jpg",
     "static/media/tour-img05.jpg": "/Travel-App/static/media/tour-img05.f86cd200463751a5e2ed.jpg",
@@ -29,12 +30,16 @@
     "static/media/remixicon.eot?t=1730118419915": "/Travel-App/static/media/remixicon.918a6e24637af868f0ae.eot",
     "static/media/remixicon.ttf?t=1730118419915": "/Travel-App/static/media/remixicon.13d81601cf448c068ce1.ttf",
     "static/media/thuan.jpg": "/Travel-App/static/media/thuan.06fa1dfde3cbcb5651a7.jpg",
+    "static/media/2.jpg": "/Travel-App/static/media/2.81982f00863bb8fb648a.jpg",
     "static/media/hitler.jpg": "/Travel-App/static/media/hitler.d029a6cf833a362054e4.jpg",
     "static/media/hero-img02.jpg": "/Travel-App/static/media/hero-img02.c5c2185a4223b66365fb.jpg",
+    "static/media/3.jpg": "/Travel-App/static/media/3.160e093567fcfa6d5c2d.jpg",
     "static/media/remixicon.woff?t=1730118419915": "/Travel-App/static/media/remixicon.442ee771ea7ae5b713e4.woff",
+    "static/media/1.jpg": "/Travel-App/static/media/1.4099215f526abe3e1bd7.jpg",
     "static/media/remixicon.woff2?t=1730118419915": "/Travel-App/static/media/remixicon.11bc908555df35c11b24.woff2",
     "static/media/ice.jpg": "/Travel-App/static/media/ice.42beef1b39592c846e16.jpg",
     "static/media/Emirates.png": "/Travel-App/static/media/Emirates.1c98517d3f0c96b54afd.png",
+    "static/media/4.jpeg": "/Travel-App/static/media/4.7966f25197354693990e.jpeg",
     "static/media/AirAsia.jpg": "/Travel-App/static/media/AirAsia.f58a1727eee2622ff922.jpg",
     "static/media/Trip.png": "/Travel-App/static/media/Trip.5368da4a2473e2be5ba7.png",
     "static/media/Expedia.png": "/Travel-App/static/media/Expedia.d606b99b3476981fb9ee.png",
@@ -52,11 +57,11 @@
     "static/media/slick.ttf": "/Travel-App/static/media/slick.c94f7671dcc99dce43e2.ttf",
     "static/media/slick.woff": "/Travel-App/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/Travel-App/index.html",
-    "main.1543f362.css.map": "/Travel-App/static/css/main.1543f362.css.map",
-    "main.df829438.js.map": "/Travel-App/static/js/main.df829438.js.map"
+    "main.c7b34ff5.css.map": "/Travel-App/static/css/main.c7b34ff5.css.map",
+    "main.1ea10761.js.map": "/Travel-App/static/js/main.1ea10761.js.map"
   },
   "entrypoints": [
-    "static/css/main.1543f362.css",
-    "static/js/main.df829438.js"
+    "static/css/main.c7b34ff5.css",
+    "static/js/main.1ea10761.js"
   ]
 }
