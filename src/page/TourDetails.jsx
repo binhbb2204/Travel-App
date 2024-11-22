@@ -19,20 +19,7 @@ const TourDetails = () => {
   const [showBooking, setShowBooking] = useState(false);
 
 
-  //This is for mobile
-  const BookingPanel = () => {
-    <div className={`fixed inset-0 bg-black bg-opacity-50 z-50 transition-opacity ${showBooking ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-      <div className={`fixed bottom-0 left-0 right-0 bg-white rounded-t-xl p-6 transition-transform transform ${showBooking ? 'translate-y-0' : 'translate-y-full'}`}>
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-xl font-bold">Book Tour</h3>
-          <button onClick={() => setShowBooking(false)}>
-            <X className="w-6 h-6" />
-          </button>
-        </div>
-      </div>
-
-    </div>
-  }
+  
   return (
     <>
       <section>

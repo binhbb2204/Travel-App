@@ -8,7 +8,7 @@ import SearchResultList from '../page/SearchResultList'
 import Login from '../page/Login'
 import Register from '../page/Register'
 import Location from '../page/Location'
-import AddTourForm from '../ui/Adder/AddTourForm'
+import AddTourForm from '../page/AddTourForm'
 import Accommodations from '../page/Accommodations'
 import Transportations from '../page/Transportations'
 
