@@ -11,6 +11,7 @@ import Location from '../page/Location'
 import AddTourForm from '../page/AddTourForm'
 import Accommodations from '../page/Accommodations'
 import Transportations from '../page/Transportations'
+import TransactionBooking from '../page/TransactionBooking'
 
 const Routers = () => {
   const handleAddTour = async (formData) => {
@@ -51,6 +52,7 @@ const Routers = () => {
       <Route path='/add-tour' element={<AddTourForm onSubmit={handleAddTour} />} />
       <Route path='/accommodations' element={<Accommodations />} />
       <Route path='/transportations' element={<Transportations />} />
+      <Route path='/transaction' element={<TransactionBooking />}/>
 
     </Routes>
   )

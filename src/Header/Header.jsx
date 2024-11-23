@@ -2,7 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Container, Row, Button } from 'reactstrap';
 import { NavLink, Link } from 'react-router-dom';
 import { Menu, X, Heart } from 'lucide-react';
+import { Settings, ShoppingCart } from 'lucide-react';
 import { useFavorites } from '../ui/Context/FavoritesContext';
+import { DarkLightMode } from '../settings/DarkLightMode';
 import logo from '../images/TAB.gif';
 import { motion } from 'framer-motion';
 import './header.css'
@@ -37,13 +39,21 @@ const Header = () => {
   const { favorites } = useFavorites();
   const favoritesRef = useRef();
 
+  const [showSettings, setShowSettings] = useState(false);
+  const [showCart, setShowCart] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+  const [cartItems, setCartItems] = useState([]);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const settingsRef = useRef();
+  const cartRef = useRef();
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
 
     const handleClickOutside = (event) => {
-      if(favoritesRef.current && !favoritesRef.current.contains(event.target)) {
+      if (favoritesRef.current && !favoritesRef.current.contains(event.target)) {
         setShowFavorites(false);
       }
     };
@@ -58,9 +68,8 @@ const Header = () => {
   const FavoritesDropdown = () => (
     <div
       ref={favoritesRef}
-      className={`absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-200 ${
-        showFavorites ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 pointer-events-none'
-      }`}
+      className={`absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-200 ${showFavorites ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 pointer-events-none'
+        }`}
       style={{ zIndex: 1000 }}
     >
       <div className="p-4">
@@ -94,17 +103,16 @@ const Header = () => {
   );
 
   return (
-    <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-      isScrolled 
-        ? 'bg-white/30 backdrop-blur-sm shadow-lg' 
-        : 'bg-transparent'
-    }`}>
+    <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled
+      ? 'bg-white/30 backdrop-blur-sm shadow-lg'
+      : 'bg-transparent'
+      }`}>
       <Container>
         <Row>
           <div className="nav__wrapper d-flex align-items-center justify-content-between">
             {/* Logo */}
             <div className="logo">
-              <img src={logo} alt=""/>
+              <img src={logo} alt="" />
             </div>
 
             {/* Navigation Menu - for Desktop */}
@@ -112,9 +120,9 @@ const Header = () => {
               <ul className="menu d-flex align-items-center gap-8">
                 {nav_links.map((item, index) => (
                   <li className="nav__item" key={index}>
-                    <NavLink 
+                    <NavLink
                       to={item.path}
-                      className={({isActive})=> `
+                      className={({ isActive }) => `
                         ${isScrolled ? 'text-gray-700' : 'text-gray-700'}
                         hover:text-blue-600
                         transition-colors
@@ -131,26 +139,26 @@ const Header = () => {
               </ul>
             </div>
 
-            
+
             {/* Add Favorites Icon before Auth Buttons */}
             <div className="relative">
-                <button
+              <button
                 className="p-2 rounded-full relative"
                 onClick={(e) => setShowFavorites(!showFavorites)}
-                >
-                  <Heart 
+              >
+                <Heart
                   className="w-6 h-6 text-gray-700 hover:text-blue-500"
                   stroke="currentColor" // Use the current color for stroke
                   strokeWidth={2}
                   fill="none"
-                  />
-                  {favorites.length > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                      {favorites.length}
-                    </span>
-                  )}
-                </button>
-                <FavoritesDropdown/>
+                />
+                {favorites.length > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                    {favorites.length}
+                  </span>
+                )}
+              </button>
+              <FavoritesDropdown />
             </div>
 
             {/* Auth Buttons */}
@@ -192,22 +200,55 @@ const Header = () => {
                 </div>
               )}
             </div>
-            
-            {/* Mobile Menu Button */}
-            <button 
-                className="mobile_menu block lg:hidden" 
-                onClick={() => setMobileMenuOpen(!isMobileMenuOpen)} 
-                style={{ color: '#000' }}
+
+            <div className={`nav__right d-flex align-items-center gap-2`}>
+              {/* Settings Button */}
+              <button
+                className="p-2 rounded-full relative"
+                onClick={() => setShowSettings(!showSettings)}
               >
-                {isMobileMenuOpen ? 
-                    <X className={'w-6 h-6 text-gray-700'}/> 
-                    : <Menu className={'w-6 h-6 text-gray-700'} />
-                }
+                <Settings
+                  className="w-6 h-6 text-gray-700 hover:text-blue-500"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  fill="none"
+                />
               </button>
+
+              {/* Cart Button */}
+              <button
+                className="p-2 rounded-full relative"
+                onClick={() => setShowCart(!showCart)}
+              >
+                <ShoppingCart
+                  className="w-6 h-6 text-gray-700 hover:text-blue-500"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  fill="none"
+                />
+                {cartItems.length > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                    {cartItems.length}
+                  </span>
+                )}
+              </button>
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              className="mobile_menu block lg:hidden"
+              onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}
+              style={{ color: '#000' }}
+            >
+              {isMobileMenuOpen ?
+                <X className={'w-6 h-6 text-gray-700'} />
+                : <Menu className={'w-6 h-6 text-gray-700'} />
+              }
+            </button>
           </div>
         </Row>
-      </Container>
-    </header>
+      </Container >
+    </header >
   );
 };
 

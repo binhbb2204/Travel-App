@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, Users, CreditCard, Mail, Phone, User, CheckCircle, Sparkles, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-
+import { useNavigate } from 'react-router-dom';
 
 
 const bottomSheetVariants = {
@@ -253,7 +253,8 @@ const MobileBookButton = ({ price, setIsBottomSheetOpen }) => (
 
 // Main Booking component
 const Booking = ({ tour }) => {
-    const { price, reviews } = tour;
+    const navigate = useNavigate();
+    const { price, reviews, title } = tour;
     const [formData, setFormData] = useState({
         date: '',
         adults: 1,
@@ -313,17 +314,45 @@ const Booking = ({ tour }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setIsSubmitting(true);
+    
+        // Validate form fields
+        if (!formData.date || !formData.fullName || !formData.email || !formData.phone) {
+            alert("Please fill in all required fields!");
+            setIsSubmitting(false);
+            return;
+        }
+    
+        const pricing = calculatePricing(); // Ensure pricing is calculated correctly
+    
+        // Prepare booking data
+        const bookingData = {
+            title: tour?.title || "Unknown Tour",
+            date: formData.date,
+            adults: formData.adults,
+            children: formData.children,
+            totalPrice: pricing.total,
+            pricePerPerson: tour?.price || 0,
+            serviceCharge: pricing.serviceCharge,
+        };
+    
         setTimeout(() => {
             setIsSubmitting(false);
             setShowSuccess(true);
+    
             setTimeout(() => {
                 setShowSuccess(false);
-                if (isMobile) {
-                    setIsBottomSheetOpen(false);
+                if (isMobile) setIsBottomSheetOpen(false);
+                try {
+                    navigate("/transaction", { state: { bookingData } });
+                } catch (error) {
+                    console.error("Navigation failed:", error);
+                    alert("Something went wrong. Please try again.");
                 }
+                
             }, 3000);
         }, 1500);
     };
+    
 
     const calculatePricing = () => {
         const adultPrice = tour?.price || 0;
