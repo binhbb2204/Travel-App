@@ -138,7 +138,7 @@
 }
   
   /* Optional: Adjust logo size for mobile */
-  @media only screen and (max-width: 768px) {
+@media only screen and (max-width: 768px) {
     .logo img{
       width: 120px;
     }
@@ -148,6 +148,18 @@
       
       .mobile_menu svg{
         stroke-width: 2px; /* Makes the icon more visible */
+    }
+}
+/* Add to header.css */
+@media (max-width: 768px) {
+    .favorites-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 40;
     }
 }
 
