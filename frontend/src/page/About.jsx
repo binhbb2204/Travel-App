@@ -78,7 +78,7 @@ const About = () => {
             </section>
 
             {/* Hero Section */}
-            <section className="relative pt-20 pb-12 md:py-20">
+            <section className="relative pt-20 pb-12 md:py-20 z-10">
                 <div className="container mx-auto px-4">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -123,7 +123,7 @@ const About = () => {
             </section>
 
             {/* Mission Section */}
-            <section className="py-12 md:py-20">
+            <section className="py-12 md:py-20 z-10">
                 <div className="container mx-auto px-4">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -161,7 +161,7 @@ const About = () => {
             </section>
 
             {/* Team Section */}
-            <section className="py-12 md:py-20 bg-gray-50">
+            <section className="py-12 md:py-20 bg-gray-50 z-10">
                 <div className="container mx-auto px-4">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -173,22 +173,22 @@ const About = () => {
                         <p className="text-gray-600">The passionate individuals behind your extraordinary travels</p>
                     </motion.div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 z-10">
                         {teamMembers.map((member, index) => (
                             <motion.div
                                 key={index}
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.9, delay: index * 0.1 }}
-                                className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 hover:shadow-xl"
+                                className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 hover:shadow-xl z-10"
                             >
-                                <div className="team-image-container relative h-48 bg-gray-200">
+                                <div className="team-image-container relative h-48 bg-gray-200 z-10">
                                     <div
-                                        className="w-full h-full bg-cover bg-center transition-transform duration-300 transform hover:scale-110 hover:shadow-xl"
+                                        className="w-full h-full bg-cover bg-center transition-transform duration-300 transform hover:scale-110 hover:shadow-xl z-10"
                                         style={{ backgroundImage: `url(${member.image})` }}
                                     ></div>
                                 </div>
-                                <div className="p-6">
+                                <div className="p-6 z-10">
                                     <h3 className="text-xl font-semibold mb-2">{member.name}</h3>
                                     <p className="text-blue-600 mb-4">{member.role}</p>
                                     <p className="text-gray-600">{member.description}</p>
