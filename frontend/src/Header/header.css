@@ -137,7 +137,7 @@
     }
 }
   
-  /* Optional: Adjust logo size for mobile */
+/* Optional: Adjust logo size for mobile */
 @media only screen and (max-width: 768px) {
     .logo img{
       width: 120px;
