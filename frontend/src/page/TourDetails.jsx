@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react'
 import { Container, Row, Col, Form, ListGroup } from 'reactstrap';
 import { MapPin, Users, Star, Clock, DollarSign, Heart, CheckCircle, Menu, X } from 'lucide-react';
 import { useParams } from 'react-router-dom';
+import { useFavorites } from '../ui/Context/FavoritesContext';
 import tourData from '../data/tourData';
 import ImageCarousel from '../ui/ImageCarousel/ImageCarousel';
 import calculateAvgRating from '../utils/avgRating';
@@ -15,9 +16,18 @@ const TourDetails = () => {
 
   const{photo, photos, title, desc, price, reviews, city, maxGroupSize, duration, highlights} = tour;
   const{totalRating, avgRating} = calculateAvgRating(reviews);
-  const [isLiked, setIsLiked] = useState(false);
+
+  const { isFavorite, addToFavorites, removeFromFavorites } = useFavorites();
+  const isLiked = isFavorite(id);
   const [showBooking, setShowBooking] = useState(false);
 
+  const handleFavoriteClick = () => {
+    if (isLiked) {
+      removeFromFavorites(id);
+    } else {
+      addToFavorites(tour);
+    }
+  };
 
   
   return (
@@ -31,7 +41,7 @@ const TourDetails = () => {
                   <ImageCarousel images={photos} autoSlideInterval={5000} />
                 </div>
                 <button
-                onClick={() => setIsLiked(!isLiked)}
+                onClick={handleFavoriteClick}
                 className="absolute top-4 right-4 p-2 bg-white rounded-full shadow-lg mt-5"
                 >
                   <Heart 
