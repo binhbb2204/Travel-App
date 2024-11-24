@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import { Calendar, CreditCard, Lock, CheckCircle, ArrowRight, Shield, Gift, Sparkles, ArrowLeft, AlertCircle } from 'lucide-react';
-
-const TransactionBooking = ({ bookingData = {}}) => {
+import { useLocation } from 'react-router-dom';
+const TransactionBooking = () => {
     const [step, setStep] = useState(1);
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const location = useLocation();
+    const bookingData = location.state?.bookingData || {};
 
-    // Destructure with default values
     const {
         title = 'Unknown Title',
         date = '',
