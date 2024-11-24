@@ -22,9 +22,9 @@ const AdminPanel = () => {
     };
 
     const recentOrders = [
-        { id: 1, customer: 'John Doe', product: 'Tour1', amount: 59.99, status: 'Completed' },
-        { id: 2, customer: 'Jane Smith', product: 'Tour2', amount: 129.99, status: 'Pending' },
-        { id: 3, customer: 'Bob Johnson', product: 'Tour3', amount: 89.99, status: 'Processing' }
+        { id: 1, customer: 'Adolf Hitler', product: 'Historical City Tour', amount: 59.99, status: 'Completed' },
+        { id: 2, customer: 'Donald Trump', product: 'Cultural Experience', amount: 129.99, status: 'Pending' },
+        { id: 3, customer: 'Binh Chan', product: 'Coastal Hike', amount: 89.99, status: 'Processing' }
     ];
 
     const handleMenuClick = (tab) => {
@@ -151,10 +151,10 @@ const AdminPanel = () => {
                                     <table>
                                         <thead>
                                             <tr>
-                                                <th>Order ID</th>
-                                                <th>Customer</th>
-                                                <th>Product</th>
-                                                <th>Amount</th>
+                                                <th>Tour ID</th>
+                                                <th>Customer Name</th>
+                                                <th>Tour Name</th>
+                                                <th>Amount of Transaction</th>
                                                 <th>Status</th>
                                             </tr>
                                         </thead>
