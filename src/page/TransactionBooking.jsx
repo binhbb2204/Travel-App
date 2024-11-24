@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Calendar, CreditCard, Lock, CheckCircle, ArrowRight, Shield, Gift, Sparkles, ArrowLeft, AlertCircle } from 'lucide-react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 const TransactionBooking = () => {
     const [step, setStep] = useState(1);
     const [loading, setLoading] = useState(false);
@@ -8,6 +9,39 @@ const TransactionBooking = () => {
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const location = useLocation();
     const bookingData = location.state?.bookingData || {};
+
+    const { addToCart } = useCart(); // Get addToCart function from context
+    const navigate = useNavigate();
+
+
+    const handleAddToCart = () => {
+        const bookingForCart = {
+            id: Date.now(), // Generate a temporary ID if not available
+            title,
+            date,
+            adults,
+            children,
+            totalPrice,
+            pricePerPerson,
+            serviceCharge,
+            promoDiscount
+        };
+        
+        addToCart(bookingForCart);
+        //navigate('/cart'); // Optional: Navigate to cart page
+    };
+
+    const CartButton = () => (
+        <button
+            onClick={handleAddToCart}
+            className="w-full mt-4 py-4 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg
+            font-medium hover:from-green-700 hover:to-green-800 transform hover:scale-[1.02] 
+            transition-all duration-200 flex items-center justify-center space-x-2"
+        >
+            <ShoppingCart className="w-5 h-5" />
+            <span>Add to Cart</span>
+        </button>
+    );
 
     const {
         title = 'Unknown Title',
