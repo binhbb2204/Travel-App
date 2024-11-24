@@ -119,7 +119,9 @@ const Header = () => {
       <ul className="p-2">
         <li className="p-2 hover:bg-gray-100 cursor-pointer">Profile</li>
         <li className="p-2 hover:bg-gray-100 cursor-pointer">Account Settings</li>
-        <li className="p-2 hover:bg-gray-100 cursor-pointer text-blue-500 font-bold">Admin Panel</li>
+        <li className="p-2 hover:bg-gray-100 cursor-pointer text-blue-500 font-bold">
+          <Link to="/admin-panel">Admin Panel</Link>
+        </li>
         <li className="p-2 hover:bg-gray-100 cursor-pointer text-red-500 font-bold mt-3">Logout</li>
       </ul>
     </motion.div>
@@ -130,7 +132,7 @@ const Header = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('authToken'); 
+    localStorage.removeItem('authToken');
     window.location.href = "/login";
   };
 

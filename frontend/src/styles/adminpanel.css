@@ -4,6 +4,10 @@
     background-color: #f5f6fa;
   }
   
+  .admin-header {
+    display: none;
+}
+
   .admin-sidebar {
     width: 250px;
     background-color: #2c3e50;
