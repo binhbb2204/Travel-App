@@ -2,7 +2,7 @@ import React, { createContext, useState, useContext } from 'react';
 
 const CartContext = createContext();
 
-export const CardProvider = ({children}) => {
+export const CartProvider = ({children}) => {
     const[cartItems, setCartItems] = useState([]);
 
     const addToCart = (booking) => {
@@ -29,7 +29,7 @@ export const CardProvider = ({children}) => {
         );
     }
 
-    const clearCard = () => {
+    const clearCart = () => {
         setCartItems([]);
     }
 
@@ -48,7 +48,7 @@ export const CardProvider = ({children}) => {
             addToCart,
             removeFromCart,
             updateQuantity,
-            clearCard,
+            clearCart,
             isInCart,
             getCartTotal,
             cartCount: cartItems.length

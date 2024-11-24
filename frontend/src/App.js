@@ -3,10 +3,13 @@ import React from 'react';
 import Home from './page/Home';
 import Layout from './Layout/Layout';
 import { FavoritesProvider } from './ui/Context/FavoritesContext';
+import { CartProvider } from './ui/Context/CartContext';
 function App() {
   return (
     <FavoritesProvider>
-      <Layout />
+      <CartProvider>
+        <Layout />
+      </CartProvider>
     </FavoritesProvider>
   );
 }

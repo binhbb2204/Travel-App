@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Calendar, CreditCard, Lock, CheckCircle, ArrowRight, Shield, Gift, Sparkles, ArrowLeft, AlertCircle } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
-
+import { useCart } from '../ui/Context/CartContext';
 const TransactionBooking = () => {
     const [step, setStep] = useState(1);
     const [loading, setLoading] = useState(false);
@@ -26,8 +26,7 @@ const TransactionBooking = () => {
             serviceCharge,
             promoDiscount
         };
-        
-        addToCart(bookingForCart);
+        addToCart(bookingForCart)
         //navigate('/cart'); // Optional: Navigate to cart page
     };
 
