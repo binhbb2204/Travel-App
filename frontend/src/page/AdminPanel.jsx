@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FiUsers, FiBox, FiShoppingBag, FiDollarSign, FiSettings, FiLogOut } from 'react-icons/fi';
+import {
+    FiUsers,
+    FiBox,
+    FiShoppingBag,
+    FiDollarSign,
+    FiSettings,
+    FiLogOut
+} from 'react-icons/fi';
 import '../styles/adminpanel.css';
 
 const AdminPanel = () => {
@@ -20,8 +27,13 @@ const AdminPanel = () => {
         { id: 3, customer: 'Bob Johnson', product: 'Tour3', amount: 89.99, status: 'Processing' }
     ];
 
+    const handleMenuClick = (tab) => {
+        setActiveTab(tab);
+    };
+
     return (
         <div className={`admin-container ${isSidebarCollapsed ? 'collapsed' : ''}`}>
+            {/* Sidebar */}
             <nav className="admin-sidebar">
                 <div className="sidebar-header">
                     <h2>{isSidebarCollapsed ? 'A' : 'Admin Panel'}</h2>
@@ -34,40 +46,53 @@ const AdminPanel = () => {
                 </div>
 
                 <div className="sidebar-menu">
-                    <button
+                    <motion.button
                         className={`menu-item ${activeTab === 'dashboard' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('dashboard')}
+                        onClick={() => handleMenuClick('dashboard')}
+                        whileHover={{ scale: 1.05, backgroundColor: '#3333ff' }}
+                        whileTap={{ scale: 0.95 }}
                     >
                         <FiBox /> {!isSidebarCollapsed && 'Dashboard'}
-                    </button>
-                    <button
+                    </motion.button>
+                    <motion.button
                         className={`menu-item ${activeTab === 'users' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('users')}
+                        onClick={() => handleMenuClick('users')}
+                        whileHover={{ scale: 1.05, backgroundColor: '#3333ff' }}
+                        whileTap={{ scale: 0.95 }}
                     >
                         <FiUsers /> {!isSidebarCollapsed && 'Users'}
-                    </button>
-                    <button
+                    </motion.button>
+                    <motion.button
                         className={`menu-item ${activeTab === 'products' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('products')}
+                        onClick={() => handleMenuClick('products')}
+                        whileHover={{ scale: 1.05, backgroundColor: '#3333ff' }}
+                        whileTap={{ scale: 0.95 }}
                     >
                         <FiShoppingBag /> {!isSidebarCollapsed && 'Products'}
-                    </button>
-                    <button
+                    </motion.button>
+                    <motion.button
                         className={`menu-item ${activeTab === 'settings' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('settings')}
+                        onClick={() => handleMenuClick('settings')}
+                        whileHover={{ scale: 1.05, backgroundColor: '#3333ff' }}
+                        whileTap={{ scale: 0.95 }}
                     >
                         <FiSettings /> {!isSidebarCollapsed && 'Settings'}
-                    </button>
+                    </motion.button>
                 </div>
 
-                <button className="logout-btn">
+                <motion.button
+                    className="logout-btn"
+                    whileHover={{ scale: 1.05, backgroundColor: '#c0c0c0' }}
+                    whileTap={{ scale: 0.95 }}
+                >
                     <FiLogOut /> {!isSidebarCollapsed && 'Logout'}
-                </button>
+                </motion.button>
             </nav>
 
+            {/* Main Content */}
             <main className="admin-main">
                 <header className="admin-header">
-                    <h1>Dashboard</h1>
+                    <h1>{activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}</h1>
                     <div className="admin-profile">
                         <span>Admin User</span>
                         <img src="https://via.placeholder.com/40" alt="Admin" />
@@ -75,83 +100,86 @@ const AdminPanel = () => {
                 </header>
 
                 <div className="admin-content">
-                    <div className="stats-grid">
-                        <motion.div
-                            className="stat-card"
-                            whileHover={{ scale: 1.02 }}
-                        >
-                            <FiUsers className="stat-icon" />
-                            <div className="stat-details">
-                                <h3>Total Users</h3>
-                                <p>{dashboardStats.totalUsers}</p>
+                    {activeTab === 'dashboard' && (
+                        <div>
+                            <div className="stats-grid">
+                                <motion.div
+                                    className="stat-card"
+                                    whileHover={{ scale: 1.02 }}
+                                >
+                                    <FiUsers className="stat-icon" />
+                                    <div className="stat-details">
+                                        <h3>Total Users</h3>
+                                        <p>{dashboardStats.totalUsers}</p>
+                                    </div>
+                                </motion.div>
+                                <motion.div
+                                    className="stat-card"
+                                    whileHover={{ scale: 1.02 }}
+                                >
+                                    <FiBox className="stat-icon" />
+                                    <div className="stat-details">
+                                        <h3>Number of Processed Tours</h3>
+                                        <p>{dashboardStats.totalProducts}</p>
+                                    </div>
+                                </motion.div>
+                                <motion.div
+                                    className="stat-card"
+                                    whileHover={{ scale: 1.02 }}
+                                >
+                                    <FiShoppingBag className="stat-icon" />
+                                    <div className="stat-details">
+                                        <h3>Number of Successful Tours</h3>
+                                        <p>{dashboardStats.totalOrders}</p>
+                                    </div>
+                                </motion.div>
+                                <motion.div
+                                    className="stat-card"
+                                    whileHover={{ scale: 1.02 }}
+                                >
+                                    <FiDollarSign className="stat-icon" />
+                                    <div className="stat-details">
+                                        <h3>Revenue</h3>
+                                        <p>${dashboardStats.revenue.toLocaleString()}</p>
+                                    </div>
+                                </motion.div>
                             </div>
-                        </motion.div>
 
-                        <motion.div
-                            className="stat-card"
-                            whileHover={{ scale: 1.02 }}
-                        >
-                            <FiBox className="stat-icon" />
-                            <div className="stat-details">
-                                <h3>Products</h3>
-                                <p>{dashboardStats.totalProducts}</p>
+                            <div className="recent-orders">
+                                <h2>Recent Orders</h2>
+                                <div className="orders-table">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Order ID</th>
+                                                <th>Customer</th>
+                                                <th>Product</th>
+                                                <th>Amount</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {recentOrders.map(order => (
+                                                <tr key={order.id}>
+                                                    <td>#{order.id}</td>
+                                                    <td>{order.customer}</td>
+                                                    <td>{order.product}</td>
+                                                    <td>${order.amount}</td>
+                                                    <td>
+                                                        <span className={`status ${order.status.toLowerCase()}`}>
+                                                            {order.status}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </motion.div>
-
-                        <motion.div
-                            className="stat-card"
-                            whileHover={{ scale: 1.02 }}
-                        >
-                            <FiShoppingBag className="stat-icon" />
-                            <div className="stat-details">
-                                <h3>Orders</h3>
-                                <p>{dashboardStats.totalOrders}</p>
-                            </div>
-                        </motion.div>
-
-                        <motion.div
-                            className="stat-card"
-                            whileHover={{ scale: 1.02 }}
-                        >
-                            <FiDollarSign className="stat-icon" />
-                            <div className="stat-details">
-                                <h3>Revenue</h3>
-                                <p>${dashboardStats.revenue.toLocaleString()}</p>
-                            </div>
-                        </motion.div>
-                    </div>
-
-                    <div className="recent-orders">
-                        <h2>Recent Orders</h2>
-                        <div className="orders-table">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Order ID</th>
-                                        <th>Customer</th>
-                                        <th>Product</th>
-                                        <th>Amount</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {recentOrders.map(order => (
-                                        <tr key={order.id}>
-                                            <td>#{order.id}</td>
-                                            <td>{order.customer}</td>
-                                            <td>{order.product}</td>
-                                            <td>${order.amount}</td>
-                                            <td>
-                                                <span className={`status ${order.status.toLowerCase()}`}>
-                                                    {order.status}
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
                         </div>
-                    </div>
+                    )}
+
+                    {/* Add other tabs (Users, Products, Settings) content here */}
                 </div>
             </main>
         </div>
