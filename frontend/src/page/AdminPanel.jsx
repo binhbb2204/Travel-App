@@ -15,9 +15,9 @@ const AdminPanel = () => {
     };
 
     const recentOrders = [
-        { id: 1, customer: 'John Doe', product: 'Gaming Mouse', amount: 59.99, status: 'Completed' },
-        { id: 2, customer: 'Jane Smith', product: 'Mechanical Keyboard', amount: 129.99, status: 'Pending' },
-        { id: 3, customer: 'Bob Johnson', product: 'Gaming Headset', amount: 89.99, status: 'Processing' }
+        { id: 1, customer: 'John Doe', product: 'Tour1', amount: 59.99, status: 'Completed' },
+        { id: 2, customer: 'Jane Smith', product: 'Tour2', amount: 129.99, status: 'Pending' },
+        { id: 3, customer: 'Bob Johnson', product: 'Tour3', amount: 89.99, status: 'Processing' }
     ];
 
     return (
