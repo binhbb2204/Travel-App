@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Container, Row, Button } from 'reactstrap';
 import { NavLink, Link } from 'react-router-dom';
 import { Menu, X, Heart, Settings, ShoppingCart } from 'lucide-react';
+import { FiSettings, FiLogOut } from 'react-icons/fi';
 import { useFavorites } from '../ui/Context/FavoritesContext';
-import { DarkLightMode } from '../settings/DarkLightMode';
 import logo from '../images/TAB.gif';
 import { motion } from 'framer-motion';
 import './header.css'
@@ -41,8 +41,8 @@ const Header = () => {
   const [showSettings, setShowSettings] = useState(false);
   const [showCart, setShowCart] = useState(false);
   const [cartItems, setCartItems] = useState([]);
-  const settingsRef = useRef();
-  const cartRef = useRef();
+  const settingsRef = useRef(null);
+  const cartRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -108,21 +108,30 @@ const Header = () => {
       ref={settingsRef}
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: showSettings ? 1 : 0, y: showSettings ? 0 : -10 }}
-      transition={{ type: "spring", stiffness: 200, damping: 20 }}
+      transition={{
+        type: "spring",
+        stiffness: 200,
+        damping: 20
+      }}
       className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg overflow-hidden"
       style={{ zIndex: 1000 }}
     >
       <ul className="p-2">
         <li className="p-2 hover:bg-gray-100 cursor-pointer">Profile</li>
         <li className="p-2 hover:bg-gray-100 cursor-pointer">Account Settings</li>
-        <li className="p-2 hover:bg-gray-100 cursor-pointer">Privacy</li>
-        <li className="p-2 hover:bg-gray-100 cursor-pointer text-red-500">Logout</li>
+        <li className="p-2 hover:bg-gray-100 cursor-pointer text-blue-500 font-bold">Admin Panel</li>
+        <li className="p-2 hover:bg-gray-100 cursor-pointer text-red-500 font-bold mt-3">Logout</li>
       </ul>
     </motion.div>
   );
 
   const toggleSettingsDropdown = () => {
     setShowSettings(prev => !prev);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('authToken'); 
+    window.location.href = "/login";
   };
 
   return (
@@ -224,7 +233,8 @@ const Header = () => {
               )}
             </div>
 
-            <div className={`nav__right d-flex align-items-center gap-2`}>
+            <div className={`relative`}>
+              {/* Setting Button */}
               <button
                 className="p-2 rounded-full relative"
                 onClick={toggleSettingsDropdown}
