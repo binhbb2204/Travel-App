@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Container, Row, Button } from 'reactstrap';
 import { NavLink, Link } from 'react-router-dom';
-import { Menu, X, Heart } from 'lucide-react';
-import { Settings, ShoppingCart } from 'lucide-react';
+import { Menu, X, Heart, Settings, ShoppingCart } from 'lucide-react';
 import { useFavorites } from '../ui/Context/FavoritesContext';
 import { DarkLightMode } from '../settings/DarkLightMode';
 import logo from '../images/TAB.gif';
