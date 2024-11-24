@@ -1,7 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext, useContext } from "react";
 import "./darklightmode.css";
 
-function DarkLightMode() {
+const ThemeContext = createContext();
+
+export const useTheme = () => useContext(ThemeContext);
+
+function DarkLightMode({ children }) {
     const [theme, setTheme] = useState("light");
 
     useEffect(() => {
@@ -18,15 +22,9 @@ function DarkLightMode() {
     };
 
     return (
-        <div className="app">
-            {/* Pass toggleTheme and theme to Header */}
-            <Header theme={theme} toggleTheme={toggleTheme} />
-
-            <div className="content">
-                <h1>Welcome to My App</h1>
-                <p>The current theme is: {theme} mode.</p>
-            </div>
-        </div>
+        <ThemeContext.Provider value={{ theme, toggleTheme }}>
+            {children}
+        </ThemeContext.Provider>
     );
 }
 

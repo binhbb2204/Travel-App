@@ -41,9 +41,7 @@ const Header = () => {
 
   const [showSettings, setShowSettings] = useState(false);
   const [showCart, setShowCart] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
   const [cartItems, setCartItems] = useState([]);
-  const [isAdmin, setIsAdmin] = useState(false);
   const settingsRef = useRef();
   const cartRef = useRef();
 
@@ -56,7 +54,11 @@ const Header = () => {
       if (favoritesRef.current && !favoritesRef.current.contains(event.target)) {
         setShowFavorites(false);
       }
+      if (settingsRef.current && !settingsRef.current.contains(event.target)) {
+        setShowSettings(false);
+      }
     };
+
     window.addEventListener('scroll', handleScroll);
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
@@ -101,6 +103,28 @@ const Header = () => {
       </div>
     </div>
   );
+
+  const SettingsDropdown = () => (
+    <motion.div
+      ref={settingsRef}
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: showSettings ? 1 : 0, y: showSettings ? 0 : -10 }}
+      transition={{ type: "spring", stiffness: 200, damping: 20 }}
+      className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg overflow-hidden"
+      style={{ zIndex: 1000 }}
+    >
+      <ul className="p-2">
+        <li className="p-2 hover:bg-gray-100 cursor-pointer">Profile</li>
+        <li className="p-2 hover:bg-gray-100 cursor-pointer">Account Settings</li>
+        <li className="p-2 hover:bg-gray-100 cursor-pointer">Privacy</li>
+        <li className="p-2 hover:bg-gray-100 cursor-pointer text-red-500">Logout</li>
+      </ul>
+    </motion.div>
+  );
+
+  const toggleSettingsDropdown = () => {
+    setShowSettings(prev => !prev);
+  };
 
   return (
     <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled
@@ -202,10 +226,9 @@ const Header = () => {
             </div>
 
             <div className={`nav__right d-flex align-items-center gap-2`}>
-              {/* Settings Button */}
               <button
                 className="p-2 rounded-full relative"
-                onClick={() => setShowSettings(!showSettings)}
+                onClick={toggleSettingsDropdown}
               >
                 <Settings
                   className="w-6 h-6 text-gray-700 hover:text-blue-500"
@@ -213,8 +236,11 @@ const Header = () => {
                   strokeWidth={2}
                   fill="none"
                 />
+                {showSettings && <SettingsDropdown />}
               </button>
+            </div>
 
+            <div className={`nav__right d-flex align-items-center gap-2`}>
               {/* Cart Button */}
               <button
                 className="p-2 rounded-full relative"
