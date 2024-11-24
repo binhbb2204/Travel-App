@@ -1,0 +1,20 @@
+.box__container{
+    width: 90%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.row-item {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: space-between; 
+    flex-wrap: wrap; 
+}
+
+.row-item > * {
+    flex: 1 1 0; 
+    min-width: 0; 
+    box-sizing: border-box; 
+}
