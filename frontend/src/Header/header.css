@@ -137,8 +137,8 @@
     }
 }
   
-  /* Optional: Adjust logo size for mobile */
-  @media only screen and (max-width: 768px) {
+/* Optional: Adjust logo size for mobile */
+@media only screen and (max-width: 768px) {
     .logo img{
       width: 120px;
     }
@@ -150,4 +150,38 @@
         stroke-width: 2px; /* Makes the icon more visible */
     }
 }
+/* Add to header.css */
+@media (max-width: 768px) {
+    .favorites-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 40;
+    }
+}
+
+.settings-dropdown {
+    background-color: white;
+    border-radius: 0.375rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  
+  .settings-dropdown ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .settings-dropdown li {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+  }
+  
+  .settings-dropdown li:hover {
+    background-color: #f3f4f6;
+  }
 
