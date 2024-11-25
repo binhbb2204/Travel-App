@@ -8,11 +8,13 @@ import {
     FiSettings,
     FiLogOut
 } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
 import '../styles/adminpanel.css';
 
 const AdminPanel = () => {
     const [activeTab, setActiveTab] = useState('dashboard');
     const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+    const navigate = useNavigate();
 
     const dashboardStats = {
         totalUsers: 1234,
@@ -29,6 +31,11 @@ const AdminPanel = () => {
 
     const handleMenuClick = (tab) => {
         setActiveTab(tab);
+    };
+
+    const handleLogout = () => {
+        // Perform any necessary logout operations here (like clearing tokens)
+        navigate('/');
     };
 
     return (
@@ -82,6 +89,7 @@ const AdminPanel = () => {
 
                 <motion.button
                     className="logout-btn"
+                    onClick={handleLogout}
                     whileHover={{ scale: 1.05, backgroundColor: '#c0c0c0' }}
                     whileTap={{ scale: 0.95 }}
                 >
@@ -94,7 +102,7 @@ const AdminPanel = () => {
                 <header className="admin-header">
                     <h1>{activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}</h1>
                     <div className="admin-profile">
-                        <span>Admin User</span>
+                        <span>Admin</span>
                         <img src="https://via.placeholder.com/40" alt="Admin" />
                     </div>
                 </header>
@@ -146,7 +154,7 @@ const AdminPanel = () => {
                             </div>
 
                             <div className="recent-orders">
-                                <h2>Recent Orders</h2>
+                                <h2>Recent Transactions from Users</h2>
                                 <div className="orders-table">
                                     <table>
                                         <thead>
