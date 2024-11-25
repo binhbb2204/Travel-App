@@ -12,7 +12,7 @@ import AddTourForm from '../page/AddTourForm'
 import Accommodations from '../page/Accommodations'
 import Transportations from '../page/Transportations'
 import TransactionBooking from '../page/TransactionBooking'
-import AdminPanel from '../page/AdminPanel'
+import AdminPanel from '../page/admin/AdminPanel'
 
 const Routers = () => {
   const handleAddTour = async (formData) => {
