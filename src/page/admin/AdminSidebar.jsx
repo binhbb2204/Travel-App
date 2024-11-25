@@ -15,7 +15,6 @@ const navigationItems = [
   { value: 'users', icon: Users, label: 'Users' },
   { value: 'tours', icon: Map, label: 'Tours' },
   { value: 'hotels', icon: Building2, label: 'Hotels' },
-  { value: 'flights', icon: Plane, label: 'Flights' },
   { value: 'transactions', icon: CreditCard, label: 'Transactions' }
 ];
 

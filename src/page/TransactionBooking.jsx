@@ -10,13 +10,14 @@ const TransactionBooking = () => {
     const location = useLocation();
     const bookingData = location.state?.bookingData || {};
 
-    const { addToCart, processCheckout } = useCart();
+    const { addToCart } = useCart();
     const navigate = useNavigate();
 
-
+    
     const handleAddToCart = () => {
         const bookingForCart = {
-            id: Date.now(), // Generate a temporary ID if not available
+            id: Date.now(),
+            type: 'tour', 
             title,
             date,
             adults,
