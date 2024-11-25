@@ -1,186 +1,108 @@
-// src/page/AdminPanel.js
+// AdminPanel.jsx
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-
-import {User2, Box, ShoppingBag, DollarSign, Settings, LogOut} from 'lucide-react'
-import '../styles/adminpanel.css';
+import AdminSidebar from './AdminSidebar';
+import OverviewPanel from "./admin/OverviewPanel";
+import ToursPanel from "./admin/ToursPanel";
+import HotelsPanel from "./admin/HotelsPanel";
+import FlightsPanel from "./admin/FlightsPanel";
+import UsersPanel from "./admin/UsersPanel";
+import TransactionPanel from "./admin/TransactionPanel"
+import { Activity } from "lucide-react";
 
 const AdminPanel = () => {
     const [activeTab, setActiveTab] = useState('dashboard');
-    const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
     const navigate = useNavigate();
 
-    const dashboardStats = {
-        totalUsers: 1234,
-        totalProducts: 456,
-        totalOrders: 789,
-        revenue: 123456
+    const stats = {
+        totalUsers: 1250,
+        activeBookings: 45,
+        totalRevenue: 125000,
+        pendingBookings: 12,
+        growth: 12.5
     };
 
-    const recentOrders = [
-        { id: 1, customer: 'John Doe', product: 'Tour1', amount: 99.99, status: 'Completed' },
-        { id: 2, customer: 'Jane Smith', product: 'Tour2', amount: 149.99, status: 'Pending' },
-        { id: 3, customer: 'Bob Johnson', product: 'Tour3', amount: 89.99, status: 'Processing' }
+    const revenueData = [
+        { name: 'Jan', value: 4000 },
+        { name: 'Feb', value: 3000 },
+        { name: 'Mar', value: 5000 },
+        { name: 'Apr', value: 4500 },
+        { name: 'May', value: 6000 },
+        { name: 'Jun', value: 7000 },
     ];
 
-    const handleMenuClick = (tab) => {
-        setActiveTab(tab);
-    };
+    const recentBookings = [
+        { id: 1, user: "John Doe", tour: "Paris Adventure", status: "Confirmed", amount: 1200, date: "2024-03-20" },
+        { id: 2, user: "Jane Smith", tour: "Tokyo Express", status: "Pending", amount: 2300, date: "2024-03-19" },
+        { id: 3, user: "Mike Johnson", tour: "Safari Explorer", status: "Confirmed", amount: 3500, date: "2024-03-18" },
+        { id: 4, user: "Sarah Williams", tour: "Venice Getaway", status: "Processing", amount: 1800, date: "2024-03-17" }
+    ];
 
     const handleLogout = () => {
         localStorage.removeItem('authToken');
         navigate('/');
     };
 
-    return (
-        <div className={`admin-container ${isSidebarCollapsed ? 'collapsed' : ''}`}>
-            <nav className="admin-sidebar">
-                <div className="sidebar-header">
-                    <h2>{isSidebarCollapsed ? 'A' : 'Admin Panel'}</h2>
-                </div>
-
-                <div className="sidebar-menu">
-                    <motion.button
-                        className={`menu-item ${activeTab === 'dashboard' ? 'active' : ''}`}
-                        onClick={() => handleMenuClick('dashboard')}
-                        whileHover={{ scale: 1.05, backgroundColor: '#3333ff' }}
-                        whileTap={{ scale: 0.95 }}
-                    >
-                        <Box /> {!isSidebarCollapsed && 'Dashboard'}
-                    </motion.button>
-                    
-                    <motion.button
-                        className={`menu-item ${activeTab === 'users' ? 'active' : ''}`}
-                        onClick={() => handleMenuClick('users')}
-                        whileHover={{ scale: 1.05, backgroundColor: '#3333ff' }}
-                        whileTap={{ scale: 0.95 }}
-                    >
-                        <User2  /> {!isSidebarCollapsed && 'Users'}
-                    </motion.button>
-
-                    <motion.button
-                        className={`menu-item ${activeTab === 'products' ? 'active' : ''}`}
-                        onClick={() => handleMenuClick('products')}
-                        whileHover={{ scale: 1.05, backgroundColor: '#3333ff' }}
-                        whileTap={{ scale: 0.95 }}
-                    >
-                        <ShoppingBag /> {!isSidebarCollapsed && 'Products'}
-                    </motion.button>
-
-                    <motion.button
-                        className={`menu-item ${activeTab === 'settings' ? 'active' : ''}`}
-                        onClick={() => handleMenuClick('settings')}
-                        whileHover={{ scale: 1.05, backgroundColor: '#3333ff' }}
-                        whileTap={{ scale: 0.95 }}
-                    >
-                        <Settings /> {!isSidebarCollapsed && 'Settings'}
-                    </motion.button>
-                </div>
-
-                <motion.button
-                    className="logout-btn"
-                    onClick={handleLogout}
-                    whileHover={{ scale: 1.05, backgroundColor: '#c0c0c0' }}
-                    whileTap={{ scale: 0.95 }}
-                >
-                    <LogOut /> {!isSidebarCollapsed && 'Logout'}
-                </motion.button>
-            </nav>
-
-            <main className="admin-main">
-                <header className="admin-header">
-                    <h1>{activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}</h1>
-                    <div className="admin-profile">
-                        <span>Admin</span>
-                        <img src="https://via.placeholder.com/40" alt="Admin" />
-                    </div>
-                </header>
-
-                <div className="admin-content">
-                    {activeTab === 'dashboard' && (
-                        <div>
-                            <div className="stats-grid">
-                                <motion.div
-                                    className="stat-card"
-                                    whileHover={{ scale: 1.02 }}
-                                >
-                                    <User2 className="stat-icon" />
-                                    <div className="stat-details">
-                                        <h3>Total Users</h3>
-                                        <p>{dashboardStats.totalUsers}</p>
-                                    </div>
-                                </motion.div>
-
-                                <motion.div
-                                    className="stat-card"
-                                    whileHover={{ scale: 1.02 }}
-                                >
-                                    <Box className="stat-icon" />
-                                    <div className="stat-details">
-                                        <h3>Number of Processed Tours</h3>
-                                        <p>{dashboardStats.totalProducts}</p>
-                                    </div>
-                                </motion.div>
-
-                                <motion.div
-                                    className="stat-card"
-                                    whileHover={{ scale: 1.02 }}
-                                >
-                                    <ShoppingBag className="stat-icon" />
-                                    <div className="stat-details">
-                                        <h3>Number of Successful Tours</h3>
-                                        <p>{dashboardStats.totalOrders}</p>
-                                    </div>
-                                </motion.div>
-
-                                <motion.div
-                                    className="stat-card"
-                                    whileHover={{ scale: 1.02 }}
-                                >
-                                    <DollarSign className="stat-icon" />
-                                    <div className="stat-details">
-                                        <h3>Revenue</h3>
-                                        <p>${dashboardStats.revenue.toLocaleString()}</p>
-                                    </div>
-                                </motion.div>
-                            </div>
-
-                            <div className="recent-orders">
-                                <h2>Recent Transactions from Users</h2>
-                                <div className="orders-table">
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>Order ID</th>
-                                                <th>Customer</th>
-                                                <th>Product</th>
-                                                <th>Amount</th>
-                                                <th>Status</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {recentOrders.map(order => (
-                                                <tr key={order.id}>
-                                                    <td>#{order.id}</td>
-                                                    <td>{order.customer}</td>
-                                                    <td>{order.product}</td>
-                                                    <td>${order.amount}</td>
-                                                    <td>
-                                                        <span className={`status ${order.status.toLowerCase()}`}>
-                                                            {order.status}
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
+    const renderActivePanel = () => {
+        switch (activeTab) {
+            case 'overview':
+                return <OverviewPanel stats={stats} revenueData={revenueData} recentBookings={recentBookings} />;
+            case 'users':
+                return <UsersPanel />;
+            case 'tours':
+                return <ToursPanel />;
+            case 'hotels':
+                return <HotelsPanel />;
+            case 'flights':
+                return <FlightsPanel />;
+            case 'transaction':
+                return <TransactionPanel />;
+            default:
+                return (
+                    <div className="bg-white rounded-lg shadow-sm">
+                        <div className="p-4 border-b bg-gradient-to-r from-white to-gray-50">
+                            <h2 className="text-lg font-semibold capitalize">{activeTab} Management</h2>
+                        </div>
+                        <div className="p-4">
+                            <div className="h-96 flex items-center justify-center">
+                                <p className="text-gray-500">
+                                    {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} management interface
+                                </p>
                             </div>
                         </div>
-                    )}
+                    </div>
+                );
+        }
+    };
+
+    return (
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+            <AdminSidebar
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+                onLogout={handleLogout}
+            />
+
+            <div className="ml-64 p-8">
+                {/* Header */}
+                <div className="flex justify-between items-center mb-8">
+                    <div>
+                        <h1 className="text-3xl font-bold text-gray-800">
+                            {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}
+                        </h1>
+                        <p className="text-gray-500 mt-1">Welcome back, Admin</p>
+                    </div>
+                    <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-2 bg-blue-50 px-4 py-2 rounded-full">
+                            <Activity className="w-4 h-4 text-blue-600" />
+                            <span className="text-sm font-medium text-blue-600">Live Updates</span>
+                        </div>
+                    </div>
                 </div>
-            </main>
+
+                {/* Render the active panel */}
+                {renderActivePanel()}
+            </div>
         </div>
     );
 };

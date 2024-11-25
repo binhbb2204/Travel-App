@@ -4,7 +4,7 @@ import Home from './page/Home';
 import Layout from './Layout/Layout';
 import { FavoritesProvider } from './ui/Context/FavoritesContext';
 import { CartProvider } from './ui/Context/CartContext';
-import AdminPanel from './page/AdminPanel';
+import AdminPanel from './page/admin/AdminPanel';
 
 function App() {
 

@@ -1,13 +1,14 @@
 import React from 'react';
 import TourCard from '../Card/TourCard';
-import tourData from '../../data/tours';
+import tourData from '../../data/tourData';
 import { Col } from 'reactstrap';
 import { motion } from 'framer-motion';
 
 const FeaturedTourList = () => {
+  const featuredTours = tourData.filter(tour => tour.featured);
   return (
     <>
-      {tourData?.map((tour, index) => (
+      {featuredTours?.map((tour, index) => (
         <motion.div
           key={tour.id}
           initial={{ opacity: 0, y: 20 }}
