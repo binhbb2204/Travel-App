@@ -7,6 +7,7 @@ import ToursPanel from './ToursPanel';
 import HotelsPanel from './HotelsPanel';
 import FlightsPanel from './FlightsPanel';
 import OverviewPanel from "./OverviewPanel";
+import TransactionPanel from "./TransactionPanel";
 import { Activity } from 'lucide-react';
 
 const AdminPanel = () => {
@@ -55,6 +56,8 @@ const AdminPanel = () => {
         return <HotelsPanel />;
       case 'flights':
         return <FlightsPanel />;
+        case 'transactions':
+          return <TransactionPanel />;
       default:
         return (
           <div className="bg-white rounded-lg shadow-sm">
