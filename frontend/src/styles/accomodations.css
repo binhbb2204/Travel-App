@@ -1,7 +1,11 @@
+
 .acco__container{
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    width:100%;
+    margin: 0 auto; /* Remove any default margin */
+    padding: 0;
 }
 .search__container{
     width: 100%;
@@ -10,14 +14,24 @@
     justify-content: center;
     align-items: center;
     background-color: aqua;
+    flex-direction: column;
+    gap: 40px;
+}
+.label {
+    margin-top: 100px;
 }
 .search__box{
+    margin-bottom: 50px;
     min-height: 300px;
     width: 70%;
     background-color: aliceblue;
-    border-radius: 50px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
+    max-width: 900px;
+}
+.box__detail{
+    width: 120%;
 }
 .result__container{
     width: 100%;

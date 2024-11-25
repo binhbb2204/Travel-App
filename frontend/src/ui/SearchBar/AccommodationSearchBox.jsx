@@ -14,21 +14,11 @@ import '../SearchBar/accommodation-search-box.css'
     Number of guest - Number of room - Sort by
 */}
 
-const AccommodationSearchBox = () => {
-    const [searchParams, setSearchParams] = useState({
-        keyword: "",
-        country: "",
-        city: "",
-        type: "any",
-        minPrice: "",
-        maxPrice: "",
-        groupSize: 1,
-        rooms: 1,
-    });
+const AccommodationSearchBox = ({searchParams, onSearchChange, countries, cities, onSubmit}) => {
 
-    const [checkIn, setCheckIn] = useState("");
-    const [checkOut, setCheckOut] = useState("");
-    const [focused, setFocused] = useState(false);
+    // const [checkIn, setCheckIn] = useState("");
+    // const [checkOut, setCheckOut] = useState("");
+    // const [focused, setFocused] = useState(false);
 
     const onSearchChange = (e) => {
         const { name, value } = e.target;
@@ -60,18 +50,29 @@ const AccommodationSearchBox = () => {
                 />
             </Row>
             <Row className='row-item'>
-                <Duration
+                {/* <Duration
                     checkIn={checkIn}
                     checkOut={checkOut}
                     setCheckIn={setCheckIn}
                     setCheckOut={setCheckOut}
                     setFocused={setFocused}
-                />
+                /> */}
+                <GroupSize searchParams={searchParams} onSearchChange={onSearchChange} />
                 <PriceFilter searchParams={searchParams} onSearchChange={onSearchChange} />
             </Row>
-            <Row className='row-item'>
+            {/* <Row className='row-item'>
                 <GroupSize searchParams={searchParams} onSearchChange={onSearchChange} />
                 <Rooms searchParams={searchParams} onSearchChange={onSearchChange} />
+            </Row> */}
+            <Row className='row-item'>
+            <form onSubmit={onSubmit}>
+                <button
+                    type="submit"  
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
+                >
+                    Search Accommodation
+                </button>
+            </form>
             </Row>
         </Container>
     );
@@ -80,7 +81,7 @@ const AccommodationSearchBox = () => {
 const SearchBar = ({ searchParams, onSearchChange}) => {
     return(
         <div className="relative">
-            <Search className="absolute left-3 top-1/2 transfrom -translate-y-1/2 w-5 h-5 text-gray-400"/>
+            <Search className="absolute left-6 top-1/2 transfrom -translate-y-1/2 w-5 h-5 text-gray-400"/>
             <input
             type = "text"
             name = "keyword"
@@ -165,6 +166,7 @@ const PriceFilter = ({ searchParams, onSearchChange }) => {
             <div className="flex items-center space-x-2">
                 <input
                 type="number"
+                min="0"
                 name="minPrice"
                 placeholder="Min"
                 className="w-1/2 p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
@@ -184,55 +186,55 @@ const PriceFilter = ({ searchParams, onSearchChange }) => {
     )
 }
 
-const Duration = ({searchParams, onSearchChange}) => {
-    const [checkIn, setCheckIn] = useState(""); // Temporary state for check-in date
-    const [checkOut, setCheckOut] = useState(""); // Temporary state for check-out date
-    return(
-        <div className="duration__container relative">
-             {/* Check In */}
-            {/* <div className="flex-1 md:px-4 border-t md:border-t-0 border-gray-200"> */}
-                <div className="flex items-center space-x-3">
-                    {/* <div className="flex flex-col flex-1"> */}
-                    <div className="test d-column flex-1 min-w-[0px]">
-                    <span className="block text-sm font-medium text-gray-700 mb-1">Check In</span>
-                        <input
-                        type="date"
-                        className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
-                        value={checkIn}
-                        onChange={(e) => setCheckIn(e.target.value)}
+// const Duration = ({searchParams, onSearchChange}) => {
+//     const [checkIn, setCheckIn] = useState(""); // Temporary state for check-in date
+//     const [checkOut, setCheckOut] = useState(""); // Temporary state for check-out date
+//     return(
+//         <div className="duration__container relative">
+//              {/* Check In */}
+//             {/* <div className="flex-1 md:px-4 border-t md:border-t-0 border-gray-200"> */}
+//                 <div className="flex items-center space-x-3">
+//                     {/* <div className="flex flex-col flex-1"> */}
+//                     <div className="test d-column flex-1 min-w-[0px]">
+//                     <span className="block text-sm font-medium text-gray-700 mb-1">Check In</span>
+//                         <input
+//                         type="date"
+//                         className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+//                         value={checkIn}
+//                         onChange={(e) => setCheckIn(e.target.value)}
                         
-                        // onFocus={() => setFocused(true)}
-                        // onBlur={() => setFocused(false)}
-                        />
-                    </div>
-                    <div className="test d-column flex-1 min-w-[0px]">
-                    <span className="block text-sm font-medium text-gray-700 mb-1">Check Out</span>
-                        <input
-                        type="date"
-                        className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
-                        value={checkOut}
-                        onChange={(e) => setCheckOut(e.target.value)}
-                        // onFocus={() => setFocused(true)}
-                        // onBlur={() => setFocused(false)}
-                        />
-                    </div>
+//                         // onFocus={() => setFocused(true)}
+//                         // onBlur={() => setFocused(false)}
+//                         />
+//                     </div>
+//                     <div className="test d-column flex-1 min-w-[0px]">
+//                     <span className="block text-sm font-medium text-gray-700 mb-1">Check Out</span>
+//                         <input
+//                         type="date"
+//                         className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+//                         value={checkOut}
+//                         onChange={(e) => setCheckOut(e.target.value)}
+//                         // onFocus={() => setFocused(true)}
+//                         // onBlur={() => setFocused(false)}
+//                         />
+//                     </div>
                         
                         
-                    {/* </div> */}
-                </div>
-            {/* // </div> */}
+//                     {/* </div> */}
+//                 </div>
+//             {/* // </div> */}
 
-            {/* Check Out */}
-            {/* <div className="flex-1 md:px-4 border-t md:border-t-0 border-gray-200"> */}
-                {/* <div className="flex items-center space-x-3"> */}
-                    {/* <div className="flex flex-col flex-1"> */}
+//             {/* Check Out */}
+//             {/* <div className="flex-1 md:px-4 border-t md:border-t-0 border-gray-200"> */}
+//                 {/* <div className="flex items-center space-x-3"> */}
+//                     {/* <div className="flex flex-col flex-1"> */}
                         
-                    {/* </div> */}
-                {/* </div> */}
-            {/* // </div> */}
-        </div>
-    )   
-}
+//                     {/* </div> */}
+//                 {/* </div> */}
+//             {/* // </div> */}
+//         </div>
+//     )   
+// }
 
 
 const GroupSize = ({ searchParams, onSearchChange }) => {
@@ -242,6 +244,7 @@ const GroupSize = ({ searchParams, onSearchChange }) => {
             <label className="custom-label">Group Size</label>
             <input
             type="number"
+            min="1"
             name="groupSize"
             className="custom-input"
             value={searchParams.groupSize}
@@ -253,23 +256,23 @@ const GroupSize = ({ searchParams, onSearchChange }) => {
     )
 }
 
-const Rooms = ({ searchParams, onSearchChange}) => {
-    return(
-        <div className='room__container'>
-            <div className="relative">
-                <label className="custom-label">Number of rooms</label>
-                <input
-                type="number"
-                min="1"
-                name="duration"
-                className="custom-input"
-                value={searchParams.rooms}
-                onChange={onSearchChange}
-                >
-                </input>
-            </div>
-        </div>
-    )
-}
+// const Rooms = ({ searchParams, onSearchChange}) => {
+//     return(
+//         <div className='room__container'>
+//             <div className="relative">
+//                 <label className="custom-label">Number of rooms</label>
+//                 <input
+//                 type="number"
+//                 min="1"
+//                 name="duration"
+//                 className="custom-input"
+//                 value={searchParams.rooms}
+//                 onChange={onSearchChange}
+//                 >
+//                 </input>
+//             </div>
+//         </div>
+//     )
+// }
 
 export default AccommodationSearchBox;
