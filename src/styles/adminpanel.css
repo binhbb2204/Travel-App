@@ -1,0 +1,246 @@
+.admin-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f5f6fa;
+  }
+  
+  .admin-sidebar {
+    width: 250px;
+    background-color: #2c3e50;
+    color: white;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    transition: width 0.3s ease;
+  }
+  
+  .admin-container.collapsed .admin-sidebar {
+    width: 80px;
+  }
+  
+  .sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+  
+  .sidebar-header h2 {
+    font-size: 1.5rem;
+    margin: 0;
+  }
+  
+  .collapse-btn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0.5rem;
+  }
+  
+  .sidebar-menu {
+    flex-grow: 1;
+  }
+  
+  .menu-item {
+    width: 100%;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 8px;
+  }
+  
+  .menu-item:hover {
+    background-color: #34495e;
+  }
+
+  .logout-btn {
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: none;
+    border: none;   
+    color: #e74c3c;
+    cursor: pointer;
+    margin-top: auto;
+  }
+  
+  .admin-main {
+    flex-grow: 1;
+    padding: 2rem;
+  }
+  
+  .admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  
+  .admin-profile {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .admin-profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+  
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .stat-card {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .stat-icon {
+    font-size: 2rem;
+    color: #3498db;
+  }
+  
+  .stat-details h3 {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #7f8c8d;
+  }
+  
+  .stat-details p {
+    margin: 0.5rem 0 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .recent-orders {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .orders-table {
+    overflow-x: auto;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+  
+  th, td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+  }
+  
+  th {
+    font-weight: 600;
+    color: #7f8c8d;
+  }
+  
+  .status {
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.875rem;
+  }
+  
+  .status.completed {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+  }
+  
+  .status.pending {
+    background-color: #fff3e0;
+    color: #ef6c00;
+  }
+  
+  .status.processing {
+    background-color: #e3f2fd;
+    color: #1565c0;
+  }
+  
+  @media (max-width: 768px) {
+    .admin-container {
+      flex-direction: column;
+    }
+  
+    .admin-sidebar {
+      width: 100%;
+      padding: 1rem;
+    }
+  
+    .admin-container.collapsed .admin-sidebar {
+      width: 100%;
+    }
+  
+    .stats-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .admin-panel {
+    margin: 0; 
+    padding: 16px; 
+  }
+
+.menu-item {
+    background-color: #2c3e50;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px 0;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    cursor: pointer;
+    transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.menu-item:hover {
+    background-color: #2c3e50;
+    transform: scale(1.05);
+}
+
+.menu-item:active {
+    background-color: #2c3e50;
+    transform: scale(0.95);
+}
+
+.menu-item.active {
+    background-color: #3333ff; 
+    color: white; 
+    font-weight: bold;
+}
+
+.logout-btn {
+    margin-top: auto;
+    padding: 10px;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+    border-radius: 8px;
+}
+
+.logout-btn:hover {
+    transform: scale(1.1);
+    background-color: #2c3e50;
+}
