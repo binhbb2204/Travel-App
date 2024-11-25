@@ -12,6 +12,7 @@ import AddTourForm from '../page/AddTourForm'
 import Accommodations from '../page/Accommodations'
 import Transportations from '../page/Transportations'
 import TransactionBooking from '../page/TransactionBooking'
+import AdminPanel from '../page/AdminPanel'
 
 const Routers = () => {
   const handleAddTour = async (formData) => {
@@ -21,18 +22,18 @@ const Routers = () => {
         method: 'POST',
         body: formData,
       });
-      
+
       if (!response.ok) {
         throw new Error('Failed to create tour');
       }
-      
+
       const newTour = await response.json();
       // Add success notification here
       console.log('Tour created:', newTour);
-      
+
       // You can use window.location or navigate here to redirect
       window.location.href = `/tours/${newTour._id}`;
-      
+
     } catch (error) {
       console.error('Error creating tour:', error);
       // Add error notification here
@@ -52,7 +53,8 @@ const Routers = () => {
       <Route path='/add-tour' element={<AddTourForm onSubmit={handleAddTour} />} />
       <Route path='/accommodations' element={<Accommodations />} />
       <Route path='/transportations' element={<Transportations />} />
-      <Route path='/transaction' element={<TransactionBooking />}/>
+      <Route path='/transaction' element={<TransactionBooking />} />
+      <Route path='/admin-panel' element={<AdminPanel />} />
 
     </Routes>
   )
