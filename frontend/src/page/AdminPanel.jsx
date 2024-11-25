@@ -7,11 +7,11 @@ import ToursPanel from "./admin/ToursPanel";
 import HotelsPanel from "./admin/HotelsPanel";
 import FlightsPanel from "./admin/FlightsPanel";
 import UsersPanel from "./admin/UsersPanel";
+import TransactionPanel from "./admin/TransactionPanel"
 import { Activity } from "lucide-react";
 
 const AdminPanel = () => {
     const [activeTab, setActiveTab] = useState('dashboard');
-    const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
     const navigate = useNavigate();
 
     const stats = {
@@ -55,6 +55,8 @@ const AdminPanel = () => {
                 return <HotelsPanel />;
             case 'flights':
                 return <FlightsPanel />;
+            case 'transaction':
+                return <TransactionPanel />;
             default:
                 return (
                     <div className="bg-white rounded-lg shadow-sm">
