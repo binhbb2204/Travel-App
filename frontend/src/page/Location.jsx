@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Map, Plane, Compass, Sun, Star, Wind, Globe2 } from 'lucide-react';
 import ParallaxBackground from '../ui/ParallaxBackground';
@@ -6,13 +6,18 @@ import { Section } from 'lucide-react';
 import { Container, Row, Col } from 'reactstrap'
 import FloatingElement from '../ui/FloatingElement';
 import FeaturedTourList from '../ui/Featured-tours/FeaturedTourList';
+import Pagination from '../ui/Pagination/Pagination';
 import '../styles/location.css'
 const Location = () => {
-    
+    const [filteredResults, setFilteredResults] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
     const { scrollY } = useScroll();
     const y1 = useTransform(scrollY, [0, 300], [0, 100]);
     const y2 = useTransform(scrollY, [0, 300], [0, -100]);
     const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+
+    const itemsPerPage = 8;
+
     return (
         <div  className="min-h-screen bg-white relative overflow-hidden">
             <ParallaxBackground />

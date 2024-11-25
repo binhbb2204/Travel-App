@@ -21,10 +21,6 @@ const nav_links = [
     display: 'Tours'
   },
   {
-    path: 'transportations',
-    display: 'Transportations'
-  },
-  {
     path: 'accommodations',
     display: 'Accommodations'
   },
