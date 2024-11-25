@@ -21,7 +21,8 @@ const Layout = () => {
       <main className='main-content'>
         <Routers />
       </main>
-      <Footer />
+      { /* Turn off the global footer in the AdminPanel */}
+      {!isAdminPanel && <Footer />}
     </div>
   );
 };

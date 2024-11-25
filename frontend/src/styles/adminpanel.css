@@ -11,7 +11,7 @@
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
-    transition: width 0.3s ease;
+    transition: width 0.3s;
   }
   
   .admin-container.collapsed .admin-sidebar {
@@ -243,4 +243,24 @@
 .logout-btn:hover {
     transform: scale(1.1);
     background-color: #2c3e50;
+}
+
+.admin-sidebar.collapsed {
+    width: 60px;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.menu-label {
+    margin-left: 10px; 
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.hidden {
+    opacity: 0;
+    visibility: hidden; 
 }
