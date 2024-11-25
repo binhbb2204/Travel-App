@@ -49,18 +49,20 @@ const PriceFilter = ({ searchParams, onSearchChange }) => {
                 type="number"
                 name="minPrice"
                 placeholder="Min"
+                min={0}
                 className="w-1/2 p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
                 value={searchParams.minPrice}
                 onChange={onSearchChange}
-            />
-            <input
-            type="number"
-            name="maxPrice"
-            placeholder="Max"
-            className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
-            value={searchParams.maxPrice}
-            onChange={onSearchChange}
-            />
+                />
+                <input
+                type="number"
+                name="maxPrice"
+                placeholder="Max"
+                min={0}
+                className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+                value={searchParams.maxPrice}
+                onChange={onSearchChange}
+                />
             </div>
         </div>
     )

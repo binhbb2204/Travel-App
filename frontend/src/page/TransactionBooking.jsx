@@ -10,7 +10,7 @@ const TransactionBooking = () => {
     const location = useLocation();
     const bookingData = location.state?.bookingData || {};
 
-    const { addToCart } = useCart(); // Get addToCart function from context
+    const { addToCart, processCheckout } = useCart();
     const navigate = useNavigate();
 
 
