@@ -20,17 +20,17 @@ const AccommodationSearchBox = ({searchParams, onSearchChange, countries, cities
     // const [checkOut, setCheckOut] = useState("");
     // const [focused, setFocused] = useState(false);
 
-    const onSearchChange = (e) => {
-        const { name, value } = e.target;
-        setSearchParams((prev) => ({ ...prev, [name]: value }));
-    };
+    // const onSearchChange = (e) => {
+    //     const { name, value } = e.target;
+    //     setSearchParams((prev) => ({ ...prev, [name]: value }));
+    // };
 
-    const countries = ["USA", "Canada", "Mexico"]; // Placeholder countries
-    const cities = {
-        USA: ["New York", "Los Angeles", "Chicago"],
-        Canada: ["Toronto", "Vancouver", "Montreal"],
-        Mexico: ["Mexico City", "Guadalajara", "Cancun"],
-    };
+    // const countries = ["USA", "Canada", "Mexico"]; // Placeholder countries
+    // const cities = {
+    //     USA: ["New York", "Los Angeles", "Chicago"],
+    //     Canada: ["Toronto", "Vancouver", "Montreal"],
+    //     Mexico: ["Mexico City", "Guadalajara", "Cancun"],
+    // };
 
     return (
         <Container className="box__container">
