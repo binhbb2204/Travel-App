@@ -1,14 +1,9 @@
+// src/page/AdminPanel.js
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import {
-    FiUsers,
-    FiBox,
-    FiShoppingBag,
-    FiDollarSign,
-    FiSettings,
-    FiLogOut
-} from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
+
+import {User2, Box, ShoppingBag, DollarSign, Settings, LogOut} from 'lucide-react'
 import '../styles/adminpanel.css';
 
 const AdminPanel = () => {
@@ -18,15 +13,15 @@ const AdminPanel = () => {
 
     const dashboardStats = {
         totalUsers: 1234,
-        totalProducts: 567,
-        totalOrders: 89,
-        revenue: 12345.67
+        totalProducts: 456,
+        totalOrders: 789,
+        revenue: 123456
     };
 
     const recentOrders = [
-        { id: 1, customer: 'Adolf Hitler', product: 'Historical City Tour', amount: 59.99, status: 'Completed' },
-        { id: 2, customer: 'Donald Trump', product: 'Cultural Experience', amount: 129.99, status: 'Pending' },
-        { id: 3, customer: 'Binh Chan', product: 'Coastal Hike', amount: 89.99, status: 'Processing' }
+        { id: 1, customer: 'John Doe', product: 'Tour1', amount: 99.99, status: 'Completed' },
+        { id: 2, customer: 'Jane Smith', product: 'Tour2', amount: 149.99, status: 'Pending' },
+        { id: 3, customer: 'Bob Johnson', product: 'Tour3', amount: 89.99, status: 'Processing' }
     ];
 
     const handleMenuClick = (tab) => {
@@ -34,22 +29,15 @@ const AdminPanel = () => {
     };
 
     const handleLogout = () => {
-        // Perform any necessary logout operations here (like clearing tokens)
+        localStorage.removeItem('authToken');
         navigate('/');
     };
 
     return (
         <div className={`admin-container ${isSidebarCollapsed ? 'collapsed' : ''}`}>
-            {/* Sidebar */}
             <nav className="admin-sidebar">
                 <div className="sidebar-header">
                     <h2>{isSidebarCollapsed ? 'A' : 'Admin Panel'}</h2>
-                    <button
-                        className="collapse-btn"
-                        onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-                    >
-                        {isSidebarCollapsed ? '→' : '←'}
-                    </button>
                 </div>
 
                 <div className="sidebar-menu">
@@ -59,31 +47,34 @@ const AdminPanel = () => {
                         whileHover={{ scale: 1.05, backgroundColor: '#3333ff' }}
                         whileTap={{ scale: 0.95 }}
                     >
-                        <FiBox /> {!isSidebarCollapsed && 'Dashboard'}
+                        <Box /> {!isSidebarCollapsed && 'Dashboard'}
                     </motion.button>
+                    
                     <motion.button
                         className={`menu-item ${activeTab === 'users' ? 'active' : ''}`}
                         onClick={() => handleMenuClick('users')}
                         whileHover={{ scale: 1.05, backgroundColor: '#3333ff' }}
                         whileTap={{ scale: 0.95 }}
                     >
-                        <FiUsers /> {!isSidebarCollapsed && 'Users'}
+                        <User2  /> {!isSidebarCollapsed && 'Users'}
                     </motion.button>
+
                     <motion.button
                         className={`menu-item ${activeTab === 'products' ? 'active' : ''}`}
                         onClick={() => handleMenuClick('products')}
                         whileHover={{ scale: 1.05, backgroundColor: '#3333ff' }}
                         whileTap={{ scale: 0.95 }}
                     >
-                        <FiShoppingBag /> {!isSidebarCollapsed && 'Products'}
+                        <ShoppingBag /> {!isSidebarCollapsed && 'Products'}
                     </motion.button>
+
                     <motion.button
                         className={`menu-item ${activeTab === 'settings' ? 'active' : ''}`}
                         onClick={() => handleMenuClick('settings')}
                         whileHover={{ scale: 1.05, backgroundColor: '#3333ff' }}
                         whileTap={{ scale: 0.95 }}
                     >
-                        <FiSettings /> {!isSidebarCollapsed && 'Settings'}
+                        <Settings /> {!isSidebarCollapsed && 'Settings'}
                     </motion.button>
                 </div>
 
@@ -93,11 +84,10 @@ const AdminPanel = () => {
                     whileHover={{ scale: 1.05, backgroundColor: '#c0c0c0' }}
                     whileTap={{ scale: 0.95 }}
                 >
-                    <FiLogOut /> {!isSidebarCollapsed && 'Logout'}
+                    <LogOut /> {!isSidebarCollapsed && 'Logout'}
                 </motion.button>
             </nav>
 
-            {/* Main Content */}
             <main className="admin-main">
                 <header className="admin-header">
                     <h1>{activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}</h1>
@@ -115,37 +105,40 @@ const AdminPanel = () => {
                                     className="stat-card"
                                     whileHover={{ scale: 1.02 }}
                                 >
-                                    <FiUsers className="stat-icon" />
+                                    <User2 className="stat-icon" />
                                     <div className="stat-details">
                                         <h3>Total Users</h3>
                                         <p>{dashboardStats.totalUsers}</p>
                                     </div>
                                 </motion.div>
+
                                 <motion.div
                                     className="stat-card"
                                     whileHover={{ scale: 1.02 }}
                                 >
-                                    <FiBox className="stat-icon" />
+                                    <Box className="stat-icon" />
                                     <div className="stat-details">
                                         <h3>Number of Processed Tours</h3>
                                         <p>{dashboardStats.totalProducts}</p>
                                     </div>
                                 </motion.div>
+
                                 <motion.div
                                     className="stat-card"
                                     whileHover={{ scale: 1.02 }}
                                 >
-                                    <FiShoppingBag className="stat-icon" />
+                                    <ShoppingBag className="stat-icon" />
                                     <div className="stat-details">
                                         <h3>Number of Successful Tours</h3>
                                         <p>{dashboardStats.totalOrders}</p>
                                     </div>
                                 </motion.div>
+
                                 <motion.div
                                     className="stat-card"
                                     whileHover={{ scale: 1.02 }}
                                 >
-                                    <FiDollarSign className="stat-icon" />
+                                    <DollarSign className="stat-icon" />
                                     <div className="stat-details">
                                         <h3>Revenue</h3>
                                         <p>${dashboardStats.revenue.toLocaleString()}</p>
@@ -159,10 +152,10 @@ const AdminPanel = () => {
                                     <table>
                                         <thead>
                                             <tr>
-                                                <th>Tour ID</th>
-                                                <th>Customer Name</th>
-                                                <th>Tour Name</th>
-                                                <th>Amount of Transaction</th>
+                                                <th>Order ID</th>
+                                                <th>Customer</th>
+                                                <th>Product</th>
+                                                <th>Amount</th>
                                                 <th>Status</th>
                                             </tr>
                                         </thead>
@@ -186,8 +179,6 @@ const AdminPanel = () => {
                             </div>
                         </div>
                     )}
-
-                    {/* Add other tabs (Users, Products, Settings) content here */}
                 </div>
             </main>
         </div>
