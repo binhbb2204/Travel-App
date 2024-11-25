@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Container, Row, Button } from 'reactstrap';
 import { NavLink, Link } from 'react-router-dom';
 import { Menu, X, Heart, Settings, ShoppingCart } from 'lucide-react';
-import { FiSettings, FiLogOut } from 'react-icons/fi';
 import { useFavorites } from '../ui/Context/FavoritesContext';
 import logo from '../images/TAB.gif';
 import { motion } from 'framer-motion';

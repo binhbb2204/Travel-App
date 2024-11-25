@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Container, Row, Col, Form, FormGroup, Input, Button, Spinner } from "reactstrap";
 import { FaPlane, FaSearch } from 'react-icons/fa';
+import {Plane, Search} from 'lucide-react'
 import '../styles/transportations.css';
 
 const Transportations = () => {
@@ -53,7 +54,7 @@ const Transportations = () => {
                 className="trans__content"
             >
                 <h1 className="trans__header">
-                    <FaPlane className="header-icon" /> Flight Search
+                    <Plane className="header-icon" /> Flight Search
                 </h1>
 
                 <div className="search-section">
@@ -97,7 +98,7 @@ const Transportations = () => {
                                     onClick={searchFlights}
                                     disabled={isLoading || !origin || !destination || !date}
                                 >
-                                    {isLoading ? <Spinner size="sm" /> : <><FaSearch /> Search Flights</>}
+                                    {isLoading ? <Spinner size="sm" /> : <><Search /> Search Flights</>}
                                 </Button>
                             </Col>
                         </Row>
