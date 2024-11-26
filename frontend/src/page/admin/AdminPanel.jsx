@@ -1,4 +1,3 @@
-// AdminPanel.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AdminSidebar from './AdminSidebar';
@@ -45,7 +44,7 @@ const AdminPanel = () => {
   };
 
   const renderActivePanel = () => {
-    switch(activeTab) {
+    switch (activeTab) {
       case 'overview':
         return <OverviewPanel stats={stats} revenueData={revenueData} recentBookings={recentBookings} />;
       case 'users':
@@ -56,8 +55,8 @@ const AdminPanel = () => {
         return <HotelsPanel />;
       case 'flights':
         return <FlightsPanel />;
-        case 'transactions':
-          return <TransactionPanel />;
+      case 'transactions':
+        return <TransactionPanel />;
       default:
         return (
           <div className="bg-white rounded-lg shadow-sm">
@@ -78,9 +77,9 @@ const AdminPanel = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      <AdminSidebar 
-        activeTab={activeTab} 
-        setActiveTab={setActiveTab} 
+      <AdminSidebar
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
         onLogout={handleLogout}
       />
 
@@ -91,14 +90,17 @@ const AdminPanel = () => {
             <h1 className="text-3xl font-bold text-gray-800">
               {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}
             </h1>
-            <p className="text-gray-500 mt-1">Welcome back, Admin</p>
+            {/* <p className="text-gray-500 mt-1">Welcome back, Admin</p> */}
           </div>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 bg-blue-50 px-4 py-2 rounded-full">
-              <Activity className="w-4 h-4 text-blue-600" />
-              <span className="text-sm font-medium text-blue-600">Live Updates</span>
+
+          {activeTab === 'overview' && (
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2 bg-blue-50 px-4 py-2 rounded-full">
+                <Activity className="w-4 h-4 text-blue-600" />
+                <span className="text-sm font-medium text-blue-600">Live Updates</span>
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         {/* Render the active panel */}
