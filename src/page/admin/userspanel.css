@@ -1,0 +1,51 @@
+.users__panel {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.users__title {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.user__card {
+  border: 1px solid #eaeaea;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 10px;
+  transition: background-color 0.3s;
+}
+
+.user__card:hover {
+  background-color: #f9f9f9;
+}
+
+.user__card .d-flex {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user__avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 15px;
+}
+
+.action-box {
+  width: 80px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  height: 100%;
+}
+
+.modal-content {
+  border-radius: 8px; 
+}

@@ -12,16 +12,17 @@ const Layout = () => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
+  // Check if the current path is part of the admin section 
   const isAdminPanel = location.pathname.startsWith('/admin');
 
   return (
     <div className="relative">
-      { /* Turn off the global header in the AdminPanel */}
+      {/* Turn off the global header on all admin-related pages */}
       {!isAdminPanel && <Header />}
       <main className='main-content'>
         <Routers />
       </main>
-      { /* Turn off the global footer in the AdminPanel */}
+      {/* Turn off the global footer on all admin-related pages */}
       {!isAdminPanel && <Footer />}
     </div>
   );

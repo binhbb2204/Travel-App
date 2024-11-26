@@ -4,8 +4,6 @@ import { Card, CardContent } from './Card'
 import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
 import { LocationFilters,  PriceFilter, TourDetailsFilters } from '../Featured-tours/ToursPageSearchComponent';
 
-
-
 const TourSearchCard = ({searchParams, onSearchChange, countries, cities, onSubmit}) => {
     const handleClearSearch = () => {
         onSearchChange({ target: { name: 'keyword', value: '' } });

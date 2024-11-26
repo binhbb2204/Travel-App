@@ -309,7 +309,7 @@ const accommodationData = [
         photo: Italy_Rome[0],
         photos: Italy_Rome,
         price: 350,
-        type: "hotel",
+        type: "motel",
         rooms: [
             {
                 roomType: 1,
