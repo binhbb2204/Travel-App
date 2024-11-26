@@ -3,14 +3,14 @@ import { Container, Row, Col, Form, FormGroup, Button } from "reactstrap";
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import '../styles/register.css';
+import { useUsers, UserProvider } from "./admin/UsersContext";
 
 const Register = () => {
+  const { addUser } = useUsers();
   const genderOptions = [
     { value: 'male', label: 'Male' },
     { value: 'female', label: 'Female' },
-    { value: 'attackhelicopter', label: 'Attack Helicopter' },
-    { value: 'binh', label: 'Binh' },
-    { value: 'an', label: 'An' },
+    { value: 'other', label: 'Other' },
     // Add more genders here C:
   ];
 
@@ -36,8 +36,9 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle registration logic here
+    addUser(formData); 
     console.log('Registration data:', formData);
+    navigate('/'); 
   };
 
   return (

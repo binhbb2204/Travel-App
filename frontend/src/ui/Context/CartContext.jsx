@@ -1,10 +1,27 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
 
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState([]);
     const [bookings, setBookings] = useState([]); // Track confirmed bookings
+    const [currentBooking, setCurrentBooking] = useState(null);
+
+    // Persist current booking to localStorage
+    useEffect(() => {
+        if (currentBooking) {
+            localStorage.setItem('currentBooking', JSON.stringify(currentBooking));
+        }
+    }, [currentBooking]);
+
+    // Load current booking from localStorage on initial load
+    useEffect(() => {
+        const storedBooking = localStorage.getItem('currentBooking');
+        if (storedBooking) {
+            setCurrentBooking(JSON.parse(storedBooking));
+        }
+    }, []);
+
 
     const addToCart = (item) => {
         // Ensure the item has a type (tour, hotel, etc.)
@@ -12,6 +29,9 @@ export const CartProvider = ({ children }) => {
             console.error('Item type is required');
             return;
         }
+
+        // Set the current booking
+        setCurrentBooking(item);
 
         setCartItems(prev => {
             // Check if item already exists
@@ -35,6 +55,11 @@ export const CartProvider = ({ children }) => {
                 dateAdded: new Date()
             }];
         });
+    };
+
+    const clearCurrentBooking = () => {
+        setCurrentBooking(null);
+        localStorage.removeItem('currentBooking');
     };
 
     const removeFromCart = (itemId, type) => {
@@ -126,6 +151,9 @@ export const CartProvider = ({ children }) => {
             value={{
                 cartItems,
                 bookings,
+                currentBooking,
+                setCurrentBooking,
+                clearCurrentBooking,
                 addToCart,
                 removeFromCart,
                 updateQuantity,

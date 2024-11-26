@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Container, Row, Button } from 'reactstrap';
-import { NavLink, Link } from 'react-router-dom';
-import { Menu, X, Heart, Settings, ShoppingCart } from 'lucide-react';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
+import { Menu, X, Heart, Settings, ShoppingCart, TicketsPlane } from 'lucide-react';
 import { useFavorites } from '../ui/Context/FavoritesContext';
+import CartDropdown from '../ui/Cart/CartDropdown';
+import { useCart } from '../ui/Context/CartContext';
 import logo from '../images/TAB.gif';
 import { motion } from 'framer-motion';
 import './header.css'
@@ -32,12 +34,12 @@ const Header = () => {
   const [showFavorites, setShowFavorites] = useState(false);
   const { favorites } = useFavorites();
   const favoritesRef = useRef();
-
   const [showSettings, setShowSettings] = useState(false);
   const [showCart, setShowCart] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
+  const { cartItems } = useCart();
   const settingsRef = useRef(null);
   const cartRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -117,7 +119,12 @@ const Header = () => {
         <li className="p-2 hover:bg-gray-100 cursor-pointer text-blue-500 font-bold">
           <Link to="/admin-panel">Admin Panel</Link>
         </li>
-        <li className="p-2 hover:bg-gray-100 cursor-pointer text-red-500 font-bold mt-3">Logout</li>
+        <li
+          className="p-2 hover:bg-gray-100 cursor-pointer text-red-500 font-bold mt-3"
+          onClick={handleLogout}
+        >
+          Logout
+        </li>
       </ul>
     </motion.div>
   );
@@ -128,7 +135,7 @@ const Header = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('authToken');
-    window.location.href = "/login";
+    navigate("/login");
   };
 
   return (
@@ -230,8 +237,9 @@ const Header = () => {
               )}
             </div>
 
-            <div className={`relative`}>
-              {/* Setting Button */}
+            {/* Setting and Cart button */}
+            <div className="nav__right d-flex align-items-center gap-2">
+              {/* Settings Button */}
               <button
                 className="p-2 rounded-full relative"
                 onClick={toggleSettingsDropdown}
@@ -244,26 +252,26 @@ const Header = () => {
                 />
                 {showSettings && <SettingsDropdown />}
               </button>
-            </div>
 
-            <div className={`nav__right d-flex align-items-center gap-2`}>
               {/* Cart Button */}
-              <button
+              <Link to="/checkout">
+                <button
                 className="p-2 rounded-full relative"
                 onClick={() => setShowCart(!showCart)}
               >
-                <ShoppingCart
+                <TicketsPlane
                   className="w-6 h-6 text-gray-700 hover:text-blue-500"
                   stroke="currentColor"
                   strokeWidth={2}
                   fill="none"
-                />
-                {cartItems.length > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                    {cartItems.length}
-                  </span>
-                )}
-              </button>
+                  />
+                  {cartItems.length > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                      {cartItems.length}
+                    </span>
+                  )}
+                </button>
+              </Link>
             </div>
 
             {/* Mobile Menu Button */}
