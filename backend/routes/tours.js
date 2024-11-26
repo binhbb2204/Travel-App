@@ -8,6 +8,6 @@ router.put("/:id", updateTour);
 
 router.delete("/:id", deleteTour);
 router.get("/:id", getSingleTour);
-router.get("/:id", getAllTour);
-//hello
+router.get("/", getAllTour);
+
 export default router
