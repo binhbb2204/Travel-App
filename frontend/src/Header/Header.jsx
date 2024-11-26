@@ -3,6 +3,8 @@ import { Container, Row, Button } from 'reactstrap';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { Menu, X, Heart, Settings, ShoppingCart, TicketsPlane } from 'lucide-react';
 import { useFavorites } from '../ui/Context/FavoritesContext';
+import CartDropdown from '../ui/Cart/CartDropdown';
+import { useCart } from '../ui/Context/CartContext';
 import logo from '../images/TAB.gif';
 import { motion } from 'framer-motion';
 import './header.css'
@@ -34,7 +36,7 @@ const Header = () => {
   const favoritesRef = useRef();
   const [showSettings, setShowSettings] = useState(false);
   const [showCart, setShowCart] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
+  const { cartItems } = useCart();
   const settingsRef = useRef(null);
   const cartRef = useRef(null);
   const navigate = useNavigate();
@@ -252,7 +254,8 @@ const Header = () => {
               </button>
 
               {/* Cart Button */}
-              <button
+              <Link to="/checkout">
+                <button
                 className="p-2 rounded-full relative"
                 onClick={() => setShowCart(!showCart)}
               >
@@ -261,13 +264,14 @@ const Header = () => {
                   stroke="currentColor"
                   strokeWidth={2}
                   fill="none"
-                />
-                {cartItems.length > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                    {cartItems.length}
-                  </span>
-                )}
-              </button>
+                  />
+                  {cartItems.length > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                      {cartItems.length}
+                    </span>
+                  )}
+                </button>
+              </Link>
             </div>
 
             {/* Mobile Menu Button */}
