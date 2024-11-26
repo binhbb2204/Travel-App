@@ -14,7 +14,8 @@ const AccommodationDetails = () => {
 
   const acco = accommodationData.find(acco => acco.id === id); //This is static data will be use with mongoDB later, this is concept
 
-  const{photo, photos, title, desc, price, reviews, city, maxGroupSize, highlights} = acco;
+  const{photo, photos, title, desc, price, reviews, city, rooms, highlights} = acco;
+  const totalCapacity = acco.rooms.reduce((sum, room) => sum + room.roomType * room.availableRooms, 0);
   const{totalRating, avgRating} = calculateAvgRating(reviews);
 
   const { isFavorite, addToFavorites, removeFromFavorites } = useFavorites();
@@ -64,7 +65,7 @@ const AccommodationDetails = () => {
 
                         <div className="flex items-center gap-2">
                           <Users className="w-5 h-5 text-blue-500" />
-                          <span className="text-sm md:text-base">Max {maxGroupSize} people</span>
+                          <span className="text-sm md:text-base">Available for {totalCapacity} people</span>
                         </div>
 
                         {/* <div className="flex items-center gap-2">
