@@ -56,8 +56,8 @@ const AdminPanel = () => {
         return <ToursPanel />;
       case 'hotels':
         return <HotelsPanel />;
-      case 'flights':
-        return <FlightsPanel />;
+      // case 'flights':
+      //   return <FlightsPanel />;
       case 'transactions':
         return <TransactionPanel />;
       default:
