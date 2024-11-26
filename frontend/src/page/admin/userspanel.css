@@ -45,3 +45,7 @@
   padding: 20px;
   height: 100%;
 }
+
+.modal-content {
+  border-radius: 8px; 
+}

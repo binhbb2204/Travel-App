@@ -1,3 +1,4 @@
+// Handles the user info saving logic
 import React, { createContext, useState, useContext } from 'react';
 
 const UserContext = createContext();
@@ -9,8 +10,20 @@ export const UserProvider = ({ children }) => {
         setUsers(prevUsers => [...prevUsers, user]);
     };
 
+    const editUser = (updatedUser) => {
+        setUsers(prevUsers => 
+            prevUsers.map(user => 
+                user.id === updatedUser.id ? updatedUser : user
+            )
+        );
+    };
+
+    const deleteUser = (userId) => {
+        setUsers(prevUsers => prevUsers.filter(user => user.id !== userId));
+    };
+
     return (
-        <UserContext.Provider value={{ users, addUser }}>
+        <UserContext.Provider value={{ users, addUser, editUser, deleteUser }}>
             {children}
         </UserContext.Provider>
     );

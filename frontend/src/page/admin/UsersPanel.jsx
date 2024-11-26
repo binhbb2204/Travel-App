@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Button } from 'reactstrap';
+import { Container, Row, Col, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input } from 'reactstrap';
 import { useUsers } from "./UsersContext";
-import { Edit, Delete } from "lucide-react"; // Import the icons from lucide-react
+import { Edit, Delete } from "lucide-react";
 import './userspanel.css';
 
 const UsersPanel = () => {
-    const { users, deleteUser } = useUsers(); // Will implement this deleteUser function later
+    const { users, deleteUser, editUser } = useUsers();
     const [expandedUser, setExpandedUser] = useState(null);
+    const [editModal, setEditModal] = useState(false);
+    const [currentUser, setCurrentUser] = useState(null);
 
     const handleExpand = (user) => {
         setExpandedUser(expandedUser === user ? null : user);
@@ -14,8 +16,26 @@ const UsersPanel = () => {
 
     const handleDelete = (user) => {
         if (window.confirm(`Are you sure you want to delete ${user.name}?`)) {
-            deleteUser(user.id); // Will implement this deleteUser function later
+            deleteUser(user.id);
         }
+    };
+
+    const toggleEditModal = (user) => {
+        setCurrentUser(user);
+        setEditModal(!editModal);
+    };
+
+    const handleEditSubmit = (event) => {
+        event.preventDefault();
+        const updatedUser = {
+            ...currentUser,
+            name: event.target.name.value,
+            email: event.target.email.value,
+            phone: event.target.phone.value,
+            gender: event.target.gender.value,
+        };
+        editUser(updatedUser);
+        toggleEditModal(null); // Close the modal
     };
 
     return (
@@ -58,8 +78,8 @@ const UsersPanel = () => {
 
                                     {/* Action buttons for edit and delete */}
                                     <div className="action-box border p-2 ml-2 d-flex flex-column justify-content-between">
-                                        <Button color="warning" onClick={() => alert('Edit functionality to be implemented.')}>
-                                            <Edit className="icon" /> 
+                                        <Button color="warning" onClick={() => toggleEditModal(user)}>
+                                            <Edit className="icon" />
                                         </Button>
                                         <Button color="danger" className="mt-2" onClick={() => handleDelete(user)}>
                                             <Delete className="icon" />
@@ -71,6 +91,41 @@ const UsersPanel = () => {
                     </div>
                 </Col>
             </Row>
+
+            {/* Edit User Modal */}
+            <Modal isOpen={editModal} toggle={() => toggleEditModal(null)} centered>
+                <ModalHeader toggle={() => toggleEditModal(null)}>Edit User Info</ModalHeader>
+                <ModalBody>
+                    {currentUser && (
+                        <Form onSubmit={handleEditSubmit}>
+                            <FormGroup>
+                                <Label for="name">Name</Label>
+                                <Input type="text" id="name" defaultValue={currentUser.name} required />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="email">Email</Label>
+                                <Input type="email" id="email" defaultValue={currentUser.email} required />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="phone">Phone</Label>
+                                <Input type="text" id="phone" defaultValue={currentUser.phone} required />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="gender">Gender</Label>
+                                <Input type="select" id="gender" defaultValue={currentUser.gender} required>
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                    <option>Other</option>
+                                </Input>
+                            </FormGroup>
+                            <Button type="submit" color="primary">Save Changes</Button>
+                        </Form>
+                    )}
+                </ModalBody>
+                <ModalFooter>
+                    <Button color="secondary" onClick={() => toggleEditModal(null)}>Cancel</Button>
+                </ModalFooter>
+            </Modal>
         </Container>
     );
 };
