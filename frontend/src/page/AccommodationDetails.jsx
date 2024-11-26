@@ -6,9 +6,9 @@ import { useFavorites } from '../ui/Context/FavoritesContext';
 import accommodationData from '../data/accommodationData';
 import ImageCarousel from '../ui/ImageCarousel/ImageCarousel';
 import calculateAvgRating from '../utils/avgRating';
-import '../styles/tour-details.css'
+import '../styles/accommodation-details.css'
 import CommentSection from '../ui/Comment/CommentSection';
-import Booking from '../Booking/Booking';
+import AccommodationBooking from '../Booking/AccommodationBooking';
 const AccommodationDetails = () => {
   const {id} = useParams();
 
@@ -67,10 +67,10 @@ const AccommodationDetails = () => {
                           <span className="text-sm md:text-base">Max {maxGroupSize} people</span>
                         </div>
 
-                        <div className="flex items-center gap-2">
+                        {/* <div className="flex items-center gap-2">
                           <Clock className="w-5 h-5 text-blue-500" />
                           <span className="text-sm md:text-base">{duration} Days</span>
-                        </div>
+                        </div> */}
 
                         <div className="flex items-center gap-2">
                           <Star className="w-5 h-5 text-yellow-500" />
@@ -107,7 +107,7 @@ const AccommodationDetails = () => {
 
           <Col lg='4'>
             <div className="booking-wrapper">
-              <Booking acco={acco} avgRating={avgRating} />
+              <AccommodationBooking acco={acco} avgRating={avgRating} />
             </div>
           </Col>
         </Row>
