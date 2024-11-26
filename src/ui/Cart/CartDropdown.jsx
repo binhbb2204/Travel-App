@@ -4,14 +4,27 @@ import { useCart } from '../Context/CartContext'
 import { useNavigate } from 'react-router-dom'
 
 const CartDropdown = ({isOpen, onClose}) => {
-    const { cartItems, removeFromCart, getCartTotal } = useCart();
+    const { cartItems, currentBooking, removeFromCart, getCartTotal } = useCart();
     const navigate = useNavigate();
     const handleStartCheckout = () => {
-        navigate('/checkout');
+        navigate('/checkout', { 
+            state: { 
+                booking: currentBooking 
+            } 
+        });
         onClose();
     };
 
-    if(!isOpen) return null;
+    const renderNotificationBadge = () => {
+        if (!currentBooking) return null;
+
+        return (
+            <div className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full 
+                            w-5 h-5 flex items-center justify-center text-xs">
+                1
+            </div>
+        );
+    };
     return (
         <div className="fixed inset-0 z-50 lg:absolute lg:inset-auto lg:right-0 lg:mt-2">
             {/* Backdrop for mobile */}
@@ -30,6 +43,7 @@ const CartDropdown = ({isOpen, onClose}) => {
                         <div className="flex items-center gap-2">
                             <ShoppingCart className="w-5 h-5 text-blue-600" />
                             <h3 className="font-semibold">Shopping Cart</h3>
+                            {renderNotificationBadge()}
                         </div>
                         <button 
                         onClick={onClose}

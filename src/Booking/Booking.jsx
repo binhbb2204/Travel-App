@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Calendar, Users, CreditCard, Mail, Phone, User, CheckCircle, Sparkles, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-
+import { useCart } from '../ui/Context/CartContext';
 
 const bottomSheetVariants = {
     hidden: { y: '100%' },
@@ -255,6 +255,7 @@ const MobileBookButton = ({ price, setIsBottomSheetOpen }) => (
 const Booking = ({ tour }) => {
     const navigate = useNavigate();
     const { price, reviews, title } = tour;
+    
     const [formData, setFormData] = useState({
         date: '',
         adults: 1,
@@ -269,6 +270,7 @@ const Booking = ({ tour }) => {
     const [showSuccess, setShowSuccess] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
     const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
+    const { addToCart, currentBooking, setCurrentBooking } = useCart();
 
     
     useEffect(() => {
@@ -334,6 +336,7 @@ const Booking = ({ tour }) => {
             pricePerPerson: tour?.price || 0,
             serviceCharge: pricing.serviceCharge,
         };
+        addToCart(bookingData);
     
         setTimeout(() => {
             setIsSubmitting(false);
@@ -343,12 +346,16 @@ const Booking = ({ tour }) => {
                 setShowSuccess(false);
                 if (isMobile) setIsBottomSheetOpen(false);
                 try {
-                    navigate("/transaction", { state: { bookingData } });
+                    //navigate("/transaction", { state: { bookingData } });
+                    navigate("/checkout", { state: { bookingData } });
+                    //navigate("/checkout");
                 } catch (error) {
                     console.error("Navigation failed:", error);
                     alert("Something went wrong. Please try again.");
                 }
                 
+                // addToCart(bookingData);
+                //navigate("/checkout");
             }, 3000);
         }, 1500);
     };

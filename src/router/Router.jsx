@@ -13,6 +13,8 @@ import Accommodations from '../page/Accommodations'
 import Transportations from '../page/Transportations'
 import TransactionBooking from '../page/TransactionBooking'
 import AdminPanel from '../page/admin/AdminPanel'
+import Checkout from '../page/Checkout'
+
 
 const Routers = () => {
   const handleAddTour = async (formData) => {
@@ -55,6 +57,9 @@ const Routers = () => {
       <Route path='/transportations' element={<Transportations />} />
       <Route path='/transaction' element={<TransactionBooking />} />
       <Route path='/admin-panel' element={<AdminPanel />} />
+      <Route path="/checkout" element={<Checkout />} />
+      
+      
 
     </Routes>
   )
