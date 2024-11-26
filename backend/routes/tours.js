@@ -9,5 +9,5 @@ router.put("/:id", updateTour);
 router.delete("/:id", deleteTour);
 router.get("/:id", getSingleTour);
 router.get("/:id", getAllTour);
-
+//hello
 export default router
