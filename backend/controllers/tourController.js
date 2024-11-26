@@ -56,8 +56,10 @@ export const getSingleTour = async (req, res) => {
 
 // Get all tours
 export const getAllTour = async (req, res) => {
+    const page = parseInt(req.query.page)
+    console.log(page)
     try {
-        const tours = await Tour.find({});
+        const tours = await Tour.find({}).skip(page * 8).limit(8);
         res.status(200).json({ success: true, data: tours });
     } catch (error) {
         res.status(400).json({
