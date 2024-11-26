@@ -35,7 +35,7 @@ const UsersPanel = () => {
             gender: event.target.gender.value,
         };
         editUser(updatedUser);
-        toggleEditModal(null); // Close the modal
+        toggleEditModal(null); 
     };
 
     return (
@@ -92,7 +92,7 @@ const UsersPanel = () => {
                 </Col>
             </Row>
 
-            {/* Edit User Modal */}
+            {/* Edit User Info */}
             <Modal isOpen={editModal} toggle={() => toggleEditModal(null)} centered>
                 <ModalHeader toggle={() => toggleEditModal(null)}>Edit User Info</ModalHeader>
                 <ModalBody>
