@@ -185,3 +185,13 @@
     background-color: #f3f4f6;
   }
 
+  .nav__right {
+    display: flex;
+    align-items: center;
+    gap: 8px; 
+}
+
+.nav__right .relative {
+    margin-right: 0; 
+}
+

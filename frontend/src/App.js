@@ -5,6 +5,7 @@ import Layout from './Layout/Layout';
 import { FavoritesProvider } from './ui/Context/FavoritesContext';
 import { CartProvider } from './ui/Context/CartContext';
 import AdminPanel from './page/admin/AdminPanel';
+import { UserProvider } from "./page/admin/UsersContext";
 
 function App() {
 
@@ -21,7 +22,9 @@ function App() {
   return (
     <FavoritesProvider>
       <CartProvider>
-        <Layout />
+        <UserProvider>
+          <Layout />
+        </UserProvider>
       </CartProvider>
     </FavoritesProvider>
   );
