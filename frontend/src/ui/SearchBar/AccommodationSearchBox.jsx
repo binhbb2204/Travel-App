@@ -148,11 +148,11 @@ const AccommodationType = ({ searchParams, onSearchChange}) => {
                 value={searchParams.type}
                 onChange={onSearchChange}
                 >
-                    <option value="any">Any Type</option>
-                    <option value="1">Hotel</option>
-                    <option value="2">Hostel</option>
-                    <option value="3">Motel</option>
-                    <option value="4">Resort</option>
+                    <option value="">All Type</option>
+                    <option value="hotel">Hotel</option>
+                    <option value="hostel">Hostel</option>
+                    <option value="motel">Motel</option>
+                    <option value="resort">Resort</option>
                 </select>
             </div>
         </div>
