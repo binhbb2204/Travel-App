@@ -1,29 +1,47 @@
-// Handles the user info saving logic
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
 
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-    const [users, setUsers] = useState([]);
+    const [users, setUsers] = useState(() => {
+        // Load users from localStorage when initializing
+        const savedUsers = localStorage.getItem('users');
+        return savedUsers ? JSON.parse(savedUsers) : [];
+    });
 
     const addUser = (user) => {
-        setUsers(prevUsers => [...prevUsers, user]);
+        setUsers(prevUsers => {
+            const updatedUsers = [...prevUsers, user];
+            localStorage.setItem('users', JSON.stringify(updatedUsers)); // Save to localStorage
+            return updatedUsers;
+        });
     };
 
     const editUser = (updatedUser) => {
-        setUsers(prevUsers => 
-            prevUsers.map(user => 
+        setUsers(prevUsers => {
+            const updatedUsers = prevUsers.map(user =>
                 user.id === updatedUser.id ? updatedUser : user
-            )
-        );
+            );
+            localStorage.setItem('users', JSON.stringify(updatedUsers)); 
+            return updatedUsers;
+        });
     };
 
     const deleteUser = (userId) => {
-        setUsers(prevUsers => prevUsers.filter(user => user.id !== userId));
+        setUsers(prevUsers => {
+            const updatedUsers = prevUsers.filter(user => user.id !== userId);
+            localStorage.setItem('users', JSON.stringify(updatedUsers)); 
+            return updatedUsers;
+        });
+    };
+
+    const clearUsers = () => {
+        setUsers([]);
+        localStorage.removeItem('users');
     };
 
     return (
-        <UserContext.Provider value={{ users, addUser, editUser, deleteUser }}>
+        <UserContext.Provider value={{ users, addUser, editUser, deleteUser, clearUsers }}>
             {children}
         </UserContext.Provider>
     );

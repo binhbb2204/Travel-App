@@ -35,7 +35,7 @@ const UsersPanel = () => {
             gender: event.target.gender.value,
         };
         editUser(updatedUser);
-        toggleEditModal(null); 
+        toggleEditModal(null);
     };
 
     return (
@@ -118,12 +118,13 @@ const UsersPanel = () => {
                                     <option>Other</option>
                                 </Input>
                             </FormGroup>
-                            <Button type="submit" color="primary">Save Changes</Button>
+                            <Button type="submit" color="primary" className="mr-3">Save Changes</Button>
+                            <Button color="secondary" onClick={() => toggleEditModal(null)}>Cancel</Button>
                         </Form>
                     )}
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="secondary" onClick={() => toggleEditModal(null)}>Cancel</Button>
+
                 </ModalFooter>
             </Modal>
         </Container>

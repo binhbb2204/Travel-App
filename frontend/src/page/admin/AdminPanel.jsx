@@ -8,10 +8,12 @@ import FlightsPanel from './FlightsPanel';
 import OverviewPanel from "./OverviewPanel";
 import TransactionPanel from "./TransactionPanel";
 import { Activity } from 'lucide-react';
+import { useUsers } from "./UsersContext";
 
 const AdminPanel = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const navigate = useNavigate();
+  const { clearUsers } = useUsers();
 
   // Sample data
   const revenueData = [
@@ -39,6 +41,7 @@ const AdminPanel = () => {
   ];
 
   const handleLogout = () => {
+    clearUsers();
     localStorage.removeItem('authToken');
     navigate('/');
   };
