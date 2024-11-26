@@ -1,8 +1,119 @@
-import React from 'react'
-//add code later
+import React, { useState, useRef } from 'react'
+import { Container, Row, Col, Form, ListGroup } from 'reactstrap';
+import { MapPin, Users, Star, Clock, DollarSign, Heart, CheckCircle, Menu, X } from 'lucide-react';
+import { useParams } from 'react-router-dom';
+import { useFavorites } from '../ui/Context/FavoritesContext';
+import accommodationData from '../data/accommodationData';
+import ImageCarousel from '../ui/ImageCarousel/ImageCarousel';
+import calculateAvgRating from '../utils/avgRating';
+import '../styles/accommodation-details.css'
+import CommentSection from '../ui/Comment/CommentSection';
+import AccommodationBooking from '../Booking/AccommodationBooking';
 const AccommodationDetails = () => {
+  const {id} = useParams();
+
+  const acco = accommodationData.find(acco => acco.id === id); //This is static data will be use with mongoDB later, this is concept
+
+  const{photo, photos, title, desc, price, reviews, city, rooms, highlights} = acco;
+  const totalCapacity = acco.rooms.reduce((sum, room) => sum + room.roomType * room.availableRooms, 0);
+  const{totalRating, avgRating} = calculateAvgRating(reviews);
+
+  const { isFavorite, addToFavorites, removeFromFavorites } = useFavorites();
+  const isLiked = isFavorite(id);
+  const [showBooking, setShowBooking] = useState(false);
+
+  const handleFavoriteClick = () => {
+    if (isLiked) {
+      removeFromFavorites(id);
+    } else {
+      addToFavorites(acco);
+    }
+  };
+
+  
   return (
-    <div>AccommodationDetails</div>
+    <>
+      <section>
+        <Row>
+          <Col lg='8'>
+            <div className="max-w-7xl mx-auto px-4 py-4 md:py-8 mt-4">
+              <div className="relative mb-6 md:mb-8 rounded-xl overflow-hidden">
+                <div className="aspect-w-16 aspect-h-9 mt-5">
+                  <ImageCarousel images={photos} autoSlideInterval={5000} />
+                </div>
+                <button
+                onClick={handleFavoriteClick}
+                className="absolute top-4 right-4 p-2 bg-white rounded-full shadow-lg mt-5"
+                >
+                  <Heart 
+                  className={`w-6 h-6 ${isLiked ? 'fill-red-500 text-red-500' : 'text-gray-500'}`}
+                  />
+                  </button>
+                </div>
+                {/* Content Grid */}
+                <div className="gap-6 md:gap-8">
+                  {/* Main Content */}
+                  <div className="lg:col-span-2 space-y-6">
+                    <div className="bg-white rounded-xl p-4 md:p-6 shadow-sm">
+                      <h1 className="ext-2xl md:text-3xl font-bold mb-4">{title}</h1>
+
+                      <div className="grid grid-cols-2 md:flex md:flex-wrap gap-3 md:gap-4 mb-6">
+                        <div className="flex items-center gap-2"> 
+                          <MapPin className="w-5 h-5 text-blue-500" />
+                          <span className="text-sm md:text-base">{city}</span>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <Users className="w-5 h-5 text-blue-500" />
+                          <span className="text-sm md:text-base">Available for {totalCapacity} people</span>
+                        </div>
+
+                        {/* <div className="flex items-center gap-2">
+                          <Clock className="w-5 h-5 text-blue-500" />
+                          <span className="text-sm md:text-base">{duration} Days</span>
+                        </div> */}
+
+                        <div className="flex items-center gap-2">
+                          <Star className="w-5 h-5 text-yellow-500" />
+                          <span className="text-sm md:text-base"> 
+                            {avgRating === 0 ? null : avgRating}
+                            {totalRating === 0 ? 
+                            'Not Rated' 
+                            : <span className="text-sm text-gray-500"> ({reviews.length})</span>}
+                          </span>
+                        </div>
+                      </div>
+                      <p className="text-gray-600 text-sm md:text-base leading-relaxed mb-6">{desc}</p>
+
+                      {/* Highlight Section */}
+                      <div className="space-y-4">
+                        <h2 className="text-lg md:text-xl font-bold">Accommodation Highlights</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                        {highlights.map((highlight, index) => (
+                          <div key={index} className="flex items-start gap-3">
+                            <CheckCircle className="w-5 h-5 text-green-500 mt-1 flex-shrink-0" />
+                            <span className="text-sm md:text-base">{highlight}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Reviews Preview */}
+                  {reviews && <CommentSection accoId={id}/>}
+                </div>
+              </div>
+            </div>  
+          </Col>
+
+          <Col lg='4'>
+            <div className="booking-wrapper">
+              <AccommodationBooking acco={acco} avgRating={avgRating} />
+            </div>
+          </Col>
+        </Row>
+      </section>
+    </>
   )
 }
 

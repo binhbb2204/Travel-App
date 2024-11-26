@@ -14,6 +14,7 @@ import Transportations from '../page/Transportations'
 import TransactionBooking from '../page/TransactionBooking'
 import AdminPanel from '../page/admin/AdminPanel'
 import Checkout from '../page/Checkout'
+import AccommodationDetails from '../page/AccommodationDetails'
 
 
 const Routers = () => {
@@ -54,6 +55,7 @@ const Routers = () => {
       <Route path='/exotic_tours' element={<Location />} />
       <Route path='/add-tour' element={<AddTourForm onSubmit={handleAddTour} />} />
       <Route path='/accommodations' element={<Accommodations />} />
+      <Route path='/accommodations/:id' element={<AccommodationDetails />} />
       <Route path='/transportations' element={<Transportations />} />
       <Route path='/transaction' element={<TransactionBooking />} />
       <Route path='/admin-panel' element={<AdminPanel />} />

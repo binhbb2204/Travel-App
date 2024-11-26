@@ -46,7 +46,7 @@ const AccommodationCard = ({ acco }) => {
           </div>
 
           <h3 className="card-title">
-            <Link to ={`/accomodations/${id}`}>{title}</Link>
+            <Link to ={`/accommodations/${id}`}>{title}</Link>
           </h3>
 
           {/* <div className="flex items-center justify-between mb-4 text-sm text-gray-600">
@@ -58,7 +58,7 @@ const AccommodationCard = ({ acco }) => {
           </div> */}
 
           <button className="book__button">
-            <Link to ={`/accomodations/${id}`}>Book Now</Link>
+            <Link to ={`/accommodations/${id}`}>Book Now</Link>
           </button>
         </CardContent>
       </Card>
