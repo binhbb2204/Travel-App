@@ -1,7 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Plus, ImagePlus, MapPin, Globe, Calendar, Users, DollarSign, Star } from 'lucide-react';
+import axios from 'axios'; 
+import { useNavigate, useParams } from 'react-router-dom'; 
 
 const AddTourForm = () => {
+  const navigate = useNavigate();
+  const { id } = useParams(); // For edit mode
+  const isEditMode = !!id;
   const [formData, setFormData] = useState({
     title: '',
     country: '',
@@ -15,11 +20,45 @@ const AddTourForm = () => {
     highlights: ['']
   });
 
+  useEffect(() => {
+    const fetchTourForEdit = async () => {
+      if (isEditMode) {
+        try {
+          const response = await axios.get(`/api/tours/${id}`);
+          const tourData = response.data.data;
+          
+          // Populate form with existing tour data
+          setFormData({
+            title: tourData.title,
+            country: tourData.country,
+            city: tourData.city,
+            photos: tourData.photos || [],
+            price: tourData.price.toString(),
+            duration: tourData.duration.toString(),
+            maxGroupSize: tourData.maxGroupSize.toString(),
+            description: tourData.description,
+            featured: tourData.featured || false,
+            highlights: tourData.highlights || ['']
+          });
+        } catch (error) {
+          console.error('Error fetching tour:', error);
+          // Optional: show error message to user
+        }
+      }
+    };
+
+    fetchTourForEdit();
+  }, [id, isEditMode]);
+
   const handleChange = (e, index = null) => {
     const { name, value, files } = e.target;
 
     if (name === 'photos') {
-      const photoFiles = Array.from(files).map(file => URL.createObjectURL(file));
+      const photoFiles = Array.from(files).map(file => {
+        // If it's an edit mode and file is already a URL, return it
+        if (typeof file === 'string') return file;
+        return URL.createObjectURL(file);
+      });
       setFormData(prev => ({
         ...prev,
         photos: [...prev.photos, ...photoFiles]
@@ -30,6 +69,12 @@ const AddTourForm = () => {
       setFormData(prev => ({
         ...prev,
         highlights: newHighlights
+      }));
+    } else if (name === 'price' || name === 'duration' || name === 'maxGroupSize') {
+      // Ensure numeric fields are handled correctly
+      setFormData(prev => ({
+        ...prev,
+        [name]: value === '' ? '' : Number(value)
       }));
     } else {
       setFormData(prev => ({
@@ -60,10 +105,32 @@ const AddTourForm = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add form submission logic here
-    console.log('Form submitted:', formData);
+    
+    try {
+      // Prepare form data for submission
+      const submissionData = { ...formData };
+
+      // Convert photos to URLs or file uploads as needed
+      // This part depends on your backend file upload strategy
+      // You might need to use FormData for file uploads
+
+      if (isEditMode) {
+        // Update existing tour
+        const response = await axios.put(`/api/tours/${id}`, submissionData);
+        console.log('Tour updated:', response.data);
+        navigate(`/tours/${id}`); // Redirect to tour details
+      } else {
+        // Create new tour
+        const response = await axios.post('/api/tours', submissionData);
+        console.log('Tour created:', response.data);
+        navigate('/tours'); // Redirect to tours list
+      }
+    } catch (error) {
+      console.error('Error submitting tour:', error);
+      // Optional: show error message to user
+    }
   };
 
   return (

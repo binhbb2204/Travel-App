@@ -37,7 +37,7 @@ const tourSchema = new mongoose.Schema({
     required: true,
     min: 1,
   },
-  description: {
+  desc: {
     type: String,
     required: true,
     trim: true,
@@ -62,10 +62,6 @@ const tourSchema = new mongoose.Schema({
       required: true,
     },
   ],
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
 });
 
 // Export the model
