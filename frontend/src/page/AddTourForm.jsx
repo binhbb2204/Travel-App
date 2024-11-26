@@ -112,6 +112,25 @@ const AddTourForm = () => {
           </div>
         </div>
 
+        {/* City */}
+        <div className="grid md:grid-cols-2 gap-6 mt-6">
+          <div className="relative">
+            <label className="block mb-2 text-sm font-medium text-gray-700 flex items-center">
+              <MapPin className="mr-2 text-red-500" size={20} />
+              City
+            </label>
+            <input
+              type="text"
+              name="city"
+              value={formData.city}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border-2 border-red-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400 transition duration-300"
+              placeholder="Kathmandu"
+              required
+            />
+          </div>
+        </div>
+
         {/* Photos Upload */}
         <div className="mt-6">
           <label className="block mb-2 text-sm font-medium text-gray-700 flex items-center">
