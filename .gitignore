@@ -64,3 +64,5 @@ node_modules/
 
 frontend/package-lock.json
 frontend/package.json
+backend/package-lock.json
+
