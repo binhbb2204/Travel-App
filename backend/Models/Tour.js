@@ -48,12 +48,8 @@ const tourSchema = new mongoose.Schema({
   },
   reviews: [
     {
-      rating: {
-        type: Number,
-        required: true,
-        min: 1,
-        max: 5,
-      },
+      type: mongoose.Types.ObjectId,
+      ref: "Comment",
     },
   ],
   highlights: [
@@ -62,7 +58,7 @@ const tourSchema = new mongoose.Schema({
       required: true,
     },
   ],
-});
+}, { timestamps: true });
 
 // Export the model
 export default mongoose.model("Tour", tourSchema);

@@ -22,7 +22,6 @@ export const CartProvider = ({ children }) => {
         }
     }, []);
 
-
     const addToCart = (item) => {
         // Ensure the item has a type (tour, hotel, etc.)
         if (!item.type) {
@@ -190,13 +189,23 @@ export const useCartOperations = () => {
         cart.addToCart({
             ...hotelData,
             type: 'hotel',
-            id: hotelData.id || Date.now()
+            id: hotelData.id || Date.now(),
+            // Ensure we have all necessary hotel booking details
+            totalPrice: hotelData.pricePerNight * hotelData.nights,
+            nights: hotelData.nights || 1,
+            pricePerNight: hotelData.pricePerNight
         });
+    };
+
+    const addBookingDetails = (bookingDetails) => {
+        // More generic method to add complete booking details
+        cart.setCurrentBooking(bookingDetails);
     };
 
     return {
         ...cart,
         addTourToCart,
         addHotelToCart,
+        addBookingDetails
     };
 };

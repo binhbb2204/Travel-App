@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-const mongoose = require('mongoose');
 
 const commentSchema = new mongoose.Schema({
   tourId: {
@@ -8,7 +7,7 @@ const commentSchema = new mongoose.Schema({
     required: true,
   },
   user: {
-    type: String, // Alternatively, reference a User schema if you have authentication
+    type: String, // Alternatively, reference a User schema if have authentication
     required: true,
   },
   content: {
@@ -50,6 +49,7 @@ const commentSchema = new mongoose.Schema({
   },
 });
 
-const Comment = mongoose.model('Comment', commentSchema);
+// const Comment = mongoose.model('Comment', commentSchema);
 
-module.exports = Comment;
+// module.exports = Comment;
+export default mongoose.model("Comment", commentSchema);

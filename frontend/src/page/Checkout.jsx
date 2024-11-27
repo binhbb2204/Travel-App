@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useCart } from '../ui/Context/CartContext';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Calendar, CreditCard, Shield, Hotel, MapPin, User, Mail, Phone, Users } from 'lucide-react';
+import { 
+    Calendar, 
+    CreditCard, 
+    Shield, 
+    MapPin, 
+    User, 
+    Users, 
+    Check
+} from 'lucide-react';
 
 const Checkout = () => {
     const { addToCart, getCartTotal } = useCart();
@@ -22,15 +30,11 @@ const Checkout = () => {
     });
 
     useEffect(() => {
-        // First, check if there's data passed through location state
         const locationStateData = location.state?.bookingData;
-        
-        // If location state has data, save it to both state and localStorage
         if (locationStateData) {
             setBookingData(locationStateData);
             localStorage.setItem('bookingData', JSON.stringify(locationStateData));
         } else {
-            // If no location state, try to retrieve from localStorage
             const savedBookingData = localStorage.getItem('bookingData');
             if (savedBookingData) {
                 setBookingData(JSON.parse(savedBookingData));
@@ -39,102 +43,153 @@ const Checkout = () => {
     }, [location.state]);
 
     const handleProceedToPayment = () => {
-        navigate("/transaction", { 
-            state: { bookingData } 
-        });
+        navigate("/transaction", { state: { bookingData } });
     };
 
-    // Rest of the component remains the same as your original implementation
     return (
-        <div className="min-h-screen bg-gray-50 pt-24">
-            <div className="max-w-7xl mx-auto px-4 py-4 sm:py-8 sm:px-6 lg:px-8">
-                <h1 className="text-2xl font-bold mb-8">Checkout</h1>
-                
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-6 sm:px-10 lg:px-16 pt-24">
+            <div className="max-w-7xl mx-auto">
+                {/* Header */}
+                <div className="mb-12 text-center">
+                    <h1 className="text-4xl font-bold text-gray-900 tracking-tight mb-3">
+                        Confirm Your Booking
+                    </h1>
+                    <p className="text-gray-500 text-lg">
+                        Double-check your booking details before proceeding to payment.
+                    </p>
+                </div>
+
+                {/* Main Layout */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
                     {/* Booking Details */}
-                    <div className="lg:col-span-2 space-y-6">
-                        <div className="bg-white rounded-lg shadow-sm p-6">
-                            <h2 className="text-lg font-semibold mb-4">Booking Details</h2>
-                            
-                            {/* Tour Information */}
-                            <div className="bg-blue-50 p-4 rounded-lg mb-4">
-                                <div className="flex items-center mb-2">
-                                    <MapPin className="w-6 h-6 text-blue-600 mr-2" />
-                                    <h3 className="text-md font-medium">{bookingData.title}</h3>
-                                </div>
-                                <div className="flex items-center text-gray-600">
-                                    <Calendar className="w-4 h-4 mr-2" />
-                                    <span>{new Date(bookingData.date).toLocaleDateString()}</span>
-                                </div>
+                    <div className="lg:col-span-2">
+                        <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                            <div className="bg-gray-50 px-4 py-3 border-b border-gray-200 flex items-center justify-between">
+                                <h2 className="text-base font-medium text-gray-800">
+                                    Booking Information
+                                </h2>
+                                <MapPin className="w-5 h-5 text-gray-500" />
                             </div>
-
-                            {/* Traveler Information */}
-                            <div className="grid md:grid-cols-2 gap-4">
-                                <div>
-                                    <div className="flex items-center mb-2">
-                                        <Users className="w-5 h-5 text-blue-600 mr-2" />
-                                        <span className="font-medium">Travelers</span>
-                                    </div>
-                                    <p>Adults: {bookingData.adults}</p>
-                                    {bookingData.children > 0 && <p>Children: {bookingData.children}</p>}
+                            <div className="p-4 space-y-6">
+                                {/* Tour Details */}
+                                <div className="bg-blue-50 border border-blue-100 p-4 rounded-lg">
+                                    <h3 className="text-sm font-medium text-blue-900 flex items-center mb-1">
+                                        <MapPin className="w-5 h-5 text-blue-600 mr-2" />
+                                        {bookingData.title}
+                                    </h3>
+                                    <p className="text-sm flex items-center text-gray-700">
+                                        <Calendar className="w-4 h-4 text-blue-500 mr-1" />
+                                        {new Date(bookingData.date).toLocaleDateString('en-US', {
+                                            weekday: 'long',
+                                            year: 'numeric',
+                                            month: 'long',
+                                            day: 'numeric',
+                                        })}
+                                    </p>
                                 </div>
 
-                                <div>
-                                    <div className="flex items-center mb-2">
-                                        <User className="w-5 h-5 text-blue-600 mr-2" />
-                                        <span className="font-medium">Contact Information</span>
+                                {/* Travelers & Contact Details */}
+                                <div className="grid sm:grid-cols-2 gap-4">
+                                    {/* Travelers */}
+                                    <div className="bg-gray-50 p-3 rounded-lg border border-gray-200">
+                                        <h4 className="text-sm font-medium text-gray-800 flex items-center mb-2">
+                                            <Users className="w-5 h-5 text-blue-600 mr-2" />
+                                            Travelers
+                                        </h4>
+                                        <ul className="space-y-2 text-sm text-gray-700">
+                                            <li className="flex justify-between">
+                                                <span>Adults</span>
+                                                <span className="flex items-center font-medium">
+                                                    <Check className="w-4 h-4 text-green-500 mr-1" />
+                                                    {bookingData.adults}
+                                                </span>
+                                            </li>
+                                            {bookingData.children > 0 && (
+                                                <li className="flex justify-between">
+                                                    <span>Children</span>
+                                                    <span className="flex items-center font-medium">
+                                                        <Check className="w-4 h-4 text-green-500 mr-1" />
+                                                        {bookingData.children}
+                                                    </span>
+                                                </li>
+                                            )}
+                                        </ul>
                                     </div>
-                                    <p>{bookingData.fullName}</p>
-                                    <p>{bookingData.email}</p>
-                                    <p>{bookingData.phone}</p>
+
+                                    {/* Contact Details */}
+                                    <div className="bg-gray-50 p-3 rounded-lg border border-gray-200">
+                                        <h4 className="text-sm font-medium text-gray-800 flex items-center mb-2">
+                                            <User className="w-5 h-5 text-blue-600 mr-2" />
+                                            Contact Information
+                                        </h4>
+                                        <ul className="space-y-2 text-sm text-gray-700">
+                                            <li className="flex justify-between">
+                                                <span>Name</span>
+                                                <span className="font-medium">{bookingData.fullName}</span>
+                                            </li>
+                                            <li className="flex justify-between">
+                                                <span>Email</span>
+                                                <span className="font-medium">{bookingData.email}</span>
+                                            </li>
+                                            <li className="flex justify-between">
+                                                <span>Phone</span>
+                                                <span className="font-medium">{bookingData.phone}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
+
+                                {/* Special Requests */}
+                                {bookingData.specialRequest && (
+                                    <div className="bg-yellow-50 border border-yellow-100 p-3 rounded-lg">
+                                        <h4 className="text-sm font-medium text-yellow-800 mb-1">
+                                            Special Requests
+                                        </h4>
+                                        <p className="text-sm text-gray-700 italic">
+                                            {bookingData.specialRequest}
+                                        </p>
+                                    </div>
+                                )}
                             </div>
-
-                            {/* Special Requests */}
-                            {bookingData.specialRequest && (
-                                <div className="mt-4">
-                                    <h4 className="font-medium mb-2">Special Requests</h4>
-                                    <p className="text-gray-600">{bookingData.specialRequest}</p>
-                                </div>
-                            )}
                         </div>
                     </div>
 
                     {/* Payment Summary */}
-                    <div className="lg:col-span-1">
-                        <div className="bg-white rounded-lg shadow-sm p-6 sticky top-4">
-                            <h2 className="text-lg font-semibold mb-4">Payment Summary</h2>
-                            
-                            <div className="space-y-3">
-                                <div className="flex justify-between">
-                                    <span>Subtotal</span>
-                                    <span>${bookingData.totalPrice.toFixed(2)}</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span>Service Fee</span>
-                                    <span>${bookingData.serviceCharge.toFixed(2)}</span>
-                                </div>
-                                <div className="pt-3 border-t">
-                                    <div className="flex justify-between font-bold">
-                                        <span>Total</span>
-                                        <span>${bookingData.totalPrice.toFixed(2)}</span>
+                    <div>
+                        <div className="bg-white rounded-xl shadow-md border border-gray-200 sticky top-16">
+                            <div className="bg-gray-50 px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+                                <h2 className="text-lg font-semibold text-gray-800">
+                                    Payment Summary
+                                </h2>
+                                <CreditCard className="w-6 h-6 text-gray-500" />
+                            </div>
+                            <div className="p-6 space-y-6">
+                                <div className="space-y-4 border-b border-gray-200 pb-4">
+                                    <div className="flex justify-between text-gray-700">
+                                        <span>Subtotal (includes Service Fee)</span>
+                                        <span className="font-medium">${bookingData.totalPrice.toFixed(2)}</span>
+                                    </div>
+                                    <div className="flex justify-between text-gray-500 text-sm">
+                                        <span>Service Fee</span>
+                                        <span>${bookingData.serviceCharge.toFixed(2)}</span>
                                     </div>
                                 </div>
-
+                                <div className="flex justify-between items-center font-bold text-xl text-gray-900">
+                                    <span>Total</span>
+                                    <span>${bookingData.totalPrice.toFixed(2)}</span>
+                                </div>
                                 <button
                                     onClick={handleProceedToPayment}
-                                    className="w-full mt-4 py-3 bg-blue-600 text-white rounded-lg
-                                    hover:bg-blue-700 transition-colors duration-200
-                                    flex items-center justify-center gap-2"
+                                    className="w-full mt-4 py-3 bg-blue-600 text-white font-semibold rounded-lg 
+                                    hover:bg-blue-700 transition duration-300 flex items-center justify-center gap-2 shadow-lg"
                                 >
                                     <CreditCard className="w-5 h-5" />
-                                    <span>Proceed to Payment</span>
+                                    Proceed to Payment
                                 </button>
-
-                                <div className="mt-4 flex items-center justify-center text-sm text-gray-500">
-                                    <Shield className="w-4 h-4 mr-2" />
-                                    <span>Secure payment processing</span>
-                                </div>
+                                <p className="mt-4 text-sm text-gray-500 text-center flex items-center justify-center">
+                                    <Shield className="w-5 h-5 text-green-500 mr-2" />
+                                    Secure payment processing
+                                </p>
                             </div>
                         </div>
                     </div>

@@ -8,7 +8,7 @@ export const createTour = async (req, res) => {
         const savedTour = await newTour.save();
         res.status(200).json({ success: true, data: savedTour });
     } catch (error) {
-        res.status(400).json({
+        res.status(404).json({
             success: false,
             message: error.message,
         });
@@ -26,7 +26,7 @@ export const updateTour = async (req, res) => {
         );
         res.status(200).json({ success: true, data: updatedTour });
     } catch (error) {
-        res.status(400).json({
+        res.status(404).json({
             success: false,
             message: error.message,
         });
@@ -38,7 +38,7 @@ export const getSingleTour = async (req, res) => {
     const { id } = req.params;
 
     try {
-        const tour = await Tour.findById(id);
+        const tour = await Tour.findById(id).populate('reviews');
         if (!tour) {
             return res.status(404).json({
                 success: false,
@@ -47,7 +47,7 @@ export const getSingleTour = async (req, res) => {
         }
         res.status(200).json({ success: true, data: tour });
     } catch (error) {
-        res.status(400).json({
+        res.status(404).json({
             success: false,
             message: error.message,
         });
@@ -59,10 +59,13 @@ export const getAllTours = async (req, res) => {
     const page = parseInt(req.query.page)
     console.log(page)
     try {
-        const tours = await Tour.find({}).skip(page * 8).limit(8);
+        const tours = await Tour.find({})
+            .populate('reviews')
+            .skip(page * 8)
+            .limit(8);
         res.status(200).json({ success: true, count: tours.length, message: "successful", data: tours });
     } catch (error) {
-        res.status(400).json({
+        res.status(404).json({
             success: false,
             message: error.message,
         });
@@ -73,7 +76,10 @@ export const getAllTours = async (req, res) => {
 export const getFeaturedTours = async (req, res) => {
     const page = parseInt(req.query.page)
     try {
-        const tours = await Tour.find({featured:true}).skip(page * 8).limit(8);
+        const tours = await Tour.find({featured:true})
+            .populate('reviews')
+            .skip(page * 8)
+            .limit(8);
         res.status(200).json({ success: true, count: tours.length, message: "successful", data: tours });
     } catch (error) {
         res.status(400).json({
@@ -131,7 +137,7 @@ export const searchTours = async (req, res) => {
             if (maxPriceRange) query.price.$lte = maxPriceRange; // Maximum price
         }
 
-        const tours = await Tour.find(query);
+        const tours = await Tour.find(query).populate('reviews');
 
         if (tours.length === 0) {
             return res.status(404).json({

@@ -5,13 +5,21 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
 import tourRoute from './routes/tours.js'
-
+import userRoute from './routes/users.js'
+import authRoute from './routes/auth.js'
+import reviewRoute from './routes/reviews.js'
+import commentRoute from './routes/comment.js'
 dotenv.config();
 
 const app = express();
 
 const port = process.env.PORT ||    3000;
-//mongodb+srv://binhbb2204:<db_password>@cluster0.uljyg.mongodb.net/
+const corsOptions = {
+    origin:true,
+    credential:true,
+
+}
+
 //db connection
 mongoose.set('strictQuery', false);
 const connect = async() => {
@@ -25,10 +33,14 @@ const connect = async() => {
 //testing
 
 
-app.use(cors());
+
 app.use(express.json()); // Parse JSON bodies
+app.use(cors(corsOptions));
 app.use(cookieParser()); // Parse cookies
-app.use('/tours', tourRoute);
+app.use('/api/v1/auth', authRoute);
+app.use('/api/v1/tours', tourRoute);
+app.use('/api/v1/users', userRoute);
+app.use('/api/v1/comments', commentRoute);
 
 app.listen(port, ()=>{
     connect()

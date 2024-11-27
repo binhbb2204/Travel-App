@@ -139,10 +139,12 @@ const Header = () => {
   };
 
   return (
-    <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled
+    <header 
+    className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled
       ? 'bg-white/30 backdrop-blur-sm shadow-lg'
       : 'bg-transparent'
-      }`}>
+      }`}
+    >
       <Container>
         <Row>
           <div className="nav__wrapper d-flex align-items-center justify-content-between">
