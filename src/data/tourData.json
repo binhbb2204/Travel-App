@@ -1,0 +1,165 @@
+[
+    {
+      "title": "Historical City Tour",
+      "country": "Italy",
+      "city": "Rome",
+      "photos": "Italy_Rome",
+      "price": 99,
+      "duration": 3,
+      "featured": true,
+      "reviews": [],
+      "maxGroupSize": 8,
+      "desc": "Explore the ancient streets of Rome, visiting iconic landmarks like the Colosseum, Roman Forum, and Pantheon while learning about the city's rich history from expert guides.",
+      "highlights": [
+        "Skip-the-line access to the Colosseum",
+        "Expert local guide",
+        "Small group size",
+        "Visit iconic landmarks like the Roman Forum and Pantheon"
+      ]
+    },
+    {
+      "title": "Cultural Experience",
+      "country": "France",
+      "city": "Paris",
+      "photos": "Italy_Rome",
+      "price": 129,
+      "duration": 2,
+      "featured": false,
+      "reviews": [],
+      "maxGroupSize": 6,
+      "desc": "Immerse yourself in the heart of Parisian culture, visiting art museums, historic sites, and experiencing the vibrant street life that defines the French capital.",
+      "highlights": [
+        "Skip-the-line access to top museums",
+        "Guided tour of Paris' most famous landmarks",
+        "Explore Parisian street life",
+        "Local food and drink tasting"
+      ]
+    },
+    {
+      "title": "Coastal Hike",
+      "country": "Greece",
+      "city": "Santorini",
+      "photos": "Italy_Rome",
+      "price": 149,
+      "duration": 4,
+      "featured": true,
+      "reviews": [],
+      "maxGroupSize": 10,
+      "desc": "Take in breathtaking views of the Aegean Sea as you hike along the rugged coastline of Santorini, discovering hidden beaches and picturesque villages.",
+      "highlights": [
+        "Scenic coastal hiking",
+        "Breathtaking views of the Aegean Sea",
+        "Visit hidden beaches and villages",
+        "Small group experience"
+      ]
+    },
+    {
+      "title": "Foodie Adventure",
+      "country": "Spain",
+      "city": "Barcelona",
+      "photos": "Italy_Rome",
+      "price": 199,
+      "duration": 3,
+      "featured": false,
+      "reviews": [],
+      "maxGroupSize": 8,
+      "desc": "Embark on a culinary journey through Barcelona's best eateries, tasting local specialties and traditional Spanish dishes in an immersive food tour.",
+      "highlights": [
+        "Taste traditional Spanish dishes",
+        "Visit top eateries in Barcelona",
+        "Learn about Catalan food culture",
+        "Enjoy a guided culinary experience"
+      ]
+    },
+    {
+      "title": "Baroque Architecture Tour",
+      "country": "Italy",
+      "city": "Rome",
+      "photos": "Italy_Rome",
+      "price": 89,
+      "duration": 2,
+      "featured": true,
+      "reviews": [],
+      "maxGroupSize": 12,
+      "desc": "Admire the intricate Baroque architecture of Rome as you visit grand cathedrals, ornate fountains, and historical plazas that tell the city's storied past.",
+      "highlights": [
+        "Visit grand Baroque cathedrals",
+        "Explore ornate fountains and plazas",
+        "Learn about the history of Baroque architecture",
+        "Small group for an intimate experience"
+      ]
+    },
+    {
+      "title": "Desert Safari",
+      "country": "UAE",
+      "city": "Dubai",
+      "photos": "Italy_Rome",
+      "price": 120,
+      "duration": 1,
+      "featured": true,
+      "reviews": [],
+      "maxGroupSize": 15,
+      "desc": "Experience the thrill of the desert with an adventurous safari in Dubai, complete with dune bashing, camel rides, and a traditional Bedouin dinner.",
+      "highlights": [
+        "Dune bashing adventure",
+        "Camel ride experience",
+        "Traditional Bedouin dinner",
+        "Stunning desert landscape views"
+      ]
+    },
+    {
+      "title": "Mountain Trek",
+      "country": "Nepal",
+      "city": "Kathmandu",
+      "photos": "Italy_Rome",
+      "price": 250,
+      "duration": 5,
+      "featured": true,
+      "reviews": [],
+      "maxGroupSize": 8,
+      "desc": "Trek through the majestic Himalayas, encountering panoramic views, remote villages, and the serene beauty of Nepal's mountain landscapes.",
+      "highlights": [
+        "Trek through the majestic Himalayas",
+        "Panoramic mountain views",
+        "Visit remote villages",
+        "Experienced local guides"
+      ]
+    },
+    {
+      "title": "Safari Wildlife Tour",
+      "country": "South Africa",
+      "city": "Kruger National Park",
+      "photos": "Italy_Rome",
+      "price": 300,
+      "duration": 4,
+      "featured": false,
+      "reviews": [],
+      "maxGroupSize": 10,
+      "desc": "Discover the wonders of South African wildlife on an exhilarating safari, where you can see lions, elephants, and other iconic animals up close.",
+      "highlights": [
+        "See lions, elephants, and other iconic animals",
+        "Safari in Kruger National Park",
+        "Guided tour with expert wildlife guides",
+        "Small group safari experience"
+      ]
+    },
+    {
+      "title": "Ski Adventure",
+      "country": "Switzerland",
+      "city": "Zermatt",
+      "photos": "Italy_Rome",
+      "price": 350,
+      "duration": 3,
+      "featured": true,
+      "reviews": [],
+      "maxGroupSize": 12,
+      "desc": "Hit the slopes of Zermatt for an exciting ski adventure with breathtaking views of the Matterhorn, catering to all skill levels.",
+      "highlights": [
+        "Ski with breathtaking views of the Matterhorn",
+        "Suitable for all skill levels",
+        "Guided ski tour",
+        "Small group experience"
+      ]
+    }
+]
+  

@@ -16,6 +16,14 @@ const bottomSheetVariants = {
     }
 };
 
+const getCurrentDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+};
+
 // Separate BookingContent component
 const BookingContent = ({ 
     formData, 
@@ -95,6 +103,7 @@ const BookingContent = ({
                     id="date"
                     value={formData.date}
                     onChange={handleInputChange}
+                    min={getCurrentDate()}
                     className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     required
                 />
@@ -335,6 +344,10 @@ const Booking = ({ tour }) => {
             totalPrice: pricing.total,
             pricePerPerson: tour?.price || 0,
             serviceCharge: pricing.serviceCharge,
+            fullName: formData.fullName,
+            email: formData.email,
+            phone: formData.phone,
+            specialRequest: formData.specialRequest,
         };
         addToCart(bookingData);
     
