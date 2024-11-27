@@ -55,10 +55,12 @@ export const getSingleTour = async (req, res) => {
 };
 
 // Get all tours
-export const getAllTour = async (req, res) => {
+export const getAllTours = async (req, res) => {
+    const page = parseInt(req.query.page)
+    console.log(page)
     try {
-        const tours = await Tour.find({});
-        res.status(200).json({ success: true, data: tours });
+        const tours = await Tour.find({}).skip(page * 8).limit(8);
+        res.status(200).json({ success: true, count: tours.length, message: "successful", data: tours });
     } catch (error) {
         res.status(400).json({
             success: false,
@@ -67,6 +69,19 @@ export const getAllTour = async (req, res) => {
     }
 };
 
+//get featured tour
+export const getFeaturedTours = async (req, res) => {
+    const page = parseInt(req.query.page)
+    try {
+        const tours = await Tour.find({featured:true}).skip(page * 8).limit(8);
+        res.status(200).json({ success: true, count: tours.length, message: "successful", data: tours });
+    } catch (error) {
+        res.status(400).json({
+            success: false,
+            message: error.message,
+        });
+    }
+};
 // Delete a tour
 export const deleteTour = async (req, res) => {
     const { id } = req.params;
@@ -87,3 +102,68 @@ export const deleteTour = async (req, res) => {
         });
     }
 };
+
+export const searchTours = async (req, res) => {
+    const { country, city, duration, maxGroupSize, minPrice, maxPrice } = req.query;
+
+    const countryRegex = country ? new RegExp(country, 'i') : undefined;
+    const cityRegex = city ? new RegExp(city, 'i') : undefined;
+
+    const minDuration = duration ? parseInt(duration) : undefined;
+    const minGroupSize = maxGroupSize ? parseInt(maxGroupSize) : undefined;
+    
+    const minPriceRange = minPrice ? parseInt(minPrice) : undefined;
+    const maxPriceRange = maxPrice ? parseInt(maxPrice) : undefined;
+
+    try {
+        const query = {};
+
+        // Adding filters for country, city, duration, and group size
+        if (countryRegex) query.country = countryRegex;
+        if (cityRegex) query.city = cityRegex;
+        if (minDuration) query.duration = { $gte: minDuration };
+        if (minGroupSize) query.maxGroupSize = { $gte: minGroupSize };
+
+        // Adding filters for price range
+        if (minPriceRange || maxPriceRange) {
+            query.price = {};
+            if (minPriceRange) query.price.$gte = minPriceRange; // Minimum price
+            if (maxPriceRange) query.price.$lte = maxPriceRange; // Maximum price
+        }
+
+        const tours = await Tour.find(query);
+
+        if (tours.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: 'No tours found matching the search criteria.',
+            });
+        }
+
+        res.status(200).json({ success: true, message: "Successful", data: tours });
+    } catch (error) {
+        res.status(400).json({
+            success: false,
+            message: error.message,
+        });
+    }
+};
+
+
+export const getTourCount = async(req, res) => {
+    try {
+        const tourCount = await Tour.estimatedDocumentCount()
+
+        res.status(200).json({
+            success: true,
+            message: "Successful",
+            data: tourCount
+        })
+    } catch (error) {
+        res.status(400).json({
+            success: false,
+            message: error.message,
+        });
+    }y
+}
+
