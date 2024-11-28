@@ -6,7 +6,7 @@ const router = express.Router();
 router.post('/:tourId', verifyUser, createComment)
 
 // Add a reply to a comment or reply
-router.post('/reply/:commentId', verifyUser, createReply);
+router.post('/reply/:commentId/:parentReplyId?', verifyUser, createReply);;
 
 
 

@@ -14,12 +14,11 @@ const replySchema = new mongoose.Schema({
     originalCommentId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Comment',
-        required: true
+        required: true,
     },
-    
     replyingTo: {
         type: String,
-        default: null,
+        default: null, // Username being replied to
     },
     likes: {
         type: Number,
@@ -37,7 +36,12 @@ const replySchema = new mongoose.Schema({
         type: Boolean,
         default: true,
     },
+    replies: {
+        type: [this], // Allow nested replies within replies
+        default: [],
+    },
 });
+
 
 // Define the Comment schema
 const commentSchema = new mongoose.Schema({
@@ -84,10 +88,5 @@ const commentSchema = new mongoose.Schema({
     },
 });
 
-// // Define the Comment model
-// const Comment = mongoose.model('Comment', commentSchema);
-
-// // Export the Comment model
-// module.exports = Comment;
-
-export default mongoose.model("Comment", commentSchema);
+export const Reply = mongoose.model("Reply", replySchema);
+export const Comment = mongoose.model("Comment", commentSchema);
