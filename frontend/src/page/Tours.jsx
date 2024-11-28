@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import TourSearchCard from '../ui/Card/TourSearchCard';
+import { useNavigate } from 'react-router-dom';
 import TourCard from '../ui/Card/TourCard';
 import tourData from '../data/tourData';
 import Pagination from '../ui/Pagination/Pagination';
 import '../styles/tours.css'
 const Tours = () => {
   // Initialize state
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useState({
     keyword: '',
     country: '',
