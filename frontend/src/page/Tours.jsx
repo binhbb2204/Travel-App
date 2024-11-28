@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import axios from 'axios';
-import TourSearchCard from '../ui/Card/TourSearchCard';
 import { useNavigate } from 'react-router-dom';
+import TourSearchCard from '../ui/Card/TourSearchCard';
 import TourCard from '../ui/Card/TourCard';
-import tourData from '../data/tourData';
 import Pagination from '../ui/Pagination/Pagination';
-import '../styles/tours.css'
+import tourData from '../data/tourData';
+import '../styles/tours.css';
+
 const Tours = () => {
-  // Initialize state
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useState({
     keyword: '',
@@ -24,13 +23,13 @@ const Tours = () => {
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Set items per page to 8
+  // Set items per page
   const itemsPerPage = 8;
 
-  // Get query params from URL
+  // Clean and get query parameters
   const getQueryParams = () => {
     const params = new URLSearchParams(window.location.search);
-    return {
+    const queryParams = {
       keyword: params.get('keyword') || '',
       country: params.get('country') || '',
       city: params.get('city') || '',
@@ -39,63 +38,99 @@ const Tours = () => {
       duration: params.get('duration') || 'any',
       groupSize: params.get('groupSize') || 'any',
     };
+
+    // Remove query parameters with empty values or default values
+    const cleanParams = Object.fromEntries(
+      Object.entries(queryParams).filter(([_, value]) => 
+        value !== '' && value !== 'any'
+      )
+    );
+
+    // Update URL with clean parameters
+    const newUrl = new URL(window.location.href);
+    newUrl.search = new URLSearchParams(cleanParams).toString();
+    window.history.replaceState({}, '', newUrl);
+
+    return cleanParams;
   };
 
   // Filter tours based on search params
   const filterTours = (params) => {
     return tourData.filter((tour) => {
-      const matchesKeyword = tour.title.toLowerCase().includes(params.keyword.toLowerCase());
+      const matchesKeyword = !params.keyword || 
+        tour.title.toLowerCase().includes(params.keyword.toLowerCase());
       const matchesCountry = !params.country || tour.country === params.country;
       const matchesCity = !params.city || tour.city === params.city;
       const matchesMinPrice = !params.minPrice || tour.price >= parseInt(params.minPrice);
       const matchesMaxPrice = !params.maxPrice || tour.price <= parseInt(params.maxPrice);
-      const matchesDuration = params.duration === 'any' || tour.duration === parseInt(params.duration);
-      const matchesGroupSize = params.groupSize === 'any' || tour.maxGroupSize >= parseInt(params.groupSize);
+      const matchesDuration = !params.duration || 
+        params.duration === 'any' || tour.duration === parseInt(params.duration);
+      const matchesGroupSize = !params.groupSize || 
+        params.groupSize === 'any' || tour.maxGroupSize >= parseInt(params.groupSize);
 
-      return matchesKeyword && matchesCountry && matchesCity && matchesMinPrice && 
-             matchesMaxPrice && matchesDuration && matchesGroupSize;
+      return matchesKeyword && matchesCountry && matchesCity && 
+             matchesMinPrice && matchesMaxPrice && 
+             matchesDuration && matchesGroupSize;
     });
   };
 
   // Initialize search from URL params
   useEffect(() => {
     const params = getQueryParams();
-    setSearchParams(params);
-    const results = filterTours(params);
+    const filledParams = { ...searchParams, ...params };
+    setSearchParams(filledParams);
+    
+    const results = filterTours(filledParams);
     setFilteredResults(results);
     setHasSubmitted(true);
   }, []);
 
+  // Handle search parameter changes
   const handleSearchChange = (e) => {
     const { name, value } = e.target;
     setSearchParams((prev) => ({
       ...prev,
       [name]: value,
+      // Reset city if country changes
       ...(name === 'country' ? { city: '' } : {}),
     }));
   };
 
+  // Perform search and update URL
   const handleSearch = (params) => {
+    // Remove empty and default values
+    const cleanParams = Object.fromEntries(
+      Object.entries(params).filter(([_, value]) => 
+        value !== '' && value !== 'any'
+      )
+    );
+
+    // Update URL with search parameters
+    const searchString = new URLSearchParams(cleanParams).toString();
+    navigate(`?${searchString}`);
+
     const results = filterTours(params);
     setFilteredResults(results);
     setHasSubmitted(true);
-    setCurrentPage(1); // Reset to first page on new search
+    setCurrentPage(1);
   };
 
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     handleSearch(searchParams);
   };
 
+  // Handle page changes
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
-    window.scrollTo(0, 300); // Scroll to top when changing pages
+    window.scrollTo(0, 300);
   };
 
-  // Calculate total pages
+  // Calculate pagination
   const totalPages = Math.ceil(filteredResults.length / itemsPerPage);
 
-  // Get current page's results
+  // Get current page results
   const getCurrentPageResults = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
@@ -125,28 +160,19 @@ const Tours = () => {
             countries={[...new Set(tourData.map(tour => tour.country))].sort()}
             cities={tourData.reduce((acc, tour) => {
               if (!acc[tour.country]) acc[tour.country] = [];
-              if (!acc[tour.country].includes(tour.city)) acc[tour.country].push(tour.city);
+              if (!acc[tour.country].includes(tour.city)) 
+                acc[tour.country].push(tour.city);
               return acc;
             }, {})}
-            
             onSubmit={handleSubmit}
           />
         </div>
       </motion.div>
-      {/* Pagination */}
-      {filteredResults.length > 0 && (
-            <div className="mt-8">
-              <Pagination 
-                totalPages={totalPages} 
-                currentPage={currentPage} 
-                onPageChange={handlePageChange} 
-              />
-            </div>
-          )}
 
       {/* Results Section */}
       {hasSubmitted && (
         <div className="container mx-auto px-4 py-8">
+          {/* Tours Grid/List */}
           <div className={`${
             activeView === 'grid' 
               ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6' 
