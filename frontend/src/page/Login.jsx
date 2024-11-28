@@ -75,7 +75,12 @@ const Login = () => {
                     <section className="login__input">
                       <FormGroup className='email__box'>
                         <i className='bx bxs-user'></i>
-                        <input type="email" placeholder="Email" required id="email" onChange={handleChange} />
+                        <input type="email"
+                          placeholder="Email"
+                          // autoComplete="off"  
+                          // This attribute prevents the browser from suggesting previously entered values for the input fields
+                          required id="email"
+                          onChange={handleChange} />
                       </FormGroup>
 
                       <FormGroup className='password__box'>
@@ -84,6 +89,8 @@ const Login = () => {
                           <input
                             type={showPassword ? 'text' : 'password'}
                             placeholder="Password"
+                            // autoComplete="off" 
+                            // This attribute prevents the browser from suggesting previously entered values for the input fields
                             required
                             id="password"
                             onChange={handleChange}
