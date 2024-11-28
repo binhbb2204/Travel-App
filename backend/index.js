@@ -9,6 +9,7 @@ import userRoute from './routes/users.js'
 import authRoute from './routes/auth.js'
 import reviewRoute from './routes/reviews.js'
 import commentRoute from './routes/comment.js'
+import accoRoute from './routes/accommodations.js'
 
 dotenv.config();
 
@@ -40,6 +41,7 @@ app.use('/api/v1/auth', authRoute);
 app.use('/api/v1/tours', tourRoute);
 app.use('/api/v1/users', userRoute);
 app.use('/api/v1/comments', commentRoute);
+app.use('/api/v1/accommodations', accoRoute);
 
 app.listen(port, () => {
     connect()
