@@ -48,13 +48,13 @@ export const login = async (req, res) => {
         const user = await User.findOne({ email });
 
         if (!user) {
-            return res.status(404).json({ success: false, message: 'User not found' })
+            return res.status(404).json({ success: false, message: 'User not found. Please check your email.' });
         }
 
         const checkCorrectPassword = await bcrypt.compare(req.body.password, user.password)
 
         if (!checkCorrectPassword) {
-            return res.status(401).json({ success: false, message: 'Incorrect Email or Password' })
+            return res.status(401).json({ success: false, message: 'Incorrect email or password. Please try again.' });
         }
 
         const { password, role, ...rest } = user._doc
@@ -72,11 +72,14 @@ export const login = async (req, res) => {
         })
             .status(200)
             .json({
+                success: true,
+                message: 'Login successful! Welcome back!',
                 token,
                 data: { ...rest },
                 role,
             })
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Failed to Login' })
+        console.error('Login error:', error);
+        res.status(500).json({ success: false, message: 'Failed to login. Please try again later.' });
     }
 }
