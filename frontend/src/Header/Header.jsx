@@ -23,7 +23,7 @@ const nav_links = [
     display: 'Tours'
   },
   {
-    path: 'accommodations',
+    path: '/accommodations',
     display: 'Accommodations'
   },
 ];

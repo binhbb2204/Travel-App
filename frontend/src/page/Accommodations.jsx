@@ -20,7 +20,7 @@ const Accommodations = () => {
         type: "",
         minPrice: "",
         maxPrice: "",
-        groupSize: "1",
+        groupSize: "any",
     });
 
     const [filteredResults, setFilteredResults] = useState([]);
@@ -40,7 +40,7 @@ const Accommodations = () => {
           type: params.get('type') || '',
           minPrice: params.get('minPrice') || '',
           maxPrice: params.get('maxPrice') || '',
-          groupSize: params.get('groupSize') || '1',
+          groupSize: params.get('groupSize') || 'any',
         };
     };
 
@@ -54,7 +54,7 @@ const Accommodations = () => {
             const matchesMaxPrice = !params.maxPrice || acco.price <= parseInt(params.maxPrice);
             const totalCapacity = acco.rooms.reduce((sum, room) => sum + room.roomType * room.availableRooms, 0);
 
-            const matchesGroupSize = !params.groupSize || totalCapacity >= parseInt(params.groupSize);
+            const matchesGroupSize = params.groupSize === 'any' || totalCapacity >= parseInt(params.groupSize);
             return matchesKeyword && matchesCountry && matchesCity && matchesType && 
                     matchesMinPrice && matchesMaxPrice && matchesGroupSize;
         });
@@ -169,7 +169,7 @@ const Accommodations = () => {
                     animate={{ opacity: 1 }} 
                     className="text-center py-8"
                     >
-                    <p className="text-xl text-gray-600">No tours found matching your criteria.</p>
+                    <p className="text-xl text-gray-600">No accommodations found matching your criteria.</p>
                     <p className="text-gray-500 mt-2">Try adjusting your search filters.</p>
                     </motion.div>
                 )}
