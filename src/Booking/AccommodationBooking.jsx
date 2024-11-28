@@ -16,6 +16,14 @@ const bottomSheetVariants = {
     }
 };
 
+const getCurrentDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+};
+
 // Separate BookingContent component
 const BookingContent = ({ 
     formData, 
@@ -88,13 +96,30 @@ const BookingContent = ({
             <div>
                 <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
                     <Calendar className="w-4 h-4 mr-2 text-blue-500" />
-                    Accommodation Date
+                    Checkin Date
                 </label>
                 <input
                     type="date"
-                    id="date"
-                    value={formData.date}
+                    id="checkin"
+                    value={formData.checkin}
                     onChange={handleInputChange}
+                    min={getCurrentDate()}
+                    className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    required
+                />
+            </div>
+
+            <div>
+                <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
+                    <Calendar className="w-4 h-4 mr-2 text-blue-500" />
+                    Checkout Date
+                </label>
+                <input
+                    type="date"
+                    id="checkout"
+                    value={formData.checkout}
+                    onChange={handleInputChange}
+                    min={getCurrentDate()}
                     className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     required
                 />
@@ -172,6 +197,10 @@ const BookingContent = ({
                         <span>${pricing.childTotal.toFixed(2)}</span>
                     </div>
                 )}
+                <div className="flex justify-between items-center text-gray-600">
+                    <span>Duration</span>
+                    <span>{pricing.stayDuration} Day(s)</span>
+                </div>
                 <div className="flex justify-between items-center text-gray-600">
                     <span>Service Charge (10%)</span>
                     <span>${pricing.serviceCharge.toFixed(2)}</span>
@@ -257,7 +286,8 @@ const Booking = ({ acco }) => {
     const { price, reviews, title } = acco;
     
     const [formData, setFormData] = useState({
-        date: '',
+        checkin: '',
+        checkout: '',
         adults: 1,
         children: 0,
         fullName: '',
@@ -318,25 +348,32 @@ const Booking = ({ acco }) => {
         setIsSubmitting(true);
     
         // Validate form fields
-        if (!formData.date || !formData.fullName || !formData.email || !formData.phone) {
+        if (!formData.checkin || !formData.checkout || !formData.fullName || !formData.email || !formData.phone) {
             alert("Please fill in all required fields!");
             setIsSubmitting(false);
             return;
         }
     
         const pricing = calculatePricing(); // Ensure pricing is calculated correctly
-    
+        
         // Prepare booking data
-        const bookingData = {
-            title: acco?.title || "Unknown Accommodation",
-            date: formData.date,
-            adults: formData.adults,
-            children: formData.children,
-            totalPrice: pricing.total,
-            pricePerPerson: acco?.price || 0,
-            serviceCharge: pricing.serviceCharge,
+        const bookingData2 = {
+            acco_title: acco?.title || "Unknown Accommodation",
+            acco_checkin: formData.checkin,
+            acco_checkout: formData.checkout,
+            acco_adults: formData.adults,
+            acco_children: formData.children,
+            acco_totalPrice: pricing.total,
+            acco_pricePerPerson: acco?.price || 0,
+            acco_serviceCharge: pricing.serviceCharge,
+            acco_fullName: formData.fullName,
+            acco_email: formData.email,
+            acco_phone: formData.phone,
+            acco_specialRequest: formData.specialRequest,
+            acco_type: "accommodation",
+            acco_pay: 0,
         };
-        addToCart(bookingData);
+        // addToCart(bookingData);
     
         setTimeout(() => {
             setIsSubmitting(false);
@@ -347,7 +384,7 @@ const Booking = ({ acco }) => {
                 if (isMobile) setIsBottomSheetOpen(false);
                 try {
                     //navigate("/transaction", { state: { bookingData } });
-                    navigate("/checkout", { state: { bookingData } });
+                    navigate("/checkout", { state: { bookingData2 } });
                     //navigate("/checkout");
                 } catch (error) {
                     console.error("Navigation failed:", error);
@@ -360,13 +397,21 @@ const Booking = ({ acco }) => {
         }, 1500);
     };
     
+    const calculateDuration = () => {
+        const checkinDate = new Date(formData.checkin);
+        const checkoutDate = new Date(formData.checkout);
+        const diffTime = checkoutDate - checkinDate;
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+        return diffDays;
+    };
 
     const calculatePricing = () => {
         const adultPrice = acco?.price || 0;
         const childPrice = adultPrice * 0.75;
         const adultTotal = adultPrice * formData.adults;
         const childTotal = childPrice * formData.children;
-        const subtotal = adultTotal + childTotal;
+        const stayDuration =calculateDuration();
+        const subtotal = (adultTotal + childTotal)*stayDuration;
         const serviceCharge = subtotal * 0.10;
         const total = subtotal + serviceCharge;
 
@@ -375,12 +420,13 @@ const Booking = ({ acco }) => {
             childTotal,
             subtotal,
             serviceCharge,
-            total
+            total,
+            stayDuration
         };
     };
 
     const pricing = calculatePricing();
-
+    const duration = calculateDuration();
     return (
         <>
             <DesktopVersion 
@@ -453,6 +499,7 @@ const Booking = ({ acco }) => {
                                                         showSuccess={showSuccess}
                                                         pricing={pricing}
                                                         price={price}
+                                                        duration={duration}
                                                     />
                                                 </form>
                                             </div>

@@ -179,7 +179,7 @@
     margin-top: 2px;
 }
 
-.login__btn{
+.login__btn {
     width: 100%;
     margin-top: 24px;
     padding: 10px;
@@ -207,6 +207,38 @@
 
 .create__link:hover{
     text-decoration: underline;
+}
+
+.input-container {
+    position: relative;
+    width: 100%; 
+}
+
+.input-container i {
+    width: 100%;
+    position: absolute;
+    left: 10px; 
+    color: #aaa; 
+    top: 50%;
+    transform: translateY(-50%); 
+}
+
+.input-container input {
+    width: 100%;
+    padding-right: 40px; 
+}
+
+.input-container button {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    outline: none; 
+    color: #aaa;
 }
 
 @media (max-width: 480px) {

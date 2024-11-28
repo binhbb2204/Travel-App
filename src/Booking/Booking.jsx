@@ -337,17 +337,19 @@ const Booking = ({ tour }) => {
     
         // Prepare booking data
         const bookingData = {
-            title: tour?.title || "Unknown Tour",
-            date: formData.date,
-            adults: formData.adults,
-            children: formData.children,
-            totalPrice: pricing.total,
-            pricePerPerson: tour?.price || 0,
-            serviceCharge: pricing.serviceCharge,
-            fullName: formData.fullName,
-            email: formData.email,
-            phone: formData.phone,
-            specialRequest: formData.specialRequest,
+            tour_title: tour?.title || "Unknown Tour",
+            tour_date: formData.date,
+            tour_adults: formData.adults,
+            tour_children: formData.children,
+            tour_totalPrice: pricing.total,
+            tour_pricePerPerson: tour?.price || 0,
+            tour_serviceCharge: pricing.serviceCharge,
+            tour_fullName: formData.fullName,
+            tour_email: formData.email,
+            tour_phone: formData.phone,
+            tour_specialRequest: formData.specialRequest,
+            tour_type: "tour",
+            tour_pay: 0,
         };
         addToCart(bookingData);
     
