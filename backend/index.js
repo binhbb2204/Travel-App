@@ -9,20 +9,21 @@ import userRoute from './routes/users.js'
 import authRoute from './routes/auth.js'
 import reviewRoute from './routes/reviews.js'
 import commentRoute from './routes/comment.js'
+
 dotenv.config();
 
 const app = express();
 
-const port = process.env.PORT ||    3000;
+const port = process.env.PORT || 3000;
 const corsOptions = {
-    origin:true,
-    credential:true,
+    origin: true,
+    credential: true,
 
 }
 
 //db connection
 mongoose.set('strictQuery', false);
-const connect = async() => {
+const connect = async () => {
     try {
         await mongoose.connect(process.env.MONGO_URI)
         console.log("db connected successfully")
@@ -32,8 +33,6 @@ const connect = async() => {
 }
 //testing
 
-
-
 app.use(express.json()); // Parse JSON bodies
 app.use(cors(corsOptions));
 app.use(cookieParser()); // Parse cookies
@@ -42,7 +41,7 @@ app.use('/api/v1/tours', tourRoute);
 app.use('/api/v1/users', userRoute);
 app.use('/api/v1/comments', commentRoute);
 
-app.listen(port, ()=>{
+app.listen(port, () => {
     connect()
     console.log("Testing", port)
 })
