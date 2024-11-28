@@ -8,11 +8,11 @@ import AccomodationSearchBox from '../ui/SearchBar/AccommodationSearchBox';
 import accommodationData from '../data/accommodationData';
 import AccommodationCard from '../ui/Card/AccommodationCard';
 import Pagination from '../ui/Pagination/Pagination';
-
+import { useNavigate } from 'react-router-dom';
 import '../styles/accomodations.css';
 
 const Accommodations = () => {
-
+    const navigate = useNavigate();
     const [searchParams, setSearchParams] = useState({
         keyword: "",
         country: "",
@@ -31,7 +31,8 @@ const Accommodations = () => {
     const itemsPerPage = 8;
 
     const getQueryParams = () => {
-        const params = new URLSearchParams(window.location.search);
+        const params = new URLSearchParams("/accommodations");
+        const cleanPath = location.pathname;
         return {
           keyword: params.get('keyword') || '',
           country: params.get('country') || '',
@@ -60,6 +61,7 @@ const Accommodations = () => {
     };
 
     useEffect(() => {
+        
         const params = getQueryParams();
         setSearchParams(params);
         const results = filterTours(params);

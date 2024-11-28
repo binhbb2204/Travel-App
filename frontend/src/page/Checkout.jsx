@@ -260,8 +260,8 @@ const Checkout = () => {
                 </div>
 
                 {/* Payment Summary */}
-                <div>
-                    <div className="bg-white rounded-xl shadow-md border border-gray-200 sticky top-16 ">
+                <div className="sticky top-16 self-start">
+                    <div className="bg-white rounded-xl shadow-md border border-gray-200">
                         <div className="bg-gray-50 px-6 py-4 border-b border-gray-200 flex items-center justify-between">
                             <h2 className="text-lg font-semibold text-gray-800">
                                 Payment Summary
