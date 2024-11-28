@@ -195,6 +195,38 @@
     text-decoration: underline;
 }
 
+.input-container {
+    position: relative;
+    display: flex;
+    align-items: center; 
+}
+
+.input-container i {
+    position: absolute;
+    left: 10px; 
+    color: #aaa; 
+    top: 50%;
+    transform: translateY(-50%); 
+}
+
+.input-container input {
+    width: 100%;
+    padding-right: 40px; 
+}
+
+.input-container button {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    outline: none; 
+    color: #aaa;
+}
+
 @media (max-width: 768px) {
     .hero_content h1 {
         font-size: 2rem;

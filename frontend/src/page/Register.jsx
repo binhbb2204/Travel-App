@@ -5,9 +5,12 @@ import { motion } from 'framer-motion';
 import '../styles/register.css';
 import { useUsers, UserProvider } from "./admin/UsersContext";
 import axios from 'axios';
+import { Eye, EyeOff } from 'lucide-react';
 
 const Register = () => {
+
   const { addUser } = useUsers();
+
   const genderOptions = [
     { value: 'male', label: 'Male' },
     { value: 'female', label: 'Female' },
@@ -27,6 +30,8 @@ const Register = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,7 +50,7 @@ const Register = () => {
     setSuccess(null);
 
     if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match");
+      setError("Passwords do not match!");
       return;
     }
 
@@ -59,10 +64,9 @@ const Register = () => {
         phone: '',
         password: '',
         confirmPassword: '',
-
       });
     } catch (error) {
-      console.error('Error registering user:', error); 
+      console.error('Error registering user:', error);
       if (error.response && error.response.data) {
         setError(error.response.data.message || 'Registration failed. Please try again.');
       } else {
@@ -99,6 +103,7 @@ const Register = () => {
                       <i className='bx bxs-user'></i>
                       <input type="text" placeholder="Name" required id="name" onChange={handleChange} />
                     </FormGroup>
+
                     <FormGroup className='gender__box'>
                       <i className='bx bx-male-female'></i>
                       <select
@@ -115,22 +120,51 @@ const Register = () => {
                         ))}
                       </select>
                     </FormGroup>
+
                     <FormGroup className='email__box'>
                       <i className='bx bxs-envelope'></i>
                       <input type="email" placeholder="Email" required id="email" onChange={handleChange} />
                     </FormGroup>
+
                     <FormGroup className='phone__box'>
                       <i className='bx bxs-phone'></i>
                       <input type="tel" placeholder="Phone Number" required id="phone" onChange={handleChange} />
                     </FormGroup>
+
                     <FormGroup className='password__box'>
                       <i className='bx bxs-lock-alt'></i>
-                      <input type="password" placeholder="Password" required id="password" onChange={handleChange} />
+                      <div className="input-container">
+                        <input
+                          type={showPassword ? 'text' : 'password'}
+                          placeholder="Password"
+                          required
+                          id="password"
+                          onChange={handleChange}
+                          value={formData.password}
+                        />
+                        <button type="button" onClick={() => setShowPassword(!showPassword)}>
+                          {showPassword ? <EyeOff /> : <Eye />}
+                        </button>
+                      </div>
                     </FormGroup>
+
                     <FormGroup className='confirm-password__box'>
                       <i className='bx bxs-lock-alt'></i>
-                      <input type="password" placeholder="Confirm Password" required id="confirmPassword" onChange={handleChange} />
+                      <div className="input-container">
+                        <input
+                          type={showConfirmPassword ? 'text' : 'password'}
+                          placeholder="Confirm Password"
+                          required
+                          id="confirmPassword"
+                          onChange={handleChange}
+                          value={formData.confirmPassword}
+                        />
+                        <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                          {showConfirmPassword ? <EyeOff /> : <Eye />}
+                        </button>
+                      </div>
                     </FormGroup>
+
                   </section>
                   <Button className="register__btn" type="submit">Register</Button>
                 </Form>
