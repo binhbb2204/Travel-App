@@ -1,5 +1,5 @@
-import React from 'react'
-import { Routes, Route, Navigate } from 'react-router-dom'
+import React, {useEffect}from 'react'
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import Home from '../page/Home'
 import About from '../page/About'
 import Tours from '../page/Tours'
@@ -15,9 +15,18 @@ import TransactionBooking from '../page/TransactionBooking'
 import AdminPanel from '../page/admin/AdminPanel'
 import Checkout from '../page/Checkout'
 import AccommodationDetails from '../page/AccommodationDetails'
+import { clearRouteParams } from '../utils/queryParamManager'
 
 
 const Routers = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    // Clear route params for all routes except '/tours'
+    if (location.pathname !== '/tours') {
+      clearRouteParams();
+    }
+  }, [location.pathname]);
   const handleAddTour = async (formData) => {
     try {
       // Replace with actual API endpoint
