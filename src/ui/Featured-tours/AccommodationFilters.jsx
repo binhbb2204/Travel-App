@@ -75,7 +75,7 @@ const AccommodationDetailsFilters = ({ searchParams, onSearchChange }) => {
             <div className="relative">
                 <label className="custom-label">Accommodation Type</label>
                 <select
-                    name="accommodationType"
+                    name="type"
                     className="custom-input"
                     value={searchParams.type}
                     onChange={onSearchChange}
@@ -92,7 +92,7 @@ const AccommodationDetailsFilters = ({ searchParams, onSearchChange }) => {
             <div className="relative">
                 <label className="custom-label">Guest Capacity</label>
                 <select
-                name="guestCapacity"
+                name="groupSize"
                 className="custom-input"
                 value={searchParams.groupSize}
                 onChange={onSearchChange}
