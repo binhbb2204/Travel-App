@@ -14,38 +14,38 @@ const TransactionBooking = () => {
     const combinedServiceCharge = location.state?.combinedServiceCharge || 0;
     // const { bookingData, bookingData2 } = location.state?.combinedBookingData || {};
 
-    const { addToCart } = useCart();
+    // const { addToCart } = useCart();
     const navigate = useNavigate();
 
     
-    const handleAddToCart = () => {
-        const bookingForCart = {
-            id: Date.now(),
-            type: 'tour', 
-            title,
-            date,
-            adults,
-            children,
-            totalPrice,
-            pricePerPerson,
-            serviceCharge,
-            promoDiscount
-        };
-        addToCart(bookingForCart)
-        //navigate('/cart'); // Optional: Navigate to cart page
-    };
+    // const handleAddToCart = () => {
+    //     const bookingForCart = {
+    //         id: Date.now(),
+    //         type: 'tour', 
+    //         title,
+    //         date,
+    //         adults,
+    //         children,
+    //         totalPrice,
+    //         pricePerPerson,
+    //         serviceCharge,
+    //         promoDiscount
+    //     };
+    //     addToCart(bookingForCart)
+    //     //navigate('/cart'); // Optional: Navigate to cart page
+    // };
 
-    const CartButton = () => (
-        <button
-            onClick={handleAddToCart}
-            className="w-full mt-4 py-4 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg
-            font-medium hover:from-green-700 hover:to-green-800 transform hover:scale-[1.02] 
-            transition-all duration-200 flex items-center justify-center space-x-2"
-        >
-            <ShoppingCart className="w-5 h-5" />
-            <span>Add to Cart</span>
-        </button>
-    );
+    // const CartButton = () => (
+    //     <button
+    //         onClick={handleAddToCart}
+    //         className="w-full mt-4 py-4 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg
+    //         font-medium hover:from-green-700 hover:to-green-800 transform hover:scale-[1.02] 
+    //         transition-all duration-200 flex items-center justify-center space-x-2"
+    //     >
+    //         <ShoppingCart className="w-5 h-5" />
+    //         <span>Add to Cart</span>
+    //     </button>
+    // );
 
     const {
         tour_title = 'Unknown Title',

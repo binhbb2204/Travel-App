@@ -1,0 +1,9 @@
+.page-section{
+    min-height: 1500px;
+}
+
+.booking-wrapper{
+    position: sticky; 
+    margin-top: 95px;
+}
+
