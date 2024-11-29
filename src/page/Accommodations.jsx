@@ -31,7 +31,7 @@ const Accommodations = () => {
     const itemsPerPage = 8;
 
     const getQueryParams = () => {
-        clearRouteParams();
+        
         const params = new URLSearchParams(window.location.search);
         const cleanPath = location.pathname;
         return {
