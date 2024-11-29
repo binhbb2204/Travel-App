@@ -95,3 +95,36 @@ export const getAccommodationBySearch = async (req,res) => {
         });
     }
 }
+
+export const getFeaturedAccommodations = async (req, res) => {
+    const page = parseInt(req.query.page)
+    try {
+        const accos = await Accommodation.find({featured:true})
+            .populate('reviews')
+            .skip(page * 8)
+            .limit(8);
+        res.status(200).json({ success: true, count: accos.length, message: "successful", data: accos });
+    } catch (error) {
+        res.status(400).json({
+            success: false,
+            message: error.message,
+        });
+    }
+};
+
+export const getAccommodationCount = async(req, res) => {
+    try {
+        const accoCount = await Accommodation.estimatedDocumentCount()
+
+        res.status(200).json({
+            success: true,
+            message: "Successful",
+            data: accoCount
+        })
+    } catch (error) {
+        res.status(400).json({
+            success: false,
+            message: error.message,
+        });
+    }
+}

@@ -23,6 +23,14 @@ import {
     getAccommodationBySearch
 } from '../controllers/accommodationController.js';
 
+import {
+    getFeaturedAccommodations
+} from '../controllers/accommodationController.js';
+
+import {
+    getAccommodationCount
+} from '../controllers/accommodationController.js';
+
 const router = express.Router();
 
 router.post("/", createAccommodation);
@@ -38,5 +46,9 @@ router.get("/:id", getSingleAccommodation);
 router.get("/", getAllAccommodation);
 
 router.get("/search/getAccommodationBySearch", getAccommodationBySearch);
+
+router.get("/search/getFeatureAccommodations", getFeaturedAccommodations);
+
+router.get("/search/getAccommodationCount", getAccommodationCount);
 
 export default router;
