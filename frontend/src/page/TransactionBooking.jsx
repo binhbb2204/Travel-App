@@ -10,6 +10,8 @@ const TransactionBooking = () => {
     const location = useLocation();
     const bookingData = location.state?.bookingData || {};
     const bookingData2 = location.state?.bookingData2 || {};
+    const combinedTotalPrice = location.state?.combinedTotalPrice || 0;
+    const combinedServiceCharge = location.state?.combinedServiceCharge || 0;
     // const { bookingData, bookingData2 } = location.state?.combinedBookingData || {};
 
     const { addToCart } = useCart();
@@ -83,17 +85,23 @@ const TransactionBooking = () => {
     };
 
     const getTravelersText = () => {
-        if(tour_pay){
-            const parts = [];
-            if (tour_adults) parts.push(`${tour_adults} Adult${tour_adults > 1 ? 's' : ''}`);
-            if (tour_children) parts.push(`${tour_children} Child${tour_children > 1 ? 'ren' : ''}`);
-            return parts.length ? `${parts.join(', ')} • ${formatDate(tour_date)}` : 'No travelers selected';
-        } else {
-            const parts = [];
-            if (acco_adults) parts.push(`${acco_adults} Adult${acco_adults > 1 ? 's' : ''}`);
-            if (acco_children) parts.push(`${acco_children} Child${acco_children > 1 ? 'ren' : ''}`);
-            return parts.length ? `${parts.join(', ')} • ${formatDate(acco_checkin)} to ${formatDate(acco_checkout)}` : 'No travelers selected';
-        }        
+        const travelers = [];
+        
+        if (bookingData.tour_pay) {
+            const tourParts = [];
+            if (bookingData.tour_adults) tourParts.push(`${bookingData.tour_adults} Adult${bookingData.tour_adults > 1 ? 's' : ''}`);
+            if (bookingData.tour_children) tourParts.push(`${bookingData.tour_children} Child${bookingData.tour_children > 1 ? 'ren' : ''}`);
+            travelers.push(`Tour: ${tourParts.join(', ')} • ${formatDate(bookingData.tour_date)}`);
+        }
+
+        if (bookingData2.acco_pay) {
+            const accoParts = [];
+            if (bookingData2.acco_adults) accoParts.push(`${bookingData2.acco_adults} Adult${bookingData2.acco_adults > 1 ? 's' : ''}`);
+            if (bookingData2.acco_children) accoParts.push(`${bookingData2.acco_children} Child${bookingData2.acco_children > 1 ? 'ren' : ''}`);
+            travelers.push(`Accommodation: ${accoParts.join(', ')} • ${formatDate(bookingData2.acco_checkin)} to ${formatDate(bookingData2.acco_checkout)}`);
+        }
+
+        return travelers.length ? travelers.join(' | ') : 'No travelers selected';
     };
 
     const handleSubmit = (e) => {
@@ -112,6 +120,17 @@ const TransactionBooking = () => {
         }
     };
 
+    const price_perPerson = (tour_pay ? tour_pricePerPerson : 0) + (bookingData2.acco_pay ? acco_pricePerPerson : 0);
+
+    const subtotal = (tour_pay ? tour_totalPrice - tour_serviceCharge + tour_promoDiscount : 0) + 
+                (bookingData2.acco_pay ? acco_totalPrice - acco_serviceCharge + acco_promoDiscount : 0);
+
+    const serviceFee = (tour_pay ? tour_serviceCharge : 0) + (bookingData2.acco_pay ? acco_serviceCharge : 0);
+
+    const promoDiscount = (tour_pay ? tour_promoDiscount : 0) + (bookingData2.acco_pay ? acco_promoDiscount : 0);
+
+    const total = subtotal + serviceFee - promoDiscount;    
+
     const BookingSummary = () => (
         <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-100">
             <div className="flex items-center justify-between">
@@ -120,12 +139,17 @@ const TransactionBooking = () => {
                         <Calendar className="w-5 h-5 text-blue-600" />
                     </div>
                     <div>
-                        <h3 className="font-medium text-gray-800">{tour_pay ? tour_title : acco_title}</h3>
+                        <h3 className="font-medium text-gray-800">
+                            {bookingData.tour_pay && bookingData2.acco_pay 
+                                ? 'Multiple Bookings' 
+                                : (bookingData.tour_pay ? bookingData.tour_title : bookingData2.acco_title)
+                            }
+                        </h3>
                         <p className="text-sm text-gray-600">{getTravelersText()}</p>
                     </div>
                 </div>
                 <div className="text-right">
-                    <p className="font-bold text-blue-600">${tour_pay ? tour_totalPrice.toFixed(2) : acco_totalPrice.toFixed(2)}</p>
+                    <p className="font-bold text-blue-600">${combinedTotalPrice.toFixed(2)}</p>
                     <p className="text-sm text-gray-500">Total</p>
                 </div>
             </div>
@@ -229,7 +253,7 @@ const TransactionBooking = () => {
                                         <p className="text-sm text-gray-600">{getTravelersText()}</p>
                                     </div>
                                     <div className="ml-auto">
-                                        <p className="font-bold text-blue-600">${tour_pay ? tour_pricePerPerson : acco_pricePerPerson}</p>
+                                        <p className="font-bold text-blue-600">${price_perPerson}</p>
                                         <p className="text-sm text-gray-500">Per person</p>
                                     </div>
                                 </div>
@@ -292,23 +316,23 @@ const TransactionBooking = () => {
                                 <div className="bg-gray-50 p-4 rounded-lg space-y-2">
                                     <div className="flex justify-between text-gray-600">
                                         <span>Subtotal</span>
-                                        <span>${tour_pay ? (tour_totalPrice - tour_serviceCharge + tour_promoDiscount).toFixed(2) : (acco_totalPrice - acco_serviceCharge + acco_promoDiscount).toFixed(2) }</span>
+                                        <span>${subtotal.toFixed(2)}</span>
                                     </div>
                                     <div className="flex justify-between text-gray-600">
                                         <span>Service Fee</span>
-                                        <span>${tour_pay ? tour_serviceCharge.toFixed(2) : acco_serviceCharge.toFixed(2)}</span>
+                                        <span>${serviceFee.toFixed(2)}</span>
                                     </div>
                                     <div className="flex justify-between text-gray-600">
                                         <div className="flex items-center">
                                             <Gift className="w-4 h-4 mr-2 text-green-600" />
                                             <span>Promotional Discount</span>
                                         </div>
-                                        <span className="text-green-600">-${tour_pay ? tour_promoDiscount.toFixed(2) : acco_promoDiscount.toFixed(2)}</span>
+                                        <span className="text-green-600">-${promoDiscount.toFixed(2)}</span>
                                     </div>
                                     <div className="pt-2 border-t mt-2">
                                         <div className="flex justify-between items-center font-bold text-lg">
                                             <span>Total</span>
-                                            <span className="text-blue-600">${tour_pay ? tour_totalPrice.toFixed(2) : acco_totalPrice.toFixed(2)}</span>
+                                            <span className="text-blue-600">${total.toFixed(2)}</span>
                                         </div>
                                     </div>
                                 </div>

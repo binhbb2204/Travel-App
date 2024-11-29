@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { setRouteSpecificParams, getRouteSpecificParams, clearRouteParams } from '../utils/queryParamManager';
-import { Container, Row, Col, Form, FormGroup, Button } from "reactstrap";
-import { Link } from 'react-router-dom';
-
 import AccomodationSearchBox from '../ui/SearchBar/AccommodationSearchBox';
 import accommodationData from '../data/accommodationData';
 import AccommodationCard from '../ui/Card/AccommodationCard';
@@ -14,12 +10,12 @@ import '../styles/accomodations.css';
 const Accommodations = () => {
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useState({
-        keyword: "",
-        country: "",
-        city: "",
-        type: "",
-        minPrice: "",
-        maxPrice: "",
+        keyword: '',
+        country: '',
+        city: '',
+        type: '',
+        minPrice: '',
+        maxPrice: '',
         groupSize: "any",
     });
 
@@ -31,7 +27,6 @@ const Accommodations = () => {
     const itemsPerPage = 8;
 
     const getQueryParams = () => {
-        // Specifically look for accommodation-related query parameters
         const params = new URLSearchParams(window.location.search);
         const queryParams = {
             keyword: params.get('keyword') || '',
@@ -43,7 +38,6 @@ const Accommodations = () => {
             groupSize: params.get('groupSize') || 'any',
         };
       
-        // Modify the search state to use these prefixed parameters
         const cleanParams = Object.fromEntries(
             Object.entries(queryParams).filter(([_, value]) => 
               value !== '' && value !== 'any'
@@ -52,7 +46,7 @@ const Accommodations = () => {
         const newUrl = new URL(window.location.href);
         newUrl.search = new URLSearchParams(cleanParams).toString();
         window.history.replaceState({}, '', newUrl);
-
+    
         return cleanParams;
     };
       
@@ -94,7 +88,7 @@ const Accommodations = () => {
 
     const handleSearch = (params) => {
         const prefixedParams = Object.fromEntries(
-            Object.entries(params).map(([key, value]) => [`accom-${key}`, value])
+            Object.entries(params).map(([key, value]) => [`${key}`, value])
         );
         
         const cleanParams = Object.fromEntries(
@@ -130,31 +124,37 @@ const Accommodations = () => {
     };
 
     return (
-    <div className='acco__container'>
-        <section className='search__container'>
-            <motion.h1 
+    <div className='min-h-screen bg-gray-50'>
+        {/* Search Section */}
+        <motion.div 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            className="search__container text-white py-8 lg:py-16 mt-14 lg:mt-0"
+        >
+            <div className="container mx-auto px-4">
+                <motion.h1 
                 initial={{ y: -20, opacity: 0 }} 
                 animate={{ y: 0, opacity: 1 }} 
-                className="label text-3xl lg:text-4xl font-bold text-center"
-            >
-                Set up your stay!
-            </motion.h1>  
-            <div className="search__box">
+                className="text-3xl lg:text-4xl font-bold text-center mb-6 lg:mb-8 mt-5 lg:mt-7"
+                >
+                    Find the Perfect Place for Your Stay!
+                </motion.h1>
                 <AccomodationSearchBox className ="box__detail"
-                    searchParams={searchParams}
-                    onSearchChange={handleSearchChange}
-                    onSearch={handleSearch}
-                    countries={[...new Set(accommodationData.map(acco => acco.country))].sort()}
-                    cities={accommodationData.reduce((acc, acco) => {
-                      if (!acc[acco.country]) acc[acco.country] = [];
-                      if (!acc[acco.country].includes(acco.city)) acc[acco.country].push(acco.city);
-                      return acc;
-                    }, {})}
+                searchParams={searchParams}
+                onSearchChange={handleSearchChange}
+                onSearch={handleSearch}
+                countries={[...new Set(accommodationData.map(acco => acco.country))].sort()}
+                cities={accommodationData.reduce((acc, acco) => {
+                    if (!acc[acco.country]) acc[acco.country] = [];
+                    if (!acc[acco.country].includes(acco.city)) acc[acco.country].push(acco.city);
+                    return acc;
+                }, {})}
                     
-                    onSubmit={handleSubmit}
+                onSubmit={handleSubmit}
                 />
             </div>
-        </section>
+        </motion.div>
+        
         <section className='result__container'>
             {hasSubmitted && (
             <div className="container mx-auto px-4 py-8">
