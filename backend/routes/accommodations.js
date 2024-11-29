@@ -19,6 +19,9 @@ import {
     getAllAccommodation
 } from '../controllers/accommodationController.js';
 
+import {
+    getAccommodationBySearch
+} from '../controllers/accommodationController.js';
 
 const router = express.Router();
 
@@ -33,5 +36,7 @@ router.delete("/:id", deleteAccommodation);
 router.get("/:id", getSingleAccommodation);
 
 router.get("/", getAllAccommodation);
+
+router.get("/search/getAccommodationBySearch", getAccommodationBySearch);
 
 export default router;

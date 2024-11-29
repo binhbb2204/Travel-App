@@ -52,7 +52,46 @@ export const getAllAccommodation = async (req, res) => {
     }
 };
 
-export const getAccommodationBySearch = async (res,res) => {
-    const city = new RegExp(req.query.city, 'i');
-    const 
+export const getAccommodationBySearch = async (req,res) => {
+    const { title, country, city, type, groupSize, minPrice, maxPrice } = req.query;
+
+    const titleRegex = title ? new RegExp(title, 'i') : undefined;
+    const countryRegex = country ? new RegExp(country, 'i') : undefined;
+    const cityRegex = city ? new RegExp(city, 'i') : undefined;
+    const typeRegex = type ? new RegExp(type, 'i') : undefined;    
+    const minPriceRange = minPrice ? parseInt(minPrice) : undefined;
+    const maxPriceRange = maxPrice ? parseInt(maxPrice) : undefined;
+
+    try {
+        const query = {};
+
+        if (titleRegex) query.title = titleRegex;
+        if (countryRegex) query.country = countryRegex;
+        if (cityRegex) query.city = cityRegex;
+        if (typeRegex) query.type = typeRegex;
+        if (groupSize) query.totalCapacity = { $gte: parseInt(groupSize) };
+
+        // Adding filters for price range
+        if (minPriceRange || maxPriceRange) {
+            query.price = {};
+            if (minPriceRange) query.price.$gte = minPriceRange; // Minimum price
+            if (maxPriceRange) query.price.$lte = maxPriceRange; // Maximum price
+        }
+
+        const accos = await Accommodation.find(query).populate('reviews');
+
+        if (accos.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: 'No accommodations found matching the search criteria.',
+            });
+        }
+
+        res.status(200).json({ success: true, message: "Successful", data: accos });
+    } catch (error) {
+        res.status(400).json({
+            success: false,
+            message: error.message,
+        });
+    }
 }
