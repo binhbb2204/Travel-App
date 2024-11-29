@@ -33,7 +33,7 @@ const AccommodationDetails = () => {
   
   return (
     <>
-      <section>
+      <section className='page-section'>
         <Row>
           <Col lg='8'>
             <div className="max-w-7xl mx-auto px-4 py-4 md:py-8 mt-4">
@@ -107,7 +107,7 @@ const AccommodationDetails = () => {
           </Col>
 
           <Col lg='4'>
-            <div className="booking-wrapper">
+            <div className="booking-wrapper mt-30">
               <AccommodationBooking acco={acco} avgRating={avgRating} />
             </div>
           </Col>

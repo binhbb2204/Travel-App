@@ -199,16 +199,16 @@ const BookingContent = ({
                 )}
                 <div className="flex justify-between items-center text-gray-600">
                     <span>Duration</span>
-                    <span>{pricing.stayDuration} Day(s)</span>
+                    <span>{pricing.stayDuration ? (pricing.stayDuration) : 0} Day(s)</span>
                 </div>
                 <div className="flex justify-between items-center text-gray-600">
                     <span>Service Charge (10%)</span>
-                    <span>${pricing.serviceCharge.toFixed(2)}</span>
+                    <span>${pricing.stayDuration ? pricing.serviceCharge.toFixed(2) : 0.00}</span>
                 </div>
                 <div className="pt-3 border-t">
                     <div className="flex justify-between items-center font-bold text-lg">
                         <span>Total</span>
-                        <span className="text-blue-600">${pricing.total.toFixed(2)}</span>
+                        <span className="text-blue-600">${pricing.stayDuration ? pricing.total.toFixed(2) : 0.00 }</span>
                     </div>
                 </div>
             </div>
