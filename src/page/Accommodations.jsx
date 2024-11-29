@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-
+import { setRouteSpecificParams, getRouteSpecificParams, clearRouteParams } from '../utils/queryParamManager';
 import { Container, Row, Col, Form, FormGroup, Button } from "reactstrap";
 import { Link } from 'react-router-dom';
 
@@ -31,7 +31,8 @@ const Accommodations = () => {
     const itemsPerPage = 8;
 
     const getQueryParams = () => {
-        const params = new URLSearchParams("/accommodations");
+        clearRouteParams();
+        const params = new URLSearchParams(window.location.search);
         const cleanPath = location.pathname;
         return {
           keyword: params.get('keyword') || '',

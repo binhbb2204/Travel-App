@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { setRouteSpecificParams, getRouteSpecificParams, clearRouteParams } from '../utils/queryParamManager';
 import TourSearchCard from '../ui/Card/TourSearchCard';
 import TourCard from '../ui/Card/TourCard';
 import Pagination from '../ui/Pagination/Pagination';
@@ -76,6 +77,7 @@ const Tours = () => {
 
   // Initialize search from URL params
   useEffect(() => {
+    
     const params = getQueryParams();
     const filledParams = { ...searchParams, ...params };
     setSearchParams(filledParams);
@@ -99,8 +101,11 @@ const Tours = () => {
   // Perform search and update URL
   const handleSearch = (params) => {
     // Remove empty and default values
+    const prefixedParams = Object.fromEntries(
+      Object.entries(params).map(([key, value]) => [`tour-${key}`, value])
+    );
     const cleanParams = Object.fromEntries(
-      Object.entries(params).filter(([_, value]) => 
+      Object.entries(prefixedParams).filter(([_, value]) => 
         value !== '' && value !== 'any'
       )
     );
