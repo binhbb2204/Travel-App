@@ -31,23 +31,35 @@ const Accommodations = () => {
     const itemsPerPage = 8;
 
     const getQueryParams = () => {
-        
+        // Specifically look for accommodation-related query parameters
         const params = new URLSearchParams(window.location.search);
-        const cleanPath = location.pathname;
-        return {
-          keyword: params.get('keyword') || '',
-          country: params.get('country') || '',
-          city: params.get('city') || '',
-          type: params.get('type') || '',
-          minPrice: params.get('minPrice') || '',
-          maxPrice: params.get('maxPrice') || '',
-          groupSize: params.get('groupSize') || 'any',
+        const queryParams = {
+            keyword: params.get('keyword') || '',
+            country: params.get('country') || '',
+            city: params.get('city') || '',
+            type: params.get('type') || '',
+            minPrice: params.get('minPrice') || '',
+            maxPrice: params.get('maxPrice') || '',
+            groupSize: params.get('groupSize') || 'any',
         };
+      
+        // Modify the search state to use these prefixed parameters
+        const cleanParams = Object.fromEntries(
+            Object.entries(queryParams).filter(([_, value]) => 
+              value !== '' && value !== 'any'
+            )
+        );
+        const newUrl = new URL(window.location.href);
+        newUrl.search = new URLSearchParams(cleanParams).toString();
+        window.history.replaceState({}, '', newUrl);
+
+        return cleanParams;
     };
+      
 
     const filterTours = (params) => {
         return accommodationData.filter((acco) => {
-            const matchesKeyword = acco.title.toLowerCase().includes(params.keyword.toLowerCase());
+            const matchesKeyword = !params.keyword || acco.title.toLowerCase().includes(params.keyword.toLowerCase());
             const matchesCountry = !params.country || acco.country === params.country;
             const matchesCity = !params.city || acco.city === params.city;
             const matchesType = !params.type || acco.type === params.type;
@@ -64,8 +76,9 @@ const Accommodations = () => {
     useEffect(() => {
         
         const params = getQueryParams();
-        setSearchParams(params);
-        const results = filterTours(params);
+        const filledParams = { ...searchParams, ...params };
+        setSearchParams(filledParams);
+        const results = filterTours(filledParams);
         setFilteredResults(results);
         setHasSubmitted(true);
     }, []);
@@ -80,7 +93,19 @@ const Accommodations = () => {
     };
 
     const handleSearch = (params) => {
-        const results = filterTours(params);
+        const prefixedParams = Object.fromEntries(
+            Object.entries(params).map(([key, value]) => [`accom-${key}`, value])
+        );
+        
+        const cleanParams = Object.fromEntries(
+            Object.entries(prefixedParams).filter(([_, value]) => 
+                value !== '' && value !== 'any'
+            )
+        );
+        
+        const searchString = new URLSearchParams(cleanParams).toString();
+        navigate(`?${searchString}`);
+        const results = filterTours(params)
         setFilteredResults(results);
         setHasSubmitted(true);
         setCurrentPage(1); // Reset to first page on new search
