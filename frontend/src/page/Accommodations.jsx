@@ -177,22 +177,19 @@ const Accommodations = () => {
                 />
             </div>
         </motion.div>
-        
+        {/* Pagination */}
+        {filteredResults.length > 0 && (
+            <div className="mt-8">
+                <Pagination 
+                    totalPages={totalPages} 
+                    currentPage={currentPage} 
+                    onPageChange={handlePageChange} 
+                />
+            </div>
+        )}
         <section className='result__container'>
             {hasSubmitted && (
             <div className="container mx-auto px-4 py-8">
-                
-                {/* Pagination */}
-                {filteredResults.length > 0 && (
-                    <div className="mt-2 mb-8">
-                    <Pagination 
-                        totalPages={totalPages} 
-                        currentPage={currentPage} 
-                        onPageChange={handlePageChange} 
-                    />
-                    </div>
-                )}
-
                 <div className={`${
                     activeView === 'grid' 
                     ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6' 

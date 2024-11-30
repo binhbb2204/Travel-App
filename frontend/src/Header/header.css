@@ -30,7 +30,7 @@
     display: none;
 }
 
-.sticky__header{
+.sticky__header {
     /* width: 100%;
     height: 80px;
     line-height: 80px;
@@ -42,31 +42,44 @@
     /* z-index: 999; */
 }
 
-.custom-gradient-btn{
-    background: linear-gradient(to right, #0066ff, #0033cc);
-    padding: 0.75rem 1.5rem;  
-    border-radius: 9999px;    
-    color: white;
-    transition: all 0.2s;
-    width: max-content;              
-    height: max-content; 
+.custom-gradient-btn {
+  background: linear-gradient(to right, #0066ff, #0033cc);
+  padding: 0.6rem 1.2rem;
+  font-size: 0.875rem;
+  font-weight: 500;  
+  border-radius: 9999px;    
+  color: white;
+  transition: all 0.3s ease;
+  width: max-content;              
+  height: max-content; 
 }
 
-.custom-gradient-btn:hover{
-    background: linear-gradient(to right, #0052cc, #002080);
+.custom-gradient-btn:hover {
+  background: white; 
+  color: black;
+  transform: translateY(-2px); 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+}
+
+.custom-gradient-login-btn {
+  /* background: linear-gradient(to right, #0066ff, #0033cc); */
+  padding: 0.6rem 1.2rem;
+  font-size: 0.875rem;
+  font-weight: 500;  
+  border-radius: 9999px;    
+  color: black;
+  transition: all 0.3s ease;
+  width: max-content;              
+  height: max-content; 
+}
+
+.custom-gradient-login-btn:hover {
+  background: linear-gradient(to right, #0052cc, #002080);
+  color: #ffffff;
+  transform: translateY(-2px); 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
 } 
 
-.custom-gradient-login-btn{
-    padding: 0.5rem 1.5rem; 
-    border-radius: 9999px; 
-    background-color: transparent;
-    border: 2px solid #3b82f6; 
-    color: #3b82f6; 
-    transition: all 0.2s; 
-}
-.custom-gradient-login-btn:hover{
-    background: linear-gradient(to right, #0052cc, #002080);
-}
 /* This one is for mobile device header cuz ye, size of screen is different, so */
 @media only screen and (max-width: 992px) {
     .navigation{
@@ -199,17 +212,34 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  background-color: #f0f9ff; /* Light blue background */
+  background: linear-gradient(90deg, #1e3aa1, #3d82d6); 
   padding: 8px 16px;
-  border-radius: 999px; /* Rounded corners */
+  border-radius: 999px; 
   font-size: 0.875rem;
   font-weight: 500;
-  color: #2563eb; /* Blue text */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  transition: all 0.3s ease; 
+}
+
+.welcome-box:hover {
+  background: linear-gradient(90deg, #1d2fc1, #3990e6);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); 
+  transform: translateY(-2px); 
+  color: #ffffff; 
 }
 
 .welcome-box button {
   padding: 4px 8px;
   font-size: 0.875rem;
-  border-radius: 999px; /* Rounded button */
+  font-weight: 500;  
+  border-radius: 999px; 
+  color: #ffffff;
+  background: linear-gradient(90deg, #2385f5, #4facf7); 
+  border: none;
+}
+
+.welcome-box button:hover {
+  background: linear-gradient(90deg, #1d72d1, #3b95e5); 
+  color: #f0f8ff; 
 }
