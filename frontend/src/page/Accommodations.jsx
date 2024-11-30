@@ -18,6 +18,7 @@ const Accommodations = () => {
         maxPrice: '',
         groupSize: "any",
     });
+    const [accommodationsData, setAccommodationsData] = useState([]); // State to store accommodations
 
     const [filteredResults, setFilteredResults] = useState([]);
     const [activeView, setActiveView] = useState('grid');
@@ -25,6 +26,15 @@ const Accommodations = () => {
     const [currentPage, setCurrentPage] = useState(1);
 
     const itemsPerPage = 8;
+
+    const fetchAccommodation = async () => {
+        try{
+            const response = await axios.get("/api/v1/accommodations");
+            setAccommodationsData(response.data.data);
+        } catch(error) {
+            console.error("Error fetching accommodations: ", error)
+        }
+    }
 
     const getQueryParams = () => {
         const params = new URLSearchParams(window.location.search);
@@ -75,6 +85,8 @@ const Accommodations = () => {
         const results = filterTours(filledParams);
         setFilteredResults(results);
         setHasSubmitted(true);
+
+        fetchAccommodation();
     }, []);
 
     const handleSearchChange = (e) => {

@@ -1,5 +1,7 @@
 import { BaseItem, Comment, Reply } from '../Models/Comment.js';
 import Tour from '../Models/Tour.js';
+import Accommodation from '../Models/Accommodation.js';
+
 
 export const createComment = async (req, res) => {
     const { tourId } = req.params;
@@ -15,9 +17,30 @@ export const createComment = async (req, res) => {
         const savedComment = await newComment.save();
 
         // Update the tour with the new comment
-        await Tour.findByIdAndUpdate(tourId, {
-            $push: { reviews: savedComment._id }
-        });
+        // await Tour.findByIdAndUpdate(tourId, {
+        //     $push: { reviews: savedComment._id }
+        // });
+
+        // await Accommodation.findByIdAndUpdate(tourId, {
+        //     $push: { reviews: savedComment._id }
+        // });
+
+        const tour = await Tour.findById(tourId);
+        if (tour) {
+            await Tour.findByIdAndUpdate(tourId, {
+                $push: { reviews: savedComment._id },
+            });
+        }
+
+        // Check and update reviews for Accommodation
+        const accommodation = await Accommodation.findById(tourId);
+        if (accommodation) {
+            console.log("really tried");
+            await Accommodation.findByIdAndUpdate(tourId, {
+                $push: { reviews: savedComment._id },
+            });
+        }
+
 
         res.status(201).json({
             success: true, 
