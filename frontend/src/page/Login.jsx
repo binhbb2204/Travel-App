@@ -50,11 +50,11 @@ const Login = () => {
       localStorage.setItem('username', response.data.data.name);
 
       if (rememberMe) {
-        // localStorage.setItem('email', credentials.email);
+        localStorage.setItem('email', credentials.email);
         localStorage.setItem('password', credentials.password);
         localStorage.setItem('rememberMe', 'true');
       } else {
-        // localStorage.removeItem('email');
+        localStorage.removeItem('email');
         localStorage.removeItem('password');
         localStorage.setItem('rememberMe', 'false');
       }

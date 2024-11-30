@@ -4,7 +4,6 @@ import AdminSidebar from './AdminSidebar';
 import UsersPanel from "./UsersPanel";
 import ToursPanel from './ToursPanel';
 import HotelsPanel from './HotelsPanel';
-import FlightsPanel from './FlightsPanel';
 import OverviewPanel from "./OverviewPanel";
 import TransactionPanel from "./TransactionPanel";
 import { Activity } from 'lucide-react';
@@ -23,6 +22,12 @@ const AdminPanel = () => {
     { name: 'Apr', value: 4500 },
     { name: 'May', value: 6000 },
     { name: 'Jun', value: 7000 },
+    { name: 'Jul', value: 8000 },
+    { name: 'Aug', value: 7000 },
+    { name: 'Sep', value: 5000 },
+    { name: 'Oct', value: 6500 },
+    { name: 'Nov', value: 4300 },
+    { name: 'Dec', value: 9900 },
   ];
 
   const stats = {
@@ -56,8 +61,6 @@ const AdminPanel = () => {
         return <ToursPanel />;
       case 'hotels':
         return <HotelsPanel />;
-      // case 'flights':
-      //   return <FlightsPanel />;
       case 'transactions':
         return <TransactionPanel />;
       default:
