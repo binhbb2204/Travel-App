@@ -6,34 +6,35 @@ const Italy_Rome = importAll(require.context('../images/Italy/Rome', false, /\.(
 const Brazil_Manaus = importAll(require.context('../images/Brazil/Manaus', false, /\.(png|jpe?g|svg)$/));
 const accommodationData = [
     {
-        id: "01",
+        // id: "01",
         title: "Historical City Tour",
         country: "Italy",
         city: "Rome",
-        photo: Italy_Rome[0],
+        // photo: Italy_Rome[0],
         photos: Italy_Rome,
         price: 99,
-        type: "hotel",
-        rooms: [
-            {
-                roomType: 1,
-                availableRooms: 10
-            },
-            {
-                roomType: 2,
-                availableRooms: 10
-            },
-            {
-                roomType: 4,
-                availableRooms: 10
-            },
-            {
-                roomType: 6,
-                availableRooms: 10
-            }
-        ],
+        type: "Hotel",
+        // rooms: [
+        //     {
+        //         roomType: 1,
+        //         availableRooms: 10
+        //     },
+        //     {
+        //         roomType: 2,
+        //         availableRooms: 10
+        //     },
+        //     {
+        //         roomType: 4,
+        //         availableRooms: 10
+        //     },
+        //     {
+        //         roomType: 6,
+        //         availableRooms: 10
+        //     }
+        // ],
+        totalCapacity: 10,
         featured: true,
-        reviews: [{ rating: 5 }, { rating: 4 }, { rating: 5 }, { rating: 4 }, { rating: 5 }],
+        reviews: [],
         desc: "Explore the ancient streets of Rome, visiting iconic landmarks like the Colosseum, Roman Forum, and Pantheon while learning about the city's rich history from expert guides.",
         highlights: [
             "Skip-the-line access to the Colosseum",

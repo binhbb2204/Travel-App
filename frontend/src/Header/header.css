@@ -1,47 +1,45 @@
-.header{
-    width: 100%;
-    height: 80px;
-    line-height: 80px;
+/* General Header Styles */
+.header {
+  width: 100%;
+  height: 80px;
+  line-height: 80px;
 }
 
-.logo img{
-    width: 50%;
+.logo img {
+  width: 50%;
 }
 
-.menu{
-    margin-bottom: 0;
-
-}
-.nav__item a{
-    text-decoration: none;
-    color: var(--heading-color);
-    font-weight: 500;
-    font-size: 1.1rem;
+/* Navigation Menu Styles */
+.menu {
+  margin-bottom: 0;
 }
 
-.nav__item a.active__link{
-    color: var(--secondary-color);
-
+.nav__item a {
+  text-decoration: none;
+  color: var(--heading-color);
+  font-weight: 500;
+  font-size: 1.1rem;
 }
 
-.mobile__menu{
-    font-size: 1.3rem; 
-    color: var(--heading-color);
-    display: none;
+.nav__item a.active__link {
+  color: var(--secondary-color);
 }
 
+/* Mobile Menu Styles */
+.mobile__menu {
+  font-size: 1.3rem; 
+  color: var(--heading-color);
+  display: none;
+}
+
+/* Sticky Header Styles */
 .sticky__header {
-    /* width: 100%;
-    height: 80px;
-    line-height: 80px;
-    background: #fff; */
-    position: sticky;
-    top: 0;
-    left: 0;
-    /* box-shadow: 3px 3px 8px -3px #ddd; */
-    /* z-index: 999; */
+  position: sticky;
+  top: 0;
+  left: 0;
 }
 
+/* Custom Button Styles */
 .custom-gradient-btn {
   background: linear-gradient(to right, #0066ff, #0033cc);
   padding: 0.6rem 1.2rem;
@@ -62,7 +60,6 @@
 }
 
 .custom-gradient-login-btn {
-  /* background: linear-gradient(to right, #0066ff, #0033cc); */
   padding: 0.6rem 1.2rem;
   font-size: 0.875rem;
   font-weight: 500;  
@@ -78,94 +75,89 @@
   color: #ffffff;
   transform: translateY(-2px); 
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
-} 
+}
 
-/* This one is for mobile device header cuz ye, size of screen is different, so */
+/* Responsive Styles for Mobile Devices */
 @media only screen and (max-width: 992px) {
-    .navigation{
-        width: 280px;
-        height: 100vh;
-        position: fixed;
-        top: 0;
-        left: -280px;
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(8px);
-        z-index: 999;
-        transition: all 0.3s ease;
-        box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
-    }
-  
-    .menu{
-        padding: 80px 20px 0 20px;
-        position: relative;
-        top: 0;
-        left: 0;
-        transform: none;
-        flex-direction: column;
-        align-items: flex-start !important;
-    }
-  
-    .show__menu{
+  .navigation {
+      width: 280px;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: -280px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      z-index: 999;
+      transition: all 0.3s ease;
+      box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .menu {
+      padding: 80px 20px 0 20px;
+      position: relative;
+      flex-direction: column;
+      align-items: flex-start !important;
+  }
+
+  .show__menu {
       left: 0;
-    }
-  
-    .nav__right .nav__btns{
+  }
+
+  .nav__right .nav__btns {
       display: none !important;
-    }
-    .nav__item{
-        width: 100%;
-        padding: 8px 0;
-    }
+  }
 
-    .logreg__menu {
-        display: flex;
-        position: absolute;
-        left: 37px;
-        top: 0;
-        width: 100%;
-        gap: 8px;
-        margin-top: 10px;
-        z-index: 1000;
-    }
+  .nav__item {
+      width: 100%;
+      padding: 8px 0;
+  }
 
-      .nav__btns {
-        display: block;
-      }
-
-    .nav__item a{
-        display: block;
-        font-size: 1.1rem;
-        font-weight: 500;
-    }
-    .mobile_menu{
-      display: block !important;
+  .logreg__menu {
+      display: flex;
+      position: absolute;
+      left: 37px;
+      top: 0;
+      width: 100%;
+      gap: 8px;
+      margin-top: 10px;
       z-index: 1000;
-    }
-    .mobile_menu{
-    color: #000 !important; /* Use your preferred color */
-    }
-  
-  .mobile_menu svg{
-    stroke-width: 2px; /* Makes the icon more visible */
-    }
+  }
+
+  .nav__btns {
+      display: block;
+  }
+
+  .nav__item a {
+      display: block;
+      font-size: 1.1rem;
+      font-weight: 500;
+  }
+
+  .mobile_menu {
+      display: block !important;
+      color: #000 !important;
+  }
+
+  .mobile_menu svg {
+      stroke-width: 2px;
+  }
 }
-  
-/* Optional: Adjust logo size for mobile */
+
+/* Adjustments for Smaller Screens */
 @media only screen and (max-width: 768px) {
-    .logo img{
+  .logo img {
       width: 120px;
-    }
-    .mobile_menu{
-        color: #000 !important; /* Use your preferred color */
-    }
-      
-      .mobile_menu svg{
-        stroke-width: 2px; /* Makes the icon more visible */
-    }
-}
-/* Add to header.css */
-@media (max-width: 768px) {
-    .favorites-backdrop {
+  }
+
+  .mobile_menu {
+      color: #000 !important;
+  }
+
+  .mobile_menu svg {
+      stroke-width: 2px;
+  }
+
+  .favorites-backdrop {
       position: fixed;
       top: 0;
       left: 0;
@@ -173,73 +165,119 @@
       bottom: 0;
       background-color: rgba(0, 0, 0, 0.5);
       z-index: 40;
-    }
+  }
 }
 
+/* Dropdown Styles */
 .settings-dropdown {
-    background-color: white;
-    border-radius: 0.375rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: opacity 0.2s ease, transform 0.2s ease;
-  }
-  
-  .settings-dropdown ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .settings-dropdown li {
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-  }
-  
-  .settings-dropdown li:hover {
-    background-color: #f3f4f6;
-  }
+  background-color: white;
+  border-radius: 0.375rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
 
-  .nav__right {
-    display: flex;
-    align-items: center;
-    gap: 8px; 
+.settings-dropdown ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.settings-dropdown li {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.settings-dropdown li:hover {
+  background-color: #f3f4f6;
+}
+
+/* Right Navigation Styles */
+.nav__right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .nav__right .relative {
-    margin-right: 0; 
+  margin-right: 0;
 }
 
+/* Welcome Box Styles */
 .welcome-box {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: linear-gradient(90deg, #1e3aa1, #3d82d6); 
+  background: linear-gradient(90deg, #1e3aa1, #3d82d6);
   padding: 8px 16px;
-  border-radius: 999px; 
+  border-radius: 999px;
   font-size: 0.875rem;
   font-weight: 500;
   color: #ffffff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
-  transition: all 0.3s ease; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
 .welcome-box:hover {
   background: linear-gradient(90deg, #1d2fc1, #3990e6);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); 
-  transform: translateY(-2px); 
-  color: #ffffff; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+  color: #ffffff;
 }
 
 .welcome-box button {
   padding: 4px 8px;
   font-size: 0.875rem;
-  font-weight: 500;  
-  border-radius: 999px; 
+  font-weight: 500;
+  border-radius: 999px;
   color: #ffffff;
-  background: linear-gradient(90deg, #2385f5, #4facf7); 
+  background: linear-gradient(90deg, #2385f5, #4facf7);
   border: none;
 }
 
 .welcome-box button:hover {
-  background: linear-gradient(90deg, #1d72d1, #3b95e5); 
-  color: #f0f8ff; 
+  background: linear-gradient(90deg, #1d72d1, #3b95e5);
+  color: #f0f8ff;
 }
+
+/* Action Button Hover Effects */
+.nav__actions button:hover {
+  background-color: #f0f0f0;
+  transition: all 0.1s ease;
+}
+
+.nav__actions button:hover .lucide-heart,
+.nav__actions button:hover .lucide-settings,
+.nav__actions button:hover .lucide-tickets-plane {
+  stroke: #0066ff;
+}
+
+.switch-mode-wrapper {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.switch-mode-wrapper button {
+  background: linear-gradient(to right, #0066ff, #0033cc);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.switch-mode-wrapper button:hover {
+  background: linear-gradient(to right, #0033cc, #0066ff);
+  transform: translateY(-2px);
+}
+
+@media only screen and (max-width: 992px) {
+  .switch-mode-wrapper {
+    margin-left: 0;
+    justify-content: center;
+    padding: 10px 0;
+  }
+}
+

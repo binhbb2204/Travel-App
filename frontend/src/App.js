@@ -3,6 +3,8 @@ import React from 'react';
 import Home from './page/Home';
 import Layout from './Layout/Layout';
 import { FavoritesProvider } from './ui/Context/FavoritesContext';
+import { ThemeProvider } from "./ui/SwitchMode/ThemeContext";
+import Header from "./Header/Header";
 import { CartProvider } from './ui/Context/CartContext';
 import AdminPanel from './page/admin/AdminPanel';
 import { UserProvider } from "./page/admin/UsersContext";
@@ -20,13 +22,15 @@ function App() {
   );
 
   return (
-    <FavoritesProvider>
-      <CartProvider>
-        <UserProvider>
-          <Layout />
-        </UserProvider>
-      </CartProvider>
-    </FavoritesProvider>
+    <ThemeProvider>
+      <FavoritesProvider>
+        <CartProvider>
+          <UserProvider>
+            <Layout />
+          </UserProvider>
+        </CartProvider>
+      </FavoritesProvider>
+    </ThemeProvider>
   );
 }
 

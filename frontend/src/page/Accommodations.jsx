@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import AccomodationSearchBox from '../ui/SearchBar/AccommodationSearchBox';
-import accommodationData from '../data/accommodationData';
+// import accommodationData from '../data/accommodationData';
 import AccommodationCard from '../ui/Card/AccommodationCard';
 import Pagination from '../ui/Pagination/Pagination';
 import { useNavigate } from 'react-router-dom';
 import '../styles/accomodations.css';
+import axios from 'axios';
 
 const Accommodations = () => {
     const navigate = useNavigate();
@@ -18,7 +19,7 @@ const Accommodations = () => {
         maxPrice: '',
         groupSize: "any",
     });
-    const [accommodationsData, setAccommodationsData] = useState([]); // State to store accommodations
+    const [accommodationData, setAccommodationsData] = useState([]); // State to store accommodations
 
     const [filteredResults, setFilteredResults] = useState([]);
     const [activeView, setActiveView] = useState('grid');
@@ -28,13 +29,22 @@ const Accommodations = () => {
     const itemsPerPage = 8;
 
     const fetchAccommodation = async () => {
+        console.log("Fetched accommodations "); // Log to check data in terminal
+
         try{
-            const response = await axios.get("/api/v1/accommodations");
-            setAccommodationsData(response.data.data);
+            const response = await axios.get("http://localhost:8000/api/v1/accommodations");
+            // const response = await axios.get('http://localhost:8000/api/v1/tours');
+            // console.log("Fetched accommodations:", response.data.data); // Log to check data in terminal
+            setAccommodationsData(response.data.data); // Update state with fetched data
+            // setFilteredResults(response.data); // Initially show all results
         } catch(error) {
-            console.error("Error fetching accommodations: ", error)
+            console.error("Error fetching accommodations: ", error);
         }
     }
+
+    useEffect(() => {
+        fetchAccommodation(); // Fetch data on mount
+    }, []);
 
     const getQueryParams = () => {
         const params = new URLSearchParams(window.location.search);
@@ -69,16 +79,18 @@ const Accommodations = () => {
             const matchesType = !params.type || acco.type === params.type;
             const matchesMinPrice = !params.minPrice || acco.price >= parseInt(params.minPrice);
             const matchesMaxPrice = !params.maxPrice || acco.price <= parseInt(params.maxPrice);
-            const totalCapacity = acco.rooms.reduce((sum, room) => sum + room.roomType * room.availableRooms, 0);
+            // const totalCapacity = acco.rooms.reduce((sum, room) => sum + room.roomType * room.availableRooms, 0);
 
-            const matchesGroupSize = params.groupSize === 'any' || totalCapacity >= parseInt(params.groupSize);
+            // const matchesGroupSize = params.groupSize === 'any' || totalCapacity >= parseInt(params.groupSize);
+            const matchesGroupSize = params.groupSize === 'any' || acco.totalCapacity >= parseInt(params.groupSize);
+
             return matchesKeyword && matchesCountry && matchesCity && matchesType && 
                     matchesMinPrice && matchesMaxPrice && matchesGroupSize;
         });
     };
 
     useEffect(() => {
-        
+        handleSearch(searchParams)
         const params = getQueryParams();
         const filledParams = { ...searchParams, ...params };
         setSearchParams(filledParams);
@@ -86,7 +98,6 @@ const Accommodations = () => {
         setFilteredResults(results);
         setHasSubmitted(true);
 
-        fetchAccommodation();
     }, []);
 
     const handleSearchChange = (e) => {
@@ -222,7 +233,10 @@ const Accommodations = () => {
             </div>
             )}
         </section>
-    </div>   
+        {/* <button onClick={fetchAccommodation}>Fetch Accommodations</button> */}
+
+    </div>  
+     
     );
 };  
 
