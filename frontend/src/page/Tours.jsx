@@ -6,7 +6,7 @@ import TourSearchCard from '../ui/Card/TourSearchCard';
 import TourCard from '../ui/Card/TourCard';
 import Pagination from '../ui/Pagination/Pagination';
 import '../styles/tours.css';
-
+// import axios from 'axios';
 const Tours = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useState({
@@ -33,7 +33,11 @@ const Tours = () => {
     const fetchData = async () => {
       try {
         const tours = await tourData.fetchTours(); // Fetch tours using the method
+        // const response = await axios.get('http://localhost:8000/api/v1/tours');
         setAllTours(tours);
+        setAllTours(response.data.data);
+
+
       } catch (error) {
         console.error('Error fetching tours:', error);
       }
