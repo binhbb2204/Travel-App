@@ -56,7 +56,8 @@ const BaseItem = mongoose.model('BaseItem', baseItemSchema);
 const CommentSchema = new mongoose.Schema({
     tourId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Tour',
+        // ref: 'Tour',
+        ref: 'Accommodation',
         required: true
     },
     rating: {
