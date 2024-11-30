@@ -18,6 +18,7 @@ const Accommodations = () => {
         maxPrice: '',
         groupSize: "any",
     });
+    const [accommodationsData, setAccommodationsData] = useState([]); // State to store accommodations
 
     const [filteredResults, setFilteredResults] = useState([]);
     const [activeView, setActiveView] = useState('grid');
@@ -25,6 +26,15 @@ const Accommodations = () => {
     const [currentPage, setCurrentPage] = useState(1);
 
     const itemsPerPage = 8;
+
+    const fetchAccommodation = async () => {
+        try{
+            const response = await axios.get("/api/v1/accommodations");
+            setAccommodationsData(response.data.data);
+        } catch(error) {
+            console.error("Error fetching accommodations: ", error)
+        }
+    }
 
     const getQueryParams = () => {
         const params = new URLSearchParams(window.location.search);
@@ -75,6 +85,8 @@ const Accommodations = () => {
         const results = filterTours(filledParams);
         setFilteredResults(results);
         setHasSubmitted(true);
+
+        fetchAccommodation();
     }, []);
 
     const handleSearchChange = (e) => {
@@ -154,22 +166,19 @@ const Accommodations = () => {
                 />
             </div>
         </motion.div>
-        
+        {/* Pagination */}
+        {filteredResults.length > 0 && (
+            <div className="mt-8">
+                <Pagination 
+                    totalPages={totalPages} 
+                    currentPage={currentPage} 
+                    onPageChange={handlePageChange} 
+                />
+            </div>
+        )}
         <section className='result__container'>
             {hasSubmitted && (
             <div className="container mx-auto px-4 py-8">
-                
-                {/* Pagination */}
-                {filteredResults.length > 0 && (
-                    <div className="mt-2 mb-8">
-                    <Pagination 
-                        totalPages={totalPages} 
-                        currentPage={currentPage} 
-                        onPageChange={handlePageChange} 
-                    />
-                    </div>
-                )}
-
                 <div className={`${
                     activeView === 'grid' 
                     ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6' 

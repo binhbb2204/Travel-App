@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Users, Target, Globe, Award, Heart } from 'lucide-react';
 import ParallaxBackground from '../ui/ParallaxBackground';
@@ -8,12 +8,11 @@ import teamMemberImage3 from '../images/thuan.jpg';
 import backgroundImage from '../images/travel.jpg';
 import aboutVideo from '../images/home-bg-final_2.mp4';
 
-import AirAsia from '../images/logo/AirAsia.jpg';
+// Sponsors Logo
 import QatarAirways from '../images/logo/QatarAirways.jpg';
 import Trivago from '../images/logo/Trivago.jpg';
 import Agoda from '../images/logo/Agoda.png';
 import AmericanAirlines from '../images/logo/AmericanAirlines.png';
-import Emirates from '../images/logo/Emirates.png';
 import EtihadAirways from '../images/logo/EtihadAirways.png';
 import Expedia from '../images/logo/Expedia.png';
 import Traveloka from '../images/logo/Traveloka.png';
@@ -24,6 +23,8 @@ import VietnamAirlines from '../images/logo/VietnamAirlines.png';
 import '../styles/about.css';
 
 const About = () => {
+    const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+
     const teamMembers = [
         {
             name: "Tran Thanh Binh",
@@ -60,20 +61,26 @@ const About = () => {
         <div className="min-h-screen bg-white relative overflow-hidden">
             <ParallaxBackground />
             <div className="h-16 md:h-24"></div>    {/* seperate the header and the video */}
+
             {/* Video Section */}
             <section className="video-section relative w-full">
                 <div className="absolute inset-0 z-10">
+                    {!isVideoLoaded && (
+                        <div className="h-full w-full flex items-center justify-center bg-gray-200">
+                            <p>Loading video...</p>
+                        </div>
+                    )}
                     <video
                         className="w-full h-full object-cover"
                         autoPlay
                         loop
                         muted
+                        onLoadedData={() => setIsVideoLoaded(true)}
+                        loading="lazy"
                     >
                         <source src={aboutVideo} type="video/mp4" />
                         Your browser does not support the video tag.
                     </video>
-                </div>
-                <div className="relative z-20 flex flex-col items-center justify-center h-full">
                 </div>
             </section>
 
