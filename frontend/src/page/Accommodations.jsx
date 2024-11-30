@@ -6,6 +6,7 @@ import AccommodationCard from '../ui/Card/AccommodationCard';
 import Pagination from '../ui/Pagination/Pagination';
 import { useNavigate } from 'react-router-dom';
 import '../styles/accomodations.css';
+// import axios from 'axios';
 
 const Accommodations = () => {
     const navigate = useNavigate();
@@ -18,7 +19,7 @@ const Accommodations = () => {
         maxPrice: '',
         groupSize: "any",
     });
-    const [accommodationsData, setAccommodationsData] = useState([]); // State to store accommodations
+    // const [accommodationData, setAccommodationsData] = useState([]); // State to store accommodations
 
     const [filteredResults, setFilteredResults] = useState([]);
     const [activeView, setActiveView] = useState('grid');
@@ -27,14 +28,22 @@ const Accommodations = () => {
 
     const itemsPerPage = 8;
 
-    const fetchAccommodation = async () => {
-        try{
-            const response = await axios.get("/api/v1/accommodations");
-            setAccommodationsData(response.data.data);
-        } catch(error) {
-            console.error("Error fetching accommodations: ", error)
-        }
-    }
+    // const fetchAccommodation = async () => {
+    //     console.log("Fetched accommodations "); // Log to check data in terminal
+
+    //     try{
+    //         const response = await axios.get("http://localhost:8000/api/v1/accommodations");
+    //         // console.log("Fetched accommodations:", response.data.data); // Log to check data in terminal
+    //         setAccommodationsData(response.data); // Update state with fetched data
+    //         setFilteredResults(response.data); // Initially show all results
+    //     } catch(error) {
+    //         console.error("Error fetching accommodations: ", error);
+    //     }
+    // }
+
+    // useEffect(() => {
+    //     fetchAccommodation(); // Fetch data on mount
+    // }, []);
 
     const getQueryParams = () => {
         const params = new URLSearchParams(window.location.search);
@@ -69,9 +78,11 @@ const Accommodations = () => {
             const matchesType = !params.type || acco.type === params.type;
             const matchesMinPrice = !params.minPrice || acco.price >= parseInt(params.minPrice);
             const matchesMaxPrice = !params.maxPrice || acco.price <= parseInt(params.maxPrice);
-            const totalCapacity = acco.rooms.reduce((sum, room) => sum + room.roomType * room.availableRooms, 0);
+            // const totalCapacity = acco.rooms.reduce((sum, room) => sum + room.roomType * room.availableRooms, 0);
 
-            const matchesGroupSize = params.groupSize === 'any' || totalCapacity >= parseInt(params.groupSize);
+            // const matchesGroupSize = params.groupSize === 'any' || totalCapacity >= parseInt(params.groupSize);
+            const matchesGroupSize = params.groupSize === 'any' || acco.totalCapacity >= parseInt(params.groupSize);
+
             return matchesKeyword && matchesCountry && matchesCity && matchesType && 
                     matchesMinPrice && matchesMaxPrice && matchesGroupSize;
         });
@@ -86,7 +97,7 @@ const Accommodations = () => {
         setFilteredResults(results);
         setHasSubmitted(true);
 
-        fetchAccommodation();
+        // fetchAccommodation();
     }, []);
 
     const handleSearchChange = (e) => {
@@ -166,22 +177,19 @@ const Accommodations = () => {
                 />
             </div>
         </motion.div>
-        
+        {/* Pagination */}
+        {filteredResults.length > 0 && (
+            <div className="mt-8">
+                <Pagination 
+                    totalPages={totalPages} 
+                    currentPage={currentPage} 
+                    onPageChange={handlePageChange} 
+                />
+            </div>
+        )}
         <section className='result__container'>
             {hasSubmitted && (
             <div className="container mx-auto px-4 py-8">
-                
-                {/* Pagination */}
-                {filteredResults.length > 0 && (
-                    <div className="mt-2 mb-8">
-                    <Pagination 
-                        totalPages={totalPages} 
-                        currentPage={currentPage} 
-                        onPageChange={handlePageChange} 
-                    />
-                    </div>
-                )}
-
                 <div className={`${
                     activeView === 'grid' 
                     ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6' 
@@ -225,7 +233,10 @@ const Accommodations = () => {
             </div>
             )}
         </section>
-    </div>   
+        {/* <button onClick={fetchAccommodation}>Fetch Accommodations</button> */}
+
+    </div>  
+     
     );
 };  
 
