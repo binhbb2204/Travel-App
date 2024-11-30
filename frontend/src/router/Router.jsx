@@ -60,7 +60,7 @@ const Routers = () => {
       <Route path='/tours/:id' element={<TourDetails />} />
       <Route path='/login' element={<Login />} />
       <Route path='/register' element={<Register />} />
-      {/* <Route path='/tours/search' element={<SearchResultList />} /> */}
+      <Route path='/tours/search' element={<SearchResultList />} />
       <Route path='/exotic_tours' element={<Location />} />
       <Route path='/add-tour' element={<AddTourForm onSubmit={handleAddTour} />} />
       <Route path='/accommodations' element={<Accommodations />} />
