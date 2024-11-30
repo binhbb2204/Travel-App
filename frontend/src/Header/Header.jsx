@@ -198,7 +198,6 @@ const Header = () => {
               <Link to="/checkout">
                 <button
                   className="p-2 rounded-full relative"
-                  onClick={() => setShowCart(!showCart)}
                 >
                   <TicketsPlane
                     className="w-6 h-6 text-gray-700 hover:text-blue-500"
