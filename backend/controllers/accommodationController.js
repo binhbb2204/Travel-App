@@ -45,8 +45,11 @@ export const getSingleAccommodation = async (req, res) => {
 export const getAllAccommodation = async (req, res) => {
     const page = parseInt(req.query.page);
     try {
-        const accos = await Accommodation.find({}).skip(page*8).limit(8);
+        // const accos = await Accommodation.find({}).skip(page*8).limit(8);
+        const accos = await Accommodation.find({});
+
         res.status(200).json({success: true, countr: accos.length, message: "Successfully get", data: accos,}); 
+        console.log("Tried");
     } catch(error){
         res.status(500).json({success: false, message: "Failed to get. Try again"});
     }
