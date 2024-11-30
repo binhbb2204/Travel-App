@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
-import { setRouteSpecificParams, getRouteSpecificParams, clearRouteParams } from '../utils/queryParamManager';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import tourData from '../data/Data/tourData';
 import TourSearchCard from '../ui/Card/TourSearchCard';
 import TourCard from '../ui/Card/TourCard';
 import Pagination from '../ui/Pagination/Pagination';
-import tourData from '../data/tourData';
 import '../styles/tours.css';
 
 const Tours = () => {
@@ -23,41 +22,28 @@ const Tours = () => {
   const [activeView, setActiveView] = useState('grid');
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [allTours, setAllTours] = useState([]); // State to store fetched tours
+  
+  
 
-  // Set items per page
   const itemsPerPage = 8;
 
-  // Clean and get query parameters
-  const getQueryParams = () => {
-    const params = new URLSearchParams(window.location.search);
-    const queryParams = {
-      keyword: params.get('keyword') || '',
-      country: params.get('country') || '',
-      city: params.get('city') || '',
-      minPrice: params.get('minPrice') || '',
-      maxPrice: params.get('maxPrice') || '',
-      duration: params.get('duration') || 'any',
-      groupSize: params.get('groupSize') || 'any',
+  // Fetch tour data on component mount
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const tours = await tourData.fetchTours(); // Fetch tours using the method
+        setAllTours(tours);
+      } catch (error) {
+        console.error('Error fetching tours:', error);
+      }
     };
-
-    // Remove query parameters with empty values or default values
-    const cleanParams = Object.fromEntries(
-      Object.entries(queryParams).filter(([_, value]) => 
-        value !== '' && value !== 'any'
-      )
-    );
-
-    // Update URL with clean parameters
-    const newUrl = new URL(window.location.href);
-    newUrl.search = new URLSearchParams(cleanParams).toString();
-    window.history.replaceState({}, '', newUrl);
-
-    return cleanParams;
-  };
+    fetchData();
+  }, []);
 
   // Filter tours based on search params
   const filterTours = (params) => {
-    return tourData.filter((tour) => {
+    return allTours.filter((tour) => {
       const matchesKeyword = !params.keyword || 
         tour.title.toLowerCase().includes(params.keyword.toLowerCase());
       const matchesCountry = !params.country || tour.country === params.country;
@@ -75,67 +61,43 @@ const Tours = () => {
     });
   };
 
-  // Initialize search from URL params
   useEffect(() => {
-    
-    const params = getQueryParams();
-    const filledParams = { ...searchParams, ...params };
-    setSearchParams(filledParams);
-    
-    const results = filterTours(filledParams);
+    const results = filterTours(searchParams);
     setFilteredResults(results);
     setHasSubmitted(true);
-  }, []);
+  }, [searchParams, allTours]);
 
-  // Handle search parameter changes
   const handleSearchChange = (e) => {
     const { name, value } = e.target;
     setSearchParams((prev) => ({
       ...prev,
       [name]: value,
-      // Reset city if country changes
       ...(name === 'country' ? { city: '' } : {}),
     }));
   };
 
-  // Perform search and update URL
   const handleSearch = (params) => {
-    // Remove empty and default values
-    const prefixedParams = Object.fromEntries(
-      Object.entries(params).map(([key, value]) => [`tour-${key}`, value])
-    );
-    const cleanParams = Object.fromEntries(
-      Object.entries(prefixedParams).filter(([_, value]) => 
-        value !== '' && value !== 'any'
-      )
-    );
-
-    // Update URL with search parameters
-    const searchString = new URLSearchParams(cleanParams).toString();
-    navigate(`?${searchString}`);
-
+    // Add filtering logic for the params
     const results = filterTours(params);
     setFilteredResults(results);
     setHasSubmitted(true);
     setCurrentPage(1);
   };
 
-  // Handle form submission
+  
+
   const handleSubmit = (e) => {
     e.preventDefault();
     handleSearch(searchParams);
   };
 
-  // Handle page changes
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
     window.scrollTo(0, 300);
   };
 
-  // Calculate pagination
   const totalPages = Math.ceil(filteredResults.length / itemsPerPage);
 
-  // Get current page results
   const getCurrentPageResults = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
@@ -145,25 +107,17 @@ const Tours = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Search Section */}
-      <motion.div 
-        initial={{ opacity: 0 }} 
-        animate={{ opacity: 1 }} 
-        className="search__background text-white py-8 lg:py-16 mt-14 lg:mt-0"
-      >
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="search__background text-white py-8 lg:py-16 mt-14 lg:mt-0">
         <div className="container mx-auto px-4">
-          <motion.h1 
-            initial={{ y: -20, opacity: 0 }} 
-            animate={{ y: 0, opacity: 1 }} 
-            className="text-3xl lg:text-4xl font-bold text-center mb-6 lg:mb-8 mt-5 lg:mt-7"
-          >
+          <motion.h1 initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="text-3xl lg:text-4xl font-bold text-center mb-6 lg:mb-8 mt-5 lg:mt-7">
             Find Your Perfect Tour
           </motion.h1>
           <TourSearchCard
             searchParams={searchParams}
             onSearchChange={handleSearchChange}
             onSearch={handleSearch}
-            countries={[...new Set(tourData.map(tour => tour.country))].sort()}
-            cities={tourData.reduce((acc, tour) => {
+            countries={[...new Set(allTours.map(tour => tour.country))].sort()}
+            cities={allTours.reduce((acc, tour) => {
               if (!acc[tour.country]) acc[tour.country] = [];
               if (!acc[tour.country].includes(tour.city)) 
                 acc[tour.country].push(tour.city);
@@ -173,49 +127,32 @@ const Tours = () => {
           />
         </div>
       </motion.div>
-
+      {filteredResults.length > 0 && (
+        <div className="mt-8">
+          <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange} />
+        </div>
+      )}
       {/* Results Section */}
       {hasSubmitted && (
         <div className="container mx-auto px-4 py-8">
-          {/* Tours Grid/List */}
-          <div className={`${
-            activeView === 'grid' 
-              ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6' 
-              : 'flex flex-col space-y-4'
-          }`}>
+          <div className={`${activeView === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6' : 'flex flex-col space-y-4'}`}>
             {getCurrentPageResults().map((tour) => (
-              <motion.div
-                key={tour.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className={activeView === 'list' ? 'w-full' : ''}
-              >
+              <motion.div key={tour.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} className={activeView === 'list' ? 'w-full' : ''}>
                 <TourCard tour={tour} viewMode={activeView} />
               </motion.div>
             ))}
           </div>
 
-          {/* No Results Message */}
           {filteredResults.length === 0 && (
-            <motion.div 
-              initial={{ opacity: 0 }} 
-              animate={{ opacity: 1 }} 
-              className="text-center py-8"
-            >
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-8">
               <p className="text-xl text-gray-600">No tours found matching your criteria.</p>
               <p className="text-gray-500 mt-2">Try adjusting your search filters.</p>
             </motion.div>
           )}
 
-          {/* Pagination */}
           {filteredResults.length > 0 && (
             <div className="mt-8">
-              <Pagination 
-                totalPages={totalPages} 
-                currentPage={currentPage} 
-                onPageChange={handlePageChange} 
-              />
+              <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange} />
             </div>
           )}
         </div>

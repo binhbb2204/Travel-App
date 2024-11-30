@@ -357,7 +357,7 @@ const Checkout = () => {
                         )}
                     </div>
 
-                    {/* Combined Payment Summary (Sticky) */}
+                    {/* Combined Payment Summary */}
                     <div className="lg:sticky top-16 self-start">
                         <div className="bg-white rounded-xl shadow-md border border-gray-200">
                             <div className="bg-gray-50 px-6 py-4 border-b border-gray-200 flex items-center justify-between">
@@ -370,8 +370,8 @@ const Checkout = () => {
                             <div className="p-6 space-y-6">
                                 {/* Tour Booking Selection */}
                                 {bookingData.tour_type === 'tour' && (
-                                    <div className="flex items-center justify-between mb-4">
-                                        <div className="flex items-center">
+                                    <div className="flex items-center justify-between mb-4 ">
+                                        <div className="flex items-center ">
                                             <input
                                                 type="checkbox"
                                                 id="tourBooking"
