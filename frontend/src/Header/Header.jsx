@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Container, Row, Button } from 'reactstrap';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
-import { Menu, X, Heart, Settings, ShoppingCart, TicketsPlane } from 'lucide-react';
+import { Menu, X, Heart, Settings, TicketsPlane } from 'lucide-react';
 import { useFavorites } from '../ui/Context/FavoritesContext';
-import CartDropdown from '../ui/Cart/CartDropdown';
 import { useCart } from '../ui/Context/CartContext';
 import logo from '../images/TAB.gif';
 import { motion } from 'framer-motion';
@@ -38,7 +37,6 @@ const Header = () => {
   const [showCart, setShowCart] = useState(false);
   const { cartItems } = useCart();
   const settingsRef = useRef(null);
-  const cartRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -114,8 +112,8 @@ const Header = () => {
       style={{ zIndex: 1000 }}
     >
       <ul className="p-2">
-        <li className="p-2 hover:bg-gray-100 cursor-pointer">Profile</li>
-        <li className="p-2 hover:bg-gray-100 cursor-pointer">Account Settings</li>
+        {/* <li className="p-2 hover:bg-gray-100 cursor-pointer">Profile</li>
+        <li className="p-2 hover:bg-gray-100 cursor-pointer">Account Settings</li> */}
         <li className="p-2 hover:bg-gray-100 cursor-pointer text-blue-500 font-bold">
           <Link to="/admin-panel">Admin Panel</Link>
         </li>
@@ -135,15 +133,18 @@ const Header = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('authToken');
+    localStorage.removeItem('username');
     navigate("/login");
   };
 
+  const username = localStorage.getItem('username');
+
   return (
-    <header 
-    className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled
-      ? 'bg-white/30 backdrop-blur-sm shadow-lg'
-      : 'bg-transparent'
-      }`}
+    <header
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled
+        ? 'bg-white/30 backdrop-blur-sm shadow-lg'
+        : 'bg-transparent'
+        }`}
     >
       <Container>
         <Row>
@@ -177,6 +178,26 @@ const Header = () => {
               </ul>
             </div>
 
+            {/* Login/Register or Welcome Box */}
+            <div className="nav__right d-flex align-items-center justify-end gap-4">
+              {username ? (
+                <div className="welcome-box d-flex align-items-center gap-3 bg-blue-50 px-4 py-2 rounded-full">
+                  <span className="text-blue-600 font-medium">Welcome back, {username}</span>
+                  <Button color="danger" size="sm" onClick={handleLogout}>
+                    Logout
+                  </Button>
+                </div>
+              ) : (
+                <div className="nav__btns d-flex align-items-center gap-4">
+                  <Button className="custom-gradient-login-btn md:bg-white">
+                    <Link to="/login" className="no-underline">Login</Link>
+                  </Button>
+                  <Button className="custom-gradient-btn">
+                    <Link to="/register" className="text-white no-underline">Register</Link>
+                  </Button>
+                </div>
+              )}
+            </div>
 
             {/* Add Favorites Icon before Auth Buttons */}
             <div className="relative">
@@ -229,12 +250,12 @@ const Header = () => {
                 </motion.div>
               ) : (
                 <div className="nav__btns d-flex align-items-center gap-4">
-                  <Button className="custom-gradient-login-btn md:bg-white">
+                  {/* <Button className="custom-gradient-login-btn md:bg-white">
                     <Link to='/login' className="no-underline">Login</Link>
                   </Button>
                   <Button className="custom-gradient-btn">
                     <Link to='/register' className="text-white no-underline">Register</Link>
-                  </Button>
+                  </Button> */}
                 </div>
               )}
             </div>
@@ -258,14 +279,14 @@ const Header = () => {
               {/* Cart Button */}
               <Link to="/checkout">
                 <button
-                className="p-2 rounded-full relative"
-                onClick={() => setShowCart(!showCart)}
-              >
-                <TicketsPlane
-                  className="w-6 h-6 text-gray-700 hover:text-blue-500"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  fill="none"
+                  className="p-2 rounded-full relative"
+                  onClick={() => setShowCart(!showCart)}
+                >
+                  <TicketsPlane
+                    className="w-6 h-6 text-gray-700 hover:text-blue-500"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    fill="none"
                   />
                   {cartItems.length > 0 && (
                     <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">

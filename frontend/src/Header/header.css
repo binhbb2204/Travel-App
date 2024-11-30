@@ -195,3 +195,21 @@
     margin-right: 0; 
 }
 
+.welcome-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #f0f9ff; /* Light blue background */
+  padding: 8px 16px;
+  border-radius: 999px; /* Rounded corners */
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #2563eb; /* Blue text */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.welcome-box button {
+  padding: 4px 8px;
+  font-size: 0.875rem;
+  border-radius: 999px; /* Rounded button */
+}

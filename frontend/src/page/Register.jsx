@@ -3,7 +3,7 @@ import { Container, Row, Col, Form, FormGroup, Button, Alert } from "reactstrap"
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import '../styles/register.css';
-import { useUsers, UserProvider } from "./admin/UsersContext";
+import { useUsers } from "./admin/UsersContext";
 import axios from 'axios';
 import { Eye, EyeOff } from 'lucide-react';
 
@@ -57,6 +57,9 @@ const Register = () => {
     try {
       const response = await axios.post('http://localhost:8000/api/v1/auth/register', formData);
       setSuccess(response.data.message);
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000); // Delay (ms)
       setFormData({
         name: '',
         gender: '',

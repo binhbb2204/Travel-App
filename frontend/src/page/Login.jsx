@@ -2,12 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Container, Row, Col, Form, FormGroup, Button, Alert } from "reactstrap";
 import { Link, useNavigate } from 'react-router-dom';
-import '../styles/login.css';
 import axios from 'axios';
 import { Eye, EyeOff } from 'lucide-react';
-
-// import loginImg from '../images/image.png';
-// import userIcon from '../images/trueuser.png';
+import '../styles/login.css';
 
 const Login = () => {
   const [credentials, setCredentials] = useState({
@@ -19,10 +16,24 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     setIsVisible(true);
+
+    // Check localStorage for stored credentials
+    const storedEmail = localStorage.getItem('email');
+    const storedPassword = localStorage.getItem('password');
+    const storedRememberMe = localStorage.getItem('rememberMe') === 'true';
+
+    if (storedRememberMe) {
+      setCredentials({
+        email: storedEmail || '',
+        password: storedPassword || ''
+      });
+      setRememberMe(true);
+    }
   }, []);
 
   const handleChange = e => {
@@ -36,9 +47,21 @@ const Login = () => {
     try {
       const response = await axios.post('http://localhost:8000/api/v1/auth/login', credentials);
       setSuccess(response.data.message);
+      localStorage.setItem('username', response.data.data.name);
+
+      if (rememberMe) {
+        // localStorage.setItem('email', credentials.email);
+        localStorage.setItem('password', credentials.password);
+        localStorage.setItem('rememberMe', 'true');
+      } else {
+        // localStorage.removeItem('email');
+        localStorage.removeItem('password');
+        localStorage.setItem('rememberMe', 'false');
+      }
+
       setTimeout(() => {
         navigate('/home');
-      }, 1000);
+      }, 2000); // Delay (ms)
     } catch (error) {
       console.error('Error logging in:', error);
       if (error.response && error.response.data) {
@@ -77,9 +100,8 @@ const Login = () => {
                         <i className='bx bxs-user'></i>
                         <input type="email"
                           placeholder="Email"
-                          // autoComplete="off"  
-                          // This attribute prevents the browser from suggesting previously entered values for the input fields
                           required id="email"
+                          value={credentials.email}
                           onChange={handleChange} />
                       </FormGroup>
 
@@ -89,10 +111,9 @@ const Login = () => {
                           <input
                             type={showPassword ? 'text' : 'password'}
                             placeholder="Password"
-                            // autoComplete="off" 
-                            // This attribute prevents the browser from suggesting previously entered values for the input fields
                             required
                             id="password"
+                            value={credentials.password}
                             onChange={handleChange}
                           />
                           <button type="button" onClick={() => setShowPassword(!showPassword)}>
@@ -104,7 +125,13 @@ const Login = () => {
 
                     <section className="remember-forgot__box">
                       <div className="remember-me">
-                        <input type="checkbox" name="remember-me" id="remember-me" />
+                        <input
+                          type="checkbox"
+                          name="remember-me"
+                          id="remember-me"
+                          checked={rememberMe}
+                          onChange={() => setRememberMe(!rememberMe)}
+                        />
                         <label htmlFor="remember-me">
                           <h5>Remember me</h5>
                         </label>
