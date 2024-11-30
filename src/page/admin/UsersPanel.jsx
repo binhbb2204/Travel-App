@@ -1,20 +1,64 @@
-import React, { useState } from 'react';
-import { Container, Row, Col, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, Table } from 'reactstrap';
-import { useUsers } from "./UsersContext";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import {
+    Container,
+    Row,
+    Col,
+    Button,
+    Modal,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
+    Form,
+    FormGroup,
+    Label,
+    Input,
+    Table
+} from 'reactstrap';
 import { Edit, Delete } from "lucide-react";
 import './userspanel.css';
 
 const UsersPanel = () => {
-    const { users, deleteUser, editUser } = useUsers();
+    const [users, setUsers] = useState([]);
     const [editModal, setEditModal] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
+    const token = localStorage.getItem('token'); // Retrieve token from localStorage
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            console.log('Fetching users...'); // Debugging log
+            console.log('Token:', token); // Log the token
+
+            try {
+                const response = await axios.get('http://localhost:8000/api/v1/users', {
+                    credentials: "include",
+                    headers: {
+                        Authorization: `Bearer ${token}`, // Include the token
+                    },
+                    // withCredentials: true,
+                });
+
+                console.log('Response data:', response.data); // Log the response data
+
+                if (response.data.success) {
+                    setUsers(response.data.data); // Set users state to the fetched data
+                } else {
+                    console.error('Failed to fetch users:', response.data.message);
+                }
+            } catch (error) {
+                console.error('Error fetching users:', error);
+            }
+        };
+
+        fetchUsers();
+    }, [token]);
 
     const toggleEditModal = (user) => {
         setCurrentUser(user);
         setEditModal(!editModal);
     };
 
-    const handleEditSubmit = (event) => {
+    const handleEditSubmit = async (event) => {
         event.preventDefault();
         const updatedUser = {
             ...currentUser,
@@ -23,13 +67,32 @@ const UsersPanel = () => {
             phone: event.target.phone.value,
             gender: event.target.gender.value,
         };
-        editUser(updatedUser);
-        toggleEditModal(null);
+
+        try {
+            await axios.put(`http://localhost:8000/api/v1/users/${currentUser._id}`, updatedUser, {
+                headers: {
+                    Authorization: `Bearer ${token}`, // Include the token for the update
+                },
+            });
+            setUsers(users.map(user => (user._id === currentUser._id ? updatedUser : user)));
+            toggleEditModal(null);
+        } catch (error) {
+            console.error('Error updating user:', error);
+        }
     };
 
-    const handleDelete = (user) => {
+    const handleDelete = async (user) => {
         if (window.confirm(`Are you sure you want to delete ${user.name}?`)) {
-            deleteUser(user.id);
+            try {
+                await axios.delete(`http://localhost:8000/api/v1/users/${user._id}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`, // Include the token for the delete
+                    },
+                });
+                setUsers(users.filter(u => u._id !== user._id));
+            } catch (error) {
+                console.error('Error deleting user:', error);
+            }
         }
     };
 
@@ -55,7 +118,7 @@ const UsersPanel = () => {
                                 </thead>
                                 <tbody>
                                     {users.map((user, index) => (
-                                        <tr key={user.id}>
+                                        <tr key={user._id}>
                                             <td>{index + 1}</td>
                                             <td>{user.name}</td>
                                             <td>{user.email}</td>

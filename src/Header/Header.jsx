@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Container, Row, Button } from 'reactstrap';
-import { NavLink, Link, useNavigate } from 'react-router-dom';
+import { NavLink, Link, useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X, Heart, Settings, TicketsPlane } from 'lucide-react';
 import { useFavorites } from '../ui/Context/FavoritesContext';
 import { useCart } from '../ui/Context/CartContext';
 import logo from '../images/TAB.gif';
 import { motion } from 'framer-motion';
 import './header.css';
+import SwitchMode from '../ui/SwitchMode/SwitchMode';
 
 const nav_links = [
   { path: '/home', display: 'Home' },
@@ -23,8 +24,10 @@ const Header = () => {
   const favoritesRef = useRef();
   const settingsRef = useRef();
   const [showSettings, setShowSettings] = useState(false);
+  const [showCart, setShowCart] = useState(false);
   const { cartItems } = useCart();
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -56,12 +59,15 @@ const Header = () => {
 
   const username = localStorage.getItem('username');
 
+  const isLoginPage = location.pathname === '/login';
+  const isRegisterPage = location.pathname === '/register';
+
   return (
     <header
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled
         ? 'bg-white/30 backdrop-blur-sm shadow-lg'
         : 'bg-transparent'
-      }`}
+        }`}
     >
       <Container>
         <Row>
@@ -101,119 +107,127 @@ const Header = () => {
               )}
             </div>
 
-            <div className="nav__actions d-flex align-items-center gap-4">
-              {/* Favorites Button */}
-              <div className="relative">
-                <button
-                  className="p-2 rounded-full relative"
-                  onClick={() => setShowFavorites(!showFavorites)}
-                >
-                  <Heart
-                    className="w-6 h-6 text-gray-700 hover:text-blue-500"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                    fill="none"
-                  />
-                  {favorites.length > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                      {favorites.length}
-                    </span>
-                  )}
-                </button>
-                {/* Favorites Dropdown */}
-                {showFavorites && (
-                  <div
-                    ref={favoritesRef}
-                    className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-200 opacity-100 translate-y-0"
-                    style={{ zIndex: 1000 }}
+            {/* Grouping SwitchMode and Action Buttons (Favorites, Settings, and Checkout) */}
+            {/* Turn off Favorite, Setting, and Checkout button on Login and Register */}
+            {!isLoginPage && !isRegisterPage && (
+              <div className="nav__actions d-flex align-items-center gap-4">
+                <SwitchMode /> {/* Include the SwitchMode component */}
+                {/* Favorites Button */}
+                <div className="relative">
+                  <button
+                    className="p-2 rounded-full relative"
+                    onClick={() => setShowFavorites(!showFavorites)}
                   >
-                    <div className="p-4">
-                      <h3 className="text-lg font-semibold mb-2">Your Favorites</h3>
-                      {favorites.length === 0 ? (
-                        <p className="text-gray-500 text-sm">No favorites yet</p>
-                      ) : (
-                        <div className="space-y-3 max-h-96 overflow-y-auto">
-                          {favorites.map((tour) => (
-                            <Link
-                              key={tour.id}
-                              to={`/tours/${tour.id}`}
-                              className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors duration-200"
-                              onClick={() => setShowFavorites(false)}
-                            >
-                              <img
-                                src={tour.photo}
-                                alt={tour.title}
-                                className="w-12 h-12 object-cover rounded"
-                              />
-                              <div className="flex-1 min-w-0">
-                                <h4 className="text-sm font-medium text-gray-900 truncate">{tour.title}</h4>
-                                <p className="text-xs text-gray-500">{tour.city}</p>
-                              </div>
-                            </Link>
-                          ))}
-                        </div>
-                      )}
+                    <Heart
+                      className="w-6 h-6 text-gray-700 hover:text-blue-500"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                      fill="none"
+                    />
+                    {favorites.length > 0 && (
+                      <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                        {favorites.length}
+                      </span>
+                    )}
+                  </button>
+                  {/* Favorites Dropdown */}
+                  {showFavorites && (
+                    <div
+                      ref={favoritesRef}
+                      className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-200 opacity-100 translate-y-0"
+                      style={{ zIndex: 1000 }}
+                    >
+                      <div className="p-4">
+                        <h3 className="text-lg font-semibold mb-2">Your Favorites</h3>
+                        {favorites.length === 0 ? (
+                          <p className="text-gray-500 text-sm">No favorites yet</p>
+                        ) : (
+                          <div className="space-y-3 max-h-96 overflow-y-auto">
+                            {favorites.map((tour) => (
+                              <Link
+                                key={tour.id}
+                                to={`/tours/${tour.id}`}
+                                className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors duration-200"
+                                onClick={() => setShowFavorites(false)}
+                              >
+                                <img
+                                  src={tour.photo}
+                                  alt={tour.title}
+                                  className="w-12 h-12 object-cover rounded"
+                                />
+                                <div className="flex-1 min-w-0">
+                                  <h4 className="text-sm font-medium text-gray-900 truncate">{tour.title}</h4>
+                                  <p className="text-xs text-gray-500">{tour.city}</p>
+                                </div>
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                )}
-              </div>
+                  )}
+                </div>
 
-              {/* Settings Button */}
-              <button
-                className="p-2 rounded-full relative"
-                onClick={() => setShowSettings(prev => !prev)}
-              >
-                <Settings
-                  className="w-6 h-6 text-gray-700 hover:text-blue-500"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  fill="none"
-                />
-                {showSettings && (
-                  <motion.div
-                    ref={settingsRef}
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: showSettings ? 1 : 0, y: showSettings ? 0 : -10 }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 200,
-                      damping: 20
-                    }}
-                    className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg overflow-hidden"
-                    style={{ zIndex: 1000 }}
-                  >
-                    <ul className="p-2">
-                      <li className="p-2 hover:bg-gray-100 cursor-pointer text-blue-500 font-bold">
-                        <Link to="/admin-panel">Admin Panel</Link>
-                      </li>
-                      <li className="p-2 hover:bg-gray-100 cursor-pointer text-red-500 font-bold" onClick={handleLogout}>
-                        Logout
-                      </li>
-                    </ul>
-                  </motion.div>
-                )}
-              </button>
-
-              {/* Cart Button */}
-              <Link to="/checkout">
+                {/* Settings Button */}
                 <button
                   className="p-2 rounded-full relative"
-                  onClick={() => setShowCart(!showCart)}
+<<<<<<< HEAD
+=======
+                  onClick={() => setShowSettings(prev => !prev)}
+                  ref={settingsRef} 
+>>>>>>> 7065e51dd5db6f6b62a7f57b1519fac72068f262
                 >
-                  <TicketsPlane
+                  <Settings
                     className="w-6 h-6 text-gray-700 hover:text-blue-500"
                     stroke="currentColor"
                     strokeWidth={2}
                     fill="none"
                   />
-                  {cartItems.length > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                      {cartItems.length}
-                    </span>
+                  {showSettings && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: showSettings ? 1 : 0, y: showSettings ? 0 : -10 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 200,
+                        damping: 20
+                      }}
+                      className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg overflow-hidden"
+                      style={{ zIndex: 1000 }}
+                    >
+                      <ul className="p-2">
+                        <li className="p-2 hover:bg-gray-100 cursor-pointer text-blue-500 font-bold">
+                          <Link to="/admin-panel">Admin Panel</Link>
+                        </li>
+                        <li className="p-2 hover:bg-gray-100 cursor-pointer text-red-500 font-bold mt-3" onClick={handleLogout}>
+                          Logout
+                        </li>
+                      </ul>
+                    </motion.div>
                   )}
                 </button>
-              </Link>
-            </div>
+
+                {/* Cart Button */}
+                <Link to="/checkout">
+                  <button
+                    className="p-2 rounded-full relative"
+                    onClick={() => setShowCart(!showCart)}
+                  >
+                    <TicketsPlane
+                      className="w-6 h-6 text-gray-700 hover:text-blue-500"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                      fill="none"
+                    />
+                    {cartItems.length > 0 && (
+                      <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                        {cartItems.length}
+                      </span>
+                    )}
+                  </button>
+                </Link>
+              </div>
+            )}
 
             {/* Mobile Menu Button */}
             <button
@@ -226,7 +240,7 @@ const Header = () => {
           </div>
         </Row>
       </Container>
-    </header>
+    </header >
   );
 };
 

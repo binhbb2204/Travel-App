@@ -6,7 +6,8 @@ import { Link } from 'react-router-dom';
 import './tour-card.css'; // Import the CSS
 import calculateAvgRating from '../../utils/avgRating';
 const TourCard = ({ tour }) => {
-  const {id, title, city, photo, price, featured, reviews} = tour;
+  const {_id: id, title, city, photo, price, featured, reviews} = tour;
+  console.log('Tour ID:', id);
   const {totalRating, avgRating} = calculateAvgRating(reviews)
   return (
     <motion.div
