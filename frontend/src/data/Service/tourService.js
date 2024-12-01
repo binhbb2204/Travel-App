@@ -36,7 +36,6 @@ export const tourService = {
   // Search tours with flexible parameters
   searchTours: async (params = {}) => {
     try {
-      // Construct query parameters
       const queryParams = new URLSearchParams();
       
       // Mapping frontend params to backend param names
