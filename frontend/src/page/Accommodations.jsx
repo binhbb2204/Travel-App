@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import AccomodationSearchBox from '../ui/SearchBar/AccommodationSearchBox';
-import accommodationData from '../data/accommodationData';
+// import accommodationData from '../data/accommodationData';
 import AccommodationCard from '../ui/Card/AccommodationCard';
 import Pagination from '../ui/Pagination/Pagination';
 import { useNavigate } from 'react-router-dom';
 import '../styles/accomodations.css';
-// import axios from 'axios';
+import axios from 'axios';
 
 const Accommodations = () => {
     const navigate = useNavigate();
@@ -19,7 +19,7 @@ const Accommodations = () => {
         maxPrice: '',
         groupSize: "any",
     });
-    // const [accommodationData, setAccommodationsData] = useState([]); // State to store accommodations
+    const [accommodationData, setAccommodationsData] = useState([]); // State to store accommodations
 
     const [filteredResults, setFilteredResults] = useState([]);
     const [activeView, setActiveView] = useState('grid');
@@ -28,22 +28,23 @@ const Accommodations = () => {
 
     const itemsPerPage = 8;
 
-    // const fetchAccommodation = async () => {
-    //     console.log("Fetched accommodations "); // Log to check data in terminal
+    const fetchAccommodation = async () => {
+        console.log("Fetched accommodations "); // Log to check data in terminal
 
-    //     try{
-    //         const response = await axios.get("http://localhost:8000/api/v1/accommodations");
-    //         // console.log("Fetched accommodations:", response.data.data); // Log to check data in terminal
-    //         setAccommodationsData(response.data); // Update state with fetched data
-    //         setFilteredResults(response.data); // Initially show all results
-    //     } catch(error) {
-    //         console.error("Error fetching accommodations: ", error);
-    //     }
-    // }
+        try{
+            const response = await axios.get("http://localhost:8000/api/v1/accommodations");
+            // const response = await axios.get('http://localhost:8000/api/v1/tours');
+            // console.log("Fetched accommodations:", response.data.data); // Log to check data in terminal
+            setAccommodationsData(response.data.data); // Update state with fetched data
+            // setFilteredResults(response.data); // Initially show all results
+        } catch(error) {
+            console.error("Error fetching accommodations: ", error);
+        }
+    }
 
-    // useEffect(() => {
-    //     fetchAccommodation(); // Fetch data on mount
-    // }, []);
+    useEffect(() => {
+        fetchAccommodation(); // Fetch data on mount
+    }, []);
 
     const getQueryParams = () => {
         const params = new URLSearchParams(window.location.search);
@@ -89,7 +90,7 @@ const Accommodations = () => {
     };
 
     useEffect(() => {
-        
+        handleSearch(searchParams)
         const params = getQueryParams();
         const filledParams = { ...searchParams, ...params };
         setSearchParams(filledParams);
@@ -97,7 +98,6 @@ const Accommodations = () => {
         setFilteredResults(results);
         setHasSubmitted(true);
 
-        // fetchAccommodation();
     }, []);
 
     const handleSearchChange = (e) => {

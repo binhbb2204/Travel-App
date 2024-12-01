@@ -1,25 +1,80 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, ListGroup } from 'reactstrap';
 import { MapPin, Users, Star, Clock, DollarSign, Heart, CheckCircle, Menu, X } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import { useFavorites } from '../ui/Context/FavoritesContext';
-import tourData from '../data/tourData';
+import { tourService } from '../data/Service/tourService';
 import ImageCarousel from '../ui/ImageCarousel/ImageCarousel';
 import calculateAvgRating from '../utils/avgRating';
-import '../styles/tour-details.css'
+import '../styles/tour-details.css';
 import CommentSection from '../ui/Comment/CommentSection';
 import Booking from '../Booking/Booking';
+
 const TourDetails = () => {
-  const {id} = useParams();
+  const { id } = useParams();
 
-  const tour = tourData.find(tour => tour.id === id); //This is static data will be use with mongoDB later, this is concept
-
-  const{photo, photos, title, desc, price, reviews, city, maxGroupSize, duration, highlights} = tour;
-  const{totalRating, avgRating} = calculateAvgRating(reviews);
+  const [tour, setTour] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const { isFavorite, addToFavorites, removeFromFavorites } = useFavorites();
-  const isLiked = isFavorite(id);
   const [showBooking, setShowBooking] = useState(false);
+
+  useEffect(() => {
+    const fetchTourDetails = async () => {
+      try {
+        const tourData = await tourService.getSingleTour(id);
+        setTour(tourData);
+        setLoading(false);
+      } catch (err) {
+        setError(err);
+        setLoading(false);
+      }
+    };
+
+    fetchTourDetails();
+  }, [id]);
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p>Loading tour details...</p>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="flex justify-center items-center h-screen text-red-500">
+        <p>Error loading tour details: {error.message}</p>
+      </div>
+    );
+  }
+
+  // No tour found
+  if (!tour) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p>No tour found</p>
+      </div>
+    );
+  }
+
+  const {
+    photos,
+    title,
+    desc,
+    city,
+    maxGroupSize,
+    duration,
+    highlights,
+    reviews
+  } = tour;
+
+  const { totalRating, avgRating } = calculateAvgRating(reviews);
+  const isLiked = isFavorite(id);
 
   const handleFavoriteClick = () => {
     if (isLiked) {
@@ -29,7 +84,6 @@ const TourDetails = () => {
     }
   };
 
-  
   return (
     <>
       <section>
@@ -41,53 +95,53 @@ const TourDetails = () => {
                   <ImageCarousel images={photos} autoSlideInterval={5000} />
                 </div>
                 <button
-                onClick={handleFavoriteClick}
-                className="absolute top-4 right-4 p-2 bg-white rounded-full shadow-lg mt-5"
+                  onClick={handleFavoriteClick}
+                  className="absolute top-4 right-4 p-2 bg-white rounded-full shadow-lg mt-5"
                 >
                   <Heart 
-                  className={`w-6 h-6 ${isLiked ? 'fill-red-500 text-red-500' : 'text-gray-500'}`}
+                    className={`w-6 h-6 ${isLiked ? 'fill-red-500 text-red-500' : 'text-gray-500'}`}
                   />
-                  </button>
-                </div>
-                {/* Content Grid */}
-                <div className="gap-6 md:gap-8">
-                  {/* Main Content */}
-                  <div className="lg:col-span-2 space-y-6">
-                    <div className="bg-white rounded-xl p-4 md:p-6 shadow-sm">
-                      <h1 className="ext-2xl md:text-3xl font-bold mb-4">{title}</h1>
+                </button>
+              </div>
+              
+              {/* Rest of the existing component remains the same */}
+              <div className="gap-6 md:gap-8">
+                <div className="lg:col-span-2 space-y-6">
+                  <div className="bg-white rounded-xl p-4 md:p-6 shadow-sm">
+                    <h1 className="text-2xl md:text-3xl font-bold mb-4">{title}</h1>
 
-                      <div className="grid grid-cols-2 md:flex md:flex-wrap gap-3 md:gap-4 mb-6">
-                        <div className="flex items-center gap-2"> 
-                          <MapPin className="w-5 h-5 text-blue-500" />
-                          <span className="text-sm md:text-base">{city}</span>
-                        </div>
-
-                        <div className="flex items-center gap-2">
-                          <Users className="w-5 h-5 text-blue-500" />
-                          <span className="text-sm md:text-base">Max {maxGroupSize} people</span>
-                        </div>
-
-                        <div className="flex items-center gap-2">
-                          <Clock className="w-5 h-5 text-blue-500" />
-                          <span className="text-sm md:text-base">{duration} Days</span>
-                        </div>
-
-                        <div className="flex items-center gap-2">
-                          <Star className="w-5 h-5 text-yellow-500" />
-                          <span className="text-sm md:text-base"> 
-                            {avgRating === 0 ? null : avgRating}
-                            {totalRating === 0 ? 
-                            'Not Rated' 
-                            : <span className="text-sm text-gray-500"> ({reviews.length})</span>}
-                          </span>
-                        </div>
+                    <div className="grid grid-cols-2 md:flex md:flex-wrap gap-3 md:gap-4 mb-6">
+                      <div className="flex items-center gap-2"> 
+                        <MapPin className="w-5 h-5 text-blue-500" />
+                        <span className="text-sm md:text-base">{city}</span>
                       </div>
-                      <p className="text-gray-600 text-sm md:text-base leading-relaxed mb-6">{desc}</p>
 
-                      {/* Highlight Section */}
-                      <div className="space-y-4">
-                        <h2 className="text-lg md:text-xl font-bold">Tour Highlights</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                      <div className="flex items-center gap-2">
+                        <Users className="w-5 h-5 text-blue-500" />
+                        <span className="text-sm md:text-base">Max {maxGroupSize} people</span>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <Clock className="w-5 h-5 text-blue-500" />
+                        <span className="text-sm md:text-base">{duration} Days</span>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <Star className="w-5 h-5 text-yellow-500" />
+                        <span className="text-sm md:text-base"> 
+                          {avgRating === 0 ? null : avgRating}
+                          {totalRating === 0 ? 
+                          'Not Rated' 
+                          : <span className="text-sm text-gray-500"> ({reviews.length})</span>}
+                        </span>
+                      </div>
+                    </div>
+                    <p className="text-gray-600 text-sm md:text-base leading-relaxed mb-6">{desc}</p>
+
+                    {/* Highlight Section */}
+                    <div className="space-y-4">
+                      <h2 className="text-lg md:text-xl font-bold">Tour Highlights</h2>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                         {highlights.map((highlight, index) => (
                           <div key={index} className="flex items-start gap-3">
                             <CheckCircle className="w-5 h-5 text-green-500 mt-1 flex-shrink-0" />
@@ -96,10 +150,10 @@ const TourDetails = () => {
                         ))}
                       </div>
                     </div>
-                  </div>
 
-                  {/* Reviews Preview */}
-                  {reviews && <CommentSection tourId={id}/>}
+                    {/* Reviews Preview */}
+                    {reviews && <CommentSection tourId={id}/>}
+                  </div>
                 </div>
               </div>
             </div>  
@@ -113,7 +167,7 @@ const TourDetails = () => {
         </Row>
       </section>
     </>
-  )
-}
+  );
+};
 
-export default TourDetails
+export default TourDetails;
