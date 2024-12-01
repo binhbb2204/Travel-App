@@ -25,7 +25,7 @@ export const verifyUser = (req, res, next) => {
             next()
         }
         else {
-            return res.status(401).json({ success: false, message: 'You are not authenticated' })
+            return res.status(401).json({ success: false, message: '[User] You are not authenticated' })
         }
     })
 }
@@ -33,10 +33,9 @@ export const verifyUser = (req, res, next) => {
 export const verifyAdmin = (req, res, next) => {
     verifyToken(req, res, next, () => {
         if (req.user.role === 'admin') {
-            next()
+            next();
+        } else {
+            return res.status(403).json({ success: false, message: '[Admin] You are not authorized' });
         }
-        else {
-            return res.status(401).json({ success: false, message: 'You are not authorized' })
-        }
-    })
-}
+    });
+};
