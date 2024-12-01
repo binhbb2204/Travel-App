@@ -22,26 +22,26 @@ const UsersPanel = () => {
     const [users, setUsers] = useState([]);
     const [editModal, setEditModal] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
-    const token = localStorage.getItem('token'); // Retrieve token from localStorage
+    const token = localStorage.getItem('token'); 
 
     useEffect(() => {
         const fetchUsers = async () => {
-            console.log('Fetching users...'); // Debugging log
-            console.log('Token:', token); // Log the token
+            console.log('Fetching users...');
+            console.log('Token:', token); 
 
             try {
                 const response = await axios.get('http://localhost:8000/api/v1/users', {
                     credentials: "include",
                     headers: {
-                        Authorization: `Bearer ${token}`, // Include the token
+                        Authorization: `Bearer ${token}`,
                     },
                     // withCredentials: true,
                 });
 
-                console.log('Response data:', response.data); // Log the response data
+                console.log('Response data:', response.data); 
 
                 if (response.data.success) {
-                    setUsers(response.data.data); // Set users state to the fetched data
+                    setUsers(response.data.data); 
                 } else {
                     console.error('Failed to fetch users:', response.data.message);
                 }
@@ -71,7 +71,7 @@ const UsersPanel = () => {
         try {
             await axios.put(`http://localhost:8000/api/v1/users/${currentUser._id}`, updatedUser, {
                 headers: {
-                    Authorization: `Bearer ${token}`, // Include the token for the update
+                    Authorization: `Bearer ${token}`, 
                 },
             });
             setUsers(users.map(user => (user._id === currentUser._id ? updatedUser : user)));
@@ -86,7 +86,7 @@ const UsersPanel = () => {
             try {
                 await axios.delete(`http://localhost:8000/api/v1/users/${user._id}`, {
                     headers: {
-                        Authorization: `Bearer ${token}`, // Include the token for the delete
+                        Authorization: `Bearer ${token}`, 
                     },
                 });
                 setUsers(users.filter(u => u._id !== user._id));
@@ -101,7 +101,7 @@ const UsersPanel = () => {
             <Row>
                 <Col lg='12' className="m-auto">
                     <div className="users__panel">
-                        <h2 className="users__title">Users Management</h2>
+                        <h2 className="users__title">Registered Accounts</h2>
                         {users.length === 0 ? (
                             <p className="text-gray-500">No users registered yet.</p>
                         ) : (
