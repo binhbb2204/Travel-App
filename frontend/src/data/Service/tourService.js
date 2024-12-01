@@ -4,7 +4,15 @@ import axios from 'axios';
 const BASE_URL = 'http://localhost:8000/api/v1/tours';
 
 export const tourService = {
-
+  createTour: async (tourData) => {
+    try {
+      const response = await axios.post(`${BASE_URL}`, tourData);
+      return response.data.data;
+    } catch (error) {
+      console.error('Error creating tour:', error);
+      throw error;
+    }
+  },
   getSingleTour: async (tourId) => {
     try {
       const response = await axios.get(`${BASE_URL}/${tourId}`);
