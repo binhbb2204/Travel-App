@@ -34,6 +34,7 @@ const TourDetails = () => {
 
     fetchTourDetails();
   }, [id]);
+  
 
   // Loading state
   if (loading) {
@@ -103,9 +104,9 @@ const TourDetails = () => {
                   />
                 </button>
               </div>
-              
-              {/* Rest of the existing component remains the same */}
+              {/* Content Grid */}
               <div className="gap-6 md:gap-8">
+                {/* Main Content */}
                 <div className="lg:col-span-2 space-y-6">
                   <div className="bg-white rounded-xl p-4 md:p-6 shadow-sm">
                     <h1 className="text-2xl md:text-3xl font-bold mb-4">{title}</h1>
