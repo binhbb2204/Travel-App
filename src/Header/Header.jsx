@@ -189,20 +189,11 @@ const Header = () => {
                     style={{ zIndex: 1000 }}
                   >
                     <ul className="p-2">
-<<<<<<< HEAD
                       {username && userRole === 'admin' && (
                         <li className="p-2 hover:bg-gray-100 cursor-pointer text-blue-500 font-bold">
                           <Link to="/admin-panel">Admin Panel</Link>
                         </li>
                       )}
-=======
-                      <li className="p-2 hover:bg-gray-100 cursor-pointer text-yellow-700 font-bold">
-                        <Link to="/settings">User Settings</Link>
-                      </li>
-                      <li className="p-2 hover:bg-gray-100 cursor-pointer text-blue-500 font-bold">
-                        <Link to="/admin-panel">Admin Panel</Link>
-                      </li>
->>>>>>> 9d2c49951d53db0b37fd61fe909cfcb7e8189541
                       <li className="p-2 hover:bg-gray-100 cursor-pointer text-red-500 font-bold" onClick={handleLogout}>
                         Logout
                       </li>
