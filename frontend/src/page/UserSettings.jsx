@@ -19,10 +19,10 @@ const UserSettings = () => {
         const token = localStorage.getItem('token');
         console.log('Token:', token);
 
-        if (!token) {
-            navigate('/login');
-            return;
-        }
+        // if (!token) {
+        //     navigate('/login');
+        //     return;
+        // }
 
         // Fetch user information
         const fetchUserInfo = async () => {
@@ -66,7 +66,7 @@ const UserSettings = () => {
     };
 
     return (
-        <Container>
+        <Container style={{ paddingTop: '100px' }}>
             <Row>
                 <Col lg='8' className="m-auto">
                     <h2>User Settings</h2>
