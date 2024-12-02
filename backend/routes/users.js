@@ -7,7 +7,7 @@ const router = express.Router();
 router.put("/:id", verifyUser, updateUser);
 router.delete("/:id", verifyUser, deleteUser);
 router.get("/:id", verifyUser, getSingleUser);
-router.get("/", getAllUsers);
+router.get("/", verifyAdmin, getAllUsers);
 
 // router.get("/", verifyAdmin, getAllUsers);
 

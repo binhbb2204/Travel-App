@@ -76,7 +76,7 @@ export const login = async (req, res) => {
                 message: 'Login successful! Welcome back!',
                 token,
                 data: { ...rest },
-                role,
+                role: user.role,
             })
     } catch (error) {
         console.error('Login error:', error);

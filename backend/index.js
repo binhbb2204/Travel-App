@@ -7,10 +7,9 @@ import cookieParser from 'cookie-parser';
 import tourRoute from './routes/tours.js'
 import userRoute from './routes/users.js'
 import authRoute from './routes/auth.js'
-import reviewRoute from './routes/reviews.js'
 import commentRoute from './routes/comment.js'
 import accoRoute from './routes/accommodations.js'
-// import tourBookingRoute from './routes/tourbooking.js'
+import tourBookingRoute from './routes/tourbooking.js'
 
 dotenv.config();
 
@@ -43,7 +42,8 @@ app.use('/api/v1/tours', tourRoute);
 app.use('/api/v1/users', userRoute);
 app.use('/api/v1/comments', commentRoute);
 app.use('/api/v1/accommodations', accoRoute);
-// app.use('/api/v1/tour_booking', tourBookingRoute);
+
+app.use('/api/v1/tour_booking', tourBookingRoute);
 
 app.listen(port, () => {
     connect()

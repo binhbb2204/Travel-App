@@ -56,6 +56,7 @@ const Header = () => {
   };
 
   const username = localStorage.getItem('username');
+  const userRole = localStorage.getItem('role');
 
   return (
     <header
@@ -184,9 +185,11 @@ const Header = () => {
                     style={{ zIndex: 1000 }}
                   >
                     <ul className="p-2">
-                      <li className="p-2 hover:bg-gray-100 cursor-pointer text-blue-500 font-bold">
-                        <Link to="/admin-panel">Admin Panel</Link>
-                      </li>
+                      {username && userRole === 'admin' && (
+                        <li className="p-2 hover:bg-gray-100 cursor-pointer text-blue-500 font-bold">
+                          <Link to="/admin-panel">Admin Panel</Link>
+                        </li>
+                      )}
                       <li className="p-2 hover:bg-gray-100 cursor-pointer text-red-500 font-bold" onClick={handleLogout}>
                         Logout
                       </li>

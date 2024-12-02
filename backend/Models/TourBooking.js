@@ -18,7 +18,7 @@ const bookingSchema = new mongoose.Schema(
     },
     tourName: {
       type: String,
-      require
+      required: true
     },
     email: {
       type: String,
@@ -76,4 +76,4 @@ const bookingSchema = new mongoose.Schema(
 );
 
 // Export the model
-export default mongoose.model("Booking", bookingSchema);
+export default mongoose.model("Tour_Booking", bookingSchema);

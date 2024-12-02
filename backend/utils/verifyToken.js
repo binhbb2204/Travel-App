@@ -9,12 +9,12 @@ export const verifyToken = (req, res, next) => {
     }
 
     //if token exists then verify the token
-    jwt.verify(token, process.env.JWT_SECRET_KEY, (err, user) => {
+    jwt.verify(token, process.env.JWT_SECRET_KEY, (err, decoded) => {
         if (err) {
             return res.status(401).json({ success: false, message: 'Token is invalid' })
         }
 
-        req.user = user
+        req.user = decoded
         next()
     })
 }

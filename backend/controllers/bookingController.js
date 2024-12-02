@@ -6,6 +6,6 @@ export const createTourBooking = async(req, res) => {
         const saveTourBooking = await newTourBooking.save();
         res.status(200).json({status: true, message: "Your tour is booked!", data: saveTourBooking})
     } catch (error) {
-        res.status(500).json({status: true, message: "Internal Server is Error"})
+        res.status(500).json({status: true, message: "Internal Server Error"})
     }
 }
