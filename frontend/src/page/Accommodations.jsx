@@ -25,26 +25,92 @@ const Accommodations = () => {
     const [activeView, setActiveView] = useState('grid');
     const [hasSubmitted, setHasSubmitted] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
+    const [isLoading, setIsLoading] = useState(false);
 
     const itemsPerPage = 8;
 
-    const fetchAccommodation = async () => {
-        console.log("Fetched accommodations "); // Log to check data in terminal
+    const searchAccommodation = async (params = {}) => {
+        try {
+        const queryParams = new URLSearchParams();
+        
+        // Mapping frontend params to backend param names
+        const paramMapping = {
+            keyword: 'keyword',
+            country: 'country',
+            city: 'city',
+            minPrice: 'minPrice',
+            maxPrice: 'maxPrice',
+            duration: 'duration',
+            groupSize: 'maxGroupSize'
+        };
 
-        try{
-            const response = await axios.get("http://localhost:8000/api/v1/accommodations");
-            // const response = await axios.get('http://localhost:8000/api/v1/tours');
-            // console.log("Fetched accommodations:", response.data.data); // Log to check data in terminal
-            setAccommodationsData(response.data.data); // Update state with fetched data
-            // setFilteredResults(response.data); // Initially show all results
-        } catch(error) {
-            console.error("Error fetching accommodations: ", error);
+        // Add non-empty and non-default parameters
+        Object.entries(params).forEach(([key, value]) => {
+            const backendKey = paramMapping[key];
+            if (value && value !== 'any' && backendKey) {
+            queryParams.append(backendKey, value);
+            }
+        });
+
+        const response = await axios.get(`http://localhost:8000/api/v1/search/getAccommodationBySearch?${queryParams.toString()}`);
+        return response.data.data;
+        } catch (error) {
+        console.error('Error searching tours:', error);
+        throw error;
         }
     }
 
     useEffect(() => {
-        fetchAccommodation(); // Fetch data on mount
+        const fetchAccommodation = async () => {
+
+            try{
+                const response = await axios.get("http://localhost:8000/api/v1/accommodations");
+                // const response = await axios.get('http://localhost:8000/api/v1/tours');
+                // console.log("Fetched accommodations:", response.data.data); // Log to check data in terminal
+                setAccommodationsData(response.data.data); // Update state with fetched data
+                setFilteredResults(response.data.data); // Initially show all results
+                setCurrentPage(1);
+                setHasSubmitted(true);
+            } catch(error) {
+                console.error("Error fetching accommodations: ", error);
+            }
+        }
+        
+        fetchAccommodation();
     }, []);
+    
+    // const fetchAccommodation = async (params = {}) => {
+    //     setIsLoading(true);
+    //     try {
+    //       const results = searchAccommodation(params);
+          
+    //       setFilteredResults(results);
+    //       setHasSubmitted(true);
+    //       setCurrentPage(1);
+    //     } catch (error) {
+    //       console.error('Error fetching accommodations:', error);
+    //       setFilteredResults([]);
+    //     } finally {
+    //       setIsLoading(false);
+    //     }
+    //   };
+
+    // useEffect(() => {
+    //     // fetchAccommodation(); // Fetch data on mount
+    //     const params = new URLSearchParams(window.location.search);
+    //     const queryParams = {};
+        
+    //     // Convert URL params to search params object
+    //     params.forEach((value, key) => {
+    //     // Remove 'tour-' prefix if it exists
+    //     const cleanKey = key.replace(/^accommodation-/, '');
+    //     queryParams[cleanKey] = value;
+    //     });
+
+    //     const filledParams = { ...searchParams, ...queryParams };
+    //     setSearchParams(filledParams);
+    //     fetchAccommodation(filledParams);
+    // }, []);
 
     const getQueryParams = () => {
         const params = new URLSearchParams(window.location.search);
@@ -66,7 +132,7 @@ const Accommodations = () => {
         const newUrl = new URL(window.location.href);
         newUrl.search = new URLSearchParams(cleanParams).toString();
         window.history.replaceState({}, '', newUrl);
-    
+        
         return cleanParams;
     };
       
@@ -90,7 +156,8 @@ const Accommodations = () => {
     };
 
     useEffect(() => {
-        handleSearch(searchParams)
+        
+        handleSearch(searchParams);
         const params = getQueryParams();
         const filledParams = { ...searchParams, ...params };
         setSearchParams(filledParams);
@@ -126,7 +193,25 @@ const Accommodations = () => {
         setFilteredResults(results);
         setHasSubmitted(true);
         setCurrentPage(1); // Reset to first page on new search
+        // fetchAccommodation();
     };
+
+    // const handleSearch = (params) => {
+    //     const prefixedParams = Object.fromEntries(
+    //         Object.entries(params).map(([key, value]) => [`${key}`, value])
+    //     );
+        
+    //     const cleanParams = Object.fromEntries(
+    //         Object.entries(prefixedParams).filter(([_, value]) => 
+    //             value !== '' && value !== 'any'
+    //         )
+    //     );
+        
+    //     const searchString = new URLSearchParams(cleanParams).toString();
+    //     navigate(`?${searchString}`);
+    //     fetchAccommodation(params);
+    // };
+
 
     const handleSubmit = (e) => {
         e.preventDefault();

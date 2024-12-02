@@ -8,6 +8,7 @@ import { useCart } from '../ui/Context/CartContext';
 import logo from '../images/TAB.gif';
 import { motion } from 'framer-motion';
 import './header.css';
+import SwitchMode from '../ui/SwitchMode/SwitchMode'
 
 const nav_links = [
   { path: '/home', display: 'Home' },
@@ -63,7 +64,7 @@ const Header = () => {
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled
         ? 'bg-white/30 backdrop-blur-sm shadow-lg'
         : 'bg-transparent'
-      }`}
+        }`}
     >
       <Container>
         <Row>
@@ -104,6 +105,9 @@ const Header = () => {
             </div>
 
             <div className="nav__actions d-flex align-items-center gap-4">
+              {/* For testing the dark/light mode toggle button */}
+              <SwitchMode />
+
               {/* Favorites Button */}
               <div className="relative">
                 <button
