@@ -25,10 +25,11 @@ const Accommodations = () => {
     const [activeView, setActiveView] = useState('grid');
     const [hasSubmitted, setHasSubmitted] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
+    const [isLoading, setIsLoading] = useState(false);
 
     const itemsPerPage = 8;
 
-    const searchTours = async (params = {}) => {
+    const searchAccommodation = async (params = {}) => {
         try {
         const queryParams = new URLSearchParams();
         
@@ -59,24 +60,57 @@ const Accommodations = () => {
         }
     }
 
-    const fetchAccommodation = async () => {
-
-        try{
-            const response = await axios.get("http://localhost:8000/api/v1/accommodations");
-            // const response = await axios.get('http://localhost:8000/api/v1/tours');
-            // console.log("Fetched accommodations:", response.data.data); // Log to check data in terminal
-            setAccommodationsData(response.data.data); // Update state with fetched data
-            setFilteredResults(response.data.data); // Initially show all results
-            setCurrentPage(1);
-            setHasSubmitted(true);
-        } catch(error) {
-            console.error("Error fetching accommodations: ", error);
-        }
-    }
-
     useEffect(() => {
-        fetchAccommodation(); // Fetch data on mount
+        const fetchAccommodation = async () => {
+
+            try{
+                const response = await axios.get("http://localhost:8000/api/v1/accommodations");
+                // const response = await axios.get('http://localhost:8000/api/v1/tours');
+                // console.log("Fetched accommodations:", response.data.data); // Log to check data in terminal
+                setAccommodationsData(response.data.data); // Update state with fetched data
+                setFilteredResults(response.data.data); // Initially show all results
+                setCurrentPage(1);
+                setHasSubmitted(true);
+            } catch(error) {
+                console.error("Error fetching accommodations: ", error);
+            }
+        }
+        
+        fetchAccommodation();
     }, []);
+    
+    // const fetchAccommodation = async (params = {}) => {
+    //     setIsLoading(true);
+    //     try {
+    //       const results = searchAccommodation(params);
+          
+    //       setFilteredResults(results);
+    //       setHasSubmitted(true);
+    //       setCurrentPage(1);
+    //     } catch (error) {
+    //       console.error('Error fetching accommodations:', error);
+    //       setFilteredResults([]);
+    //     } finally {
+    //       setIsLoading(false);
+    //     }
+    //   };
+
+    // useEffect(() => {
+    //     // fetchAccommodation(); // Fetch data on mount
+    //     const params = new URLSearchParams(window.location.search);
+    //     const queryParams = {};
+        
+    //     // Convert URL params to search params object
+    //     params.forEach((value, key) => {
+    //     // Remove 'tour-' prefix if it exists
+    //     const cleanKey = key.replace(/^accommodation-/, '');
+    //     queryParams[cleanKey] = value;
+    //     });
+
+    //     const filledParams = { ...searchParams, ...queryParams };
+    //     setSearchParams(filledParams);
+    //     fetchAccommodation(filledParams);
+    // }, []);
 
     const getQueryParams = () => {
         const params = new URLSearchParams(window.location.search);
@@ -123,7 +157,7 @@ const Accommodations = () => {
 
     useEffect(() => {
         
-        handleSearch(searchParams)
+        handleSearch(searchParams);
         const params = getQueryParams();
         const filledParams = { ...searchParams, ...params };
         setSearchParams(filledParams);
@@ -159,8 +193,25 @@ const Accommodations = () => {
         setFilteredResults(results);
         setHasSubmitted(true);
         setCurrentPage(1); // Reset to first page on new search
-        fetchAccommodation();
+        // fetchAccommodation();
     };
+
+    // const handleSearch = (params) => {
+    //     const prefixedParams = Object.fromEntries(
+    //         Object.entries(params).map(([key, value]) => [`${key}`, value])
+    //     );
+        
+    //     const cleanParams = Object.fromEntries(
+    //         Object.entries(prefixedParams).filter(([_, value]) => 
+    //             value !== '' && value !== 'any'
+    //         )
+    //     );
+        
+    //     const searchString = new URLSearchParams(cleanParams).toString();
+    //     navigate(`?${searchString}`);
+    //     fetchAccommodation(params);
+    // };
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
