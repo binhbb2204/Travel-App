@@ -62,7 +62,7 @@ const Header = () => {
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled
         ? 'bg-white/30 backdrop-blur-sm shadow-lg'
         : 'bg-transparent'
-      }`}
+        }`}
     >
       <Container>
         <Row>
@@ -184,6 +184,9 @@ const Header = () => {
                     style={{ zIndex: 1000 }}
                   >
                     <ul className="p-2">
+                      <li className="p-2 hover:bg-gray-100 cursor-pointer text-yellow-700 font-bold">
+                        <Link to="/settings">User Settings</Link>
+                      </li>
                       <li className="p-2 hover:bg-gray-100 cursor-pointer text-blue-500 font-bold">
                         <Link to="/admin-panel">Admin Panel</Link>
                       </li>
