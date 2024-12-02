@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "concurrently": "^9.1.0",
     "gh-pages": "^6.2.0"
   },
   "dependencies": {
@@ -11,5 +12,18 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.11.0",
     "mongoose": "^8.8.2"
-  }
+  },
+  "name": "travel-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "frontend": "cd frontend && npm start",
+    "backend": "cd backend && npm run start-dev",
+    "dev": "concurrently \"npm run frontend\" \"npm run backend\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
