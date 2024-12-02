@@ -49,6 +49,8 @@ const Login = () => {
       setSuccess(response.data.message);
       localStorage.setItem('username', response.data.data.name);
 
+      localStorage.setItem('role', response.data.role);
+
       if (rememberMe) {
         localStorage.setItem('email', credentials.email);
         localStorage.setItem('password', credentials.password);

@@ -1,4 +1,4 @@
-import React, {useEffect}from 'react'
+import React, { useEffect } from 'react'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import Home from '../page/Home'
 import About from '../page/About'
@@ -16,7 +16,7 @@ import AdminPanel from '../page/admin/AdminPanel'
 import Checkout from '../page/Checkout'
 import AccommodationDetails from '../page/AccommodationDetails'
 import { clearRouteParams } from '../utils/queryParamManager'
-
+import UserSettings from "../page/UserSettings"
 
 const Routers = () => {
   const location = useLocation();
@@ -70,8 +70,8 @@ const Routers = () => {
       <Route path='/transaction' element={<TransactionBooking />} />
       <Route path='/admin-panel' element={<AdminPanel />} />
       <Route path="/checkout" element={<Checkout />} />
-      
-      
+
+      <Route path="/settings" element={<UserSettings />} />
 
     </Routes>
   )

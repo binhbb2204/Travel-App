@@ -8,6 +8,7 @@ import { useCart } from '../ui/Context/CartContext';
 import logo from '../images/TAB.gif';
 import { motion } from 'framer-motion';
 import './header.css';
+import SwitchMode from '../ui/SwitchMode/SwitchMode'
 
 const nav_links = [
   { path: '/home', display: 'Home' },
@@ -56,13 +57,14 @@ const Header = () => {
   };
 
   const username = localStorage.getItem('username');
+  const userRole = localStorage.getItem('role');
 
   return (
     <header
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled
         ? 'bg-white/30 backdrop-blur-sm shadow-lg'
         : 'bg-transparent'
-      }`}
+        }`}
     >
       <Container>
         <Row>
@@ -103,6 +105,9 @@ const Header = () => {
             </div>
 
             <div className="nav__actions d-flex align-items-center gap-4">
+              {/* For testing the dark/light mode toggle button */}
+              <SwitchMode />
+
               {/* Favorites Button */}
               <div className="relative">
                 <button
@@ -184,9 +189,20 @@ const Header = () => {
                     style={{ zIndex: 1000 }}
                   >
                     <ul className="p-2">
+<<<<<<< HEAD
+                      {username && userRole === 'admin' && (
+                        <li className="p-2 hover:bg-gray-100 cursor-pointer text-blue-500 font-bold">
+                          <Link to="/admin-panel">Admin Panel</Link>
+                        </li>
+                      )}
+=======
+                      <li className="p-2 hover:bg-gray-100 cursor-pointer text-yellow-700 font-bold">
+                        <Link to="/settings">User Settings</Link>
+                      </li>
                       <li className="p-2 hover:bg-gray-100 cursor-pointer text-blue-500 font-bold">
                         <Link to="/admin-panel">Admin Panel</Link>
                       </li>
+>>>>>>> 9d2c49951d53db0b37fd61fe909cfcb7e8189541
                       <li className="p-2 hover:bg-gray-100 cursor-pointer text-red-500 font-bold" onClick={handleLogout}>
                         Logout
                       </li>

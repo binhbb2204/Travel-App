@@ -1,0 +1,96 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
+/* Resetting box-sizing for all elements */
+* {
+    box-sizing: border-box;
+}
+
+/* Body Styles */
+body {
+    font-family: "Montserrat", sans-serif; /* Font family */
+    background-color: #f9f9f9; /* Light background color */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+}
+
+/* Container Styles */
+.container {
+    margin-top: 20px; /* Space at the top */
+}
+
+/* Title Styles */
+.users__title {
+    font-size: 1.8rem; /* Increased font size for emphasis */
+    font-weight: 700; /* Bold font weight */
+    margin-bottom: 20px; /* Space below the title */
+    color: #333; /* Dark text color */
+    text-align: center; /* Center the title */
+}
+
+/* Alert Styles */
+.alert {
+    margin-bottom: 20px; /* Space below alerts */
+}
+
+/* Form Input Styles */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select {
+    width: 100%; /* Full width of inputs */
+    padding: 12px; /* Increased padding for better touch targets */
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 4px; /* Rounded corners */
+    transition: border-color 0.2s; /* Smooth transition on focus */
+    font-size: 1rem; /* Consistent font size */
+}
+
+/* Focus State for Inputs */
+input:focus,
+select:focus {
+    border-color: #007bff; /* Change border color to blue on focus */
+    outline: none; /* Remove default outline */
+}
+
+/* Button Styles */
+button {
+    width: 100%; /* Full width buttons */
+    padding: 12px; /* Padding for buttons */
+    background-color: #007bff; /* Primary color */
+    color: white; /* White text color */
+    border: none; /* Remove default border */
+    border-radius: 4px; /* Rounded corners */
+    transition: background-color 0.3s; /* Smooth transition for button */
+    font-size: 1rem; /* Consistent font size */
+}
+
+/* Button Hover State */
+button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Modal Header Styles */
+.modal-header {
+    background-color: #007bff; /* Bootstrap primary color */
+    color: white; /* White text for header */
+}
+
+/* Modal Title Styles */
+.modal-title {
+    font-weight: bold; /* Bold title */
+}
+
+/* Modal Body Styles */
+.modal-body {
+    font-size: 1rem; /* Default font size */
+}
+
+/* Modal Footer Styles */
+.modal-footer {
+    justify-content: center; /* Center buttons in footer */
+}
+
+/* Small Text Styles */
+small.text-muted {
+    color: #6c757d; /* Light gray for muted text */
+}
