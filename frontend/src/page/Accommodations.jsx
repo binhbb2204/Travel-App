@@ -28,15 +28,47 @@ const Accommodations = () => {
 
     const itemsPerPage = 8;
 
+    const searchTours = async (params = {}) => {
+        try {
+        const queryParams = new URLSearchParams();
+        
+        // Mapping frontend params to backend param names
+        const paramMapping = {
+            keyword: 'keyword',
+            country: 'country',
+            city: 'city',
+            minPrice: 'minPrice',
+            maxPrice: 'maxPrice',
+            duration: 'duration',
+            groupSize: 'maxGroupSize'
+        };
+
+        // Add non-empty and non-default parameters
+        Object.entries(params).forEach(([key, value]) => {
+            const backendKey = paramMapping[key];
+            if (value && value !== 'any' && backendKey) {
+            queryParams.append(backendKey, value);
+            }
+        });
+
+        const response = await axios.get(`http://localhost:8000/api/v1/search/getAccommodationBySearch?${queryParams.toString()}`);
+        return response.data.data;
+        } catch (error) {
+        console.error('Error searching tours:', error);
+        throw error;
+        }
+    }
+
     const fetchAccommodation = async () => {
-        console.log("Fetched accommodations "); // Log to check data in terminal
 
         try{
             const response = await axios.get("http://localhost:8000/api/v1/accommodations");
             // const response = await axios.get('http://localhost:8000/api/v1/tours');
             // console.log("Fetched accommodations:", response.data.data); // Log to check data in terminal
             setAccommodationsData(response.data.data); // Update state with fetched data
-            // setFilteredResults(response.data); // Initially show all results
+            setFilteredResults(response.data.data); // Initially show all results
+            setCurrentPage(1);
+            setHasSubmitted(true);
         } catch(error) {
             console.error("Error fetching accommodations: ", error);
         }
@@ -66,7 +98,7 @@ const Accommodations = () => {
         const newUrl = new URL(window.location.href);
         newUrl.search = new URLSearchParams(cleanParams).toString();
         window.history.replaceState({}, '', newUrl);
-    
+        
         return cleanParams;
     };
       
@@ -90,6 +122,7 @@ const Accommodations = () => {
     };
 
     useEffect(() => {
+        
         handleSearch(searchParams)
         const params = getQueryParams();
         const filledParams = { ...searchParams, ...params };
@@ -126,6 +159,7 @@ const Accommodations = () => {
         setFilteredResults(results);
         setHasSubmitted(true);
         setCurrentPage(1); // Reset to first page on new search
+        fetchAccommodation();
     };
 
     const handleSubmit = (e) => {
