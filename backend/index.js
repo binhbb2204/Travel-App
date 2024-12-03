@@ -42,10 +42,14 @@ app.use('/api/v1/tours', tourRoute);
 app.use('/api/v1/users', userRoute);
 app.use('/api/v1/comments', commentRoute);
 app.use('/api/v1/accommodations', accoRoute);
-
 app.use('/api/v1/tour_booking', tourBookingRoute);
 
 app.listen(port, () => {
-    connect()
-    console.log("Testing", port)
-})
+    connect();
+    console.log(`Server running on port ${port}`);
+});
+
+app.use(cors({
+    origin: 'http://localhost:3000', // Frontend URL
+    credentials: true, // Allow credentials (cookies) to be sent
+}));

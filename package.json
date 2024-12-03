@@ -13,7 +13,8 @@
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
     "mongodb": "^6.11.0",
-    "mongoose": "^8.8.2"
+    "mongoose": "^8.8.2",
+    "mongoose-lean": "^1.0.0"
   },
   "name": "travel-app",
   "version": "1.0.0",
