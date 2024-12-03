@@ -76,7 +76,9 @@ const Tours = () => {
 
     const filledParams = { ...searchParams, ...queryParams };
     setSearchParams(filledParams);
-    fetchTours(filledParams);
+    if (Object.keys(queryParams).length >= 0) {
+      fetchTours(filledParams);
+    }
   }, []);
 
   const handleSearchChange = (e) => {

@@ -34,7 +34,7 @@ export const accommodationService = {
         }
       });
 
-      const response = await axios.get(`${BASE_URL}/search/searchAccommodations?${queryParams.toString()}`);
+      const response = await axios.get(`${BASE_URL}/search/getAccommodationBySearch?${queryParams.toString()}`);
       return response.data.data;
     } catch (error) {
       console.error('Error searching accommodations:', error);

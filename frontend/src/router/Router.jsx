@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
+import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import Home from '../page/Home'
 import About from '../page/About'
 import Tours from '../page/Tours'
@@ -20,37 +20,51 @@ import UserSettings from "../page/UserSettings"
 
 const Routers = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Clear route params for all routes except '/tours'
-    if (location.pathname !== '/tours') {
-      clearRouteParams();
-    }
-  }, [location.pathname]);
-  const handleAddTour = async (formData) => {
-    try {
-      // Replace with actual API endpoint
-      const response = await fetch('your-api-endpoint/tours', {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to create tour');
+    // Clear search parameters when route changes
+    const clearSearchParams = () => {
+      // Check if there are any search parameters
+      if (location.search) {
+        // Navigate to the same path without search parameters
+        navigate({
+          pathname: location.pathname,
+          hash: location.hash,
+          search: ''
+        }, { replace: true });
       }
+    };
 
-      const newTour = await response.json();
-      // Add success notification here
-      console.log('Tour created:', newTour);
+    // Call the clear function whenever the route changes
+    clearSearchParams();
+  }, [location.pathname, location.hash, navigate]);
 
-      // You can use window.location or navigate here to redirect
-      window.location.href = `/tours/${newTour._id}`;
+  
+  // const handleAddTour = async (formData) => {
+  //   try {
+  //     // Replace with actual API endpoint
+  //     const response = await fetch('your-api-endpoint/tours', {
+  //       method: 'POST',
+  //       body: formData,
+  //     });
 
-    } catch (error) {
-      console.error('Error creating tour:', error);
-      // Add error notification here
-    }
-  };
+  //     if (!response.ok) {
+  //       throw new Error('Failed to create tour');
+  //     }
+
+  //     const newTour = await response.json();
+  //     // Add success notification here
+  //     console.log('Tour created:', newTour);
+
+  //     // You can use window.location or navigate here to redirect
+  //     window.location.href = `/tours/${newTour._id}`;
+
+  //   } catch (error) {
+  //     console.error('Error creating tour:', error);
+  //     // Add error notification here
+  //   }
+  // };
   return (
     <Routes>
       <Route path='/' element={<Navigate to='/home' />} />
@@ -62,7 +76,7 @@ const Routers = () => {
       <Route path='/register' element={<Register />} />
       <Route path='/tours/search' element={<SearchResultList />} />
       <Route path='/exotic_tours' element={<Location />} />
-      <Route path='/add-tour' element={<AddTourForm onSubmit={handleAddTour} />} />
+      <Route path='/add-tour' element={<AddTourForm />} />
       <Route path='/accommodations' element={<Accommodations />} />
       <Route path='/accommodations/:id' element={<AccommodationDetails />} />
       {/* <Route path='/accommodations/search' element={<SearchResultList />} /> */}
