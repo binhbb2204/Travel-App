@@ -1,7 +1,7 @@
 
 
 const importAll = (r) => { return r.keys().map(r); } // Import all images from the Italy/Rome folder 
-
+import img from '../images/Italy/Rome/1.jpg'
 const Italy_Rome = importAll(require.context('../images/Italy/Rome', false, /\.(png|jpe?g|svg)$/));
 const Brazil_Manaus = importAll(require.context('../images/Brazil/Manaus', false, /\.(png|jpe?g|svg)$/));
 const tourData = [

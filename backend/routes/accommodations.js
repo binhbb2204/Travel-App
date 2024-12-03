@@ -1,35 +1,16 @@
 import express from 'express';
 import { 
-    createAccommodation
-} from '../controllers/accommodationController.js';
-    
-import { 
-    updateAccommodation
-} from '../controllers/accommodationController.js';
-
-import { 
-    deleteAccommodation
-} from '../controllers/accommodationController.js';
-
-import { 
-    getSingleAccommodation
-} from '../controllers/accommodationController.js';
-
-import { 
-    getAllAccommodation
-} from '../controllers/accommodationController.js';
-
-import {
-    getAccommodationBySearch
-} from '../controllers/accommodationController.js';
-
-import {
-    getFeaturedAccommodations
-} from '../controllers/accommodationController.js';
-
-import {
+    createAccommodation,
+    updateAccommodation,
+    deleteAccommodation,
+    getSingleAccommodation,
+    getAllAccommodation,
+    getAccommodationBySearch,
+    getFeaturedAccommodations,
     getAccommodationCount
 } from '../controllers/accommodationController.js';
+    
+
 
 const router = express.Router();
 
