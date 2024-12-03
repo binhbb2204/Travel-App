@@ -4,23 +4,23 @@ import { Card, CardContent } from '../Card/Card'
 import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion'
 import { LocationFilters, PriceFilter, AccommodationDetailsFilters } from '../Featured-tours/AccommodationFilters'
 
-const AccommodationSearchBox = ({ searchParams = {}, onSearchChange, countries, cities, onSubmit }) => {
+const AccommodationSearchBox = ({ searchParams, onSearchChange, countries, cities, onSubmit }) => {
     const handleClearSearch = () => {
-      onSearchChange({ target: { name: 'keyword', value: '' } });
+        onSearchChange({ target: { name: 'keyword', value: '' } });
     };
-
+    
     const handleSearchSubmit = (e) => {
         e.preventDefault();
         onSubmit(e);
     };
-
+    
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const y = useMotionValue(0);
     const opacity = useTransform(y, [0, 200], [0.5, 0]);
 
     const handleDragEnd = (event, info) => {
         if(info.offset.y > 100){
-          setIsFilterOpen(false);
+            setIsFilterOpen(false);
         }
     }
 
@@ -44,10 +44,10 @@ const AccommodationSearchBox = ({ searchParams = {}, onSearchChange, countries, 
                                 focus:ring-2 
                                 focus:ring-blue-500
                                 focus:border-blue-500"
-                            value={searchParams.keyword || ''}
+                            value={searchParams.keyword}
                             onChange={onSearchChange}
                         />
-                        {searchParams && (
+                        {searchParams.keyword && (
                             <button
                                 type="button"
                                 onClick={handleClearSearch}
@@ -181,13 +181,12 @@ const AccommodationSearchBox = ({ searchParams = {}, onSearchChange, countries, 
     );
 };
 
-
 // Desktop Search Form Component
-const DesktopSearchForm = ({ searchParams, onSearchChange, countries, cities, onSubmit }) => {
+const DesktopSearchForm = ({ searchParams, onSearchChange, countries, cities, onSumbit }) => {
     return(
         <Card className="max-w-4xl mx-auto bg-white/95 backdrop-blur">
             <CardContent className="p-6">
-                <form onSubmit={onSubmit} className="space-y-4">
+                <form onSubmit={onSumbit} className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         <div className="col-span-full">
                             <div className="relative">
@@ -220,5 +219,4 @@ const DesktopSearchForm = ({ searchParams, onSearchChange, countries, cities, on
         </Card>
     );
 }
-
 export default AccommodationSearchBox;

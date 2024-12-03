@@ -1,96 +1,148 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+/* Scoped Container */
+.user-settings-container {
 
-/* Resetting box-sizing for all elements */
-* {
-    box-sizing: border-box;
-}
+    /* Reset for the scoped area */
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
 
-/* Body Styles */
-body {
-    font-family: "Montserrat", sans-serif; /* Font family */
-    background-color: #f9f9f9; /* Light background color */
-    margin: 0; /* Remove default margin */
-    padding: 0; /* Remove default padding */
-}
+    body {
+        background-color: #f5f7fa;
+        color: #333;
+    }
 
-/* Container Styles */
-.container {
-    margin-top: 20px; /* Space at the top */
-}
+    /* Page-specific container styling */
+    .container {
+        max-width: 800px;
+        margin: 60px auto;
+        padding: 20px;
+        background: white;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
 
-/* Title Styles */
-.users__title {
-    font-size: 1.8rem; /* Increased font size for emphasis */
-    font-weight: 700; /* Bold font weight */
-    margin-bottom: 20px; /* Space below the title */
-    color: #333; /* Dark text color */
-    text-align: center; /* Center the title */
-}
+    .users__title {
+        font-size: 2rem;
+        font-weight: 600;
+        color: #007bff;
+        margin-bottom: 20px;
+        text-align: center;
+    }
 
-/* Alert Styles */
-.alert {
-    margin-bottom: 20px; /* Space below alerts */
-}
+    /* Form Styling */
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
 
-/* Form Input Styles */
-input[type="text"],
-input[type="email"],
-input[type="password"],
-select {
-    width: 100%; /* Full width of inputs */
-    padding: 12px; /* Increased padding for better touch targets */
-    border: 1px solid #ccc; /* Light gray border */
-    border-radius: 4px; /* Rounded corners */
-    transition: border-color 0.2s; /* Smooth transition on focus */
-    font-size: 1rem; /* Consistent font size */
-}
+    /* Input Fields */
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    select {
+        width: 100%;
+        padding: 14px;
+        font-size: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+    }
 
-/* Focus State for Inputs */
-input:focus,
-select:focus {
-    border-color: #007bff; /* Change border color to blue on focus */
-    outline: none; /* Remove default outline */
-}
+    /* Input Focus State */
+    input:focus,
+    select:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        outline: none;
+    }
 
-/* Button Styles */
-button {
-    width: 100%; /* Full width buttons */
-    padding: 12px; /* Padding for buttons */
-    background-color: #007bff; /* Primary color */
-    color: white; /* White text color */
-    border: none; /* Remove default border */
-    border-radius: 4px; /* Rounded corners */
-    transition: background-color 0.3s; /* Smooth transition for button */
-    font-size: 1rem; /* Consistent font size */
-}
+    /* Button Styling */
+    button {
+        width: 100%;
+        padding: 14px;
+        font-size: 1rem;
+        font-weight: 600;
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
 
-/* Button Hover State */
-button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-}
+    button:hover {
+        background: linear-gradient(135deg, #0056b3, #003f7f);
+    }
 
-/* Modal Header Styles */
-.modal-header {
-    background-color: #007bff; /* Bootstrap primary color */
-    color: white; /* White text for header */
-}
+    /* Alert Styling */
+    .alert {
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        font-size: 0.9rem;
+    }
 
-/* Modal Title Styles */
-.modal-title {
-    font-weight: bold; /* Bold title */
-}
+    .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
 
-/* Modal Body Styles */
-.modal-body {
-    font-size: 1rem; /* Default font size */
-}
+    .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
 
-/* Modal Footer Styles */
-.modal-footer {
-    justify-content: center; /* Center buttons in footer */
-}
+    /* Muted Text */
+    small.text-muted {
+        display: block;
+        font-size: 0.85rem;
+        color: #6c757d;
+    }
 
-/* Small Text Styles */
-small.text-muted {
-    color: #6c757d; /* Light gray for muted text */
+    /* Modal Styling */
+    .modal-header {
+        background-color: #007bff;
+        color: white;
+        padding: 15px;
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+    }
+
+    .modal-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+    }
+
+    .modal-body {
+        font-size: 1rem;
+        padding: 20px;
+    }
+
+    .modal-footer {
+        padding: 15px;
+        display: flex;
+        justify-content: center;
+    }
+
+    /* Responsive Styling */
+    @media (max-width: 768px) {
+        .container {
+            padding: 15px;
+            margin: 20px auto;
+        }
+
+        .users__title {
+            font-size: 1.5rem;
+        }
+
+        button {
+            font-size: 0.9rem;
+            padding: 12px;
+        }
+    }
 }

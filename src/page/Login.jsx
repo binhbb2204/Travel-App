@@ -22,7 +22,7 @@ const Login = () => {
   useEffect(() => {
     setIsVisible(true);
 
-    // Check localStorage for stored credentials
+    // Check localStorage for stored credentials and rememberMe flag
     const storedEmail = localStorage.getItem('email');
     const storedPassword = localStorage.getItem('password');
     const storedRememberMe = localStorage.getItem('rememberMe') === 'true';
@@ -36,34 +36,46 @@ const Login = () => {
     }
   }, []);
 
-  const handleChange = e => {
-    setCredentials(prev => ({ ...prev, [e.target.id]: e.target.value }));
+  const handleChange = (e) => {
+    setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
 
-  const handleClick = async e => {
+  const handleClick = async (e) => {
     e.preventDefault();
     setError(null);
     setSuccess(null);
+
     try {
       const response = await axios.post('http://localhost:8000/api/v1/auth/login', credentials);
-      setSuccess(response.data.message);
-      localStorage.setItem('username', response.data.data.name);
+      const { token, message, data, role } = response.data;
 
-      localStorage.setItem('role', response.data.role);
+      if (token) {
+        // Save token to localStorage
+        localStorage.setItem('token', token);
+        console.log('Stored Token:', localStorage.getItem('token'));
+        localStorage.setItem('username', data.name);
+        localStorage.setItem('role', role);
 
-      if (rememberMe) {
-        localStorage.setItem('email', credentials.email);
-        localStorage.setItem('password', credentials.password);
-        localStorage.setItem('rememberMe', 'true');
+        // Handle "Remember Me" functionality
+        if (rememberMe) {
+          localStorage.setItem('email', credentials.email);
+          localStorage.setItem('password', credentials.password);
+          localStorage.setItem('rememberMe', 'true');
+        } else {
+          localStorage.removeItem('email');
+          localStorage.removeItem('password');
+          localStorage.setItem('rememberMe', 'false');
+        }
+
+        setSuccess(message);
+
+        // Redirect to home page after success
+        setTimeout(() => {
+          navigate('/home');
+        }, 2000); // Delay in ms
       } else {
-        localStorage.removeItem('email');
-        localStorage.removeItem('password');
-        localStorage.setItem('rememberMe', 'false');
+        setError('Login failed: Token missing in response.');
       }
-
-      setTimeout(() => {
-        navigate('/home');
-      }, 2000); // Delay (ms)
     } catch (error) {
       console.error('Error logging in:', error);
       if (error.response && error.response.data) {
@@ -91,6 +103,7 @@ const Login = () => {
                     <h2>Welcome to </h2>
                     <h1 className='tab__element'>TAB</h1>
                   </div>
+
                   {/* Display error message */}
                   {error && <Alert color="danger">{error}</Alert>}
                   {/* Display success message */}
@@ -100,11 +113,14 @@ const Login = () => {
                     <section className="login__input">
                       <FormGroup className='email__box'>
                         <i className='bx bxs-user'></i>
-                        <input type="email"
+                        <input
+                          type="email"
                           placeholder="Email"
-                          required id="email"
+                          required
+                          id="email"
                           value={credentials.email}
-                          onChange={handleChange} />
+                          onChange={handleChange}
+                        />
                       </FormGroup>
 
                       <FormGroup className='password__box'>
