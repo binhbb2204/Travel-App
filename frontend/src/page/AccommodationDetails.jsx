@@ -1,26 +1,71 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Container, Row, Col, Form, ListGroup } from 'reactstrap';
 import { MapPin, Users, Star, Clock, DollarSign, Heart, CheckCircle, Menu, X } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import { useFavorites } from '../ui/Context/FavoritesContext';
-import accommodationData from '../data/accommodationData';
+// import accommodationData from '../data/accommodationData';
 import ImageCarousel from '../ui/ImageCarousel/ImageCarousel';
 import calculateAvgRating from '../utils/avgRating';
 import '../styles/accommodation-details.css'
 import CommentSection from '../ui/Comment/CommentSection';
 import AccommodationBooking from '../Booking/AccommodationBooking';
+import axios from 'axios';
+
 const AccommodationDetails = () => {
   const {id} = useParams();
+  const [acco, setAcco] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const acco = accommodationData.find(acco => acco.id === id); //This is static data will be use with mongoDB later, this is concept
+  // const acco = accommodationData.find(acco => acco.id === id);
+  useEffect(() => {
+    const fetchAccommodationDetail = async() => {
+      try{
+        const accoData = await axios.get(`http://localhost:8000/api/v1/accommodations/${id.toString()}`);
+        setAcco(accoData.data.data);
+        setLoading(false);
+      } catch (err) {
+        setError(err);
+        setLoading(false);
+      }
+    };
+    fetchAccommodationDetail();
+  }, [id]);
 
-  const{photo, photos, title, desc, price, reviews, city, rooms, highlights} = acco;
-  const totalCapacity = acco.rooms.reduce((sum, room) => sum + room.roomType * room.availableRooms, 0);
+  const{photos, title, desc, reviews, city, highlights, totalCapacity} = acco || {};
   const{totalRating, avgRating} = calculateAvgRating(reviews);
 
   const { isFavorite, addToFavorites, removeFromFavorites } = useFavorites();
   const isLiked = isFavorite(id);
   const [showBooking, setShowBooking] = useState(false);
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p>Loading accommodation details...</p>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="flex justify-center items-center h-screen text-red-500">
+        <p>Error loading accommodation details: {error.message}</p>
+      </div>
+    );
+  }
+
+  // No tour found
+  if (!acco) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p>No accommodation found</p>
+      </div>
+    );
+  }
+
 
   const handleFavoriteClick = () => {
     if (isLiked) {
@@ -30,7 +75,6 @@ const AccommodationDetails = () => {
     }
   };
 
-  
   return (
     <>
       <section className='page-section'>
