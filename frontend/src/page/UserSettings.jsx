@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Form, FormGroup, Label, Input, Button, Alert } from 'reactstrap';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import '../styles/usersettings.css';
 
 const UserSettings = () => {
     const [userInfo, setUserInfo] = useState({
         name: '',
         email: '',
         phone: '',
+        gender: '',
         password: '',
     });
     const [error, setError] = useState(null);
@@ -15,34 +16,41 @@ const UserSettings = () => {
     const token = localStorage.getItem('token');
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        console.log('Token:', token);
+    // useEffect(() => {
+    //     const fetchUserInfo = async () => {
+    //         console.log('Retrieved Token:', token);
 
-        // if (!token) {
-        //     navigate('/login');
-        //     return;
-        // }
+    //         if (!token) {
+    //             setError('No token found. Redirecting to login...');
+    //             navigate('/login');
+    //             return;
+    //         }
 
-        // Fetch user information
-        const fetchUserInfo = async () => {
-            try {
-                const response = await axios.get('http://localhost:8000/api/v1/users/', {
-                    headers: { Authorization: `Bearer ${token}` },
-                });
-                setUserInfo({
-                    name: response.data.data.name,
-                    email: response.data.data.email,
-                    phone: response.data.data.phone,
-                });
-            } catch (error) {
-                console.error('Error fetching user information:', error);
-                setError('Failed to fetch user information.');
-            }
-        };
+    //         try {
+    //             console.log('Token before API call:', token);
+    //             const response = await axios.get('http://localhost:8000/api/v1/users/',
+    //                 {
+    //                     headers: { Authorization: `Bearer ${token}` },
+    //                 });
+    //             setUserInfo({
+    //                 name: response.data.data.name,
+    //                 email: response.data.data.email,
+    //                 phone: response.data.data.phone,
+    //                 gender: response.data.data.gender || '',
+    //             });
+    //         } catch (err) {
+    //             console.error('Error fetching user information:', err.response ? err.response.data : err);
+    //             if (err.response && err.response.status === 401) {
+    //                 localStorage.removeItem('token');
+    //                 navigate('/login');
+    //             } else {
+    //                 setError('Failed to fetch user information.');
+    //             }
+    //         }
+    //     };
 
-        fetchUserInfo();
-    }, [token, navigate]);
+    //     fetchUserInfo();
+    // }, [token, navigate]);
 
     const handleChange = (e) => {
         const { id, value } = e.target;
@@ -54,52 +62,98 @@ const UserSettings = () => {
         setError(null);
         setSuccess(null);
 
-        try {
-            const response = await axios.put('http://localhost:8000/api/v1/users/', userInfo, {
-                headers: { Authorization: `Bearer ${token}` },
-            });
-            setSuccess(response.data.message);
-        } catch (error) {
-            console.error('Error updating user information:', error);
-            setError('Failed to update user information.');
-        }
+        // try {
+        //     const response = await axios.put('http://localhost:8000/api/v1/users/', userInfo, {
+        //         headers: { Authorization: `Bearer ${token}` },
+        //     });
+        //     setSuccess(response.data.message);
+        // } catch (err) {
+        //     console.error('Error updating user information:', err);
+        //     setError('Failed to update user information.');
+        // }
     };
 
     return (
-        <Container style={{ paddingTop: '100px' }}>
-            <Row>
-                <Col lg='8' className="m-auto">
-                    <h2>User Settings</h2>
-                    {error && <Alert color="danger">{error}</Alert>}
-                    {success && <Alert color="success">{success}</Alert>}
+        <div className="user-settings-container" style={{ paddingTop: '80px' }}>
+            <div className="container">
+                <h2 className="users__title">User Settings</h2>
 
-                    <Form onSubmit={handleSubmit}>
-                        <FormGroup>
-                            <Label for="name">Name</Label>
-                            <Input type="text" id="name" value={userInfo.name} onChange={handleChange} required />
-                        </FormGroup>
+                {error && <div className="alert alert-danger">{error}</div>}
+                {success && <div className="alert alert-success">{success}</div>}
 
-                        <FormGroup>
-                            <Label for="email">Email</Label>
-                            <Input type="email" id="email" value={userInfo.email} onChange={handleChange} required />
-                        </FormGroup>
+                <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <label htmlFor="name">Name</label>
+                        <input
+                            type="text"
+                            id="name"
+                            value={userInfo.name}
+                            onChange={handleChange}
+                            className="form-control"
+                            required
+                        />
+                    </div>
 
-                        <FormGroup>
-                            <Label for="phone">Phone</Label>
-                            <Input type="text" id="phone" value={userInfo.phone} onChange={handleChange} required />
-                        </FormGroup>
+                    <div className="form-group">
+                        <label htmlFor="email">Email</label>
+                        <input
+                            type="email"
+                            id="email"
+                            value={userInfo.email}
+                            onChange={handleChange}
+                            className="form-control"
+                            required
+                        />
+                    </div>
 
-                        <FormGroup>
-                            <Label for="password">Password</Label>
-                            <Input type="password" id="password" value={userInfo.password} onChange={handleChange} />
-                            <small className="text-muted">Leave blank to keep current password.</small>
-                        </FormGroup>
+                    <div className="form-group">
+                        <label htmlFor="phone">Phone</label>
+                        <input
+                            type="text"
+                            id="phone"
+                            value={userInfo.phone}
+                            onChange={handleChange}
+                            className="form-control"
+                            required
+                        />
+                    </div>
 
-                        <Button type="submit" color="primary">Update</Button>
-                    </Form>
-                </Col>
-            </Row>
-        </Container>
+                    <div className="form-group">
+                        <label htmlFor="gender">Gender</label>
+                        <select
+                            id="gender"
+                            value={userInfo.gender}
+                            onChange={handleChange}
+                            className="form-control"
+                            required
+                        >
+                            <option value="" enabled>
+                                Select Gender
+                            </option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="password">Password</label>
+                        <input
+                            type="password"
+                            id="password"
+                            value={userInfo.password}
+                            onChange={handleChange}
+                            className="form-control"
+                        />
+                        <small className="text-muted">Leave blank to keep your current password.</small>
+                    </div>
+
+                    <button type="submit" className="btn btn-primary">
+                        Update
+                    </button>
+                </form>
+            </div>
+        </div>
     );
 };
 
