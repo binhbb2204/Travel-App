@@ -30,7 +30,5 @@ export const getRouteSpecificParams = (route) => {
 };
   
 export const clearRouteParams = () => {
-    const url = new URL(window.location.href);
-    const newUrl = `${url.pathname}${url.hash}`;
-    window.history.replaceState({}, '', newUrl);
+  const newUrl = `${window.location.origin}${window.location.pathname}#${hashRoute}`; navigate(newUrl, { replace: true });
 };

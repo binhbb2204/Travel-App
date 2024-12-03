@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom'
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import Home from '../page/Home'
 import About from '../page/About'
 import Tours from '../page/Tours'
@@ -20,51 +20,32 @@ import UserSettings from "../page/UserSettings"
 
 const Routers = () => {
   const location = useLocation();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    // Clear search parameters when route changes
-    const clearSearchParams = () => {
-      // Check if there are any search parameters
-      if (location.search) {
-        // Navigate to the same path without search parameters
-        navigate({
-          pathname: location.pathname,
-          hash: location.hash,
-          search: ''
-        }, { replace: true });
-      }
-    };
-
-    // Call the clear function whenever the route changes
-    clearSearchParams();
-  }, [location.pathname, location.hash, navigate]);
 
   
-  // const handleAddTour = async (formData) => {
-  //   try {
-  //     // Replace with actual API endpoint
-  //     const response = await fetch('your-api-endpoint/tours', {
-  //       method: 'POST',
-  //       body: formData,
-  //     });
+  const handleAddTour = async (formData) => {
+    try {
+      // Replace with actual API endpoint
+      const response = await fetch('your-api-endpoint/tours', {
+        method: 'POST',
+        body: formData,
+      });
 
-  //     if (!response.ok) {
-  //       throw new Error('Failed to create tour');
-  //     }
+      if (!response.ok) {
+        throw new Error('Failed to create tour');
+      }
 
-  //     const newTour = await response.json();
-  //     // Add success notification here
-  //     console.log('Tour created:', newTour);
+      const newTour = await response.json();
+      // Add success notification here
+      console.log('Tour created:', newTour);
 
-  //     // You can use window.location or navigate here to redirect
-  //     window.location.href = `/tours/${newTour._id}`;
+      // You can use window.location or navigate here to redirect
+      window.location.href = `/tours/${newTour._id}`;
 
-  //   } catch (error) {
-  //     console.error('Error creating tour:', error);
-  //     // Add error notification here
-  //   }
-  // };
+    } catch (error) {
+      console.error('Error creating tour:', error);
+      // Add error notification here
+    }
+  };
   return (
     <Routes>
       <Route path='/' element={<Navigate to='/home' />} />
@@ -84,7 +65,7 @@ const Routers = () => {
       <Route path='/transaction' element={<TransactionBooking />} />
       <Route path='/admin-panel' element={<AdminPanel />} />
       <Route path="/checkout" element={<Checkout />} />
-      <Route path='/user-settings' element={<UserSettings />} />
+
       <Route path="/settings" element={<UserSettings />} />
 
     </Routes>
