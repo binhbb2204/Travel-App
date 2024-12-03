@@ -180,11 +180,11 @@ const TourSearchCard = ({searchParams, onSearchChange, countries, cities, onSubm
     )
 }
 // This part if for Desktop cuz desktop has bigger screen so it can see the bar wider 
-const DesktopSearchForm = ({searchParams, onSearchChange, countries, cities, onSumbit}) => {
+const DesktopSearchForm = ({searchParams, onSearchChange, countries, cities, onSubmit}) => {
     return(
         <Card className="max-w-4xl mx-auto bg-white/95 backdrop-blur">
             <CardContent className="p-6">
-                <form onSubmit={onSumbit} className="space-y-4">
+                <form onSubmit={onSubmit} className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         <div className="col-span-full">
                             <div className="relative">
