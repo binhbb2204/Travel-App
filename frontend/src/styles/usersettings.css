@@ -1,7 +1,5 @@
-/* Scoped Container */
 .user-settings-container {
 
-    /* Reset for the scoped area */
     * {
         box-sizing: border-box;
         margin: 0;
@@ -13,7 +11,7 @@
         color: #333;
     }
 
-    /* Page-specific container styling */
+
     .container {
         max-width: 800px;
         margin: 60px auto;
@@ -31,14 +29,12 @@
         text-align: center;
     }
 
-    /* Form Styling */
     form {
         display: flex;
         flex-direction: column;
         gap: 15px;
     }
 
-    /* Input Fields */
     input[type="text"],
     input[type="email"],
     input[type="password"],
@@ -51,7 +47,6 @@
         transition: all 0.3s ease;
     }
 
-    /* Input Focus State */
     input:focus,
     select:focus {
         border-color: #007bff;
@@ -59,7 +54,6 @@
         outline: none;
     }
 
-    /* Button Styling */
     button {
         width: 100%;
         padding: 14px;
@@ -77,7 +71,6 @@
         background: linear-gradient(135deg, #0056b3, #003f7f);
     }
 
-    /* Alert Styling */
     .alert {
         padding: 15px;
         border-radius: 6px;
@@ -97,14 +90,12 @@
         border: 1px solid #c3e6cb;
     }
 
-    /* Muted Text */
     small.text-muted {
         display: block;
         font-size: 0.85rem;
         color: #6c757d;
     }
 
-    /* Modal Styling */
     .modal-header {
         background-color: #007bff;
         color: white;
@@ -129,7 +120,6 @@
         justify-content: center;
     }
 
-    /* Responsive Styling */
     @media (max-width: 768px) {
         .container {
             padding: 15px;
@@ -144,5 +134,25 @@
             font-size: 0.9rem;
             padding: 12px;
         }
+    }
+
+    .panel {
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        margin: 10px;
+    }
+
+    .transaction-list {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .transaction-item {
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
     }
 }
