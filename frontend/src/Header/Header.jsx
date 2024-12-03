@@ -85,7 +85,6 @@ const Header = () => {
               </ul>
             </div>
 
-            {/* Auth Buttons */}
             <div className="nav__right d-flex align-items-center gap-4">
               {username ? (
                 <div className="welcome-box flex items-center">
@@ -192,6 +191,11 @@ const Header = () => {
                       {username && userRole === 'admin' && (
                         <li className="p-2 hover:bg-gray-100 cursor-pointer text-blue-500 font-bold">
                           <Link to="/admin-panel">Admin Panel</Link>
+                        </li>
+                      )}
+                      {username && userRole === 'user' && (
+                        <li className="p-2 hover:bg-gray-100 cursor-pointer text-blue-500 font-bold">
+                          <Link to="/user-settings">User Settings</Link>
                         </li>
                       )}
                       <li className="p-2 hover:bg-gray-100 cursor-pointer text-red-500 font-bold" onClick={handleLogout}>
