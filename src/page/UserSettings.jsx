@@ -11,6 +11,7 @@ const UserSettings = () => {
         gender: '',
         password: '',
     });
+    const [transactions, setTransactions] = useState([]);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
     const token = localStorage.getItem('token');
@@ -74,8 +75,8 @@ const UserSettings = () => {
     };
 
     return (
-        <div className="user-settings-container" style={{ paddingTop: '80px' }}>
-            <div className="container">
+        <div className="user-settings-container" style={{ paddingTop: '100px', paddingBottom: '20px', display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
+            <div className="panel" style={{ flex: 1, maxWidth: '400px', margin: '0 10px' }}>
                 <h2 className="users__title">User Settings</h2>
 
                 {error && <div className="alert alert-danger">{error}</div>}
@@ -93,7 +94,6 @@ const UserSettings = () => {
                             required
                         />
                     </div>
-
                     <div className="form-group">
                         <label htmlFor="email">Email</label>
                         <input
@@ -105,7 +105,6 @@ const UserSettings = () => {
                             required
                         />
                     </div>
-
                     <div className="form-group">
                         <label htmlFor="phone">Phone</label>
                         <input
@@ -117,7 +116,6 @@ const UserSettings = () => {
                             required
                         />
                     </div>
-
                     <div className="form-group">
                         <label htmlFor="gender">Gender</label>
                         <select
@@ -127,15 +125,12 @@ const UserSettings = () => {
                             className="form-control"
                             required
                         >
-                            <option value="" enabled>
-                                Select Gender
-                            </option>
+                            <option value="" enabled>Select Gender</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                             <option value="Other">Other</option>
                         </select>
                     </div>
-
                     <div className="form-group">
                         <label htmlFor="password">Password</label>
                         <input
@@ -148,10 +143,25 @@ const UserSettings = () => {
                         <small className="text-muted">Leave blank to keep your current password.</small>
                     </div>
 
-                    <button type="submit" className="btn btn-primary">
-                        Update
-                    </button>
+                    <button type="submit" className="btn btn-primary">Update</button>
                 </form>
+            </div>
+
+            <div className="panel" style={{ flex: 1, maxWidth: '400px', paddingTop: '22px', paddingBottom: '20px', margin: '0 10px' }}>
+                <h2 className="users__title">Transaction History</h2>
+                {transactions.length === 0 ? (
+                    <p>No transactions found.</p>
+                ) : (
+                    <ul className="transaction-list">
+                        {transactions.map((transaction) => (
+                            <li key={transaction.id} className="transaction-item">
+                                <p>Tour: {transaction.tourName}</p>
+                                <p>Date: {new Date(transaction.date).toLocaleDateString()}</p>
+                                <p>Price: ${transaction.price}</p>
+                            </li>
+                        ))}
+                    </ul>
+                )}
             </div>
         </div>
     );
