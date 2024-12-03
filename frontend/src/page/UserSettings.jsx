@@ -19,13 +19,12 @@ const UserSettings = () => {
     useEffect(() => {
         const fetchUserInfo = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/api/v1/users/:id', {
+                const response = await axios.get('http://localhost:8000/api/v1/users/', {
                     withCredentials: true,
                     headers: {
                         'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NGFlYTgxNTY4MGY0NGJiODIwZTUzZSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzMzMjQ5NTI2LCJleHAiOjE3MzQ1NDU1MjZ9.GCSDgyhJBJkFa1V5Q_rOp2m644lkaE6QgtcV1SubHTY`
-                    }
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    },
                 });
                 setUserInfo({
                     name: response.data.data.name,
