@@ -24,7 +24,7 @@ const AddTourForm = () => {
     const fetchTourForEdit = async () => {
       if (isEditMode) {
         try {
-          const response = await axios.get(`/api/tours/${id}`);
+          const response = await axios.get(`/api/v1/tours/${id}`);
           const tourData = response.data.data;
           
           // Populate form with existing tour data

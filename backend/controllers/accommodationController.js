@@ -33,6 +33,7 @@ export const deleteAccommodation = async (req, res) => {
 };
 
 export const getSingleAccommodation = async (req, res) => {
+    console.log("Tried get single");
     const id = req.params.id;
     try {
         const acco = await Accommodation.findById(id);

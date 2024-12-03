@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import './accommodation-card.css';
 import calculateAvgRating from '../../utils/avgRating';
 const AccommodationCard = ({ acco }) => {
-  const {id, title, city, photo, price, featured, reviews} = acco;
+  const {_id: id, title, city, photo, price, featured, reviews} = acco;
   const {totalRating, avgRating} = calculateAvgRating(reviews)
   return (
     <motion.div
