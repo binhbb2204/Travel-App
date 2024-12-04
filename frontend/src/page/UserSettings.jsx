@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 import '../styles/usersettings.css';
 
@@ -14,44 +14,36 @@ const UserSettings = () => {
     const [transactions, setTransactions] = useState([]);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
-    const token = localStorage.getItem('token');
     const navigate = useNavigate();
 
-    // useEffect(() => {
-    //     const fetchUserInfo = async () => {
-    //         console.log('Retrieved Token:', token);
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/api/v1/users/', {
+                    withCredentials: true,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    },
+                });
+                setUserInfo({
+                    name: response.data.data.name,
+                    email: response.data.data.email,
+                    phone: response.data.data.phone,
+                    gender: response.data.data.gender || '',
+                });
+            } catch (err) {
+                console.error('Error fetching user information:', err);
+                if (err.response && err.response.status === 401) {
+                    navigate('/login');
+                } else {
+                    setError('Failed to fetch user information.');
+                }
+            }
+        };
 
-    //         if (!token) {
-    //             setError('No token found. Redirecting to login...');
-    //             navigate('/login');
-    //             return;
-    //         }
-
-    //         try {
-    //             console.log('Token before API call:', token);
-    //             const response = await axios.get('http://localhost:8000/api/v1/users/',
-    //                 {
-    //                     headers: { Authorization: `Bearer ${token}` },
-    //                 });
-    //             setUserInfo({
-    //                 name: response.data.data.name,
-    //                 email: response.data.data.email,
-    //                 phone: response.data.data.phone,
-    //                 gender: response.data.data.gender || '',
-    //             });
-    //         } catch (err) {
-    //             console.error('Error fetching user information:', err.response ? err.response.data : err);
-    //             if (err.response && err.response.status === 401) {
-    //                 localStorage.removeItem('token');
-    //                 navigate('/login');
-    //             } else {
-    //                 setError('Failed to fetch user information.');
-    //             }
-    //         }
-    //     };
-
-    //     fetchUserInfo();
-    // }, [token, navigate]);
+        fetchUserInfo();
+    }, [navigate]);
 
     const handleChange = (e) => {
         const { id, value } = e.target;
@@ -63,15 +55,19 @@ const UserSettings = () => {
         setError(null);
         setSuccess(null);
 
-        // try {
-        //     const response = await axios.put('http://localhost:8000/api/v1/users/', userInfo, {
-        //         headers: { Authorization: `Bearer ${token}` },
-        //     });
-        //     setSuccess(response.data.message);
-        // } catch (err) {
-        //     console.error('Error updating user information:', err);
-        //     setError('Failed to update user information.');
-        // }
+        try {
+            const response = await axios.put('http://localhost:8000/api/v1/users/', userInfo, {
+                withCredentials: true,
+            });
+            setSuccess(response.data.message);
+        } catch (err) {
+            console.error('Error updating user information:', err);
+            if (err.response && err.response.data) {
+                setError(err.response.data.message || 'Failed to update user information.');
+            } else {
+                setError('Failed to update user information.');
+            }
+        }
     };
 
     return (
@@ -125,7 +121,7 @@ const UserSettings = () => {
                             className="form-control"
                             required
                         >
-                            <option value="" enabled>Select Gender</option>
+                            <option value="">Select Gender</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                             <option value="Other">Other</option>

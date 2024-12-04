@@ -17,11 +17,12 @@ import Checkout from '../page/Checkout'
 import AccommodationDetails from '../page/AccommodationDetails'
 import { clearRouteParams } from '../utils/queryParamManager'
 import UserSettings from "../page/UserSettings"
+import ModifyAccommodationForm from '../page/ModifyAccommodationForm'
 
 const Routers = () => {
   const location = useLocation();
 
-  
+
   const handleAddTour = async (formData) => {
     try {
       // Replace with actual API endpoint
@@ -65,8 +66,9 @@ const Routers = () => {
       <Route path='/transaction' element={<TransactionBooking />} />
       <Route path='/admin-panel' element={<AdminPanel />} />
       <Route path="/checkout" element={<Checkout />} />
-
+      <Route path="/user-settings" element={<UserSettings />} />
       <Route path="/settings" element={<UserSettings />} />
+      <Route path='/add-accommodation' element={<ModifyAccommodationForm />} />
 
     </Routes>
   )
