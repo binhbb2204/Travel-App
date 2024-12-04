@@ -153,7 +153,7 @@ const TourDetails = () => {
                     </div>
 
                     {/* Reviews Preview */}
-                    {reviews && <CommentSection tourId={id}/>}
+                    {reviews && <CommentSection tourId={id} availableUsers={['user', 'admin']}/>}
                   </div>
                 </div>
               </div>
