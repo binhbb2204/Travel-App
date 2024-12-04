@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 import { Car, ChevronDown, ChevronUp, Search, X } from 'lucide-react'
 import { Card, CardContent } from './Card'
 import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
-import { LocationFilters,  PriceFilter, TourDetailsFilters } from '../Featured-tours/ToursPageSearchComponent';
+import { LocationFilters,  PriceFilter, AccommodationDetailsFilters } from '../Featured-tours/AccommodationFilters';
 
-const TourSearchCard = ({searchParams, onSearchChange, countries, cities, onSubmit}) => {
+
+const AccommodationSearchCard = ({searchParams, onSearchChange, countries, cities, onSubmit}) => {
     const handleClearSearch = () => {
         onSearchChange({ target: { name: 'keyword', value: '' } });
     };
@@ -33,7 +34,7 @@ const TourSearchCard = ({searchParams, onSearchChange, countries, cities, onSubm
                     <input
                     type="text"
                     name="keyword"
-                    placeholder="Search tours..."
+                    placeholder="Search accommodations..."
                     className="w-full 
                             pl-10 
                             pr-10 
@@ -156,10 +157,10 @@ const TourSearchCard = ({searchParams, onSearchChange, countries, cities, onSubm
                                 />
                             </div>
 
-                            {/* Tour Details Filters */}
+                            {/* Accommodation Details Filters */}
                             <div className="space-y-4">
-                                <h4 className="font-medium text-gray-700">Tour Details</h4>
-                                <TourDetailsFilters 
+                                <h4 className="font-medium text-gray-700">Accommodation Details</h4>
+                                <AccommodationDetailsFilters
                                 searchParams={searchParams}
                                 onSearchChange={onSearchChange}
                                 />
@@ -179,12 +180,13 @@ const TourSearchCard = ({searchParams, onSearchChange, countries, cities, onSubm
         </div>
     )
 }
+
 // This part if for Desktop cuz desktop has bigger screen so it can see the bar wider 
-const DesktopSearchForm = ({searchParams, onSearchChange, countries, cities, onSubmit}) => {
+const DesktopSearchForm = ({searchParams, onSearchChange, countries, cities, onSumbit}) => {
     return(
         <Card className="max-w-4xl mx-auto bg-white/95 backdrop-blur">
             <CardContent className="p-6">
-                <form onSubmit={onSubmit} className="space-y-4">
+                <form onSubmit={onSumbit} className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         <div className="col-span-full">
                             <div className="relative">
@@ -192,7 +194,7 @@ const DesktopSearchForm = ({searchParams, onSearchChange, countries, cities, onS
                                 <input
                                 type = "text"
                                 name = "keyword"
-                                placeholder="Search tours..." 
+                                placeholder="Search accommodations..." 
                                 className="w-full pl-10 pr-4 py-2 
                                         text-black
                                         border rounded-lg focus:ring-2 
@@ -204,7 +206,7 @@ const DesktopSearchForm = ({searchParams, onSearchChange, countries, cities, onS
                         </div>
                         <LocationFilters {...{searchParams, onSearchChange, countries, cities}}/>
                         <PriceFilter {...{searchParams, onSearchChange}}/>
-                        <TourDetailsFilters {...{searchParams, onSearchChange}}/>
+                        <AccommodationDetailsFilters {...{searchParams, onSearchChange}}/>
                     </div>
                     <button
                     type="submit"
@@ -217,4 +219,4 @@ const DesktopSearchForm = ({searchParams, onSearchChange, countries, cities, onS
         </Card>
     );
 }
-export default TourSearchCard
+export default AccommodationSearchCard

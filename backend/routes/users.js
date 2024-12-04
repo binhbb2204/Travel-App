@@ -9,6 +9,7 @@ router.delete("/:id", verifyUser, deleteUser);
 router.get("/:id", verifyUser, getSingleUser);
 router.get("/", verifyAdmin, getAllUsers);
 
+// Note for line 10
 // router.get("/", verifyAdmin, getAllUsers);
 
 export default router

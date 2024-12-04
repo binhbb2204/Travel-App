@@ -1,8 +1,9 @@
 /* General Header Styles */
 .header {
   width: 100%;
-  height: 80px;
+  height: auto;
   line-height: 80px;
+  padding: 20px 0;
 }
 
 .logo img {
@@ -104,7 +105,8 @@
   }
 
   .nav__right .nav__btns {
-      display: none !important;
+      display: flex !important;
+      flex-direction: column;
   }
 
   .nav__item {
@@ -134,13 +136,46 @@
   }
 
   .mobile_menu {
-      display: block !important;
-      color: #000 !important;
+    display: block !important; 
   }
 
   .mobile_menu svg {
       stroke-width: 2px;
   }
+
+  .switch-mode-wrapper {
+    margin-left: 0;
+    justify-content: center;
+    padding: 10px 0;
+  }
+
+  .welcome-box {
+    flex-direction: column;
+    padding: 4px 12px;
+    align-items: center;
+    font-size: 0.875rem;
+    width: auto;
+    max-width: 360px;
+    margin: 0 auto;
+    line-height: 1;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+
+  .welcome-box:button {
+    padding: 4px 12px;
+    font-size: 0.875rem;
+    width: auto;
+    margin-top: 8px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+
+  /* .welcome-box:hover {
+    padding: 8px 12px;
+    font-size: 0.875rem;
+    width: auto;
+  } */
 }
 
 /* Adjustments for Smaller Screens */
@@ -209,7 +244,7 @@
   gap: 10px;
   background: linear-gradient(90deg, #1e3aa1, #3d82d6);
   padding: 8px 16px;
-  border-radius: 999px;
+  border-radius: 20px;
   font-size: 0.875rem;
   font-weight: 500;
   color: #ffffff;
@@ -273,11 +308,166 @@
   transform: translateY(-2px);
 }
 
+/* Responsive Styles for Mobile Devices */
 @media only screen and (max-width: 992px) {
-  .switch-mode-wrapper {
-    margin-left: 0;
+  /* Header adjustments for smaller screens */
+  .header {
+    height: 60px;
+  }
+
+  /* Navigation menu adjustments */
+  .navigation {
+      width: 100%;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: -100%;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      z-index: 999;
+      transition: all 0.3s ease;
+      box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .menu {
+      padding: 60px 20px 0 20px;
+      position: relative;
+      flex-direction: column;
+      align-items: flex-start !important;
+  }
+
+  .show__menu {
+      left: 0;
+  }
+
+  .nav__item {
+      width: 100%;
+      padding: 8px 0;
+  }
+
+  /* Adjust the mobile menu button for smaller screens */
+  .mobile_menu {
+      display: block !important;
+      color: #000 !important;
+  }
+
+  .mobile_menu svg {
+      stroke-width: 2px;
+  }
+
+  /* Adjust logo size */
+  .logo img {
+      width: 120px;
+  }
+
+  /* Adjust visibility of right-side navigation buttons */
+  .nav__right .nav__btns {
+      display: none !important;
+  }
+
+  /* Adjust mobile-specific buttons */
+  .nav__actions button {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+  }
+
+  /* Ensure the dropdown is properly aligned on mobile */
+  .settings-dropdown {
+      width: 100%;
+  }
+
+  /* Position the welcome box */
+  .welcome-box {
+    width: 100%;
     justify-content: center;
-    padding: 10px 0;
+    padding: 8px 16px;
+  }
+
+  /* Switch mode wrapper adjustments */
+  .switch-mode-wrapper {
+      margin-left: 0;
+      justify-content: center;
+      padding: 10px 0;
+  }
+
+  /* Adjust mobile-specific buttons for smaller screens */
+  .switch-mode-wrapper button {
+    width: 100%;
+  }
+
+  .logreg__menu {
+      display: flex;
+      position: absolute;
+      left: 37px;
+      top: 0;
+      width: 100%;
+      gap: 8px;
+      margin-top: 10px;
+      z-index: 1000;
   }
 }
+
+/* Further adjustments for smaller screens */
+@media only screen and (max-width: 768px) {
+  /* Adjust the mobile menu layout */
+  .navigation {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: -100%;
+    transition: all 0.3s ease;
+  }
+
+  /* Adjust font size for mobile */
+  .nav__item a {
+      font-size: 1rem;
+  }
+
+  /* Ensure the settings dropdown stays within the screen */
+  .settings-dropdown {
+      width: 100%;
+  }
+
+  /* Reduce logo size even further */
+  .logo img {
+      width: 100px;
+  }
+
+  /* Adjust the welcome box layout */
+  .welcome-box {
+      flex-direction: column;
+      padding: 8px 16px;
+      align-items: center;
+  }
+
+  /* Adjust mobile menu toggle */
+  .mobile__menu {
+      font-size: 1.2rem;
+      display: block;
+      color: var(--heading-color);
+  }
+
+  .favorites-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 40;
+  }
+
+  .welcome-box button {
+    padding: 4px 8px;
+    font-size: 0.875rem;
+  }
+
+  .switch-mode-wrapper button {
+    padding: 0.6rem 1.2rem;
+    width: auto;
+  }
+}
+
 

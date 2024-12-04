@@ -21,12 +21,7 @@ import UserSettings from "../page/UserSettings"
 const Routers = () => {
   const location = useLocation();
 
-  useEffect(() => {
-    // Clear route params for all routes except '/tours'
-    if (location.pathname !== '/tours') {
-      clearRouteParams();
-    }
-  }, [location.pathname]);
+
   const handleAddTour = async (formData) => {
     try {
       // Replace with actual API endpoint
@@ -62,7 +57,7 @@ const Routers = () => {
       <Route path='/register' element={<Register />} />
       <Route path='/tours/search' element={<SearchResultList />} />
       <Route path='/exotic_tours' element={<Location />} />
-      <Route path='/add-tour' element={<AddTourForm onSubmit={handleAddTour} />} />
+      <Route path='/add-tour' element={<AddTourForm />} />
       <Route path='/accommodations' element={<Accommodations />} />
       <Route path='/accommodations/:id' element={<AccommodationDetails />} />
       {/* <Route path='/accommodations/search' element={<SearchResultList />} /> */}
@@ -70,7 +65,7 @@ const Routers = () => {
       <Route path='/transaction' element={<TransactionBooking />} />
       <Route path='/admin-panel' element={<AdminPanel />} />
       <Route path="/checkout" element={<Checkout />} />
-
+      <Route path="/user-settings" element={<UserSettings />} />
       <Route path="/settings" element={<UserSettings />} />
 
     </Routes>

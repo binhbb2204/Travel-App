@@ -1,7 +1,7 @@
 import { BaseItem, Comment, Reply } from '../Models/Comment.js';
 import Tour from '../Models/Tour.js';
 import Accommodation from '../Models/Accommodation.js';
-
+import { recursivePopulate } from '../utils/recursivePopulate.js';
 
 export const createComment = async (req, res) => {
     const { tourId } = req.params;
@@ -152,49 +152,73 @@ export const likeItem = async (req, res) => {
     }
 };
 
+const getAllNestedReplies = async (doc, model, depth = 3) => {
+    if (!doc || depth === 0) {
+        return doc;
+    }
+
+    // Populate nestedReplies with full details
+    await model.populate(doc, { 
+        path: 'nestedReplies',
+        populate: {
+            path: 'nestedReplies',
+            populate: {
+                path: 'nestedReplies'
+            }
+        }
+    });
+
+    // Recursively process nested replies
+    if (doc.nestedReplies && doc.nestedReplies.length) {
+        for (let i = 0; i < doc.nestedReplies.length; i++) {
+            doc.nestedReplies[i] = await getAllNestedReplies(doc.nestedReplies[i], model, depth - 1);
+        }
+    }
+
+    return doc;
+};
+
 export const getTourComments = async (req, res) => {
     const { tourId } = req.params;
     const userId = req.user.id;
 
-    // Pagination parameters with defaults
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const skipIndex = (page - 1) * limit;
 
     try {
-        // Find total number of comments
         const totalComments = await Comment.countDocuments({ tourId });
 
-        // Find comments for the specific tour with pagination
         const comments = await Comment.find({ tourId })
             .populate({
                 path: 'nestedReplies',
                 populate: {
                     path: 'nestedReplies',
                     populate: {
-                        path: 'nestedReplies',
-                        populate: {
-                            path: 'nestedReplies',
-                            populate: {
-                                path: 'nestedReplies' // Continue to populate all nested levels
-                            }
-                        } // Continue to populate all nested levels
-                        },
-                        
+                        path: 'nestedReplies'
+                    }
                 }
             })
-            .populate('likes');
+            .populate('likes')
+            .sort({ timestamp: -1 })
+            .skip(skipIndex)
+            .limit(limit);
 
-        // Mark likes for comments and their nested replies
+        const populatedComments = await Promise.all(
+            comments.map(async comment => {
+                const populatedComment = await getAllNestedReplies(comment, Comment);
+                return populatedComment;
+            })
+        );
+
         const markHasLiked = (items) => {
             return items.map(item => {
-                const processedItem = item.toObject ? item.toObject() : item; // Handle Mongoose documents and plain objects
-                processedItem.likes = processedItem.likes || []; // Ensure likes is an array
+                const processedItem = item.toObject ? item.toObject() : item;
+                processedItem.likes = processedItem.likes || [];
                 processedItem.hasLiked = processedItem.likes.some(
                     like => like.toString() === userId
                 );
         
-                // Process nested replies if available
                 if (processedItem.nestedReplies && processedItem.nestedReplies.length) {
                     processedItem.nestedReplies = markHasLiked(processedItem.nestedReplies);
                     processedItem.hasMoreReplies = processedItem.nestedReplies.length >= 3;
@@ -204,7 +228,7 @@ export const getTourComments = async (req, res) => {
             });
         };
 
-        const processedComments = markHasLiked(comments);
+        const processedComments = markHasLiked(populatedComments);
 
         res.status(200).json({
             success: true,
@@ -213,7 +237,6 @@ export const getTourComments = async (req, res) => {
                 currentPage: page,
                 totalComments,
                 totalPages: Math.ceil(totalComments / limit),
-                totalComments,
                 limit
             }
         });

@@ -9,3 +9,25 @@ export const createTourBooking = async(req, res) => {
         res.status(500).json({status: true, message: "Internal Server Error"})
     }
 }
+
+//GET all tourbooking
+export const getAllTourBooking = async(req, res) => {
+    try {
+        const books = await TourBooking.find()
+
+        res.status(200).json({status: true, message: "Successful", data: books})
+    } catch (error) {
+        res.status(404).json({status: false, message: "Tour Not Found",})
+    }
+}
+
+export const getTourBooking = async(req, res) => {
+    const id = req.params.id
+    try {
+        const book = await TourBooking.findById(id)
+
+        res.status(200).json({status: true, message: "Successful", data: book})
+    } catch (error) {
+        res.status(500).json({status: false, message: "Internal Server Error",})
+    }
+}
