@@ -1,86 +1,63 @@
 import mongoose from 'mongoose';
 
-// Create a base schema for comments and replies with a discriminator
-const baseItemSchema = new mongoose.Schema({
-    _id: {
-        type: mongoose.Schema.Types.ObjectId,
-        default: () => new mongoose.Types.ObjectId()
-    },
-    type: {
-        type: String,
-        enum: ['Comment', 'Reply', 'NestedReply'],
-        required: true
-    },
-    user: {
-        type: String,
-        required: true,
-    },
-    content: {
-        type: String,
-        required: true,
-    },
-    likes: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        default: []
-    }],
-    hasLiked: {
-        type: Boolean,
-        default: false
-    },
-    timestamp: {
-        type: Date,
-        default: Date.now,
-    },
-    parentId: {
-        type: mongoose.Schema.Types.ObjectId,
-        refPath: 'parentType',
-        default: null
-    },
-    parentType: {
-        type: String,
-        enum: ['Comment', 'Reply', 'NestedReply'],
-        default: null
-    },
-    // Nested replies will be stored as references
-    nestedReplies: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'BaseItem'
-    }]
-}, { discriminatorKey: 'kind', collection: 'comments' });
+const commentSchema = new mongoose.Schema(
+    {
+        body: {
+            type: String,
+            required: true,
+            trim: true,
+        },
 
-// Create the base model
-const BaseItem = mongoose.model('BaseItem', baseItemSchema);
+        tourId: {
+            type: mongoose.Types.ObjectId,
+            ref: "Tour",
+            required: true
+        },
 
-// Comment model
-const CommentSchema = new mongoose.Schema({
-    tourId: {
-        type: mongoose.Schema.Types.ObjectId,
-        // ref: 'Tour',
-        ref: 'Accommodation',
-        required: true
+        parentId: {
+            type: mongoose.Types.ObjectId,
+            ref: "Comment",
+            default: null,
+        },
+
+        userId: {
+            type: mongoose.Types.ObjectId,
+            ref: "User",
+            required: true,
+        },
+
+        rating: {
+            type: Number,
+            min: 1,
+            max: 5,
+            default: null,
+        },
+
+        likes: [
+            {
+                type: mongoose.Types.ObjectId,
+                ref: "User"
+            },
+        ],
+
+        taggedUsers: [
+            {
+                type: String,
+                trim: true
+            }
+        ],
+
+        createAt: {
+            type: Date,
+            default: Date.now
+        },
+
+        updatedAt: {
+            type: Date,
+            default: Date.now,
+          },
     },
-    rating: {
-        type: Number,
-        default: 0,
-    }
-});
+    { timestamps: true }
+)
 
-const Comment = BaseItem.discriminator('Comment', CommentSchema);
-
-// Reply model 
-const ReplySchema = new mongoose.Schema({
-    originalCommentId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Comment',
-        required: true,
-    },
-    replyingTo: {
-        type: String,
-        default: null,
-    }
-});
-
-const Reply = BaseItem.discriminator('Reply', ReplySchema);
-
-export { BaseItem, Comment, Reply };
+export default mongoose.model("Comment", commentSchema);

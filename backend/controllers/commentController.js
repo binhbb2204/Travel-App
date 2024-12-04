@@ -1,307 +1,96 @@
-import { BaseItem, Comment, Reply } from '../Models/Comment.js';
-import Tour from '../Models/Tour.js';
-import Accommodation from '../Models/Accommodation.js';
-import { recursivePopulate } from '../utils/recursivePopulate.js';
+import Comment from "../Models/Comment.js";
+import Tour from "../Models/Tour.js";
 
-export const createComment = async (req, res) => {
-    const { tourId } = req.params;
+
+export const createComment = async(req, res) => {
+    const {body, parentId, replyingToUser, rating, taggedUsers } = req.body;
+    const {tourId} = req.params;
+    const userId = req.user.id;
     
     try {
-        // Create a new comment with its own unique ID
-        const newComment = new Comment({
-            ...req.body,
-            type: 'Comment',
-            tourId
+        if (rating && parentId) {
+            return res.status(400).json({ message: "Replies cannot have ratings" });
+        }
+        const newComment = await Comment.create({
+            body,
+            tourId,
+            parentId: parentId || null, // null for root comments
+            userId,
+            replyingToUser,
+            rating: rating || null,
+            taggedUsers: taggedUsers || [],
         });
 
-        const savedComment = await newComment.save();
+        await Tour.findByIdAndUpdate(
+            tourId,
+            { $push: { reviews: newComment._id } },
+            { new: true }
+        )
 
-        // Update the tour with the new comment
-        // await Tour.findByIdAndUpdate(tourId, {
-        //     $push: { reviews: savedComment._id }
-        // });
-
-        // await Accommodation.findByIdAndUpdate(tourId, {
-        //     $push: { reviews: savedComment._id }
-        // });
-
-        const tour = await Tour.findById(tourId);
-        if (tour) {
-            await Tour.findByIdAndUpdate(tourId, {
-                $push: { reviews: savedComment._id },
-            });
-        }
-
-        // Check and update reviews for Accommodation
-        const accommodation = await Accommodation.findById(tourId);
-        if (accommodation) {
-            console.log("really tried");
-            await Accommodation.findByIdAndUpdate(tourId, {
-                $push: { reviews: savedComment._id },
-            });
-        }
-
-
-        res.status(201).json({
-            success: true, 
-            message: 'Comment created',
-            data: savedComment
-        });
+        res.status(201).json({success: true, message: "Comment added successfully", data: newComment});
     } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: 'Failed to create comment',
-            error: error.message
-        });
+        res.status(500).json({ message: "Error creating comment", error });
     }
-};
 
-export const createReply = async (req, res) => {
-    const { commentId, parentReplyId } = req.params;
-    
+}
+export const getComments = async(req, res) => {
+    const {tourId} = req.params;
     try {
-        // Find the parent comment or reply
-        let parentItem;
-        if (parentReplyId) {
-            parentItem = await BaseItem.findById(parentReplyId);
-        } else {
-            parentItem = await Comment.findById(commentId);
-        }
-
-        if (!parentItem) {
-            return res.status(404).json({
-                success: false,
-                message: 'Parent item not found'
-            });
-        }
-
-        // Create a new reply
-        const newReply = new Reply({
-            ...req.body,
-            type: parentReplyId ? 'NestedReply' : 'Reply',
-            parentId: parentItem._id,
-            parentType: parentItem.type,
-            originalCommentId: commentId
-        });
-
-        // Save the reply
-        const savedReply = await newReply.save();
-
-        // Add the reply to the parent's nested replies
-        parentItem.nestedReplies.push(savedReply._id);
-        await parentItem.save();
-
-        res.status(201).json({
-            success: true,
-            message: 'Reply created',
-            data: savedReply
-        });
+        const comments = await Comment.find({ tourId }).populate("userId", "name");
+        res.status(200).json(comments);
     } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: 'Failed to create reply',
-            error: error.message
-        });
+        res.status(500).json({ success: false, message: "Error fetching comments", error });
     }
-};
+}
 
-export const likeItem = async (req, res) => {
-    const { itemId } = req.params;
-    const userId = req.user.id;
+export const updateComment = async(req, res) => {
+    const {commentId} = req.params;
+    const {body, rating} = req.body;
 
     try {
-        // Find the item (comment or reply)
-        const item = await BaseItem.findById(itemId);
-        
-        if (!item) {
-            return res.status(404).json({
-                success: false,
-                message: 'Item not found'
-            });
+        const comment = await Comment.findById(commentId);
+
+        if(String(comment.userId) !== req.user.id){
+            return res.status(403).json({success: false, message: "You can only edit your own comments"})
         }
-
-        // Check if user has already liked
-        const likeIndex = item.likes.findIndex(
-            like => like.toString() === userId
-        );
-
-        if (likeIndex === -1) {
-            // Add like
-            item.likes.push(userId);
-            item.hasLiked = true;
-        } else {
-            // Remove like
-            item.likes.splice(likeIndex, 1);
-            item.hasLiked = false;
+        if(rating && comment.parentId){
+            return res.status(400).json({ message: "Replies cannot have ratings" });
         }
-
-        // Save the updated item
-        const savedItem = await item.save();
-
-        res.status(200).json({
-            success: true,
-            message: 'Like toggled',
-            data: savedItem
-        });
+        comment.body = body || comment.body;
+        await comment.save();
+        res.status(200).json({ success: true, data: comment });
     } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: 'Failed to process like',
-            error: error.message
-        });
+        res.status(500).json({ success: false, message: "Error updating comment", error });
     }
-};
+}
 
-const getAllNestedReplies = async (doc, model, depth = 3) => {
-    if (!doc || depth === 0) {
-        return doc;
-    }
-
-    // Populate nestedReplies with full details
-    await model.populate(doc, { 
-        path: 'nestedReplies',
-        populate: {
-            path: 'nestedReplies',
-            populate: {
-                path: 'nestedReplies'
-            }
-        }
-    });
-
-    // Recursively process nested replies
-    if (doc.nestedReplies && doc.nestedReplies.length) {
-        for (let i = 0; i < doc.nestedReplies.length; i++) {
-            doc.nestedReplies[i] = await getAllNestedReplies(doc.nestedReplies[i], model, depth - 1);
-        }
-    }
-
-    return doc;
-};
-
-export const getTourComments = async (req, res) => {
-    const { tourId } = req.params;
-    const userId = req.user.id;
-
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
-    const skipIndex = (page - 1) * limit;
-
+export const deleteComment = async (req, res) => {
+    const { commentId } = req.params;
+  
     try {
-        const totalComments = await Comment.countDocuments({ tourId });
+        const comment = await Comment.findByIdAndDelete(commentId);
 
-        const comments = await Comment.find({ tourId })
-            .populate({
-                path: 'nestedReplies',
-                populate: {
-                    path: 'nestedReplies',
-                    populate: {
-                        path: 'nestedReplies'
-                    }
-                }
-            })
-            .populate('likes')
-            .sort({ timestamp: -1 })
-            .skip(skipIndex)
-            .limit(limit);
-
-        const populatedComments = await Promise.all(
-            comments.map(async comment => {
-                const populatedComment = await getAllNestedReplies(comment, Comment);
-                return populatedComment;
-            })
-        );
-
-        const markHasLiked = (items) => {
-            return items.map(item => {
-                const processedItem = item.toObject ? item.toObject() : item;
-                processedItem.likes = processedItem.likes || [];
-                processedItem.hasLiked = processedItem.likes.some(
-                    like => like.toString() === userId
-                );
-        
-                if (processedItem.nestedReplies && processedItem.nestedReplies.length) {
-                    processedItem.nestedReplies = markHasLiked(processedItem.nestedReplies);
-                    processedItem.hasMoreReplies = processedItem.nestedReplies.length >= 3;
-                }
-        
-                return processedItem;
-            });
-        };
-
-        const processedComments = markHasLiked(populatedComments);
-
-        res.status(200).json({
-            success: true,
-            data: processedComments,
-            pagination: {
-                currentPage: page,
-                totalComments,
-                totalPages: Math.ceil(totalComments / limit),
-                limit
-            }
-        });
+        if (!comment) {
+            return res.status(404).json({ message: "Comment not found" });
+        }
+  
+        // Ensure the user owns the comment
+        if (String(comment.userId) !== req.user.id) {
+            return res.status(403).json({ message: "You can only delete your own comments" });
+        }
+  
+        // If it's a parent comment, delete all its replies too
+        if (!comment.parentId) {
+            await Comment.deleteMany({ parentId: commentId });
+        }
+        await Tour.findByIdAndUpdate(
+            comment.tourId,
+            {$pull: {reviews: commentId}},
+            {new: true}
+        )
+  
+        res.status(200).json({ message: "Comment deleted successfully" });
     } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: 'Failed to fetch tour comments',
-            error: error.message
-        });
-    }
-};
-
-export const getMoreReplies = async (req, res) => {
-    const { itemId } = req.params;
-    const userId = req.user.id;
-
-    // Pagination for replies
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 5;
-    const skipIndex = (page - 1) * limit;
-
-    try {
-        // Find the parent item and its total number of replies
-        const parentItem = await BaseItem.findById(itemId);
-        const totalReplies = parentItem.nestedReplies.length;
-
-        // Fetch additional replies with pagination
-        const moreReplies = await BaseItem.findById(itemId)
-            .populate({
-                path: 'nestedReplies',
-                populate: {
-                    path: 'nestedReplies',
-                    populate: { path: 'nestedReplies' }
-                }
-            }).populate('likes');
-
-        // Mark likes for replies
-        const markHasLiked = (items) => {
-            return items.map(item => {
-                const processedItem = item.toObject();
-                processedItem.hasLiked = processedItem.likes.some(
-                    like => like.toString() === userId
-                );
-
-                return processedItem;
-            });
-        };
-
-        const processedReplies = markHasLiked(moreReplies.nestedReplies);
-
-        res.status(200).json({
-            success: true,
-            data: processedReplies,
-            pagination: {
-                currentPage: page,
-                totalPages: Math.ceil(totalReplies / limit),
-                totalReplies,
-                limit
-            }
-        });
-    } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: 'Failed to fetch more replies',
-            error: error.message
-        });
+        res.status(500).json({ message: "Error deleting comment", error });
     }
 };
