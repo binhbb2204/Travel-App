@@ -17,6 +17,7 @@ import Checkout from '../page/Checkout'
 import AccommodationDetails from '../page/AccommodationDetails'
 import { clearRouteParams } from '../utils/queryParamManager'
 import UserSettings from "../page/UserSettings"
+import ModifyAccommodationForm from '../page/ModifyAccommodationForm'
 
 const Routers = () => {
   const location = useLocation();
@@ -67,6 +68,7 @@ const Routers = () => {
       <Route path="/checkout" element={<Checkout />} />
       <Route path="/user-settings" element={<UserSettings />} />
       <Route path="/settings" element={<UserSettings />} />
+      <Route path='/add-accommodation' element={<ModifyAccommodationForm />} />
 
     </Routes>
   )
