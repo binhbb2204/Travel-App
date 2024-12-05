@@ -144,7 +144,7 @@ const AccommodationDetails = () => {
                   </div>
 
                   {/* Reviews Preview */}
-                  {reviews && <CommentSection accoId={id}/>}
+                  {reviews && <CommentSection accoId={id} availableUsers={['user', 'admin']}/>}
                 </div>
               </div>
             </div>  
