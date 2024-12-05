@@ -8,7 +8,7 @@ import Header from "./Header/Header";
 import { CartProvider } from './ui/Context/CartContext';
 import AdminPanel from './page/admin/AdminPanel';
 import { UserProvider } from "./page/admin/UsersContext";
-import UserSettings from "./page/UserSettings";
+import UserSettingsPanel from "./page/user/UserSettingsPanel";
 
 function App() {
 
@@ -17,7 +17,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/settings" element={<UserSettings />} />
+        <Route path="/user-settings" element={<UserSettingsPanel />} />
         <Route path="/admin" element={<AdminPanel />} />
       </Routes>
     </Router>

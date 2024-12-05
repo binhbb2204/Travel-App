@@ -63,7 +63,7 @@ const Login = () => {
         localStorage.setItem('rememberMe', 'false');
       }
 
-      setSuccess('Login successful');
+      setSuccess('Login successful! Welcome back.');
 
       // Redirect to home page after success
       setTimeout(() => {
