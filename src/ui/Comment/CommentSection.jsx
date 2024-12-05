@@ -344,7 +344,9 @@ const CommentSection = ({ tourId, availableUsers = [] }) => {
                                         </div>
                                     ):
                                     (
-                                        <span className="text-xs text-gray-500 ml-2">Not Rated</span>
+                                        comment.parentId ? null : (
+                                            <span className="text-xs text-gray-500 ml-2">Not Rated</span>
+                                        )
                                     )}
                                 </div>
                                 <p className="text-xs md:text-sm mt-1 break-words">
@@ -545,23 +547,27 @@ const CommentSection = ({ tourId, availableUsers = [] }) => {
             {/* Rating for root comments */}
             <div className="mb-4">
                 <div className="flex gap-1 mb-2 ml-8 md:ml-12">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                        <button
-                            key={star}
-                            onClick={() => setRating(star)}
-                            className="focus:outline-none"
-                        >
-                            <Star 
-                                className={`w-5 h-5 md:w-6 md:h-6 ${
-                                    star <= rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
-                                }`}
-                            />
-                        </button>
-                    ))}
-                    {rating === 0 && (
-                        <span className="text-xs md:text-sm text-gray-500 ml-2 self-center">
-                            Not Rated
-                        </span>
+                    {!activeComment && (
+                        <>
+                            {[1, 2, 3, 4, 5].map((star) => (
+                                <button
+                                    key={star}
+                                    onClick={() => setRating(star)}
+                                    className="focus:outline-none"
+                                >
+                                    <Star 
+                                        className={`w-5 h-5 md:w-6 md:h-6 ${
+                                            star <= rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
+                                        }`}
+                                    />
+                                </button>
+                            ))}
+                            {rating === 0 && (
+                                <span className="text-xs md:text-sm text-gray-500 ml-2 self-center">
+                                    Not Rated
+                                </span>
+                            )}
+                        </>
                     )}
                 </div>
 
