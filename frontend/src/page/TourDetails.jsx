@@ -76,6 +76,7 @@ const TourDetails = () => {
 
   const { totalRating, avgRating } = calculateAvgRating(reviews);
   const isLiked = isFavorite(id);
+  const ratedReviews = reviews.filter(review => review.rating !== null && review.rating > 0);
 
   const handleFavoriteClick = () => {
     if (isLiked) {
@@ -133,7 +134,7 @@ const TourDetails = () => {
                           {avgRating === 0 ? null : avgRating}
                           {totalRating === 0 ? 
                           'Not Rated' 
-                          : <span className="text-sm text-gray-500"> ({reviews.length})</span>}
+                          : <span className="text-sm text-gray-500"> ({ratedReviews.length})</span>}
                         </span>
                       </div>
                     </div>
