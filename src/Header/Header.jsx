@@ -92,7 +92,7 @@ const Header = () => {
               </ul>
             </div>
 
-            <div className={`logreg ${isMobileMenuOpen ? 'opened' : ''}`}>
+            <div className={`logreg ${username ? 'logged' : ''} ${isMobileMenuOpen ? 'opened' : ''}`}>
               <Button className="custom-gradient-login-btn md:bg-white">
                 <Link to="/login" className="no-underline">Login</Link>
               </Button>
