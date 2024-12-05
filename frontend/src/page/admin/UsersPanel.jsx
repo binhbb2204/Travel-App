@@ -102,7 +102,7 @@ const UsersPanel = () => {
             <Row>
                 <Col lg='12' className="m-auto">
                     <div className="users__panel">
-                        <h2 className="users__title">Registered Accounts</h2>
+                        <h2 className="users__title">Registered Accounts from customers and admins</h2>
                         {users.length === 0 ? (
                             <p className="text-gray-500">No users registered yet.</p>
                         ) : (
