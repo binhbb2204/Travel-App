@@ -152,7 +152,7 @@ const AccommodationDetails = () => {
 
           <Col lg='4'>
             <div className="booking-wrapper mt-30">
-              <AccommodationBooking acco={acco} avgRating={avgRating} />
+              <AccommodationBooking acco={acco} accoId={id} avgRating={avgRating} />
             </div>
           </Col>
         </Row>

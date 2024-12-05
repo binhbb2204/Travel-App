@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, Users, CreditCard, Mail, Phone, User, CheckCircle, Sparkles, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useCart } from '../ui/Context/CartContext';
 import axios from 'axios';
+import {accommodationBookingService} from '../data/Service/accommodationBookingService';
+import {accommodationService} from '../data/Service/accommodationService';
+import {userService} from '../data/Service/userService';
+import {authService, getCurrentUser} from '../data/Service/authService';
+import mongoose from "mongoose";
 
 const bottomSheetVariants = {
     hidden: { y: '100%' },
@@ -282,7 +287,7 @@ const MobileBookButton = ({ price, setIsBottomSheetOpen }) => (
 );
 
 // Main Booking component
-const Booking = ({ acco }) => {
+const Booking = ({ acco, accoId }) => {
     const navigate = useNavigate();
     const { price, reviews, title } = acco;
     
@@ -344,7 +349,7 @@ const Booking = ({ acco }) => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
     
@@ -358,24 +363,64 @@ const Booking = ({ acco }) => {
         const pricing = calculatePricing(); // Ensure pricing is calculated correctly
         
         // Prepare booking data
-        const bookingData2 = {
-            acco_title: acco?.title || "Unknown Accommodation",
-            acco_checkin: formData.checkin,
-            acco_checkout: formData.checkout,
-            acco_adults: formData.adults,
-            acco_children: formData.children,
-            acco_totalPrice: pricing.total,
-            acco_pricePerPerson: acco?.price || 0,
-            acco_serviceCharge: pricing.serviceCharge,
-            acco_fullName: formData.fullName,
-            acco_email: formData.email,
-            acco_phone: formData.phone,
-            acco_specialRequest: formData.specialRequest,
-            acco_type: "accommodation",
-            acco_pay: 0,
-        };
+        // const bookingData2 = {
+        //     acco_title: acco?.title || "Unknown Accommodation",
+        //     acco_checkin: formData.checkin,
+        //     acco_checkout: formData.checkout,
+        //     acco_adults: formData.adults,
+        //     acco_children: formData.children,
+        //     acco_totalPrice: pricing.total,
+        //     acco_pricePerPerson: acco?.price || 0,
+        //     acco_serviceCharge: pricing.serviceCharge,
+        //     acco_fullName: formData.fullName,
+        //     acco_email: formData.email,
+        //     acco_phone: formData.phone,
+        //     acco_specialRequest: formData.specialRequest,
+        //     acco_type: "accommodation",
+        //     acco_pay: 0,
+        // };
         // addToCart(bookingData);
-    
+        // const userData = await userService.getSingleUser(authService.getCurrentUser().userId) ; 
+        // const accoName = await accommodationService.getSingleAccommodation(accoId).title;
+
+        const bookingData = {
+            userId: authService.getCurrentUser().userId,
+            name: formData.fullName,
+            accommodationId: accoId,
+            accommodationName: title,
+            email: formData.email,
+            phone: formData.phone,
+            checkInDate: new Date(formData.checkin).toISOString(),  
+            checkOutDate: new Date(formData.checkout).toISOString(), 
+            adults: formData.adults,
+            children: formData.children,
+            specialRequest: formData.specialRequest,
+            totalPrice: pricing.total,
+            serviceCharge: pricing.serviceCharge,
+            status: "Pending",
+        };
+
+        try {
+            // await accommodationBookingService.deleteUserAccoBook(userData.userId);
+            await accommodationBookingService.createAccoBook(bookingData);
+        } catch(err) {
+            console.log("Error creating accommodation booking");
+            console.log(bookingData.accommodationId);
+            console.log(bookingData.userId);
+            console.log(bookingData.name);
+            console.log(bookingData.accommodationName);
+            console.log(bookingData.email);
+            console.log(bookingData.phone);
+            console.log(bookingData.checkInDate);
+            console.log(bookingData.checkOutDate);
+            console.log(bookingData.adults);
+            console.log(bookingData.children);
+            console.log(bookingData.specialRequest);
+            console.log(bookingData.totalPrice);
+            console.log(bookingData.serviceCharge);
+            console.log(bookingData.status);
+        }
+
         setTimeout(() => {
             setIsSubmitting(false);
             setShowSuccess(true);
@@ -385,9 +430,10 @@ const Booking = ({ acco }) => {
                 if (isMobile) setIsBottomSheetOpen(false);
                 try {
                     //navigate("/transaction", { state: { bookingData } });
-                    navigate("/checkout", { state: { bookingData2 } });
+                    // navigate("/checkout", { state: { bookingData2 } });
                     //navigate("/checkout");
-                    // const response = await axios.put('');
+                    
+                    
                 } catch (error) {
                     console.error("Navigation failed:", error);
                     alert("Something went wrong. Please try again.");
@@ -397,6 +443,8 @@ const Booking = ({ acco }) => {
                 //navigate("/checkout");
             }, 3000);
         }, 1500);
+
+        
     };
     
     const calculateDuration = () => {
