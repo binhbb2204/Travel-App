@@ -5,7 +5,16 @@ const BASE_URL = 'http://localhost:8000/api/v1/accommodation_booking';
 export const accommodationBookingService = {
     createAccoBook: async (accoBookingData) => {
         try {
-            await axios.post(`${BASE_URL}`, accoBookingData);
+            const token = localStorage.getItem('token');
+            if (!token) {
+                throw new Error('No authentication token found');
+            }
+            await axios.post(`${BASE_URL}`, accoBookingData, {
+                headers: {
+                    'Authorization': `Bearer ${token}`, 
+                    'Content-Type': 'application/json'
+                }
+            });
         } catch (error) {
             console.error('Error creating accommodations booking:', error);
             throw error;
@@ -14,7 +23,15 @@ export const accommodationBookingService = {
 
     getAllAccoBook: async () => {
         try {
-            const response = await axios.get(`${BASE_URL}`);
+            const token = localStorage.getItem('token');
+            if (!token) {
+                throw new Error('No authentication token found');
+            }
+            const response = await axios.get(`${BASE_URL}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`, 
+                }
+            });
             return response.data.data;
         } catch (error) {
             console.error('Error get all accommodations booking:', error);
@@ -22,9 +39,17 @@ export const accommodationBookingService = {
         }
     },
 
-    getCurrentAccoBook: async (userId, status) => {
+    getUserAccoBook: async (userId, status) => {
         try {
-            const response = await axios.get(`${BASE_URL}/search/getUserAccoBooking?userId=${userId}&status=${status}`);
+            const token = localStorage.getItem('token');
+            if (!token) {
+                throw new Error('No authentication token found');
+            }
+            const response = await axios.get(`${BASE_URL}/search/getUserAccoBooking?userId=${userId}&status=${status}`,{
+                headers: {
+                    'Authorization': `Bearer ${token}`, 
+                }
+            });
             return response.data.data;
         } catch (error) {
             console.error(`Error finding accommodation booking`, error);
@@ -34,7 +59,15 @@ export const accommodationBookingService = {
 
     deleteUserAccoBook: async (userId) => {
         try {
-            await axios.delete(`${BASE_URL}/deleteUserAccoBooking?userId=${userId}`);
+            const token = localStorage.getItem('token');
+            if (!token) {
+                throw new Error('No authentication token found');
+            }
+            await axios.delete(`${BASE_URL}/deleteUserAccoBooking?userId=${userId}`,{
+                headers: {
+                    'Authorization': `Bearer ${token}`, 
+                }
+            });
         } catch (error) {
             console.error(`Error deleting accommodation booking`, error);
             throw error;
@@ -43,16 +76,15 @@ export const accommodationBookingService = {
 
     deleteAccoBook: async (id) => {
         try {
-            await axios.delete(`${BASE_URL}/${id}`);
-        } catch (error) {
-            console.error(`Error deleting accommodation booking`, error);
-            throw error;
-        }
-    },
-
-    deleteAccoBook: async (id) => {
-        try {
-            await axios.delete(`${BASE_URL}/${id}`);
+            const token = localStorage.getItem('token');
+            if (!token) {
+                throw new Error('No authentication token found');
+            }
+            await axios.delete(`${BASE_URL}/${id}`,{
+                headers: {
+                    'Authorization': `Bearer ${token}`, 
+                }
+            });
         } catch (error) {
             console.error(`Error deleting accommodation booking`, error);
             throw error;
@@ -61,7 +93,16 @@ export const accommodationBookingService = {
 
     updateUserAccoBook: async (userId, updateData) => {
         try {
-            const response = await axios.put(`${BASE_URL}/updateUserAccoBooking?userId=${userId}`, updateData);
+            const token = localStorage.getItem('token');
+            if (!token) {
+                throw new Error('No authentication token found');
+            }
+            const response = await axios.put(`${BASE_URL}/updateUserAccoBooking?userId=${userId}`, updateData,{
+                headers: {
+                    'Authorization': `Bearer ${token}`, 
+                    'Content-Type': 'application/json'
+                }
+            });
             return response.data; // Return the updated data if needed
         } catch (error) {
             console.error(`Error updating accommodation booking`, error);
@@ -71,7 +112,16 @@ export const accommodationBookingService = {
 
     updateAccoBook: async (id, updateData) => {
         try {
-            const response = await axios.put(`${BASE_URL}/${id}`, updateData);
+            const token = localStorage.getItem('token');
+            if (!token) {
+                throw new Error('No authentication token found');
+            }
+            const response = await axios.put(`${BASE_URL}/${id}`, updateData, {
+                headers: {
+                    'Authorization': `Bearer ${token}`, 
+                    'Content-Type': 'application/json'
+                }
+            });
             return response.data; // Return the updated data if needed
         } catch (error) {
             console.error(`Error updating accommodation booking`, error);

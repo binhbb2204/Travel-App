@@ -5,7 +5,7 @@ import {getUserAccoBooking } from '../controllers/accommodationBookingController
 
 const router = express.Router();
 
-router.post("/", createAccommodationBooking);
+router.post("/", verifyUser, createAccommodationBooking);
 router.get("/:id", verifyUser, getAccommodationBooking);
 router.get("/", verifyAdmin, getAllAccommodationBooking);
 router.get("/search/getUserAccoBooking", getUserAccoBooking);
