@@ -4,10 +4,10 @@ const BASE_URL = 'http://localhost:8000/api/v1/auth';
 export const authService = {
     login: async (email, password) => {
         try {
-            const response = await axios.post( `${BASE_URL}/login`, { email, password });
+            const response = await axios.post(`${BASE_URL}/login`, { email, password });
             const { token, data, role } = response.data;
             // Assuming the backend returns a token
-            
+
             localStorage.setItem('token', token);
             localStorage.setItem('userId', data._id);
             localStorage.setItem('username', data.name);
@@ -28,7 +28,7 @@ export const authService = {
         localStorage.removeItem('username');
         localStorage.removeItem('userEmail');
         localStorage.removeItem('userRole');
-        
+
         // Clear all items related to "Remember Me" functionality
         localStorage.removeItem('email');
         localStorage.removeItem('password');
