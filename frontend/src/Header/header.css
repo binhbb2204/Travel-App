@@ -138,6 +138,9 @@
       margin-top: 10px;
       z-index: 1000;
   }
+  .logreg.logged{
+    display: none;
+  }
 
   .nav__btns {
       display: block;
@@ -483,6 +486,10 @@
     gap: 10px;
     margin-top: 10px;
     z-index: 1000;
+  }
+
+  .logreg.logged{
+    display: none;
   }
 
   .custom-gradient-login-btn{
