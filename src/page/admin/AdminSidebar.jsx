@@ -49,7 +49,7 @@ const AdminSidebar = ({ activeTab, setActiveTab, onLogout }) => {
         className="absolute bottom-6 left-6 flex items-center gap-3 text-gray-600 hover:text-red-600 transition-colors"
       >
         <LogOut className="w-5 h-5" />
-        <span className="font-bold">Logout</span>
+        <span className="font-bold">Home Screen</span>
       </button>
     </div>
   );
