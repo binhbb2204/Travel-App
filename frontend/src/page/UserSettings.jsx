@@ -19,12 +19,12 @@ const UserSettings = () => {
     useEffect(() => {
         const fetchUserInfo = async () => {
             try {
-                const userId = localStorage.getItem('token');
+                const userId = localStorage.getItem('userId');
                 const response = await axios.get(`http://localhost:8000/api/v1/users/${userId}`, {
                     withCredentials: true,
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                        'Authorization': `Bearer ${localStorage.getItem('userId')}`,
                     },
                 });
 

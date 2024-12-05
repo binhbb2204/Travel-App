@@ -17,12 +17,13 @@ import {
 } from 'reactstrap';
 import { Edit, Delete } from "lucide-react";
 import './userspanel.css';
+import { authService } from "../../data/Service/authService";
 
 const UsersPanel = () => {
     const [users, setUsers] = useState([]);
     const [editModal, setEditModal] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
-    const token = localStorage.getItem('token');
+    const token = authService.getCurrentUser().token;
 
     useEffect(() => {
         const fetchUsers = async () => {
