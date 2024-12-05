@@ -60,7 +60,8 @@ export const getAllUsers = async (req, res) => {
     const page = parseInt(req.query.page)
     console.log(page)
     try {
-        const users = await User.find({}).skip(page * 8).limit(8);
+        const users = await User.find({});
+        // Old line of line 63: const users = await User.find({}).skip(page * 8).limit(8);
         res.status(200).json({ success: true, count: users.length, message: "successful", data: users });
     } catch (error) {
         res.status(400).json({
