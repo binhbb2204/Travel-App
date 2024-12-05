@@ -92,6 +92,15 @@ const Header = () => {
               </ul>
             </div>
 
+            <div className={`logreg ${isMobileMenuOpen ? 'opened' : ''}`}>
+              <Button className="custom-gradient-login-btn md:bg-white">
+                <Link to="/login" className="no-underline">Login</Link>
+              </Button>
+              <Button className="custom-gradient-btn md:bg-white">
+                <Link to="/register" className="no-underline">Register</Link>
+              </Button>
+            </div>
+
             <div className="nav__right d-flex align-items-center gap-4">
               {username ? (
                 <div className="welcome-box flex items-center">
@@ -245,6 +254,7 @@ const Header = () => {
             >
               {isMobileMenuOpen ? <X className={'w-6 h-6 text-gray-700'} /> : <Menu className={'w-6 h-6 text-gray-700'} />}
             </button>
+            
           </div>
         </Row>
       </Container>
