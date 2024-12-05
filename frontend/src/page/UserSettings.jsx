@@ -19,13 +19,15 @@ const UserSettings = () => {
     useEffect(() => {
         const fetchUserInfo = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/api/v1/users/', {
+                const userId = localStorage.getItem('token');
+                const response = await axios.get(`http://localhost:8000/api/v1/users/${userId}`, {
                     withCredentials: true,
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${localStorage.getItem('token')}`,
                     },
                 });
+
                 setUserInfo({
                     name: response.data.data.name,
                     email: response.data.data.email,
@@ -44,6 +46,7 @@ const UserSettings = () => {
 
         fetchUserInfo();
     }, [navigate]);
+
 
     const handleChange = (e) => {
         const { id, value } = e.target;
