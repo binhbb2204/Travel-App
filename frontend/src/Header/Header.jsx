@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Container, Row, Button } from 'reactstrap';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
@@ -60,7 +59,12 @@ const Header = () => {
   };
 
   const username = localStorage.getItem('username');
-  const userRole = localStorage.getItem('role');
+  const userRole = localStorage.getItem('userRole');
+
+  // For debugging
+  console.log("Username:", username);
+  console.log("User Role:", userRole);
+  console.log("Show Settings:", showSettings);
 
   return (
     <header
@@ -179,7 +183,7 @@ const Header = () => {
                   strokeWidth={2}
                   fill="none"
                 />
-                {showSettings && (
+                {showSettings && username && (
                   <motion.div
                     ref={settingsRef}
                     initial={{ opacity: 0, y: -10 }}
@@ -193,18 +197,17 @@ const Header = () => {
                     style={{ zIndex: 1000 }}
                   >
                     <ul className="p-2">
-                      {username && userRole === 'admin' && (
+                      {userRole === 'admin' && (
                         <li className="p-2 hover:bg-gray-100 cursor-pointer text-blue-500 font-bold">
                           <Link to="/admin-panel">Admin Panel</Link>
                         </li>
                       )}
-                      {username && userRole === 'user' && (
+                      {userRole === 'user' && (
                         <li className="p-2 hover:bg-gray-100 cursor-pointer text-blue-500 font-bold">
                           <Link to="/user-settings">User Settings</Link>
                         </li>
                       )}
-                      {/*   If no admin or user account is logged in, the logout option will disappear */}
-                      {!username && !(userRole === 'admin' || userRole === 'user') && (
+                      {!username && !(userRole === 'admin' && userRole === 'user')(
                         <li className="p-2 hover:bg-gray-100 cursor-pointer text-red-500 font-bold" onClick={handleLogout}>
                           Logout
                         </li>
