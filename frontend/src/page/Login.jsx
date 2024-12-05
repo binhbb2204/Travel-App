@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Container, Row, Col, Form, FormGroup, Button, Alert } from "reactstrap";
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { Eye, EyeOff } from 'lucide-react';
+import { authService } from '../data/Service/authService';
 import '../styles/login.css';
 
 const Login = () => {
@@ -21,6 +21,12 @@ const Login = () => {
 
   useEffect(() => {
     setIsVisible(true);
+
+    
+    localStorage.removeItem('email');
+    localStorage.removeItem('password');
+    localStorage.removeItem('rememberMe');
+
 
     // Check localStorage for stored credentials and rememberMe flag
     const storedEmail = localStorage.getItem('email');
@@ -46,36 +52,25 @@ const Login = () => {
     setSuccess(null);
 
     try {
-      const response = await axios.post('http://localhost:8000/api/v1/auth/login', credentials);
-      const { token, message, data, role } = response.data;
-
-      if (token) {
-        // Save token to localStorage
-        localStorage.setItem('token', token);
-        console.log('Stored Token:', localStorage.getItem('token'));
-        localStorage.setItem('username', data.name);
-        localStorage.setItem('role', role);
-
-        // Handle "Remember Me" functionality
-        if (rememberMe) {
-          localStorage.setItem('email', credentials.email);
-          localStorage.setItem('password', credentials.password);
-          localStorage.setItem('rememberMe', 'true');
-        } else {
-          localStorage.removeItem('email');
-          localStorage.removeItem('password');
-          localStorage.setItem('rememberMe', 'false');
-        }
-
-        setSuccess(message);
-
-        // Redirect to home page after success
-        setTimeout(() => {
-          navigate('/home');
-        }, 2000); // Delay in ms
+      const response = await authService.login(credentials.email, credentials.password);
+      
+      // Handle "Remember Me" functionality
+      if (rememberMe) {
+        localStorage.setItem('email', credentials.email);
+        localStorage.setItem('password', credentials.password);
+        localStorage.setItem('rememberMe', 'true');
       } else {
-        setError('Login failed: Token missing in response.');
+        localStorage.removeItem('email');
+        localStorage.removeItem('password');
+        localStorage.setItem('rememberMe', 'false');
       }
+
+      setSuccess('Login successful');
+
+      // Redirect to home page after success
+      setTimeout(() => {
+        navigate('/home');
+      }, 2000); // Delay in ms
     } catch (error) {
       console.error('Error logging in:', error);
       if (error.response && error.response.data) {

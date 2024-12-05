@@ -3,69 +3,105 @@ import axios from 'axios';
 const BASE_URL = 'http://localhost:8000/api/v1/comments';
 
 export const commentService = {
-    createComment: async(tourId, commentData) => {
+    createComment: async (tourId, commentData) => {
         try {
-            const response = await axios.post(`${BASE_URL}/${tourId}`, commentData);
-            return response.data;
+            const token = localStorage.getItem('token');
+            if (!token) {
+                throw new Error('No authentication token found');
+            }
+
+            const response = await axios.post(`${BASE_URL}/${tourId}`, commentData, {
+                headers: {
+                    'Authorization': `Bearer ${token}`, // Using Bearer token authentication
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            return response;
         } catch (error) {
+            console.error('Comment Creation Error:', error.response ? error.response.data : error.message);
             throw error;
         }
     },
 
-    createComment: async(tourId, commentData) => {
+    getComments: async (tourId) => {
         try {
-            const response = await axios.post(`${BASE_URL}/${tourId}`, commentData, {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                throw new Error('No authentication token found');
+            }
+
+            const response = await axios.get(`${BASE_URL}/${tourId}`, {
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    'Authorization': `Bearer ${token}`
                 }
             });
-            return response.data;
+
+            return response;
         } catch (error) {
-            console.error('Error creating comment:', error);
+            console.error('Failed to fetch comments:', error);
             throw error;
         }
     },
-    
-    createReply: async (commentId, replyData, parentReplyId = null) => {
-        const url = parentReplyId 
-            ? `${BASE_URL}/reply/${commentId}/${parentReplyId}` 
-            : `${BASE_URL}/reply/${commentId}`;
-        
+
+    updateComment: async (commentId, updateData) => {
         try {
-            const response = await axios.post(url, replyData, {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                throw new Error('No authentication token found');
+            }
+
+            const response = await axios.put(`${BASE_URL}/update/${commentId}`, updateData, {
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
                 }
             });
-            return response.data;
+
+            return response;
         } catch (error) {
-            console.error('Error creating reply:', error);
+            console.error('Failed to update comment:', error);
             throw error;
         }
     },
-    likeComment: async (itemId) => {
+
+    deleteComment: async (commentId) => {
         try {
-            const response = await axios.post(`${BASE_URL}/like/${itemId}`, {}, {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                throw new Error('No authentication token found');
+            }
+
+            const response = await axios.delete(`${BASE_URL}/delete/${commentId}`, {
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    'Authorization': `Bearer ${token}`
                 }
             });
-            return response.data;
+
+            return response;
         } catch (error) {
-            console.error('Error liking comment:', error);
+            console.error('Failed to delete comment:', error);
             throw error;
         }
     },
-    getMoreReplies: async (itemId, page = 1, limit = 5) => {
+
+    toggleLike: async (commentId) => {
         try {
-            const response = await axios.get(`${BASE_URL}/${itemId}/replies`, {
-                params: { page, limit },
-                withCredentials: true
+            const token = localStorage.getItem('token');
+            if (!token) {
+                throw new Error('No authentication token found');
+            }
+
+            const response = await axios.post(`${BASE_URL}/like/${commentId}`, {}, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
             });
-            return response.data;
+
+            return response;
         } catch (error) {
-            console.error('Error fetching more replies:', error);
+            console.error('Failed to toggle like:', error);
             throw error;
         }
     }
-}
+};

@@ -7,6 +7,7 @@ import { useFavorites } from '../ui/Context/FavoritesContext';
 import { useCart } from '../ui/Context/CartContext';
 import logo from '../images/TAB.gif';
 import { motion } from 'framer-motion';
+import { authService } from '../data/Service/authService';
 import './header.css';
 import SwitchMode from '../ui/SwitchMode/SwitchMode'
 
@@ -51,8 +52,7 @@ const Header = () => {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('username');
+    authService.logout();
     navigate("/login");
   };
 
@@ -89,7 +89,9 @@ const Header = () => {
               {username ? (
                 <div className="welcome-box flex items-center">
                   <span className="mr-2">Welcome back, {username}</span>
-                  <Button className="welcome-box button" onClick={handleLogout}>Logout</Button>
+                  <Button className="welcome-box button" onClick={handleLogout}>
+                    Logout
+                  </Button>
                 </div>
               ) : (
                 <div className="nav__btns d-flex align-items-center gap-4">

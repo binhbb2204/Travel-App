@@ -10,6 +10,7 @@ import authRoute from './routes/auth.js'
 import commentRoute from './routes/comment.js'
 import accoRoute from './routes/accommodations.js'
 import tourBookingRoute from './routes/tourbooking.js'
+import accoBookingRoute from './routes/accommodationBooking.js';
 
 dotenv.config();
 
@@ -43,6 +44,7 @@ app.use('/api/v1/users', userRoute);
 app.use('/api/v1/comments', commentRoute);
 app.use('/api/v1/accommodations', accoRoute);
 app.use('/api/v1/tour_booking', tourBookingRoute);
+app.use('/api/v1/accommodation_booking', accoBookingRoute);
 
 app.listen(port, () => {
     connect();

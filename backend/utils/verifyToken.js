@@ -2,7 +2,8 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 
 export const verifyToken = (req, res, next) => {
-    const token = req.cookies.accessToken
+    const authHeader = req.headers.authorization;
+    const token = req.cookies.accessToken || (authHeader && authHeader.split(' ')[1])
     // const token = localStorage.getItem('token');
     if (!token) {
         return res.status(401).json({ success: false, message: 'You are not authorized' })
