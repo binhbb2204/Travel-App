@@ -52,6 +52,9 @@ const Header = () => {
   }, []);
 
   const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    localStorage.removeItem('role');
     authService.logout();
     navigate("/login");
   };
@@ -200,9 +203,12 @@ const Header = () => {
                           <Link to="/user-settings">User Settings</Link>
                         </li>
                       )}
-                      <li className="p-2 hover:bg-gray-100 cursor-pointer text-red-500 font-bold" onClick={handleLogout}>
-                        Logout
-                      </li>
+                      {/*   If no admin or user account is logged in, the logout option will disappear */}
+                      {!username && !(userRole === 'admin' || userRole === 'user') && (
+                        <li className="p-2 hover:bg-gray-100 cursor-pointer text-red-500 font-bold" onClick={handleLogout}>
+                          Logout
+                        </li>
+                      )}
                     </ul>
                   </motion.div>
                 )}

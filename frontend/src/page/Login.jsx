@@ -21,12 +21,10 @@ const Login = () => {
 
   useEffect(() => {
     setIsVisible(true);
-
     
     localStorage.removeItem('email');
     localStorage.removeItem('password');
     localStorage.removeItem('rememberMe');
-
 
     // Check localStorage for stored credentials and rememberMe flag
     const storedEmail = localStorage.getItem('email');
