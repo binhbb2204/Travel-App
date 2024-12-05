@@ -21,6 +21,8 @@ export const createComment = async(req, res) => {
             taggedUsers: taggedUsers || [],
         });
 
+        await newComment.populate('userId', 'name');
+
         await Tour.findByIdAndUpdate(
             tourId,
             { $push: { reviews: newComment._id } },
@@ -36,33 +38,76 @@ export const createComment = async(req, res) => {
 export const getComments = async(req, res) => {
     const {tourId} = req.params;
     try {
-        const comments = await Comment.find({ tourId }).populate("userId", "name");
+        const comments = await Comment.find({ tourId })
+                    .populate("userId", "name")
+                    .populate("likes", "_id");
+
+
         res.status(200).json(comments);
     } catch (error) {
         res.status(500).json({ success: false, message: "Error fetching comments", error });
     }
 }
 
-export const updateComment = async(req, res) => {
-    const {commentId} = req.params;
-    const {body, rating} = req.body;
-
+export const updateComment = async (req, res) => {
+    const { commentId } = req.params;
+    const { body, likes } = req.body;
+    const userId = req.user.id;
+    
     try {
         const comment = await Comment.findById(commentId);
+        if (!comment) {
+            return res.status(404).json({ 
+                success: false, 
+                message: "Comment not found" 
+            });
+        }
+        if (likes !== undefined) {
+            const isLiked = comment.likes.includes(userId);
+            
+            if (isLiked) {
+                comment.likes = comment.likes.filter(likeId => likeId.toString() !== userId);
+            } else {
+                comment.likes.push(userId);
+            }
 
-        if(String(comment.userId) !== req.user.id){
-            return res.status(403).json({success: false, message: "You can only edit your own comments"})
+            await comment.save();
+
+            await comment.populate('userId', 'name');
+
+            return res.status(200).json({ 
+                success: true, 
+                message: isLiked ? "Like removed" : "Like added", 
+                data: comment 
+            });
         }
-        if(rating && comment.parentId){
-            return res.status(400).json({ message: "Replies cannot have ratings" });
+        if (comment.userId.toString() !== userId) {
+            return res.status(403).json({ 
+                success: false, 
+                message: "You are not authorized to update this comment" 
+            });
         }
-        comment.body = body || comment.body;
-        await comment.save();
-        res.status(200).json({ success: true, data: comment });
+
+        const updatedComment = await Comment.findByIdAndUpdate(
+            commentId,
+            { body },
+            { new: true } 
+        );
+
+        res.status(200).json({ 
+            success: true, 
+            message: "Comment updated successfully", 
+            data: updatedComment 
+        });
     } catch (error) {
-        res.status(500).json({ success: false, message: "Error updating comment", error });
+        res.status(500).json({ 
+            success: false, 
+            message: "Error updating comment", 
+            error: error.message 
+        });
     }
-}
+};
+
 
 export const deleteComment = async (req, res) => {
     const { commentId } = req.params;
@@ -73,13 +118,11 @@ export const deleteComment = async (req, res) => {
         if (!comment) {
             return res.status(404).json({ message: "Comment not found" });
         }
-  
-        // Ensure the user owns the comment
+
         if (String(comment.userId) !== req.user.id) {
             return res.status(403).json({ message: "You can only delete your own comments" });
         }
   
-        // If it's a parent comment, delete all its replies too
         if (!comment.parentId) {
             await Comment.deleteMany({ parentId: commentId });
         }

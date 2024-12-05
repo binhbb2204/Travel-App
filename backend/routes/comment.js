@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.post("/:tourId", verifyUser, createComment);
 router.get("/:tourId", verifyUser, getComments);
-router.patch("/:commentId", verifyUser, updateComment);
+router.put("/:commentId", verifyUser, updateComment);
 router.delete("/:commentId", verifyUser, deleteComment);
 export default router;

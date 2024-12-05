@@ -1,9 +1,67 @@
 import React, { useState, useEffect } from 'react';
-import { ThumbsUp, MessageCircle, Send, X, Trash2, Star, SmilePlusIcon } from 'lucide-react';
+import { ThumbsUp, MessageCircle, Send, X, Trash2, Star, SmilePlusIcon, AlertTriangle } from 'lucide-react';
 import EmojiPicker from 'emoji-picker-react';
 import { commentService } from '../../data/Service/commentService';
 import {authService} from '../../data/Service/authService';
 import { useNavigate } from 'react-router-dom';
+
+const DeleteConfirmModal = ({
+    isOpen, 
+    onClose, 
+    onConfirm, 
+    commentUsername 
+}) => {
+    if(!isOpen) return null;
+
+    return (
+        <div 
+        className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+        style={{ 
+            touchAction: 'none',
+            position: 'fixed',
+            overflow: 'hidden'
+        }}
+        >
+            <div 
+            className="bg-white rounded-lg mw-full max-w-md shadow-xl transform transition-all mx-auto p-4 md:p-6 relative">
+                <div className="flex items-center mb-4 text-red-500">
+                    <AlertTriangle className="w-5 h-5 md:w-6 md:h-6 mr-2"/>
+                    <h2 className="text-base md:text-lg font-semibold">
+                        Delete Comment
+                    </h2>
+                </div>
+                <p className="text-xs md:text-sm text-gray-600 mb-4">
+                    Are you sure you want to delete this comment by{' '}
+                    <span className="font-medium">{commentUsername}</span>? 
+                    This action cannot be undone.
+                </p>
+                <div className="flex flex-col sm:flex-row justify-end gap-2">
+                    <button 
+                        onClick={onClose}
+                        className="w-full sm:w-auto 
+                            px-4 py-2 text-sm 
+                            text-gray-600 hover:bg-gray-100 
+                            rounded-md mb-2 sm:mb-0
+                            transition-colors duration-200"
+                    >
+                        Cancel
+                    </button>
+                    <button 
+                        onClick={onConfirm}
+                        className="w-full sm:w-auto 
+                            px-4 py-2 text-sm 
+                            bg-red-500 text-white 
+                            hover:bg-red-600 
+                            rounded-md
+                            transition-colors duration-200"
+                    >
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    )
+}
 const CommentSection = ({ tourId, availableUsers = [] }) => {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
@@ -15,28 +73,28 @@ const CommentSection = ({ tourId, availableUsers = [] }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
-
-    // Simulated current user (replace with actual user context/authentication)
+    const [deleteConfirmation, setDeleteConfirmation] = useState({
+        isOpen: false,
+        commentId: null,
+        commentUsername: '',
+    });
     
-
+    console.log(comments.id);
     const isAuthenticated = () => {
         const token = localStorage.getItem('token');
         return !!token;
     };
 
     useEffect(() => {
-        // Check authentication and fetch current user
         const user = authService.getCurrentUser();
         console.log('Current User:', user);
         if (user.token) {
             setCurrentUser(user);
         }
         else {
-            // Explicitly reset current user when no token is present
             setCurrentUser(null);
         }
     
-        // Fetch comments for the specific tour
         const fetchComments = async () => {
             try {
                 setIsLoading(true);
@@ -48,6 +106,8 @@ const CommentSection = ({ tourId, availableUsers = [] }) => {
                     username: comment.userId?.name || 'Anonymous', 
                     likes: comment.likes || [],
                     createdAt: comment.createAt,
+                    isLikedByCurrentUser: comment.likes.includes(currentUser?.id),
+                    
                 }));
                 
                 console.log('Transformed Comments:', transformedComments);
@@ -92,21 +152,40 @@ const CommentSection = ({ tourId, availableUsers = [] }) => {
             }
     
             const response = await commentService.createComment(tourId, commentData);
+            console.log('Full Comment Creation Response:', response);
+            console.log('Comment Data:', response.data);
+            console.log('Actual Comment:', response.data.data);
+            const serverComment = response.data.data;
     
             const newCommentObj = {
-                ...response.data,
-                username: response.data.userId?.name || response.data.username || currentUser.username || 'Anonymous',
-                userId: currentUser?.id,
-                likes: [],
-                id: response.data._id
-            }
+                id: serverComment._id,
+                body: serverComment.body,
+                parentId: serverComment.parentId,
+                username: currentUser?.username || serverComment.userId?.name || 'Anonymous',
+                userId: serverComment.userId,
+                likes: serverComment.likes || [],
+                rating: serverComment.rating,
+                createdAt: serverComment.createdAt,
+                taggedUsers: serverComment.taggedUsers || []
+            };
     
-            setComments(prevComments => [newCommentObj, ...prevComments]);
+            console.log('Constructed New Comment Object:', newCommentObj);
+    
+            setComments(prevComments => {
+                const isDuplicate = prevComments.some(comment => comment.id === newCommentObj.id);
+
+                if (isDuplicate) {
+                    console.log('Duplicate comment prevented');
+                    return prevComments;
+                }
+    
+                return [newCommentObj, ...prevComments];
+            });
             setNewComment("");
             setRating(0);
             setActiveComment(null);
         } catch (error) {
-            console.error('Failed to add comment:', error);
+            console.error('Failed to add comment:', error.response ? error.response.data : error);
             alert('Failed to post comment. Please try again.');
         }
     };
@@ -128,7 +207,8 @@ const CommentSection = ({ tourId, availableUsers = [] }) => {
                         ...comment,
                         likes: isLiked 
                             ? comment.likes.filter(userId => userId !== currentUser.id)
-                            : [...comment.likes, currentUser.id]
+                            : [...comment.likes, currentUser.id],
+                        isLikedByCurrentUser: !isLiked,
                     }
                 }
                 return comment;
@@ -141,27 +221,46 @@ const CommentSection = ({ tourId, availableUsers = [] }) => {
 
     const updateComment = async (text, commentId) => {
         try {
-            await commentService.updateComment(commentId, { body: text });
+            const response = await commentService.updateComment(commentId, { body: text });
+            console.log('Update response:', response); // Log the full response
             setComments(prevComments =>
-                prevComments.map(comment =>
-                    comment.id === commentId
+                prevComments.map(comment => {
+                    return comment.id === commentId
                         ? { ...comment, body: text }
                         : comment
-                )
+                })
             );
             setActiveComment(null);
         } catch (error) {
-            console.error('Failed to update comment:', error);
-            alert('Failed to update comment. Please try again.');
+            console.error('Failed to update comment:', error.response?.data || error.message);
+            alert(`Failed to update comment: ${error.response?.data?.message || error.message}`);
         }
     };
 
-    const deleteComment = async (commentId) => {
+    const deleteComment = async (commentId, commentUsername) => {
+        // Open confirmation modal
+        setDeleteConfirmation({
+            isOpen: true,
+            commentId,
+            commentUsername,
+        });
+    };
+
+    const confirmDeleteComment = async () => {
         try {
+            const { commentId } = deleteConfirmation;
             await commentService.deleteComment(commentId);
+            
             setComments(prevComments =>
                 prevComments.filter(comment => comment.id !== commentId)
             );
+            
+            // Close the confirmation modal
+            setDeleteConfirmation({
+                isOpen: false,
+                commentId: null,
+                commentUsername: '',
+            });
         } catch (error) {
             console.error('Failed to delete comment:', error);
             alert('Failed to delete comment. Please try again.');
@@ -177,6 +276,7 @@ const CommentSection = ({ tourId, availableUsers = [] }) => {
         const [localEmojiPicker, setLocalEmojiPicker] = useState(false);
         const [localReplyText, setLocalReplyText] = useState("");
         const [localTaggedUsers, setLocalTaggedUsers] = useState([]);
+        const [editText, setEditText] = useState(comment.body);
 
         if (!comment) return null;
 
@@ -192,9 +292,10 @@ const CommentSection = ({ tourId, availableUsers = [] }) => {
             activeComment.id === comment.id && 
             activeComment.type === 'replying';
 
-        const canEdit = comment.userId === currentUser.id;
-        const canDelete = comment.userId === currentUser.id;
-
+        const canEdit = comment.userId?._id === currentUser.userId;
+        const canDelete = comment.userId?._id === currentUser.userId;
+        console.log("current user id currentUser?.userId",currentUser.userId);
+        console.log("current user id comment.userId",comment.userId)
         const onEmojiClick = (emojiObject, isReply = false) => {
             if (isReply) {
                 setLocalReplyText(prev => prev + emojiObject.emoji);
@@ -267,11 +368,12 @@ const CommentSection = ({ tourId, availableUsers = [] }) => {
                             <div className="bg-gray-100 rounded-2xl p-2">
                                 <textarea
                                     className="w-full bg-white p-2 rounded"
-                                    defaultValue={comment.body}
+                                    value={editText}
+                                    onChange={(e) => setEditText(e.target.value)}
                                     onKeyDown={(e) => {
                                         if (e.key === 'Enter' && !e.shiftKey) {
                                             e.preventDefault();
-                                            updateComment(e.target.value, comment.id);
+                                            updateComment(editText, comment.id);
                                         }
                                     }}
                                 />
@@ -283,10 +385,7 @@ const CommentSection = ({ tourId, availableUsers = [] }) => {
                                         Cancel
                                     </button>
                                     <button 
-                                        onClick={() => updateComment(
-                                            document.querySelector('textarea').value, 
-                                            comment.id
-                                        )}
+                                        onClick={() => updateComment(editText, comment.id)}
                                         className="text-sm text-blue-600 hover:text-blue-700"
                                     >
                                         Save
@@ -336,7 +435,7 @@ const CommentSection = ({ tourId, availableUsers = [] }) => {
                             </button>
                             {canDelete && (
                                 <button 
-                                    onClick={() => deleteComment(comment.id)}
+                                    onClick={() => deleteComment(comment.id, comment.username)}
                                     className="text-gray-500 hover:text-red-500"
                                 >
                                     <Trash2 className="w-3 h-3 md:w-4 md:h-4" />
@@ -539,6 +638,18 @@ const CommentSection = ({ tourId, availableUsers = [] }) => {
                     <p className="text-sm">No comments yet. Be the first to comment!</p>
                 </div>
             )}
+
+            {/* Delete Confirmation Modal */}
+            <DeleteConfirmModal 
+                isOpen={deleteConfirmation.isOpen}
+                onClose={() => setDeleteConfirmation({ 
+                    isOpen: false, 
+                    commentId: null, 
+                    commentUsername: '' 
+                })}
+                onConfirm={confirmDeleteComment}
+                commentUsername={deleteConfirmation.commentUsername}
+            />
         </div>
     );
 };

@@ -12,7 +12,7 @@ export const commentService = {
 
             const response = await axios.post(`${BASE_URL}/${tourId}`, commentData, {
                 headers: {
-                    'Authorization': `Bearer ${token}`, // Using Bearer token authentication
+                    'Authorization': `Bearer ${token}`, 
                     'Content-Type': 'application/json'
                 }
             });
@@ -51,7 +51,7 @@ export const commentService = {
                 throw new Error('No authentication token found');
             }
 
-            const response = await axios.put(`${BASE_URL}/update/${commentId}`, updateData, {
+            const response = await axios.put(`${BASE_URL}/${commentId}`, updateData, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -72,7 +72,7 @@ export const commentService = {
                 throw new Error('No authentication token found');
             }
 
-            const response = await axios.delete(`${BASE_URL}/delete/${commentId}`, {
+            const response = await axios.delete(`${BASE_URL}/${commentId}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -91,13 +91,17 @@ export const commentService = {
             if (!token) {
                 throw new Error('No authentication token found');
             }
-
-            const response = await axios.post(`${BASE_URL}/like/${commentId}`, {}, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
+    
+            const response = await axios.put(`${BASE_URL}/${commentId}`, 
+                { likes: true }, 
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
                 }
-            });
-
+            );
+    
             return response;
         } catch (error) {
             console.error('Failed to toggle like:', error);
