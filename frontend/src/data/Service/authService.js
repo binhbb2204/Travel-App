@@ -23,16 +23,16 @@ export const authService = {
 
     logout: () => {
         // Remove all user-related items from localStorage
-        localStorage.removeItem('token');
-        localStorage.removeItem('userId');
-        localStorage.removeItem('username');
-        localStorage.removeItem('userEmail');
-        localStorage.removeItem('userRole');
+        const keysToRemove = [
+            'token', 
+            'userId', 
+            'username', 
+            'userEmail', 
+            'userRole', 
+        ];
+    
+        keysToRemove.forEach(key => localStorage.removeItem(key));
         
-        // Clear all items related to "Remember Me" functionality
-        localStorage.removeItem('email');
-        localStorage.removeItem('password');
-        localStorage.removeItem('rememberMe');
     },
 
     getCurrentUser: () => {
