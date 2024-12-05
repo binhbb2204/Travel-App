@@ -3,6 +3,7 @@ import { Calendar, Users, CreditCard, Mail, Phone, User, CheckCircle, Sparkles, 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../ui/Context/CartContext';
+import axios from 'axios';
 
 const bottomSheetVariants = {
     hidden: { y: '100%' },
@@ -386,6 +387,7 @@ const Booking = ({ acco }) => {
                     //navigate("/transaction", { state: { bookingData } });
                     navigate("/checkout", { state: { bookingData2 } });
                     //navigate("/checkout");
+                    // const response = await axios.put('');
                 } catch (error) {
                     console.error("Navigation failed:", error);
                     alert("Something went wrong. Please try again.");
