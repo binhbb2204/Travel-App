@@ -1,18 +1,58 @@
-// src/services/tourService.js
 import axios from 'axios';
+import { authService } from './authService';
 
 const BASE_URL = 'http://localhost:8000/api/v1/tours';
+
+
+const api = axios.create({
+  baseURL: BASE_URL,
+});
+
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 export const tourService = {
   createTour: async (tourData) => {
     try {
-      const response = await axios.post(`${BASE_URL}`, tourData);
+      const user = authService.getCurrentUser();
+      if (user.role !== 'admin') {
+        throw new Error('Only admin can create tours');
+      }
+
+      const response = await api.post('', tourData);
       return response.data.data;
     } catch (error) {
       console.error('Error creating tour:', error);
       throw error;
     }
   },
+
+  updateTour: async (tourId, tourData) => {
+    try {
+      // Check if user is admin before making the request
+      const user = authService.getCurrentUser();
+      if (user.role !== 'admin') {
+        throw new Error('Only admin can update tours');
+      }
+
+      const response = await api.put(`/${tourId}`, tourData);
+      return response.data.data;
+    } catch (error) {
+      console.error(`Error updating tour with ID ${tourId}:`, error);
+      throw error;
+    }
+  },
+  
   getSingleTour: async (tourId) => {
     try {
       const response = await axios.get(`${BASE_URL}/${tourId}`);
@@ -22,7 +62,7 @@ export const tourService = {
       throw error;
     }
   },
-  // Get all tours
+
   getAllTours: async () => {
     try {
       const response = await axios.get(`${BASE_URL}`);
@@ -33,12 +73,10 @@ export const tourService = {
     }
   },
 
-  // Search tours with flexible parameters
   searchTours: async (params = {}) => {
     try {
       const queryParams = new URLSearchParams();
       
-      // Mapping frontend params to backend param names
       const paramMapping = {
         keyword: 'keyword',
         country: 'country',
@@ -49,7 +87,6 @@ export const tourService = {
         groupSize: 'maxGroupSize'
       };
 
-      // Add non-empty and non-default parameters
       Object.entries(params).forEach(([key, value]) => {
         const backendKey = paramMapping[key];
         if (value && value !== 'any' && backendKey) {
@@ -65,7 +102,6 @@ export const tourService = {
     }
   },
 
-  // Get featured tours
   getFeaturedTours: async (page = 0) => {
     try {
       const response = await axios.get(`${BASE_URL}/search/getFeaturedTours?page=${page}`);
@@ -76,7 +112,6 @@ export const tourService = {
     }
   },
 
-  // Get tour count
   getTourCount: async () => {
     try {
       const response = await axios.get(`${BASE_URL}/search/getTourCount`);
@@ -87,7 +122,6 @@ export const tourService = {
     }
   },
 
-  // Extract unique countries and cities
   getUniqueLocations: async () => {
     try {
       const tours = await tourService.getAllTours();
@@ -109,5 +143,21 @@ export const tourService = {
       console.error('Error fetching unique locations:', error);
       throw error;
     }
-  }
+  },
+
+  deleteTour: async (tourId) => {
+    try {
+      // Check if user is admin before making the request
+      const user = authService.getCurrentUser();
+      if (user.role !== 'admin') {
+        throw new Error('Only admin can delete tours');
+      }
+
+      const response = await api.delete(`/${tourId}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Error deleting tour with ID ${tourId}:`, error);
+      throw error;
+    }
+  },
 };
