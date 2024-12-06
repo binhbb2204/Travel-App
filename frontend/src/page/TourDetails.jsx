@@ -163,7 +163,7 @@ const TourDetails = () => {
 
           <Col lg='4'>
             <div className="booking-wrapper">
-              <Booking tour={tour} avgRating={avgRating} />
+              <Booking tour={tour} tourId={id} avgRating={avgRating} />
             </div>
           </Col>
         </Row>
