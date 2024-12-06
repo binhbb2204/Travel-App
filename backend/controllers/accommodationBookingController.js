@@ -119,12 +119,13 @@ export const deleteUserAccoBooking = async (req, res) => {
     //         userId: userId,
     //         status: status,
     //     });
-    const { userId } = req.query;
+    const { userId, status } = req.query;
 
     try {
         const query = {};
 
         if (userId) query.userId = userId;
+        if (status) query.userId = userId;
 
         const bookings = await AccommodationBooking.findOneAndDelete(query);
 
@@ -180,8 +181,8 @@ export const updateUserAccoBooking = async (req, res) => {
     //     res.status(500).json({success: false, message: "Failed to update. Try again"});
     // }
 
-    const { userId } = req.query;
-
+    const { userId, status } = req.query;
+    
     try {
         if (!userId) {
             return res.status(400).json({
@@ -190,9 +191,13 @@ export const updateUserAccoBooking = async (req, res) => {
             });
         }
 
+        const query = {};
+        if (userId) query.userId = userId;
+        if (status) query.userId = userId;
+
         // Find and update the booking
         const updatedAccoBooking = await AccommodationBooking.findOneAndUpdate(
-            { userId: userId }, // Query to find the booking
+            query, // Query to find the booking
             { $set: req.body }, // Update data
             { new: true } // Return the updated document
         );

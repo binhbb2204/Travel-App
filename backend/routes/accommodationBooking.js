@@ -5,13 +5,13 @@ import {getUserAccoBooking } from '../controllers/accommodationBookingController
 
 const router = express.Router();
 
-router.post("/", createAccommodationBooking);
+router.post("/", verifyUser, createAccommodationBooking);
 router.get("/:id", verifyUser, getAccommodationBooking);
 router.get("/", verifyAdmin, getAllAccommodationBooking);
-router.get("/search/getUserAccoBooking", getUserAccoBooking);
-router.delete("/deleteUserAccoBooking", deleteUserAccoBooking);
-router.delete("/:id", deleteAccoBooking);
-router.put("/updateUserAccoBooking", updateUserAccoBooking);
-router.put("/:id", updateAccoBooking);
+router.get("/search/getUserAccoBooking", verifyUser, getUserAccoBooking);
+router.delete("/deleteUserAccoBooking", verifyUser, deleteUserAccoBooking);
+router.delete("/:id", verifyAdmin, deleteAccoBooking);
+router.put("/updateUserAccoBooking", verifyUser, updateUserAccoBooking);
+router.put("/:id", verifyAdmin, updateAccoBooking);
 
 export default router;

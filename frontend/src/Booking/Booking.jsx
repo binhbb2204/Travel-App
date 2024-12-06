@@ -3,6 +3,8 @@ import { Calendar, Users, CreditCard, Mail, Phone, User, CheckCircle, Sparkles, 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../ui/Context/CartContext';
+import { authService } from '../data/Service/authService';
+import { tourBookingService } from '../data/Service/tourBookingService';
 
 const bottomSheetVariants = {
     hidden: { y: '100%' },
@@ -261,7 +263,7 @@ const MobileBookButton = ({ price, setIsBottomSheetOpen }) => (
 );
 
 // Main Booking component
-const Booking = ({ tour }) => {
+const Booking = ({ tour, tourId }) => {
     const navigate = useNavigate();
     const { price, reviews, title } = tour;
     
@@ -322,7 +324,7 @@ const Booking = ({ tour }) => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
     
@@ -336,22 +338,58 @@ const Booking = ({ tour }) => {
         const pricing = calculatePricing(); // Ensure pricing is calculated correctly
     
         // Prepare booking data
+        // const bookingData = {
+        //     tour_title: tour?.title || "Unknown Tour",
+        //     tour_date: formData.date,
+        //     tour_adults: formData.adults,
+        //     tour_children: formData.children,
+        //     tour_totalPrice: pricing.total,
+        //     tour_pricePerPerson: tour?.price || 0,
+        //     tour_serviceCharge: pricing.serviceCharge,
+        //     tour_fullName: formData.fullName,
+        //     tour_email: formData.email,
+        //     tour_phone: formData.phone,
+        //     tour_specialRequest: formData.specialRequest,
+        //     tour_type: "tour",
+        //     tour_pay: 0,
+        // };
+        // addToCart(bookingData);
+
         const bookingData = {
-            tour_title: tour?.title || "Unknown Tour",
-            tour_date: formData.date,
-            tour_adults: formData.adults,
-            tour_children: formData.children,
-            tour_totalPrice: pricing.total,
-            tour_pricePerPerson: tour?.price || 0,
-            tour_serviceCharge: pricing.serviceCharge,
-            tour_fullName: formData.fullName,
-            tour_email: formData.email,
-            tour_phone: formData.phone,
-            tour_specialRequest: formData.specialRequest,
-            tour_type: "tour",
-            tour_pay: 0,
+            userId: authService.getCurrentUser().userId,
+            name: formData.fullName,
+            tourId: tourId,
+            tourName: title,
+            email: formData.email,
+            phone: formData.phone,
+            date: new Date(formData.date).toISOString(),
+            adults: formData.adults,
+            children: formData.children,
+            specialRequest: formData.specialRequest,
+            totalPrice: pricing.total,
+            serviceCharge: pricing.serviceCharge,
+            status: "Pending",
         };
-        addToCart(bookingData);
+
+        try {
+            // await accommodationBookingService.deleteUserAccoBook(userData.userId);
+            await tourBookingService.createTourBook(bookingData);
+        } catch(err) {
+            console.log("Error creating tour booking");
+            console.log(bookingData.userId);
+            console.log(bookingData.tourId);
+            console.log(bookingData.name);
+            console.log(bookingData.tourName);
+            console.log(bookingData.email);
+            console.log(bookingData.phone);
+            console.log(bookingData.date);
+            console.log(bookingData.adults);
+            console.log(bookingData.children);
+            console.log(bookingData.specialRequest);
+            console.log(bookingData.totalPrice);
+            console.log(bookingData.serviceCharge);
+            console.log(bookingData.status)
+        }
     
         setTimeout(() => {
             setIsSubmitting(false);
@@ -362,7 +400,7 @@ const Booking = ({ tour }) => {
                 if (isMobile) setIsBottomSheetOpen(false);
                 try {
                     //navigate("/transaction", { state: { bookingData } });
-                    navigate("/checkout", { state: { bookingData } });
+                    // navigate("/checkout", { state: { bookingData } });
                     //navigate("/checkout");
                 } catch (error) {
                     console.error("Navigation failed:", error);
