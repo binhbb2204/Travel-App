@@ -10,12 +10,12 @@ import {
     getTourCount 
 } from '../controllers/tourController.js';
 import { verifyAdmin } from '../utils/verifyToken.js';
-
+import upload from '../Config/uploadMiddleware.js';
 const router = express.Router();
 
-router.post("/", verifyAdmin, createTour);
+router.post("/", verifyAdmin, upload.array('photos'), createTour);
 
-router.put("/:id", verifyAdmin, updateTour);
+router.put("/:id", verifyAdmin, upload.array('photos'), updateTour);
 
 router.delete("/:id", verifyAdmin, deleteTour);
 router.get("/:id", getSingleTour);

@@ -19,6 +19,7 @@ dotenv.config();
 
 const app = express();
 
+
 const storage = multer.diskStorage({
     destination: function(req, file, cb){
         cb(null, 'uploads/')
@@ -105,7 +106,4 @@ app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
 
-app.use(cors({
-    origin: 'http://localhost:3000', // Frontend URL
-    credentials: true, // Allow credentials (cookies) to be sent
-}));
+app.use(cors(corsOptions));

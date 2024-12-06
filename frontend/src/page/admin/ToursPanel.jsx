@@ -138,16 +138,33 @@ const ToursPanel = () => {
     
     try {
       let result;
+      // Convert blob URLs to actual File objects
+      const photosToUpload = await Promise.all(
+        formData.photos.map(async (photo) => {
+          if (typeof photo === 'string' && photo.startsWith('blob:')) {
+            const response = await fetch(photo);
+            const blob = await response.blob();
+            return new File([blob], 'photo.jpg', { type: blob.type });
+          }
+          return photo;
+        })
+      );
+  
+      const submissionData = {
+        ...formData,
+        photos: photosToUpload
+      };
+  
       if (selectedTour) {
         // Update existing tour
-        result = await tourService.updateTour(selectedTour._id, formData);
+        result = await tourService.updateTour(selectedTour._id, submissionData);
         // Update tours list
         setTours(tours.map(tour => 
           tour._id === selectedTour._id ? result : tour
         ));
       } else {
         // Create new tour
-        result = await tourService.createTour(formData);
+        result = await tourService.createTour(submissionData);
         setTours([...tours, result]);
       }
       

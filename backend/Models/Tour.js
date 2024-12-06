@@ -19,8 +19,14 @@ const tourSchema = new mongoose.Schema({
   },
   photos: [
     {
-      type: String, // Array of image URLs or paths
-      required: true,
+      url: {
+        type: String, // Image URL
+        required: true,
+      },
+      public_id: {
+        type: String, // Cloudinary public ID
+        required: true,
+      },
     },
   ],
   price: {
