@@ -18,9 +18,11 @@ import AccommodationDetails from '../page/AccommodationDetails'
 import { clearRouteParams } from '../utils/queryParamManager'
 import UserSettingsPanel from "../page/user/UserSettingsPanel"
 import ModifyAccommodationForm from '../page/ModifyAccommodationForm'
+import { authService } from "../data/Service/authService"
 
 const Routers = () => {
   const location = useLocation();
+  const currentUser = authService.getCurrentUser();
 
 
   const handleAddTour = async (formData) => {
@@ -64,7 +66,16 @@ const Routers = () => {
       {/* <Route path='/accommodations/search' element={<SearchResultList />} /> */}
       <Route path='/transportations' element={<Transportations />} />
       <Route path='/transaction' element={<TransactionBooking />} />
-      <Route path='/admin-panel' element={<AdminPanel />} />
+      <Route
+        path="/admin-panel"
+        element={
+          currentUser && currentUser.role === 'admin' ? (
+            <AdminPanel />
+          ) : (
+            <Navigate to="/home" />
+          )
+        }
+      />
       <Route path="/checkout" element={<Checkout />} />
       <Route path="/user-settings" element={<UserSettingsPanel />} />
       <Route path='/add-accommodation' element={<ModifyAccommodationForm />} />
