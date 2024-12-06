@@ -53,7 +53,8 @@ export const tourBookingService = {
             return response.data.data;
         } catch (error) {
             console.error(`Error finding tour booking`, error);
-            throw error;
+            return 0;
+            // throw error;
         }
     },
 

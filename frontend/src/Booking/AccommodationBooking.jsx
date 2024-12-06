@@ -7,7 +7,7 @@ import axios from 'axios';
 import {accommodationBookingService} from '../data/Service/accommodationBookingService';
 import {accommodationService} from '../data/Service/accommodationService';
 import {userService} from '../data/Service/userService';
-import {authService, getCurrentUser} from '../data/Service/authService';
+import {authService} from '../data/Service/authService';
 import mongoose from "mongoose";
 
 const bottomSheetVariants = {
@@ -382,7 +382,7 @@ const Booking = ({ acco, accoId }) => {
         // addToCart(bookingData);
         // const userData = await userService.getSingleUser(authService.getCurrentUser().userId) ; 
         // const accoName = await accommodationService.getSingleAccommodation(accoId).title;
-
+        const acco_Price = price;
         const bookingData = {
             userId: authService.getCurrentUser().userId,
             name: formData.fullName,
@@ -401,7 +401,9 @@ const Booking = ({ acco, accoId }) => {
         };
 
         try {
-            // await accommodationBookingService.deleteUserAccoBook(userData.userId);
+            if(await accommodationBookingService.getUserAccoBook(bookingData.userId, "Pending")){
+                await accommodationBookingService.deleteUserAccoBook(bookingData.userId, "Pending");
+            }
             await accommodationBookingService.createAccoBook(bookingData);
         } catch(err) {
             console.log("Error creating accommodation booking");
@@ -430,7 +432,7 @@ const Booking = ({ acco, accoId }) => {
                 if (isMobile) setIsBottomSheetOpen(false);
                 try {
                     //navigate("/transaction", { state: { bookingData } });
-                    // navigate("/checkout", { state: { bookingData2 } });
+                    // navigate("/checkout", { state: { acco_Price } });
                     //navigate("/checkout");
                     
                     

@@ -11,6 +11,10 @@ import {
     Check
 } from 'lucide-react';
 import '../styles/check-out.css';
+import {accommodationBookingService} from '../data/Service/accommodationBookingService';
+import {authService} from '../data/Service/authService';
+import { tourBookingService } from '../data/Service/tourBookingService';
+
 
 const Checkout = () => {
     const navigate = useNavigate();
@@ -48,52 +52,140 @@ const Checkout = () => {
         acco_pay: 0,
     });
 
+    const [loading1, setLoading1] = useState(true); // Track if data is loading
+    const [loading2, setLoading2] = useState(true); // Track if data is loading
+
+    useEffect(() => {
+        const fetchBookingData = async () => {
+            try {
+                const userId = authService.getCurrentUser().userId;
+                const accoBookData = await accommodationBookingService.getUserAccoBook(userId, "Pending");
+                if (accoBookData) {
+                    setBookingData2({
+                        acco_title: accoBookData.accommodationName || "Unknown Accommodation 2",
+                        acco_checkin: accoBookData.checkInDate ? new Date(accoBookData.checkInDate).toLocaleDateString() : 'none',
+                        acco_checkout: accoBookData.checkOutDate ? new Date(accoBookData.checkOutDate).toLocaleDateString() : 'none',
+                        acco_adults: accoBookData.adults || 1,
+                        acco_children: accoBookData.children || 0,
+                        acco_totalPrice: accoBookData.totalPrice || 0.00,
+                        acco_pricePerPerson: accoBookData.price || 0.00,
+                        acco_serviceCharge: accoBookData.serviceCharge || 0.00,
+                        acco_fullName: accoBookData.name || 'none',
+                        acco_email: accoBookData.email || 'none',
+                        acco_phone: accoBookData.phone || 'none',
+                        acco_specialRequest: accoBookData.specialRequest || 'none',
+                        acco_type: "accommodation",
+                        acco_pay: 0, 
+                    });
+                    if(bookingData2.acco_title === "Unknown Accommodation"){
+                        bookingData2.acco_type= "none";
+                    }
+                }
+                // setLoading(false);
+            } catch (error) {
+                console.error("Error fetching accommodation booking data:", error);
+                // setLoading(false);
+            } finally {
+                setLoading1(false); // Set loading to false after data is fetched
+            }
+        };
+    
+        fetchBookingData();
+    }, []);
+
+    useEffect(() => {
+        const fetchBookingData = async () => {
+            try {
+                const userId = authService.getCurrentUser().userId;
+                const tourBookData = await tourBookingService.getUserTourBook(userId, "Pending");
+                if (tourBookData) {
+                    setBookingData({
+                        tour_title: tourBookData.tourName || "Unknown Title",
+                        tour_date: tourBookData.date ? new Date(tourBookData.date).toLocaleDateString() : 'none',
+                        tour_adults: tourBookData.adults || 1,
+                        tour_children: tourBookData.children || 0,
+                        tour_totalPrice: tourBookData.totalPrice || 0.00,
+                        tour_pricePerPerson: tourBookData.price || 0.00,
+                        tour_serviceCharge: tourBookData.serviceCharge || 0.00,
+                        tour_fullName: tourBookData.name || 'none',
+                        tour_email: tourBookData.email || 'none',
+                        tour_phone: tourBookData.phone || 'none',
+                        tour_specialRequest: tourBookData.specialRequest || 'none',
+                        tour_type: "tour",
+                        tour_pay: 0, 
+                    });
+                    if(bookingData.tour_title === "Unknown Title"){
+                        bookingData.tour_type= "none";
+                    }
+                }
+
+                // setLoading(false);
+            } catch (error) {
+                console.error("Error fetching accommodation booking data:", error);
+                // setLoading(false);
+            } finally {
+                setLoading2(false); // Set loading to false after data is fetched
+            }
+        };
+    
+        fetchBookingData();
+    }, []);
+
+    
     const [selectedBookings, setSelectedBookings] = useState({
         tour: false,
         accommodation: false
     });
 
-    useEffect(() => {
-        const locationStateTour = location.state?.bookingData;
-        if (locationStateTour) {
-            setBookingData((prevData) => ({
-                ...prevData,
-                ...Object.keys(locationStateTour).reduce((acc, key) => {
-                    if (locationStateTour[key] !== null && locationStateTour[key] !== 'none') {
-                        acc[key] = locationStateTour[key];
-                    }
-                    return acc;
-                }, {}),
-            }));
-            localStorage.setItem('bookingData', JSON.stringify(locationStateTour));
-        } else {
-            const savedBookingData = localStorage.getItem('bookingData');
-            if (savedBookingData) {
-                setBookingData(JSON.parse(savedBookingData));
-            }
-        }
-    }, [location.state]);
+    // useEffect(() => {
+    //     console.log("Updated bookingData2:", bookingData2);
+    // }, [bookingData2]);
+
+    // useEffect(() => {
+    //     const locationStateTour = location.state?.bookingData;
+    //     if (locationStateTour) {
+    //         setBookingData((prevData) => ({
+    //             ...prevData,
+    //             ...Object.keys(locationStateTour).reduce((acc, key) => {
+    //                 if (locationStateTour[key] !== null && locationStateTour[key] !== 'none') {
+    //                     acc[key] = locationStateTour[key];
+    //                 }
+    //                 return acc;
+    //             }, {}),
+    //         }));
+    //         localStorage.setItem('bookingData', JSON.stringify(locationStateTour));
+    //     } else {
+    //         const savedBookingData = localStorage.getItem('bookingData');
+    //         if (savedBookingData) {
+    //             setBookingData(JSON.parse(savedBookingData));
+    //         }
+    //     }
+        
+    // }, [location.state]);
 
     useEffect(() => {
-        const locationStateAcco = location.state?.bookingData2;
-        if (locationStateAcco) {
-            setBookingData2((prevData) => ({
-                ...prevData,
-                ...Object.keys(locationStateAcco).reduce((acc, key) => {
-                    if (locationStateAcco[key] !== null && locationStateAcco[key] !== 'none') {
-                        acc[key] = locationStateAcco[key];
-                    }
-                    return acc;
-                }, {}),
-            }));
-            localStorage.setItem('bookingData2', JSON.stringify(locationStateAcco));
-        } else {
-            const savedBookingData = localStorage.getItem('bookingData2');
-            if (savedBookingData) {
-                setBookingData2(JSON.parse(savedBookingData));
-            }
-        }
-    }, [location.state]);
+        console.log(bookingData2);
+    }, []);
+    // useEffect(() => {
+    //     const locationStateAcco = location.state?.bookingData2;
+    //     if (locationStateAcco) {
+    //         setBookingData2((prevData) => ({
+    //             ...prevData,
+    //             ...Object.keys(locationStateAcco).reduce((acc, key) => {
+    //                 if (locationStateAcco[key] !== null && locationStateAcco[key] !== 'none') {
+    //                     acc[key] = locationStateAcco[key];
+    //                 }
+    //                 return acc;
+    //             }, {}),
+    //         }));
+    //         localStorage.setItem('bookingData2', JSON.stringify(locationStateAcco));
+    //     } else {
+    //         const savedBookingData = localStorage.getItem('bookingData2');
+    //         if (savedBookingData) {
+    //             setBookingData2(JSON.parse(savedBookingData));
+    //         }
+    //     }
+    // }, [location.state]);
 
     const handleBookingSelection = (type) => {
         setSelectedBookings(prev => ({
@@ -123,7 +215,9 @@ const Checkout = () => {
                 state: {
                     ...selectedBookingData,
                     combinedTotalPrice: totalPrice,
-                    combinedServiceCharge: totalServiceCharge
+                    combinedServiceCharge: totalServiceCharge,
+                    payForAccommodation: selectedBookings.accommodation,
+                    payForTour: selectedBookings.tour,
                 }
             });
         }
@@ -148,6 +242,27 @@ const Checkout = () => {
     };
 
     const { totalPrice, totalServiceCharge } = calculateTotal();
+
+    if(loading1 && loading2){
+        // return <div>Loading...</div>;
+        return (
+            <div className="flex flex-col min-h-screen">
+                {/* Header Placeholder */}
+                <div className="h-16 bg-transparent"></div>
+    
+                {/* Main Content */}
+                <div className="flex-grow flex items-center justify-center bg-gray-100 bg-opacity-50">
+                    <div className="flex flex-col items-center justify-center bg-white shadow-lg rounded-lg p-6">
+                        <div className="animate-spin h-8 w-8 border-4 border-blue-500 border-t-transparent rounded-full mb-4"></div>
+                        <p className="text-lg font-medium text-gray-700">Loading...</p>
+                    </div>
+                </div>
+    
+                {/* Footer Placeholder */}
+                <div className="h-16 bg-transparent"></div>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-6 sm:px-10 lg:px-16 pt-24">
