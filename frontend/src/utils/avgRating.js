@@ -1,9 +1,10 @@
 const calculateAvgRating = reviews => {
     
+    console.log('Reviews:', reviews);
+    const validReviews = reviews || [];
 
-    const ratedReviews = reviews.filter(item => item.rating !== null && item.rating > 0);
-
-    const totalRating = reviews?.reduce((acc, item)=> acc + item.rating, 0)
+    const ratedReviews = validReviews.filter(item => item.rating !== null && item.rating > 0);
+    const totalRating = validReviews?.reduce((acc, item)=> acc + item.rating, 0)
     const avgRating = 
         ratedReviews.length > 0 
         ? (totalRating / ratedReviews.length).toFixed(1) 

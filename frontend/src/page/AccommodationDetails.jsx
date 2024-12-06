@@ -33,7 +33,9 @@ const AccommodationDetails = () => {
   }, [id]);
 
   const{photos, title, desc, reviews, city, highlights, totalCapacity} = acco || {};
+  const validReviews = reviews || [];
   const{totalRating, avgRating} = calculateAvgRating(reviews);
+  const ratedReviews = validReviews.filter(review => review.rating !== null && review.rating > 0);
 
   const { isFavorite, addToFavorites, removeFromFavorites } = useFavorites();
   const isLiked = isFavorite(id);
@@ -57,7 +59,7 @@ const AccommodationDetails = () => {
     );
   }
 
-  // No tour found
+  // No acco found
   if (!acco) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -66,7 +68,7 @@ const AccommodationDetails = () => {
     );
   }
 
-
+  
   const handleFavoriteClick = () => {
     if (isLiked) {
       removeFromFavorites(id);
@@ -121,9 +123,9 @@ const AccommodationDetails = () => {
                           <Star className="w-5 h-5 text-yellow-500" />
                           <span className="text-sm md:text-base"> 
                             {avgRating === 0 ? null : avgRating}
-                            {totalRating === 0 ? 
+                            {totalRating === 0 || ratedReviews.length === 0 ? 
                             'Not Rated' 
-                            : <span className="text-sm text-gray-500"> ({reviews.length})</span>}
+                            : <span className="text-sm text-gray-500"> ({ratedReviews.length})</span>}
                           </span>
                         </div>
                       </div>
