@@ -9,6 +9,8 @@ const TourCard = ({ tour }) => {
   const {_id: id, title, city, photo, price, featured, reviews} = tour;
   console.log('Tour ID:', id);
   const {totalRating, avgRating} = calculateAvgRating(reviews)
+
+  const ratedReview = reviews.filter(review => review.rating !== null && review.rating > 0);
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -40,7 +42,7 @@ const TourCard = ({ tour }) => {
                 {avgRating === 0 ? null : avgRating}
                 {totalRating === 0 ? 
                   'Not Rated' 
-                  : <span className="text-sm text-gray-500">({reviews.length})</span>}
+                  : <span className="text-sm text-gray-500">({ratedReview.length})</span>}
               </span>
               
             </div>
