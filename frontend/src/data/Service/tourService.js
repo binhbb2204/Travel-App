@@ -39,7 +39,6 @@ export const tourService = {
 
   updateTour: async (tourId, tourData) => {
     try {
-      // Check if user is admin before making the request
       const user = authService.getCurrentUser();
       if (user.role !== 'admin') {
         throw new Error('Only admin can update tours');

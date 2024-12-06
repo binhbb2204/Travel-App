@@ -1,44 +1,115 @@
 import Tour from "../Models/Tour.js";
-
+import cloudinary from '../Config/cloudinaryConfig.js';
 // Create a new tour
 export const createTour = async (req, res) => {
-    const newTour = new Tour(req.body);
-
     try {
-        const savedTour = await newTour.save();
-        res.status(200).json({ success: true, data: savedTour });
-    } catch (error) {
-        res.status(404).json({
-            success: false,
-            message: error.message,
-        });
-    }
-};
-
-// Update an existing tour
-export const updateTour = async (req, res) => {
-    const id = req.params.id;
-    try {
-        const updatedTour = await Tour.findByIdAndUpdate(
-            id,
-            { $set: req.body },
-            { new: true }
+      // If photos are uploaded
+      let photoDetails = [];
+      if (req.files && req.files.photos) {
+        photoDetails = await Promise.all(
+          req.files.photos.map(async (file) => {
+            const result = await cloudinary.uploader.upload(file.path, {
+              folder: 'tours'
+            });
+  
+            return {
+              url: result.secure_url,
+              public_id: result.public_id,
+            };
+          })
         );
-        res.status(200).json({ success: true, data: updatedTour });
+  
+        // Explicitly set photos in the request body
+        req.body.photos = photoDetails;
+      }
+  
+      const newTour = new Tour(req.body);
+      const savedTour = await newTour.save();
+  
+      res.status(200).json({ success: true, data: savedTour });
     } catch (error) {
-        res.status(404).json({
-            success: false,
-            message: error.message,
-        });
+      console.error('Error creating tour:', error);
+      res.status(404).json({
+        success: false,
+        message: error.message,
+      });
     }
-};
+  };
+
+export const updateTour = async (req, res) => {
+    const { id } = req.params;
+  
+    try {
+      // Process new photo uploads (if any)
+      let photoDetails = [];
+      if (req.files && req.files.photos) {
+        // First, delete existing photos from Cloudinary if they exist
+        const existingTour = await Tour.findById(id);
+        if (existingTour && existingTour.photos) {
+          await Promise.all(
+            existingTour.photos.map(async (photo) => {
+              if (photo.public_id) {
+                try {
+                  await cloudinary.uploader.destroy(photo.public_id);
+                } catch (deleteError) {
+                  console.error('Error deleting old photo:', deleteError);
+                }
+              }
+            })
+          );
+        }
+
+        // Upload new photos
+        photoDetails = await Promise.all(
+          req.files.photos.map(async (file) => {
+            const result = await cloudinary.uploader.upload(file.path, {
+              folder: 'tours'
+            });
+  
+            return {
+              url: result.secure_url,
+              public_id: result.public_id,
+            };
+          })
+        );
+  
+        // Explicitly set photos in the request body
+        req.body.photos = photoDetails;
+      }
+  
+      // Update the tour document in the database
+      const updatedTour = await Tour.findByIdAndUpdate(
+        id,
+        { $set: req.body }, // Set new data
+        { new: true } // Return the updated document
+      );
+  
+      if (!updatedTour) {
+        return res.status(404).json({
+          success: false,
+          message: 'Tour not found',
+        });
+      }
+  
+      res.status(200).json({ success: true, data: updatedTour });
+    } catch (error) {
+      console.error('Error updating tour:', error);
+      res.status(404).json({
+        success: false,
+        message: error.message,
+      });
+    }
+  };
 
 // Get a single tour by ID
 export const getSingleTour = async (req, res) => {
     const { id } = req.params;
 
     try {
-        const tour = await Tour.findById(id).populate('reviews');
+        const tour = await Tour.findById(id)
+            .populate('reviews')
+            .lean(); // Adding .lean() can help preserve the full document structure
+        
         if (!tour) {
             return res.status(404).json({
                 success: false,
