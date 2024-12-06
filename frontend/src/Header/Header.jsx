@@ -9,6 +9,8 @@ import { motion } from 'framer-motion';
 import { authService } from '../data/Service/authService';
 import './header.css';
 import SwitchMode from '../ui/SwitchMode/SwitchMode'
+import UserOverview from "../page/user/tabs/UserOverview";
+import UsernameManager from "../page/user/UsernameManager";
 
 const nav_links = [
   { path: '/home', display: 'Home' },
