@@ -372,7 +372,9 @@ const Booking = ({ tour, tourId }) => {
         };
 
         try {
-            // await accommodationBookingService.deleteUserAccoBook(userData.userId);
+            if(await tourBookingService.getUserTourBook(bookingData.userId, "Pending")){
+                await tourBookingService.deleteUserTourBook(bookingData.userId, "Pending");
+            }
             await tourBookingService.createTourBook(bookingData);
         } catch(err) {
             console.log("Error creating tour booking");

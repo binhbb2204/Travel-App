@@ -41,7 +41,7 @@ export const getUserTourBooking = async (req, res) => {
         if (userId) query.userId = userId;
         if (status) query.status = status;
 
-        const bookings = await TourBooking.find(query);
+        const bookings = await TourBooking.findOne(query);
 
 
         if (bookings.length === 0) {
@@ -130,7 +130,7 @@ export const updateUserTourBooking = async (req, res) => {
 
         const query = {};
         if (userId) query.userId = userId;
-        if (status) query.userId = userId;
+        if (status) query.status = status;
 
         // Find and update the booking
         const updatedTourBooking = await TourBooking.findOneAndUpdate(
@@ -154,7 +154,7 @@ export const updateUserTourBooking = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             success: false,
-            message: "Failed to update the booking. Try again.",
+            message: "Failed to update the booking. Try again but this is right.",
         });
     }
 };

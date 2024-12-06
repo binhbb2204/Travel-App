@@ -6,25 +6,25 @@ const accommodationBookingSchema = new mongoose.Schema(
         userId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
-            // required: true
+            required: true
         },
         name: {
             type: String,
-            // required: true,
+            required: true,
             trim: true,
         },
         accommodationId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Accommodation',
-            // required: true
+            required: true
         },
         accommodationName: {
             type: String,
-            // required: true
+            required: true
         },
         email: {
             type: String,
-            // required: true,
+            required: true,
             match: [
                 /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
                 "Please provide a valid email address",
@@ -41,20 +41,20 @@ const accommodationBookingSchema = new mongoose.Schema(
         },
         checkInDate: {
             type: Date,
-            // required: true,
+            required: true,
         },
         checkOutDate: {
                 type: Date,
-                // required: true,
+                required: true,
             },
         adults: {
             type: Number,
-            // required: true,
+            required: true,
             min: 1,
         },
         children: {
             type: Number,
-            // required: true,
+            required: true,
             min: 0,
         },
         specialRequest: {
@@ -63,12 +63,12 @@ const accommodationBookingSchema = new mongoose.Schema(
         },
         totalPrice: {
             type: Number,
-            // required: true,
+            required: true,
             min: 0,
         },
         serviceCharge: {
             type: Number,
-            // required: true,
+            required: true,
             min: 0,
         },
         status: {

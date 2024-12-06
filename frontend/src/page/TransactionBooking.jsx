@@ -1,19 +1,26 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Calendar, CreditCard, Lock, CheckCircle, ArrowRight, Shield, Gift, Sparkles, ArrowLeft, AlertCircle } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useCart } from '../ui/Context/CartContext';
+import {accommodationBookingService} from '../data/Service/accommodationBookingService';
+import {authService} from '../data/Service/authService';
+import {accommodationService} from '../data/Service/accommodationService';
+import {tourService} from '../data/Service/tourService';
+import {tourBookingService} from '../data/Service/tourBookingService';
+
 const TransactionBooking = () => {
     const [step, setStep] = useState(1);
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const location = useLocation();
-    const bookingData = location.state?.bookingData || {};
-    const bookingData2 = location.state?.bookingData2 || {};
+    // const bookingData = location.state?.bookingData || {};
+    // const bookingData2 = location.state?.bookingData2 || {};
     const combinedTotalPrice = location.state?.combinedTotalPrice || 0;
     const combinedServiceCharge = location.state?.combinedServiceCharge || 0;
+    const { payForAccommodation, payForTour } = location.state || {};
     // const { bookingData, bookingData2 } = location.state?.combinedBookingData || {};
-
+    
     // const { addToCart } = useCart();
     const navigate = useNavigate();
 
@@ -46,6 +53,123 @@ const TransactionBooking = () => {
     //         <span>Add to Cart</span>
     //     </button>
     // );
+    const [bookingData, setBookingData] = useState({
+        tour_title: 'Unknown Title',
+        tour_date: 'none',
+        tour_adults: 1,
+        tour_children: 0,
+        tour_totalPrice: 0.00,
+        tour_pricePerPerson: 0.00,
+        tour_serviceCharge: 0.00,
+        tour_fullName: 'none',
+        tour_email: 'none',
+        tour_phone: 'none',
+        tour_specialRequest: 'none',
+        tour_type: 'none',
+        tour_pay: 0,
+    });
+
+    const [bookingData2, setBookingData2] = useState({
+        acco_title: "Unknown Accommodation",
+        acco_checkin: 'none',
+        acco_checkout: 'none',
+        acco_adults: 1,
+        acco_children: 0,
+        acco_totalPrice: 0.00,
+        acco_pricePerPerson: 0.00,
+        acco_serviceCharge: 0.00,
+        acco_fullName: 'none',
+        acco_email: 'none',
+        acco_phone: 'none',
+        acco_specialRequest: 'none',
+        acco_type: "none",
+        acco_pay: 0,
+    });
+
+    const [loadingData1, setLoadingData1] = useState(true);
+    const [loadingData2, setLoadingData2] = useState(true);
+
+    useEffect(() => {
+        if(payForAccommodation){
+            const fetchBookingData = async () => {
+                try {
+                    const userId = authService.getCurrentUser().userId;
+                    const accoBookData = await accommodationBookingService.getUserAccoBook(userId, "Pending");
+                    const accoData = await accommodationService.getSingleAccommodation(accoBookData.accommodationId);
+                    if (accoBookData) {
+                        setBookingData2({
+                            acco_title: accoBookData.accommodationName || "Unknown Accommodation",
+                            acco_checkin: accoBookData.checkInDate ? new Date(accoBookData.checkInDate).toLocaleDateString() : 'none',
+                            acco_checkout: accoBookData.checkOutDate ? new Date(accoBookData.checkOutDate).toLocaleDateString() : 'none',
+                            acco_adults: accoBookData.adults || 1,
+                            acco_children: accoBookData.children || 0,
+                            acco_totalPrice: accoBookData.totalPrice || 0.00,
+                            acco_pricePerPerson: accoData.price || 0.00,
+                            acco_serviceCharge: accoBookData.serviceCharge || 0.00,
+                            acco_fullName: accoBookData.name || 'none',
+                            acco_email: accoBookData.email || 'none',
+                            acco_phone: accoBookData.phone || 'none',
+                            acco_specialRequest: accoBookData.specialRequest || 'none',
+                            acco_type: "accommodation",
+                            acco_pay: payForAccommodation ? 1 : 0, // Set acco_pay based on payForAccommodation
+                        });
+                    }
+                    // setLoading(false);
+                } catch (error) {
+                    console.error("Error fetching accommodation booking data:", error);
+                    // setLoading(false);
+                } finally {
+                    setLoadingData1(false); // Set loading to false after data is fetched
+                }
+            };
+        
+            fetchBookingData();
+        } else {
+            setLoadingData1(false); // Set loading to false after data is fetched
+        }
+    }, []);
+
+    useEffect(() => {
+        if(payForTour){
+            const fetchBookingData = async () => {
+                try {
+                    const userId = authService.getCurrentUser().userId;
+                    const tourBookData = await tourBookingService.getUserTourBook(userId, "Pending");
+                    const tourData = await tourService.getSingleTour(tourBookData.tourId);
+                    if (tourBookData) {
+                        setBookingData({
+                            tour_title: tourBookData.tourName || "Unknown Title",
+                            tour_date: tourBookData.date ? new Date(tourBookData.date).toLocaleDateString() : 'none',
+                            tour_adults: tourBookData.adults || 1,
+                            tour_children: tourBookData.children || 0,
+                            tour_totalPrice: tourBookData.totalPrice || 0.00,
+                            tour_pricePerPerson: tourData.price || 0.00,
+                            tour_serviceCharge: tourBookData.serviceCharge || 0.00,
+                            tour_fullName: tourBookData.name || 'none',
+                            tour_email: tourBookData.email || 'none',
+                            tour_phone: tourBookData.phone || 'none',
+                            tour_specialRequest: tourBookData.specialRequest || 'none',
+                            tour_type: "tour",
+                            tour_pay: payForTour ? 1 : 0, 
+                        });
+                        if(bookingData.tour_title === "Unknown Title"){
+                            bookingData.tour_type= "none";
+                        }
+                    }
+                    // setLoading(false);
+                } catch (error) {
+                    console.error("Error fetching accommodation booking data:", error);
+                    // setLoading(false);
+                } finally {
+                    setLoadingData2(false); // Set loading to false after data is fetched
+                }
+            };
+        
+            fetchBookingData();
+        } else {
+            setLoadingData2(false); // Set loading to false after data is fetched
+        }
+    }, []);
 
     const {
         tour_title = 'Unknown Title',
@@ -104,14 +228,41 @@ const TransactionBooking = () => {
         return travelers.length ? travelers.join(' | ') : 'No travelers selected';
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
+        if(payForAccommodation){
+            try {
+                const userId = authService.getCurrentUser().userId;
+                const updateData = {
+                    status: "Confirmed", 
+                };
+                await accommodationBookingService.updateUserAccoBook(userId, "Pending", updateData);
+            } catch (error) {
+                console.error("Unable to pay");
+            }        
+        }
+           
+        if(payForTour){
+            try {
+                const userId = authService.getCurrentUser().userId;
+                const updateData = {
+                    status: "Confirmed", 
+                };
+                await tourBookingService.updateUserTourBook(userId, "Pending", updateData);
+            } catch (error) {
+                console.error("Unable to pay");
+            }        
+        
+        }
+           
         e.preventDefault();
         setLoading(true);
         setTimeout(() => {
             setLoading(false);
             setSuccess(true);
-            setTimeout(() => setStep(3), 1000);
+            setTimeout(() => setStep(3), 500);
+            // setTimeout(() => navigate('/checkout'), 500);
         }, 2000);
+
     };
 
     const handleBack = () => {
@@ -120,7 +271,7 @@ const TransactionBooking = () => {
         }
     };
 
-    const price_perPerson = (tour_pay ? tour_pricePerPerson : 0) + (bookingData2.acco_pay ? acco_pricePerPerson : 0);
+    const price_perPerson = (tour_pay ? tour_pricePerPerson : 0) + (acco_pay ? acco_pricePerPerson : 0);
 
     const subtotal = (tour_pay ? tour_totalPrice - tour_serviceCharge + tour_promoDiscount : 0) + 
                 (bookingData2.acco_pay ? acco_totalPrice - acco_serviceCharge + acco_promoDiscount : 0);
@@ -196,6 +347,27 @@ const TransactionBooking = () => {
                     <h2 className="text-xl font-semibold text-gray-800 mb-2">No Booking Data Found</h2>
                     <p className="text-gray-600">Please start a new booking from the tour page.</p>
                 </div>
+            </div>
+        );
+    }
+    
+    if(loadingData1 && loadingData2){
+        // return <div>Loading...</div>;
+        return (
+            <div className="flex flex-col min-h-screen">
+                {/* Header Placeholder */}
+                <div className="h-16 bg-transparent"></div>
+    
+                {/* Main Content */}
+                <div className="flex-grow flex items-center justify-center bg-gray-100 bg-opacity-50">
+                    <div className="flex flex-col items-center justify-center bg-white shadow-lg rounded-lg p-6">
+                        <div className="animate-spin h-8 w-8 border-4 border-blue-500 border-t-transparent rounded-full mb-4"></div>
+                        <p className="text-lg font-medium text-gray-700">Loading...</p>
+                    </div>
+                </div>
+    
+                {/* Footer Placeholder */}
+                <div className="h-16 bg-transparent"></div>
             </div>
         );
     }

@@ -87,8 +87,7 @@ export const getUserAccoBooking = async (req, res) => {
         if (userId) query.userId = userId;
         if (status) query.status = status;
 
-        const bookings = await AccommodationBooking.find(query);
-
+        const bookings = await AccommodationBooking.findOne(query);
 
         if (bookings.length === 0) {
             return res.status(404).json({
@@ -193,7 +192,7 @@ export const updateUserAccoBooking = async (req, res) => {
 
         const query = {};
         if (userId) query.userId = userId;
-        if (status) query.userId = userId;
+        if (status) query.status = status;
 
         // Find and update the booking
         const updatedAccoBooking = await AccommodationBooking.findOneAndUpdate(
