@@ -50,10 +50,14 @@ export const accommodationBookingService = {
                     'Authorization': `Bearer ${token}`, 
                 }
             });
+            // console.log("tried get user acco book");
+            // console.log(response.data.data);
             return response.data.data;
+            
         } catch (error) {
             console.error(`Error finding accommodation booking`, error);
-            throw error;
+            // throw error;
+            return 0;
         }
     },
 
