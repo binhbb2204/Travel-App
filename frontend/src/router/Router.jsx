@@ -16,7 +16,7 @@ import AdminPanel from '../page/admin/AdminPanel'
 import Checkout from '../page/Checkout'
 import AccommodationDetails from '../page/AccommodationDetails'
 import { clearRouteParams } from '../utils/queryParamManager'
-import UserSettingsPanel from "../page/user/UserSettingsPanel"
+import UserSettingsPanel from "../page/user/UserSettingsPanel_old"
 import ModifyAccommodationForm from '../page/ModifyAccommodationForm'
 import { authService } from "../data/Service/authService"
 

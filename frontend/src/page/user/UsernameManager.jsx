@@ -1,14 +1,19 @@
-import React, { useState } from 'react';
+// user/UsernameManager.jsx
+import React, { useState, useEffect } from 'react';
 import Header from "../../Header/Header";
-import UserSettingsPanel from './UserSettingsPanel';
+import UserOverview from "./tabs/UserOverview";
 
 const UsernameManager = () => {
-    const [username, setUsername] = useState(localStorage.getItem('username') || ''); // Get username from localStorage
+    const [username, setUsername] = useState(localStorage.getItem('username') || '');
+
+    useEffect(() => {
+        localStorage.setItem('username', username);
+    }, [username]);
 
     return (
         <div>
-            <Header username={username} /> {/* Pass username as a prop to Header */}
-            <UserSettingsPanel username={username} setUsername={setUsername} /> {/* Pass setUsername as a prop */}
+            <Header username={username} />
+            <UserOverview username={username} setUsername={setUsername} />
         </div>
     );
 };
