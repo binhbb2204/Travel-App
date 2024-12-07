@@ -1,7 +1,7 @@
 import React from 'react';
-import { 
-  X, EyeIcon, MapPin, DollarSign, Clock, Users, Star, 
-  Tag, MessageSquareText 
+import {
+    X, EyeIcon, MapPin, DollarSign, Clock, Users, Star,
+    Tag, MessageSquareText
 } from 'lucide-react';
 import './tourdetailsmodal.css'
 const TourDetailsModal = ({ tour, onClose }) => {
@@ -12,13 +12,13 @@ const TourDetailsModal = ({ tour, onClose }) => {
             <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl relative my-8">
                 {/* Modal Header */}
                 <div className="bg-gradient-to-r rounded-t-2xl from-blue-100 via-white to-blue-100 p-6 border-b relative">
-                    <button 
-                    onClick={onClose}
-                    className="absolute top-4 right-4 text-gray-600 hover:text-gray-900 z-10"
+                    <button
+                        onClick={onClose}
+                        className="absolute top-4 right-4 text-gray-600 hover:text-gray-900 z-10"
                     >
                         <X size={24} />
                     </button>
-          
+
                     <div className="flex items-center">
                         <EyeIcon className="mr-3 text-blue-600" size={24} />
                         <h2 className="text-2xl font-bold text-gray-800">Tour Details</h2>
@@ -33,11 +33,11 @@ const TourDetailsModal = ({ tour, onClose }) => {
                         <div className="grid grid-cols-2 gap-4">
                             {tour.photos && tour.photos.length > 0 ? (
                                 tour.photos.map((photo, index) => (
-                                    <img 
-                                    key={index} 
-                                    src={photo} 
-                                    alt={`Tour ${index + 1}`} 
-                                    className="w-full h-48 object-cover rounded-lg shadow-md" 
+                                    <img
+                                        key={index}
+                                        src={photo}
+                                        alt={`Tour ${index + 1}`}
+                                        className="w-full h-48 object-cover rounded-lg shadow-md"
                                     />
                                 ))
                             ) : (
@@ -48,7 +48,7 @@ const TourDetailsModal = ({ tour, onClose }) => {
                         {/* Tour Details */}
                         <div className="space-y-4">
                             <h3 className="text-3xl font-bold text-gray-800 mb-4">{tour.title}</h3>
-                
+
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="flex items-center space-x-2">
                                     <MapPin className="text-blue-600" size={20} />

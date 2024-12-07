@@ -75,6 +75,7 @@ export const updateTour = async (req, res) => {
   
         // Explicitly set photos in the request body
         req.body.photos = photoDetails;
+        // console.log('Photo Details:', photoDetails);
       }
   
       // Update the tour document in the database
