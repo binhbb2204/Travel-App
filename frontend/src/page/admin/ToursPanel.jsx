@@ -262,7 +262,7 @@ const ToursPanel = () => {
                   onChange={handleChange}
                   placeholder="  Tour Title"
                   disabled={isViewMode}
-                  className="w-full pl-4 px-5 py-3 border border-gray-300 rounded-lg 
+                  className="w-full pl-4 px-4 py-3 border border-gray-300 rounded-lg 
                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
                   transition duration-300"
                   required
@@ -279,7 +279,7 @@ const ToursPanel = () => {
                   value={formData.country}
                   onChange={handleChange}
                   placeholder="  Country"
-                  className="w-full pl-10 px-5 py-3 border border-gray-300 rounded-lg 
+                  className="w-full pl-10 px-4 py-3 border border-gray-300 rounded-lg 
                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
                   transition duration-300"
                   required
@@ -300,7 +300,7 @@ const ToursPanel = () => {
                   value={formData.city}
                   onChange={handleChange}
                   placeholder="  City"
-                  className="w-full pl-10 px-5 py-3 border border-gray-300 rounded-lg 
+                  className="w-full pl-10 px-4 py-3 border border-gray-300 rounded-lg 
                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
                   transition duration-300"
                   required
@@ -318,7 +318,7 @@ const ToursPanel = () => {
                   value={formData.price}
                   onChange={handleChange}
                   placeholder="  Price (USD)"
-                  className="w-full pl-10 px-5 py-3 border border-gray-300 rounded-lg 
+                  className="w-full pl-10 px-4 py-3 border border-gray-300 rounded-lg 
                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
                   transition duration-300"
                   required
@@ -337,7 +337,7 @@ const ToursPanel = () => {
                   value={formData.duration}
                   onChange={handleChange}
                   placeholder="  Duration (Days)"
-                  className="w-full pl-10 px-5 py-3 border border-gray-300 rounded-lg 
+                  className="w-full pl-10 px-4 py-3 border border-gray-300 rounded-lg 
                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
                   transition duration-300"
                   required
@@ -357,7 +357,7 @@ const ToursPanel = () => {
                     value={highlight}
                     onChange={(e) => handleChange(e, index)}
                     placeholder="Tour Highlight"
-                    className="flex-grow px-5 py-2.5 border border-gray-300 rounded-lg 
+                    className="flex-grow px-4 py-2.5 border border-gray-300 rounded-lg 
                     focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
                     transition duration-300 mr-3"
                     required
@@ -463,7 +463,7 @@ const ToursPanel = () => {
               {/* Max Group Size */}
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Users className="text-gray-400 mb-3" size={20} />
+                  <Users className="text-gray-400" size={20} />
                 </div>
                 <input
                   type="number"
@@ -471,7 +471,7 @@ const ToursPanel = () => {
                   value={formData.maxGroupSize}
                   onChange={handleChange}
                   placeholder="Max Group Size"
-                  className="w-full pl-10 px-5 py-3 border border-gray-300 rounded-lg 
+                  className="w-full pl-10 px-4 py-3 border border-gray-300 rounded-lg 
                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
                   transition duration-300"
                   required
