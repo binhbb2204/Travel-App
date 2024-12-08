@@ -1,84 +1,42 @@
-import express from 'express'
-import dotenv from 'dotenv'
+import express from 'express';
+import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import multer from 'multer';
-import bodyParser from 'body-parser';
 import path from 'path';
-
-import tourRoute from './routes/tours.js'
-import userRoute from './routes/users.js'
-import authRoute from './routes/auth.js'
-import commentRoute from './routes/comment.js'
-import accoRoute from './routes/accommodations.js'
-import tourBookingRoute from './routes/tourbooking.js'
+import multer from 'multer';
+import tourRoute from './routes/tours.js';
+import userRoute from './routes/users.js';
+import authRoute from './routes/auth.js';
+import commentRoute from './routes/comment.js';
+import accoRoute from './routes/accommodations.js';
+import tourBookingRoute from './routes/tourbooking.js';
 import accoBookingRoute from './routes/accommodationBooking.js';
 
 dotenv.config();
 
 const app = express();
-
-
-const storage = multer.diskStorage({
-    destination: function(req, file, cb){
-        cb(null, 'uploads/')
-    },
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + path.extname(file.originalname)) 
-    }
-})
-
-const fileFilter = (req, file, cb) => {
-    const allowedFileTypes = /jpeg|jpg|png|webp|gif/;
-    const extname = allowedFileTypes.test(path.extname(file.originalname).toLowerCase());
-    const mimetype = allowedFileTypes.test(file.mimetype);
-
-    if (extname && mimetype) {
-        return cb(null, true);
-    } else {
-        cb(new Error('Only images are allowed!'), false);
-    }
-}
-
-const upload = multer({ 
-    storage: storage,
-    fileFilter: fileFilter,
-    limits: { 
-      fileSize: 5 * 1024 * 1024 // 5MB file size limit
-    }
-});
-
 const port = process.env.PORT || 3000;
-const corsOptions = {
-    origin: true,
-    credential: true,
 
-}
-
-//db connection
+// Database Connection
 mongoose.set('strictQuery', false);
 const connect = async () => {
-    try {
-        await mongoose.connect(process.env.MONGO_URI)
-        console.log("db connected successfully")
-    } catch (error) {
-        console.log("db connected unsuccessfully")
-    }
-}
-//testing
+  try {
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log('Database connected successfully');
+  } catch (error) {
+    console.error('Database connection failed:', error);
+  }
+};
 
-app.use(express.json()); // Parse JSON bodies
-app.use(cors(corsOptions));
-app.use(cookieParser()); // Parse cookies
+// Middleware
+app.use(express.json());
+app.use(cors({ origin: true, credentials: true }));
+app.use(cookieParser());
+app.use('/uploads', express.static('uploads')); // Serve uploaded files statically
 
-app.use('/uploads', express.static('uploads'))
-
-
-app.use('/api/v1/tours', (req, res, next) => {
-    upload.array('photos', 50)(req, res, next); // Allow up to 50 photos
-}, tourRoute);
-
+// Routes
+app.use('/api/v1/tours', tourRoute);
 app.use('/api/v1/auth', authRoute);
 app.use('/api/v1/users', userRoute);
 app.use('/api/v1/comments', commentRoute);
@@ -86,24 +44,23 @@ app.use('/api/v1/accommodations', accoRoute);
 app.use('/api/v1/tour_booking', tourBookingRoute);
 app.use('/api/v1/accommodation_booking', accoBookingRoute);
 
+// Error handling for file upload or other server issues
 app.use((err, req, res, next) => {
-    if (err instanceof multer.MulterError) {
-        return res.status(400).json({
-            error: 'File upload error',
-            message: err.message
-        });
-    } else if (err) {
-        return res.status(500).json({
-            error: 'Server error',
-            message: err.message
-        });
-    }
-    next();
+  if (err instanceof multer.MulterError) {
+    return res.status(400).json({
+      error: 'File upload error',
+      message: err.message,
+    });
+  } else if (err) {
+    return res.status(500).json({
+      error: 'Server error',
+      message: err.message,
+    });
+  }
+  next();
 });
 
-app.listen(port, () => {
-    connect();
-    console.log(`Server running on port ${port}`);
+app.listen(port, async () => {
+  await connect();
+  console.log(`Server running on port ${port}`);
 });
-
-app.use(cors(corsOptions));
