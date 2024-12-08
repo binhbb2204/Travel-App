@@ -4,7 +4,7 @@ import { Users, Target, Globe, Award, Heart } from 'lucide-react';
 import ParallaxBackground from '../ui/ParallaxBackground';
 import teamMemberImage1 from '../images/binhbb.jpg';
 import teamMemberImage2 from '../images/ice.jpg';
-import teamMemberImage3 from '../images/thuan.jpg';
+import teamMemberImage3 from '../images/nature.jpg';
 import backgroundImage from '../images/travel.jpg';
 import aboutVideo from '../images/home-bg-final_2.mp4';
 
