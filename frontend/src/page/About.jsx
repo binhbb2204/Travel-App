@@ -35,7 +35,7 @@ const About = () => {
         {
             name: "Hoang Thien An",
             role: "Project Member",
-            image: teamMemberImage2,
+            image: teamMemberImage3,
             description: "Data analyst and developer. Passionate in Laziness and Poorness"
         },
         {
