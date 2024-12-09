@@ -125,7 +125,7 @@ const Header = () => {
 
             <div className="nav__actions d-flex align-items-center gap-4">
               {/* For testing the dark/light mode toggle button */}
-              <SwitchMode />
+              {/* <SwitchMode /> */}
 
               {/* Favorites Button */}
               <div className="relative">
@@ -213,7 +213,7 @@ const Header = () => {
                           <Link to="/admin-panel">Admin Panel</Link>
                         </li>
                       )}
-                      {userRole === 'user' || userRole === 'admin' && (
+                      {(userRole === 'user' || userRole === 'admin') && (
                         <li className="p-2 hover:bg-gray-100 cursor-pointer text-blue-500 font-bold">
                           <Link to="/user-settings">User Settings</Link>
                         </li>
@@ -256,7 +256,7 @@ const Header = () => {
             >
               {isMobileMenuOpen ? <X className={'w-6 h-6 text-gray-700'} /> : <Menu className={'w-6 h-6 text-gray-700'} />}
             </button>
-            
+
           </div>
         </Row>
       </Container>
