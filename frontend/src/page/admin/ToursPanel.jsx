@@ -81,32 +81,32 @@ const ToursPanel = () => {
     const { name, value, files } = e.target;
 
     if (name === 'photos') {
-      const photoFiles = Array.from(files).map(file => 
-        URL.createObjectURL(file)
-      );
+      const selectedFiles = Array.from(files);
       setFormData(prev => ({
         ...prev,
-        photos: [...prev.photos, ...photoFiles]
+        photos: [...prev.photos, ...selectedFiles],
       }));
     } else if (name === 'highlights') {
       const newHighlights = [...formData.highlights];
       newHighlights[index] = value;
       setFormData(prev => ({
         ...prev,
-        highlights: newHighlights
+        highlights: newHighlights,
       }));
     } else if (['price', 'duration', 'maxGroupSize'].includes(name)) {
       setFormData(prev => ({
         ...prev,
-        [name]: value === '' ? '' : Number(value)
+        [name]: value === '' ? '' : Number(value),
       }));
     } else {
       setFormData(prev => ({
         ...prev,
-        [name]: value
+        [name]: value,
       }));
     }
   };
+
+  
 
   // Add highlight
   const addHighlight = () => {
@@ -135,22 +135,33 @@ const ToursPanel = () => {
   // Submit new tour
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+  
     try {
+      const formPayload = new FormData();
+      Object.keys(formData).forEach(key => {
+        if (key === 'photos') {
+          // Append files properly
+          formData.photos.forEach(photo => formPayload.append('photos', photo));
+        } else if (key === 'highlights') {
+          formPayload.append(key, JSON.stringify(formData.highlights));
+        } else {
+          formPayload.append(key, formData[key]);
+        }
+      });
+  
       let result;
       if (selectedTour) {
         // Update existing tour
-        result = await tourService.updateTour(selectedTour._id, formData);
-        // Update tours list
+        result = await tourService.updateTour(selectedTour._id, formPayload);
         setTours(tours.map(tour => 
           tour._id === selectedTour._id ? result : tour
         ));
       } else {
         // Create new tour
-        result = await tourService.createTour(formData);
+        result = await tourService.createTour(formPayload);
         setTours([...tours, result]);
       }
-      
+  
       // Reset form and state
       setFormData(initialFormState);
       setIsCreatingTour(false);
@@ -161,14 +172,7 @@ const ToursPanel = () => {
       setError('Failed to save tour');
     }
   };
-
-  const handleCancel = () => {
-    setIsCreatingTour(false);
-    setSelectedTour(null);
-    setIsViewMode(false);
-    setFormData(initialFormState);
-  };
-
+  
   // Render loading state
   if (isLoading) {
     return (
@@ -394,7 +398,7 @@ const ToursPanel = () => {
               {formData.photos.map((photo, index) => (
                   <div key={index} className="relative group">
                     <img 
-                      src={photo} 
+                      src={URL.createObjectURL(photo)} 
                       alt={`Tour ${index + 1}`} 
                       className="w-44 h-48 object-cover rounded-lg shadow-md" 
                     />
@@ -408,9 +412,9 @@ const ToursPanel = () => {
                     </button>
                     <div className="bg-gray-100 p-2 rounded-lg text-xs break-words flex items-center justify-between mt-1 w-64">
                       <span className="font-semibold mr-2">URL:</span> 
-                      <span className="flex-grow truncate">{photo}</span>
+                      <span className="flex-grow truncate">{photo.name}</span>
                       <button 
-                        onClick={() => navigator.clipboard.writeText(photo)}
+                        onClick={() => navigator.clipboard.writeText(photo.name)}
                         className="ml-2 text-blue-500 hover:text-blue-700"
                       >
                         <Copy size={16} />

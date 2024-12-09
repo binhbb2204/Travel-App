@@ -24,33 +24,18 @@ api.interceptors.request.use(
 export const tourService = {
   createTour: async (tourData) => {
     try {
-        const user = authService.getCurrentUser();
-        if (user.role !== 'admin') {
-            throw new Error('Only admin can create tours');
-        }
+      const user = authService.getCurrentUser();
+      if (user.role !== 'admin') {
+        throw new Error('Only admin can create tours');
+      }
 
-        const formData = new FormData();
-        Object.keys(tourData).forEach(key => {
-            if (key === 'photos') {
-                tourData.photos.forEach(photo => formData.append('photos', photo));
-            } else {
-                formData.append(key, tourData[key]);
-            }
-        });
-
-        const response = await api.post('', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        });
-
-        return response.data.data;
+      const response = await api.post('', tourData);
+      return response.data.data;
     } catch (error) {
-        console.error('Error creating tour:', error.response?.data || error.message);
-        throw error;
+      console.error('Error creating tour:', error);
+      throw error;
     }
   },
-
 
   updateTour: async (tourId, tourData) => {
     try {
@@ -59,11 +44,7 @@ export const tourService = {
         throw new Error('Only admin can update tours');
       }
 
-      const response = await api.put(`${tourId}`, tourData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      const response = await api.put(`/${tourId}`, tourData);
       return response.data.data;
     } catch (error) {
       console.error(`Error updating tour with ID ${tourId}:`, error);
@@ -171,7 +152,7 @@ export const tourService = {
         throw new Error('Only admin can delete tours');
       }
 
-      const response = await api.delete(`${BASE_URL}/${tourId}`);
+      const response = await api.delete(`/${tourId}`);
       return response.data;
     } catch (error) {
       console.error(`Error deleting tour with ID ${tourId}:`, error);
