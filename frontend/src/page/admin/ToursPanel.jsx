@@ -138,33 +138,16 @@ const ToursPanel = () => {
     
     try {
       let result;
-      // Convert blob URLs to actual File objects
-      const photosToUpload = await Promise.all(
-        formData.photos.map(async (photo) => {
-          if (typeof photo === 'string' && photo.startsWith('blob:')) {
-            const response = await fetch(photo);
-            const blob = await response.blob();
-            return new File([blob], 'photo.jpg', { type: blob.type });
-          }
-          return photo;
-        })
-      );
-  
-      const submissionData = {
-        ...formData,
-        photos: photosToUpload
-      };
-  
       if (selectedTour) {
         // Update existing tour
-        result = await tourService.updateTour(selectedTour._id, submissionData);
+        result = await tourService.updateTour(selectedTour._id, formData);
         // Update tours list
         setTours(tours.map(tour => 
           tour._id === selectedTour._id ? result : tour
         ));
       } else {
         // Create new tour
-        result = await tourService.createTour(submissionData);
+        result = await tourService.createTour(formData);
         setTours([...tours, result]);
       }
       
@@ -262,7 +245,7 @@ const ToursPanel = () => {
                   onChange={handleChange}
                   placeholder="  Tour Title"
                   disabled={isViewMode}
-                  className="w-full pl-4 px-4 py-3 border border-gray-300 rounded-lg 
+                  className="w-full pl-4 px-5 py-3 border border-gray-300 rounded-lg 
                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
                   transition duration-300"
                   required
@@ -279,7 +262,7 @@ const ToursPanel = () => {
                   value={formData.country}
                   onChange={handleChange}
                   placeholder="  Country"
-                  className="w-full pl-10 px-4 py-3 border border-gray-300 rounded-lg 
+                  className="w-full pl-10 px-5 py-3 border border-gray-300 rounded-lg 
                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
                   transition duration-300"
                   required
@@ -300,7 +283,7 @@ const ToursPanel = () => {
                   value={formData.city}
                   onChange={handleChange}
                   placeholder="  City"
-                  className="w-full pl-10 px-4 py-3 border border-gray-300 rounded-lg 
+                  className="w-full pl-10 px-5 py-3 border border-gray-300 rounded-lg 
                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
                   transition duration-300"
                   required
@@ -318,7 +301,7 @@ const ToursPanel = () => {
                   value={formData.price}
                   onChange={handleChange}
                   placeholder="  Price (USD)"
-                  className="w-full pl-10 px-4 py-3 border border-gray-300 rounded-lg 
+                  className="w-full pl-10 px-5 py-3 border border-gray-300 rounded-lg 
                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
                   transition duration-300"
                   required
@@ -337,7 +320,7 @@ const ToursPanel = () => {
                   value={formData.duration}
                   onChange={handleChange}
                   placeholder="  Duration (Days)"
-                  className="w-full pl-10 px-4 py-3 border border-gray-300 rounded-lg 
+                  className="w-full pl-10 px-5 py-3 border border-gray-300 rounded-lg 
                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
                   transition duration-300"
                   required
@@ -463,7 +446,7 @@ const ToursPanel = () => {
               {/* Max Group Size */}
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Users className="text-gray-400" size={20} />
+                  <Users className="text-gray-400 mb-3" size={20} />
                 </div>
                 <input
                   type="number"
@@ -471,7 +454,7 @@ const ToursPanel = () => {
                   value={formData.maxGroupSize}
                   onChange={handleChange}
                   placeholder="Max Group Size"
-                  className="w-full pl-10 px-4 py-3 border border-gray-300 rounded-lg 
+                  className="w-full pl-10 px-5 py-3 border border-gray-300 rounded-lg 
                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
                   transition duration-300"
                   required

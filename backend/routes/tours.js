@@ -13,9 +13,9 @@ import { verifyAdmin } from '../utils/verifyToken.js';
 import upload from '../Config/uploadMiddleware.js';
 const router = express.Router();
 
-router.post("/", verifyAdmin, upload.array('photos'), createTour);
+router.post('/', upload.array('photos'), createTour);
 
-router.put("/:id", verifyAdmin, upload.array('photos'), updateTour);
+router.put('/:id', upload.array('photos'), updateTour);
 
 router.delete("/:id", verifyAdmin, deleteTour);
 router.get("/:id", getSingleTour);

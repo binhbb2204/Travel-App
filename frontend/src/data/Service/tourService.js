@@ -37,6 +37,7 @@ export const tourService = {
     }
   },
 
+
   updateTour: async (tourId, tourData) => {
     try {
       const user = authService.getCurrentUser();
@@ -44,7 +45,11 @@ export const tourService = {
         throw new Error('Only admin can update tours');
       }
 
-      const response = await api.put(`/${tourId}`, tourData);
+      const response = await api.put(`${tourId}`, tourData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
       return response.data.data;
     } catch (error) {
       console.error(`Error updating tour with ID ${tourId}:`, error);
@@ -152,7 +157,7 @@ export const tourService = {
         throw new Error('Only admin can delete tours');
       }
 
-      const response = await api.delete(`/${tourId}`);
+      const response = await api.delete(`${BASE_URL}/${tourId}`);
       return response.data;
     } catch (error) {
       console.error(`Error deleting tour with ID ${tourId}:`, error);
