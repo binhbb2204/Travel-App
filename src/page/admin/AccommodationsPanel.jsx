@@ -1,86 +1,78 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Plus, Edit, Trash2, EyeIcon, Star, X, ImagePlus, MapPin, Landmark, Clock, DollarSign, Users, FileText, Copy } from 'lucide-react';
-import { tourService } from '../../data/Service/tourService';
-import TourDetailsModal from '../../ui/Admin/TourDetailsModal';
-const ToursPanel = () => {
-  const [tours, setTours] = useState([]);
-  const [detailsTour, setDetailsTour] = useState(null);
+import { Plus, Edit, Trash2, EyeIcon, Star, X, ImagePlus, MapPin, Landmark, Clock, DollarSign, Users, FileText } from 'lucide-react';
+import { accommodationService } from '../../data/Service/accommodationService';
+import AccommodationDetailsModal from '../../ui/Admin/AccommodationDetailsModal';
+const AccommodationsPanel = () => {
+  const [accommodations, setAccommodations] = useState([]);
+  const [detailsAccommodation, setDetailsAccommodation] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedTour, setSelectedTour] = useState(null);
+  const [selectedAccommodation, setSelectedAccommodation] = useState(null);
   const [error, setError] = useState(null);
-  const [isCreatingTour, setIsCreatingTour] = useState(false);
+  const [isCreatingAccommodation, setIsCreatingAccommodation] = useState(false);
   const [isViewMode, setIsViewMode] = useState(false);
   const initialFormState = {
     title: '',
     country: '',
     city: '',
     photos: [],
-    existingPhotos: [],
     price: '',
-    duration: '',
-    maxGroupSize: '',
+    type: '',
+    totalCapacity: '',
     desc: '',
     featured: false,
     highlights: ['']
   };
   const [formData, setFormData] = useState(initialFormState);
 
-  // Fetch tours on component mount
+  // Fetch accommodations on component mount
   useEffect(() => {
-    const fetchTours = async () => {
+    const fetchAccommodations = async () => {
       try {
         setIsLoading(true);
-        const fetchedTours = await tourService.getAllTours();
-        setTours(fetchedTours);
+        const fetchedAccommodations = await accommodationService.getAllAccommodations();
+        setAccommodations(fetchedAccommodations);
         setIsLoading(false);
       } catch (err) {
-        setError('Failed to fetch tours');
+        setError('Failed to fetch accommodations');
         setIsLoading(false);
       }
     };
 
-    fetchTours();
+    fetchAccommodations();
   }, []);
 
-  const handleEditTour = async (tour) => {
+  const handleEditAccommodation = async (acco) => {
     try {
-      const fullTour = await tourService.getSingleTour(tour._id);
-      setSelectedTour(fullTour);
-      
-      const editFormData = {
-        ...fullTour,
-        existingPhotos: fullTour.photos || [], 
-        photos: []
-      };
-      
-      setFormData(editFormData);
+      const fullAcco = await accommodationService.getSingleAccommodation(acco._id);
+      setSelectedAccommodation(fullAcco);
+      setFormData(fullAcco);
       setIsViewMode(false);
-      setIsCreatingTour(true);
+      setIsCreatingAccommodation(true);
     } catch (err) {
-      setError('Failed to fetch tour details');
+      setError('Failed to fetch accommodation details');
     }
   };
 
-  // Delete tour handler
-  const handleDeleteTour = async (tourId) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this tour?");
+  // Delete accommodation handler
+  const handleDeleteAccommodation = async (accoId) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this accommodation?");
     if (confirmDelete) {
       try {
-        await tourService.deleteTour(tourId);
-        setTours(tours.filter(tour => tour._id !== tourId));
+        await accommodationService.deleteAccommodation(accoId);
+        setAccommodations(accommodations.filter(acco => acco._id !== accoId));
       } catch (err) {
-        setError('Failed to delete tour');
+        setError('Failed to delete accommodation');
       }
     }
   };
 
-  const handleViewTour = async (tour) => {
+  const handleViewAccommodation = async (acco) => {
     try {
-      const fullTour = await tourService.getSingleTour(tour._id);
-      setDetailsTour(fullTour);
+      const fullAcco = await accommodationService.getSingleAccommodation(acco._id);
+      setDetailsAccommodation(fullAcco);
     } catch (err) {
-      setError('Failed to fetch tour details');
+      setError('Failed to fetch accommodation details');
     }
   };
 
@@ -89,32 +81,32 @@ const ToursPanel = () => {
     const { name, value, files } = e.target;
 
     if (name === 'photos') {
-      const selectedFiles = Array.from(files);
+      const photoFiles = Array.from(files).map(file => 
+        URL.createObjectURL(file)
+      );
       setFormData(prev => ({
         ...prev,
-        photos: [...prev.photos, ...selectedFiles],
+        photos: [...prev.photos, ...photoFiles]
       }));
     } else if (name === 'highlights') {
       const newHighlights = [...formData.highlights];
       newHighlights[index] = value;
       setFormData(prev => ({
         ...prev,
-        highlights: newHighlights,
+        highlights: newHighlights
       }));
-    } else if (['price', 'duration', 'maxGroupSize'].includes(name)) {
+    } else if (['price', 'type', 'totalCapacity'].includes(name)) {
       setFormData(prev => ({
         ...prev,
-        [name]: value === '' ? '' : Number(value),
+        [name]: value === '' ? '' : Number(value)
       }));
     } else {
       setFormData(prev => ({
         ...prev,
-        [name]: value,
+        [name]: value
       }));
     }
   };
-
-  
 
   // Add highlight
   const addHighlight = () => {
@@ -140,81 +132,69 @@ const ToursPanel = () => {
     }));
   };
 
-  // Submit new tour
+  // Submit new accommodation
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+    
     try {
-      const formPayload = new FormData();
-      
-      // Append existing photo URLs
-      if (formData.existingPhotos) {
-        formData.existingPhotos.forEach(photoUrl => {
-          formPayload.append('existingPhotos', photoUrl);
-        });
-      }
-      
-      // Append new photo files
-      formData.photos.forEach(photo => {
-        formPayload.append('photos', photo);
-      });
-  
-      // Append other form data
-      Object.keys(formData).forEach(key => {
-        if (key !== 'photos' && key !== 'existingPhotos') {
-            if (key === 'highlights') {
-              const nonEmptyHighlights = formData.highlights.filter(highlight => highlight.trim() !== '');
-              formPayload.append(key, nonEmptyHighlights);
-            } else if (key === 'reviews') {
-                // Only append non-empty reviews
-              const nonEmptyReviews = formData.reviews 
-                  ? formData.reviews.filter(review => review && review !== '') 
-                  : [];
-              formPayload.append(key, JSON.stringify(nonEmptyReviews));
-            } else {
-              formPayload.append(key, formData[key]);
-            }
-        }
-      });
-  
       let result;
-      if (selectedTour) {
-        try {
-            result = await tourService.updateTour(selectedTour._id, formPayload);
-            setTours(tours.map(tour => 
-                tour._id === selectedTour._id ? result : tour
-            ));
-        } catch (error) {
-            console.error('Detailed update error:', error.response?.data || error.message);
-            setError(`Failed to update tour: ${error.response?.data?.message || error.message}`);
-            return;
-        }
-      } else {
-        // Create new tour
-        result = await tourService.createTour(formPayload);
-        setTours([...tours, result]);
-      }
+      // Convert blob URLs to actual File objects
+      const photosToUpload = await Promise.all(
+        formData.photos.map(async (photo) => {
+          if (typeof photo === 'string' && photo.startsWith('blob:')) {
+            const response = await fetch(photo);
+            const blob = await response.blob();
+            return new File([blob], 'photo.jpg', { type: blob.type });
+          }
+          return photo;
+        })
+      );
   
+      const submissionData = {
+        ...formData,
+        photos: photosToUpload
+      };
+  
+      if (selectedAccommodation) {
+        // Update existing accommodation
+        result = await accommodationService.updateAccommodation(selectedAccommodation._id, submissionData);
+        // Update accommodations list
+        setAccommodations(accommodations.map(acco => 
+          acco._id === selectedAccommodation._id ? result : acco
+        ));
+      } else {
+        // Create new accommodation
+        result = await accommodationService.createAccommodation(submissionData);
+        setAccommodations([...accommodations, result]);
+      }
+      
       // Reset form and state
       setFormData(initialFormState);
-      setIsCreatingTour(false);
-      setSelectedTour(null);
+      setIsCreatingAccommodation(false);
+      setSelectedAccommodation(null);
       setIsViewMode(false);
     } catch (error) {
-      console.error('Error saving tour:', error);
-      setError('Failed to save tour');
+      console.error('Error saving accommodation:', error);
+      setError('Failed to save accommodation');
     }
   };
-  
+
+  const handleCancel = () => {
+    setIsCreatingAccommodation(false);
+    setSelectedAccommodation(null);
+    setIsViewMode(false);
+    setFormData(initialFormState);
+  };
+
   // Render loading state
   if (isLoading) {
     return (
       <div className="bg-white rounded-lg shadow-sm">
         <div className="p-4 border-b bg-gradient-to-r from-white to-gray-50">
-          <h2 className="text-lg font-semibold">Tours Management</h2>
+          <h2 className="text-lg font-semibold">Accommodations Management</h2>
         </div>
         <div className="p-4 flex justify-center items-center h-96">
-          <p className="text-gray-500">Loading tours...</p>
+          <p className="text-gray-500">Loading accommodations...</p>
         </div>
       </div>
     );
@@ -225,7 +205,7 @@ const ToursPanel = () => {
     return (
       <div className="bg-white rounded-lg shadow-sm">
         <div className="p-4 border-b bg-gradient-to-r from-white to-gray-50">
-          <h2 className="text-lg font-semibold">Tours Management</h2>
+          <h2 className="text-lg font-semibold">Accommodations Management</h2>
         </div>
         <div className="p-4 flex justify-center items-center h-96">
           <p className="text-red-500">{error}</p>
@@ -241,21 +221,21 @@ const ToursPanel = () => {
                     flex justify-between items-center border-b border-blue-100">
         <h2 className="text-2xl font-bold text-gray-800 flex items-center">
           <Landmark className="mr-3 text-blue-600" size={24} />
-          Tours Management
+          Accommodations Management
         </h2>
-        {!isCreatingTour ? (
+        {!isCreatingAccommodation ? (
           
           <button 
-            onClick={() => setIsCreatingTour(true)}
+            onClick={() => setIsCreatingAccommodation(true)}
             className="group flex items-center bg-blue-600 text-white px-5 py-2.5 rounded-lg 
             hover:bg-blue-700 transition-all duration-300 ease-in-out 
             transform hover:-translate-y-1 hover:shadow-lg"
           >
-            <Plus className="mr-2 group-hover:rotate-180 transition-transform" size={20} /> Create New Tour
+            <Plus className="mr-2 group-hover:rotate-180 transition-transform" size={20} /> Create New Accommodation
           </button>
         ) : (
           <button 
-            onClick={() => setIsCreatingTour(false)}
+            onClick={() => setIsCreatingAccommodation(false)}
             className="group flex items-center bg-red-500 text-white px-5 py-2.5 rounded-lg 
             hover:bg-red-600 transition-all duration-300 ease-in-out 
             transform hover:-translate-y-1 hover:shadow-lg"
@@ -265,8 +245,8 @@ const ToursPanel = () => {
         )}
       </div>
 
-      {/* Inline Tour Creation Form */}
-      {isCreatingTour && (
+      {/* Inline Accommodation Creation Form */}
+      {isCreatingAccommodation && (
         <div className="bg-gray-50 p-8">
           <form onSubmit={handleSubmit} className="space-y-6 max-w-6xl mx-auto">
             <div className="grid md:grid-cols-2 gap-6">
@@ -280,9 +260,9 @@ const ToursPanel = () => {
                   name="title"
                   value={formData.title}
                   onChange={handleChange}
-                  placeholder="  Tour Title"
+                  placeholder="  Accommodation Title"
                   disabled={isViewMode}
-                  className="w-full pl-4 px-5 py-3 border border-gray-300 rounded-lg 
+                  className="w-full pl-4 px-4 py-3 border border-gray-300 rounded-lg 
                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
                   transition duration-300"
                   required
@@ -299,7 +279,7 @@ const ToursPanel = () => {
                   value={formData.country}
                   onChange={handleChange}
                   placeholder="  Country"
-                  className="w-full pl-10 px-5 py-3 border border-gray-300 rounded-lg 
+                  className="w-full pl-10 px-4 py-3 border border-gray-300 rounded-lg 
                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
                   transition duration-300"
                   required
@@ -320,7 +300,7 @@ const ToursPanel = () => {
                   value={formData.city}
                   onChange={handleChange}
                   placeholder="  City"
-                  className="w-full pl-10 px-5 py-3 border border-gray-300 rounded-lg 
+                  className="w-full pl-10 px-4 py-3 border border-gray-300 rounded-lg 
                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
                   transition duration-300"
                   required
@@ -338,7 +318,7 @@ const ToursPanel = () => {
                   value={formData.price}
                   onChange={handleChange}
                   placeholder="  Price (USD)"
-                  className="w-full pl-10 px-5 py-3 border border-gray-300 rounded-lg 
+                  className="w-full pl-10 px-4 py-3 border border-gray-300 rounded-lg 
                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
                   transition duration-300"
                   required
@@ -346,18 +326,18 @@ const ToursPanel = () => {
                 />
               </div>
 
-              {/* Duration Input */}
+              {/* type Input */}
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <Clock className="text-gray-400" size={20} />
                 </div>
                 <input
                   type="number"
-                  name="duration"
-                  value={formData.duration}
+                  name="type"
+                  value={formData.type}
                   onChange={handleChange}
-                  placeholder="  Duration (Days)"
-                  className="w-full pl-10 px-5 py-3 border border-gray-300 rounded-lg 
+                  placeholder="  Type "
+                  className="w-full pl-10 px-4 py-3 border border-gray-300 rounded-lg 
                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
                   transition duration-300"
                   required
@@ -368,7 +348,7 @@ const ToursPanel = () => {
 
             {/* Highlights */}
             <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-              <h3 className="text-lg font-semibold text-gray-700 mb-4">Tour Highlights</h3>
+              <h3 className="text-lg font-semibold text-gray-700 mb-4">Accommodation Highlights</h3>
               {formData.highlights.map((highlight, index) => (
                 <div key={index} className="flex mb-3">
                   <input
@@ -376,7 +356,7 @@ const ToursPanel = () => {
                     name="highlights"
                     value={highlight}
                     onChange={(e) => handleChange(e, index)}
-                    placeholder="Tour Highlight"
+                    placeholder="Accommodation Highlight"
                     className="flex-grow px-4 py-2.5 border border-gray-300 rounded-lg 
                     focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
                     transition duration-300 mr-3"
@@ -406,7 +386,7 @@ const ToursPanel = () => {
 
             {/* Photos Upload */}
             <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-              <h3 className="text-lg font-semibold text-gray-700 mb-4">Tour Photos</h3>
+              <h3 className="text-lg font-semibold text-gray-700 mb-4">Upload Accommodation Photos</h3>
               <div className="flex items-center justify-center w-full">
                 <label className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-blue-300 rounded-lg cursor-pointer 
                 hover:bg-blue-50 transition-colors group">
@@ -427,78 +407,25 @@ const ToursPanel = () => {
                   />
                 </label>
               </div>
-              
-              {/* Display Existing Photos */}
-              {formData.existingPhotos && formData.existingPhotos.length > 0 && (
-                <div className="mt-4">
-                  <h4 className="text-md font-semibold text-gray-700 mb-2">Existing Photos</h4>
-                  <div className="flex flex-wrap gap-3">
-                    {formData.existingPhotos.map((photoUrl, index) => (
-                      <div key={`existing-${index}`} className="relative group">
-                        <img 
-                          src={photoUrl} 
-                          alt={`Existing Tour ${index + 1}`} 
-                          className="w-44 h-48 object-cover rounded-lg shadow-md" 
-                        />
-                        <button 
-                          type="button"
-                          onClick={() => {
-                            setFormData(prev => ({
-                              ...prev,
-                              existingPhotos: prev.existingPhotos.filter((_, i) => i !== index)
-                            }));
-                          }}
-                          className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1.5 
-                          opacity-100 transition-opacity hover:bg-red-600"
-                        >
-                          <X size={16} />
-                        </button>
-                      </div>
-                    ))}
+              <div className="flex flex-wrap gap-3 mt-4">
+                {formData.photos.map((photo, index) => (
+                  <div key={index} className="relative group">
+                    <img 
+                      src={photo} 
+                      alt={`Accommodation ${index + 1}`} 
+                      className="w-32 h-32 object-cover rounded-lg" 
+                    />
+                    <button 
+                      type="button"
+                      onClick={() => removePhoto(index)}
+                      className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 
+                      opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <X size={16} />
+                    </button>
                   </div>
-                </div>
-              )}
-
-              {/* Display New Uploaded Photos */}
-              {formData.photos && formData.photos.length > 0 && (
-                <div className="mt-4">
-                  <h4 className="text-md font-semibold text-gray-700 mb-2">New Photos</h4>
-                  <div className="flex flex-wrap gap-3">
-                    {formData.photos.map((photo, index) => (
-                      <div key={`new-${index}`} className="relative group">
-                        <img 
-                          src={URL.createObjectURL(photo)} 
-                          alt={`New Tour ${index + 1}`} 
-                          className="w-44 h-48 object-cover rounded-lg shadow-md" 
-                        />
-                        <button 
-                          type="button"
-                          onClick={() => {
-                            setFormData(prev => ({
-                              ...prev,
-                              photos: prev.photos.filter((_, i) => i !== index)
-                            }));
-                          }}
-                          className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1.5 
-                          opacity-100 transition-opacity hover:bg-red-600"
-                        >
-                          <X size={16} />
-                        </button>
-                        <div className="bg-gray-100 p-2 rounded-lg text-xs break-words flex items-center justify-between mt-1 w-64">
-                          <span className="font-semibold mr-2">URL:</span> 
-                          <span className="flex-grow truncate">{photo.name}</span>
-                          <button 
-                            onClick={() => navigator.clipboard.writeText(photo.name)}
-                            className="ml-2 text-blue-500 hover:text-blue-700"
-                          >
-                            <Copy size={16} />
-                          </button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+                ))}
+              </div>
             </div>
 
             {/* Description */}
@@ -507,7 +434,7 @@ const ToursPanel = () => {
                 name="desc"
                 value={formData.desc}
                 onChange={handleChange}
-                placeholder="Tour Description"
+                placeholder="Accommodation Description"
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg 
                 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
                 transition duration-300"
@@ -530,21 +457,21 @@ const ToursPanel = () => {
                     }))}
                     className="mr-3 h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                   />
-                  <span className="text-gray-700">Featured Tour</span>
+                  <span className="text-gray-700">Featured Accommodation</span>
                 </label>
               </div>
               {/* Max Group Size */}
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Users className="text-gray-400 mb-3" size={20} />
+                  <Users className="text-gray-400" size={20} />
                 </div>
                 <input
                   type="number"
-                  name="maxGroupSize"
-                  value={formData.maxGroupSize}
+                  name="totalCapacity"
+                  value={formData.totalCapacity}
                   onChange={handleChange}
                   placeholder="Max Group Size"
-                  className="w-full pl-10 px-5 py-3 border border-gray-300 rounded-lg 
+                  className="w-full pl-10 px-4 py-3 border border-gray-300 rounded-lg 
                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
                   transition duration-300"
                   required
@@ -563,17 +490,17 @@ const ToursPanel = () => {
                 transition-all duration-300 ease-in-out 
                 transform hover:-translate-y-1 hover:shadow-xl"
               >
-                {selectedTour ? 'Update Tour' : 'Create Tour'}
+                {selectedAccommodation ? 'Update Accommodation' : 'Create Accommodation'}
               </button>
             </div>
           </form>
         </div>
       )}
       
-      {/* Tours Table */}
-      {tours.length === 0 ? (
+      {/* accommodations Table */}
+      {accommodations.length === 0 ? (
         <div className="p-4 flex justify-center items-center h-96">
-          <p className="text-gray-500">No tours found. Create your first tour!</p>
+          <p className="text-gray-500">No accommodations found. Create your first accommodation!</p>
         </div>
       ) : (
         <div className="max-h-[600px] overflow-y-auto">
@@ -583,23 +510,23 @@ const ToursPanel = () => {
                 <th className="p-4">Title</th>
                 <th className="p-4">Country</th>
                 <th className="p-4">Price</th>
-                <th className="p-4">Duration</th>
+                <th className="p-4">Type</th>
                 <th className="p-4">Featured</th>
                 <th className="p-4">Actions</th>
               </tr>
             </thead>
             <tbody>
-              {tours.map(tour => (
-                <tr key={tour._id} className="border-b hover:bg-gray-50 transition">
+              {accommodations.map(acco => (
+                <tr key={acco._id} className="border-b hover:bg-gray-50 transition">
                   <td className="p-4 flex items-center">
-                    {tour.featured && <Star className="text-yellow-500 mr-2" size={16} />}
-                    <span>{tour.title}</span>
+                    {acco.featured && <Star className="text-yellow-500 mr-2" size={16} />}
+                    <span>{acco.title}</span>
                   </td>
-                  <td className="p-4">{tour.country}</td>
-                  <td className="p-4">${tour.price}</td>
-                  <td className="p-4">{tour.duration} days</td>
+                  <td className="p-4">{acco.country}</td>
+                  <td className="p-4">${acco.price}</td>
+                  <td className="p-4">{acco.type}</td>
                   <td className="p-4">
-                    {tour.featured ? (
+                    {acco.featured ? (
                       <span className="text-green-500">Yes</span>
                     ) : (
                       <span className="text-gray-500">No</span>
@@ -608,19 +535,19 @@ const ToursPanel = () => {
                   <td className="p-4">
                     <div className="flex space-x-2">
                       <button 
-                        onClick={() => handleViewTour(tour)}
+                        onClick={() => handleViewAccommodation(acco)}
                         className="text-blue-500 hover:bg-blue-50 p-2 rounded-full"
                       >
                         <EyeIcon size={18} />
                       </button>
                       <button 
-                        onClick={() => handleEditTour(tour)}
+                        onClick={() => handleEditAccommodation(acco)}
                         className="text-green-500 hover:bg-green-50 p-2 rounded-full"
                       >
                         <Edit size={18} />
                       </button>
                       <button 
-                        onClick={() => handleDeleteTour(tour._id)}
+                        onClick={() => handleDeleteAccommodation(acco._id)}
                         className="text-red-500 hover:bg-red-50 p-2 rounded-full"
                       >
                         <Trash2 size={18} />
@@ -633,14 +560,14 @@ const ToursPanel = () => {
           </table>
         </div>
       )}
-      {detailsTour && (
-        <TourDetailsModal 
-          tour={detailsTour} 
-          onClose={() => setDetailsTour(null)} 
+      {detailsAccommodation && (
+        <AccommodationDetailsModal 
+          acco={detailsAccommodation} 
+          onClose={() => setDetailsAccommodation(null)} 
         />
       )}
     </div>
   );
 };
 
-export default ToursPanel;
+export default AccommodationsPanel;

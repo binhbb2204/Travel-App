@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import AdminSidebar from './AdminSidebar';
 import UsersPanel from "./UsersPanel";
 import ToursPanel from './ToursPanel';
-import HotelsPanel from './HotelsPanel';
+import AccommodationsPanel from './AccommodationsPanel';
 import OverviewPanel from "./OverviewPanel";
 import TransactionPanel from "./TransactionPanel";
 import { Activity } from 'lucide-react';
@@ -59,8 +59,8 @@ const AdminPanel = () => {
         return <UsersPanel />;
       case 'tours':
         return <ToursPanel />;
-      case 'hotels':
-        return <HotelsPanel />;
+      case 'accommodations':
+        return <AccommodationsPanel />;
       case 'transactions':
         return <TransactionPanel />;
       default:

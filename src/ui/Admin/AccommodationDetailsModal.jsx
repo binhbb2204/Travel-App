@@ -3,9 +3,9 @@ import {
     X, EyeIcon, MapPin, DollarSign, Clock, Users, Star,
     Tag, MessageSquareText
 } from 'lucide-react';
-import './tourdetailsmodal.css'
-const TourDetailsModal = ({ tour, onClose }) => {
-    if (!tour) return null;
+import './accommodationdetailsmodal.css';
+const AccommodationDetailsModal = ({ acco, onClose }) => {
+    if (!acco) return null;
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center overflow-y-auto p-4">
@@ -21,7 +21,7 @@ const TourDetailsModal = ({ tour, onClose }) => {
 
                     <div className="flex items-center">
                         <EyeIcon className="mr-3 text-blue-600" size={24} />
-                        <h2 className="text-2xl font-bold text-gray-800">Tour Details</h2>
+                        <h2 className="text-2xl font-bold text-gray-800">Accommodation Details</h2>
                     </div>
                 </div>
 
@@ -31,12 +31,12 @@ const TourDetailsModal = ({ tour, onClose }) => {
                     <div className="grid md:grid-cols-2 gap-6 mb-6">
                         {/* Image Gallery */}
                         <div className="grid grid-cols-2 gap-4">
-                            {tour.photos && tour.photos.length > 0 ? (
-                                tour.photos.map((photo, index) => (
+                            {acco.photos && acco.photos.length > 0 ? (
+                                acco.photos.map((photo, index) => (
                                     <img
                                         key={index}
                                         src={photo}
-                                        alt={`Tour ${index + 1}`}
+                                        alt={`Accommodation ${index + 1}`}
                                         className="w-full h-48 object-cover rounded-lg shadow-md"
                                     />
                                 ))
@@ -45,57 +45,57 @@ const TourDetailsModal = ({ tour, onClose }) => {
                             )}
                         </div>
 
-                        {/* Tour Details */}
+                        {/* Accommodation Details */}
                         <div className="space-y-4">
-                            <h3 className="text-3xl font-bold text-gray-800 mb-4">{tour.title}</h3>
+                            <h3 className="text-3xl font-bold text-gray-800 mb-4">{acco.title}</h3>
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="flex items-center space-x-2">
                                     <MapPin className="text-blue-600" size={20} />
-                                    <span>{tour.country}, {tour.city}</span>
+                                    <span>{acco.country}, {acco.city}</span>
                                 </div>
                                 <div className="flex items-center space-x-2">
                                     <DollarSign className="text-blue-600" size={20} />
-                                    <span>{tour.price}</span>
+                                    <span>{acco.price}</span>
                                 </div>
                                 <div className="flex items-center space-x-2">
                                     <Clock className="text-blue-600" size={20} />
-                                    <span>{tour.duration} Days</span>
+                                    <span>{acco.type}</span>
                                 </div>
                                 <div className="flex items-center space-x-2">
                                     <Users className="text-blue-600" size={20} />
-                                    <span>Max {tour.maxGroupSize} People</span>
+                                    <span>Max {acco.maxGroupSize} People</span>
                                 </div>
                             </div>
 
-                            {tour.featured && (
+                            {acco.featured && (
                                 <div className="flex items-center space-x-2 mt-4;">
                                     <Star className="text-yellow-500" size={20} />
-                                    <span>Featured Tour</span>
+                                    <span>Featured Accommodation</span>
                                 </div>
                             )}
                         </div>
                     </div>
 
                     {/* Description and Highlights */}
-                    <div className="tour-modal-description-section">
-                        <div className="tour-modal-description">
+                    <div className="acco-modal-description-section">
+                        <div className="acco-modal-description">
                             <h4 className="text-xl font-semibold mb-4 flex items-center">
                                 <MessageSquareText className="mr-2 text-blue-600" size={20} />
-                                Tour Description
+                                Accommodation Description
                             </h4>
-                            <p>{tour.desc}</p>
+                            <p>{acco.desc}</p>
                         </div>
 
-                        <div className="tour-modal-highlights">
+                        <div className="acco-modal-highlights">
                             <h4 className="text-xl font-semibold mb-4 flex items-center">
                                 <Tag className="mr-2 text-blue-600" size={20} />
-                                Tour Highlights
+                                Accommodation Highlights
                             </h4>
-                            <ul className="tour-modal-highlights-list">
-                                {tour.highlights && tour.highlights.map((highlight, index) => (
-                                    <li key={index} className="tour-modal-highlight-item">
-                                        <span className="tour-modal-highlight-bullet">•</span>
+                            <ul className="acco-modal-highlights-list">
+                                {acco.highlights && acco.highlights.map((highlight, index) => (
+                                    <li key={index} className="acco-modal-highlight-item">
+                                        <span className="acco-modal-highlight-bullet">•</span>
                                         {highlight}
                                     </li>
                                 ))}
@@ -108,4 +108,4 @@ const TourDetailsModal = ({ tour, onClose }) => {
     );
 };
 
-export default TourDetailsModal;
+export default AccommodationDetailsModal;

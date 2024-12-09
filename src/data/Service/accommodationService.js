@@ -93,5 +93,22 @@ export const accommodationService = {
       console.error('Error fetching accommodation count:', error);
       throw error;
     }
-  }
+  },
+
+  updateAccommodation: async () => {
+    try {
+
+    } catch (error) {
+
+    }
+  },
+
+  deleteAccommodation: async () => {
+    try {
+
+    } catch (error) {
+
+    }
+  },
+
 };
