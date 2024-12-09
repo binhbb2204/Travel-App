@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import AdminSidebar from './AdminSidebar';
 import OverviewPanel from "./admin/OverviewPanel";
 import ToursPanel from "./admin/ToursPanel";
-import HotelsPanel from "./admin/HotelsPanel";
+import AccommodationsPanel from "./admin/AccommodationsPanel";
 import FlightsPanel from "./admin/FlightsPanel";
 import UsersPanel from "./admin/UsersPanel";
 import TransactionPanel from "./admin/TransactionPanel"
@@ -52,7 +52,7 @@ const AdminPanel = () => {
             case 'tours':
                 return <ToursPanel />;
             case 'hotels':
-                return <HotelsPanel />;
+                return <AccommodationsPanel />;
             case 'flights':
                 return <FlightsPanel />;
             case 'transaction':
