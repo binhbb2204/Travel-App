@@ -213,7 +213,7 @@ const Header = () => {
                           <Link to="/admin-panel">Admin Panel</Link>
                         </li>
                       )}
-                      {userRole === 'user' && (
+                      {userRole === 'user' || userRole === 'admin' && (
                         <li className="p-2 hover:bg-gray-100 cursor-pointer text-blue-500 font-bold">
                           <Link to="/user-settings">User Settings</Link>
                         </li>
