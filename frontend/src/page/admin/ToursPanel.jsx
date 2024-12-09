@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Plus, Edit, Trash2, EyeIcon, Star, X, ImagePlus, MapPin, Landmark, Clock, DollarSign, Users, FileText } from 'lucide-react';
+import { Plus, Edit, Trash2, EyeIcon, Star, X, ImagePlus, MapPin, Landmark, Clock, DollarSign, Users, FileText, Copy } from 'lucide-react';
 import { tourService } from '../../data/Service/tourService';
 import TourDetailsModal from '../../ui/Admin/TourDetailsModal';
 const ToursPanel = () => {
@@ -391,21 +391,31 @@ const ToursPanel = () => {
                 </label>
               </div>
               <div className="flex flex-wrap gap-3 mt-4">
-                {formData.photos.map((photo, index) => (
+              {formData.photos.map((photo, index) => (
                   <div key={index} className="relative group">
                     <img 
                       src={photo} 
                       alt={`Tour ${index + 1}`} 
-                      className="w-32 h-32 object-cover rounded-lg" 
+                      className="w-44 h-48 object-cover rounded-lg shadow-md" 
                     />
                     <button 
                       type="button"
                       onClick={() => removePhoto(index)}
-                      className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 
-                      opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1.5 
+                      opacity-100 transition-opacity hover:bg-red-600"
                     >
                       <X size={16} />
                     </button>
+                    <div className="bg-gray-100 p-2 rounded-lg text-xs break-words flex items-center justify-between mt-1 w-64">
+                      <span className="font-semibold mr-2">URL:</span> 
+                      <span className="flex-grow truncate">{photo}</span>
+                      <button 
+                        onClick={() => navigator.clipboard.writeText(photo)}
+                        className="ml-2 text-blue-500 hover:text-blue-700"
+                      >
+                        <Copy size={16} />
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>

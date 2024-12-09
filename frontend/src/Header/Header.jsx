@@ -161,12 +161,12 @@ const Header = () => {
                           {favorites.map((tour) => (
                             <Link
                               key={tour.id}
-                              to={`/tours/${tour.id}`}
+                              to={`/tours/${tour._id}`}
                               className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors duration-200"
                               onClick={() => setShowFavorites(false)}
                             >
                               <img
-                                src={tour.photo}
+                                src={tour.photos}
                                 alt={tour.title}
                                 className="w-12 h-12 object-cover rounded"
                               />

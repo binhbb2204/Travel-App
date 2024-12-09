@@ -24,16 +24,30 @@ api.interceptors.request.use(
 export const tourService = {
   createTour: async (tourData) => {
     try {
-      const user = authService.getCurrentUser();
-      if (user.role !== 'admin') {
-        throw new Error('Only admin can create tours');
-      }
+        const user = authService.getCurrentUser();
+        if (user.role !== 'admin') {
+            throw new Error('Only admin can create tours');
+        }
 
-      const response = await api.post('', tourData);
-      return response.data.data;
+        const formData = new FormData();
+        Object.keys(tourData).forEach(key => {
+            if (key === 'photos') {
+                tourData.photos.forEach(photo => formData.append('photos', photo));
+            } else {
+                formData.append(key, tourData[key]);
+            }
+        });
+
+        const response = await api.post('', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+
+        return response.data.data;
     } catch (error) {
-      console.error('Error creating tour:', error);
-      throw error;
+        console.error('Error creating tour:', error.response?.data || error.message);
+        throw error;
     }
   },
 
