@@ -5,8 +5,8 @@ import cloudinary from './cloudinaryConfig.js';
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: 'tours', // Folder name in your Cloudinary account
-    allowed_formats: ['jpg', 'jpeg', 'png'], // Limit to specific formats
+    folder: 'tours', 
+    allowed_formats: ['jpg', 'jpeg', 'png'], 
     public_id: (req, file) => `tour_${Date.now()}_${file.originalname}`,
   },
 });
