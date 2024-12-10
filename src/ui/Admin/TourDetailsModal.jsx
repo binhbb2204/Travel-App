@@ -9,7 +9,7 @@ const TourDetailsModal = ({ tour, onClose }) => {
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center overflow-y-auto p-4">
-            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl relative my-8 max-h-[95vh] flex flex-col">
+            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl relative my-8 max-h-[95vh] flex flex-col overflow-hidden">
                 {/* Modal Header */}
                 <div className="bg-gradient-to-r rounded-t-2xl from-blue-100 via-white to-blue-100 p-6 border-b relative flex-shrink-0">
                     <button

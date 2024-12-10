@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Plus, Edit, Trash2, EyeIcon, Star, X, ImagePlus, MapPin, Landmark, Clock, DollarSign, Users, FileText } from 'lucide-react';
+import { Plus, Edit, Trash2, EyeIcon, Star, X, ImagePlus, MapPin, Landmark, Hotel, DollarSign, Users, FileText, Copy } from 'lucide-react';
 import { accommodationService } from '../../data/Service/accommodationService';
 import AccommodationDetailsModal from '../../ui/Admin/AccommodationDetailsModal';
 const AccommodationsPanel = () => {
@@ -21,7 +21,8 @@ const AccommodationsPanel = () => {
     totalCapacity: '',
     desc: '',
     featured: false,
-    highlights: ['']
+    highlights: [''],
+    reviews: []
   };
   const [formData, setFormData] = useState(initialFormState);
 
@@ -46,7 +47,13 @@ const AccommodationsPanel = () => {
     try {
       const fullAcco = await accommodationService.getSingleAccommodation(acco._id);
       setSelectedAccommodation(fullAcco);
-      setFormData(fullAcco);
+      
+      const editFormData = {
+        ...fullAcco,
+        photos: []
+      };
+
+      setFormData(editFormData);
       setIsViewMode(false);
       setIsCreatingAccommodation(true);
     } catch (err) {
@@ -81,9 +88,7 @@ const AccommodationsPanel = () => {
     const { name, value, files } = e.target;
 
     if (name === 'photos') {
-      const photoFiles = Array.from(files).map(file => 
-        URL.createObjectURL(file)
-      );
+      const photoFiles = Array.from(files);
       setFormData(prev => ({
         ...prev,
         photos: [...prev.photos, ...photoFiles]
@@ -95,7 +100,17 @@ const AccommodationsPanel = () => {
         ...prev,
         highlights: newHighlights
       }));
-    } else if (['price', 'type', 'totalCapacity'].includes(name)) {
+    } else if(name === 'desc'){
+      setFormData(prev => ({
+        ...prev,
+        [name]: value,
+      }))
+    } else if (name === 'type') {
+      setFormData(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    } else if (['price', 'totalCapacity'].includes(name)) {
       setFormData(prev => ({
         ...prev,
         [name]: value === '' ? '' : Number(value)
@@ -107,6 +122,8 @@ const AccommodationsPanel = () => {
       }));
     }
   };
+
+
 
   // Add highlight
   const addHighlight = () => {
@@ -137,34 +154,56 @@ const AccommodationsPanel = () => {
     e.preventDefault();
     
     try {
-      let result;
-      // Convert blob URLs to actual File objects
-      const photosToUpload = await Promise.all(
-        formData.photos.map(async (photo) => {
-          if (typeof photo === 'string' && photo.startsWith('blob:')) {
-            const response = await fetch(photo);
-            const blob = await response.blob();
-            return new File([blob], 'photo.jpg', { type: blob.type });
+      const formPayload = new FormData();
+
+      // Append new photo files
+      if (formData.photos.length > 0) {
+        formData.photos.forEach((photo) => {
+          formPayload.append('photos', photo);
+        });
+      }
+
+      // Append existing photo URLs if updating
+      if (selectedAccommodation && selectedAccommodation.photos) {
+        selectedAccommodation.photos.forEach(photoUrl => {
+          formPayload.append('existingPhotos', photoUrl);
+        });
+      }
+
+      // Append other form data
+      Object.keys(formData).forEach(key => {
+        if (key !== 'photos') {
+          if (key === 'highlights') {
+            const nonEmptyHighlights = formData.highlights
+              .filter(highlight => highlight.trim() !== '')
+              .map(highlight => highlight.trim());
+                    
+            nonEmptyHighlights.forEach(highlight => {
+              formPayload.append('highlights', highlight);
+            });
+          } else if (key === 'reviews') {
+            const nonEmptyReviews = formData.reviews 
+              ? formData.reviews.filter(review => review.trim() !== '') 
+              : [];
+                    
+            if (nonEmptyReviews.length > 0) {
+              formPayload.append(key, JSON.stringify(nonEmptyReviews));
+            }
+          } else {
+            formPayload.append(key, formData[key]);
           }
-          return photo;
-        })
-      );
-  
-      const submissionData = {
-        ...formData,
-        photos: photosToUpload
-      };
-  
+        }
+      });
+
+      let result;
       if (selectedAccommodation) {
-        // Update existing accommodation
-        result = await accommodationService.updateAccommodation(selectedAccommodation._id, submissionData);
-        // Update accommodations list
+        result = await accommodationService.updateAccommodation(selectedAccommodation._id, formPayload);
         setAccommodations(accommodations.map(acco => 
           acco._id === selectedAccommodation._id ? result : acco
         ));
       } else {
         // Create new accommodation
-        result = await accommodationService.createAccommodation(submissionData);
+        result = await accommodationService.createAccommodation(formPayload);
         setAccommodations([...accommodations, result]);
       }
       
@@ -262,7 +301,7 @@ const AccommodationsPanel = () => {
                   onChange={handleChange}
                   placeholder="  Accommodation Title"
                   disabled={isViewMode}
-                  className="w-full pl-4 px-4 py-3 border border-gray-300 rounded-lg 
+                  className="w-full pl-4 px-5 py-3 border border-gray-300 rounded-lg 
                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
                   transition duration-300"
                   required
@@ -279,7 +318,7 @@ const AccommodationsPanel = () => {
                   value={formData.country}
                   onChange={handleChange}
                   placeholder="  Country"
-                  className="w-full pl-10 px-4 py-3 border border-gray-300 rounded-lg 
+                  className="w-full pl-10 px-5 py-3 border border-gray-300 rounded-lg 
                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
                   transition duration-300"
                   required
@@ -300,7 +339,7 @@ const AccommodationsPanel = () => {
                   value={formData.city}
                   onChange={handleChange}
                   placeholder="  City"
-                  className="w-full pl-10 px-4 py-3 border border-gray-300 rounded-lg 
+                  className="w-full pl-10 px-5 py-3 border border-gray-300 rounded-lg 
                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
                   transition duration-300"
                   required
@@ -318,7 +357,7 @@ const AccommodationsPanel = () => {
                   value={formData.price}
                   onChange={handleChange}
                   placeholder="  Price (USD)"
-                  className="w-full pl-10 px-4 py-3 border border-gray-300 rounded-lg 
+                  className="w-full pl-10 px-5 py-3 border border-gray-300 rounded-lg 
                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
                   transition duration-300"
                   required
@@ -329,19 +368,18 @@ const AccommodationsPanel = () => {
               {/* type Input */}
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Clock className="text-gray-400" size={20} />
+                  <Hotel className="text-gray-400" size={20} />
                 </div>
                 <input
-                  type="number"
+                  type="text"
                   name="type"
                   value={formData.type}
                   onChange={handleChange}
                   placeholder="  Type "
-                  className="w-full pl-10 px-4 py-3 border border-gray-300 rounded-lg 
+                  className="w-full pl-10 px-5 py-3 border border-gray-300 rounded-lg 
                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
                   transition duration-300"
                   required
-                  min="1"
                 />
               </div>
             </div>
@@ -357,7 +395,7 @@ const AccommodationsPanel = () => {
                     value={highlight}
                     onChange={(e) => handleChange(e, index)}
                     placeholder="Accommodation Highlight"
-                    className="flex-grow px-4 py-2.5 border border-gray-300 rounded-lg 
+                    className="flex-grow px-5 py-2.5 border border-gray-300 rounded-lg 
                     focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
                     transition duration-300 mr-3"
                     required
@@ -407,25 +445,80 @@ const AccommodationsPanel = () => {
                   />
                 </label>
               </div>
-              <div className="flex flex-wrap gap-3 mt-4">
-                {formData.photos.map((photo, index) => (
-                  <div key={index} className="relative group">
-                    <img 
-                      src={photo} 
-                      alt={`Accommodation ${index + 1}`} 
-                      className="w-32 h-32 object-cover rounded-lg" 
-                    />
-                    <button 
-                      type="button"
-                      onClick={() => removePhoto(index)}
-                      className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 
-                      opacity-0 group-hover:opacity-100 transition-opacity"
-                    >
-                      <X size={16} />
-                    </button>
+              {selectedAccommodation && selectedAccommodation.photos && selectedAccommodation.photos.length > 0 && (
+                <div className="mt-4">
+                  <h4 className="text-md font-semibold text-gray-700 mb-2">Existing Photos</h4>
+                  <div className="flex flex-wrap gap-3">
+                    {selectedAccommodation.photos.map((photoUrl, index) => (
+                      <div key={`existing-${index}`} className="relative group">
+                        <img 
+                          src={photoUrl} 
+                          alt={`Existing Accommodation ${index + 1}`} 
+                          className="w-44 h-48 object-cover rounded-lg shadow-md" 
+                        />
+                        <button 
+                          type="button"
+                          onClick={() => {
+                            // Update the accommodation's photos by removing the specific photo
+                            const updatedPhotos = selectedAccommodation.photos.filter((_, i) => i !== index);
+                            setSelectedAccommodation(prev => ({ ...prev, photos: updatedPhotos }));
+                            setFormData(prev => ({
+                              ...prev,
+                              photos: prev.photos || []
+                            }));
+                          }}
+                          className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1.5 
+                          opacity-100 transition-opacity hover:bg-red-600"
+                        >
+                          <X size={16} />
+                        </button>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+                </div>
+              )}
+
+
+              {/* Display New Uploaded Photos */}
+              {formData.photos && formData.photos.length > 0 && (
+                <div className="mt-4">
+                  <h4 className="text-md font-semibold text-gray-700 mb-2">New Photos</h4>
+                  <div className="flex flex-wrap gap-3">
+                    {formData.photos.map((photo, index) => (
+                      <div key={`new-${index}`} className="relative group">
+                        <img 
+                          src={URL.createObjectURL(photo)} 
+                          alt={`New Accommodation ${index + 1}`} 
+                          className="w-44 h-48 object-cover rounded-lg shadow-md" 
+                        />
+                        <button 
+                          type="button"
+                          onClick={() => {
+                            setFormData(prev => ({
+                              ...prev,
+                              photos: prev.photos.filter((_, i) => i !== index)
+                            }));
+                          }}
+                          className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1.5 
+                          opacity-100 transition-opacity hover:bg-red-600"
+                        >
+                          <X size={16} />
+                        </button>
+                        <div className="bg-gray-100 p-2 rounded-lg text-xs break-words flex items-center justify-between mt-1 w-64">
+                          <span className="font-semibold mr-2">URL:</span> 
+                          <span className="flex-grow truncate">{photo.name}</span>
+                          <button 
+                            onClick={() => navigator.clipboard.writeText(photo.name)}
+                            className="ml-2 text-blue-500 hover:text-blue-700"
+                          >
+                            <Copy size={16} />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Description */}
@@ -435,7 +528,7 @@ const AccommodationsPanel = () => {
                 value={formData.desc}
                 onChange={handleChange}
                 placeholder="Accommodation Description"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg 
+                className="w-full px-5 py-3 border border-gray-300 rounded-lg 
                 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
                 transition duration-300"
                 rows="6"
@@ -471,7 +564,7 @@ const AccommodationsPanel = () => {
                   value={formData.totalCapacity}
                   onChange={handleChange}
                   placeholder="Max Group Size"
-                  className="w-full pl-10 px-4 py-3 border border-gray-300 rounded-lg 
+                  className="w-full pl-10 px-5 py-3 border border-gray-300 rounded-lg 
                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
                   transition duration-300"
                   required
