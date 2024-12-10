@@ -39,16 +39,20 @@ export const tourService = {
 
   updateTour: async (tourId, tourData) => {
     try {
-      const user = authService.getCurrentUser();
-      if (user.role !== 'admin') {
-        throw new Error('Only admin can update tours');
-      }
+        const user = authService.getCurrentUser();
+        if (user.role !== 'admin') {
+            throw new Error('Only admin can update tours');
+        }
 
-      const response = await api.put(`/${tourId}`, tourData);
-      return response.data.data;
+        const response = await api.put(`/${tourId}`, tourData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        return response.data.data;
     } catch (error) {
-      console.error(`Error updating tour with ID ${tourId}:`, error);
-      throw error;
+        console.error(`Error updating tour with ID ${tourId}:`, error);
+        throw error;
     }
   },
   
