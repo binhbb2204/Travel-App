@@ -61,7 +61,7 @@ app.use((err, req, res, next) => {
   next();
 });
 
-app.listen(port, async () => {
+app.listen(port, '0.0.0.0', async () => {
   await connect();
   console.log(`Server running on port ${port}`);
 });
