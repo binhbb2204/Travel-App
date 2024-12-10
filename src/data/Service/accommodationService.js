@@ -1,7 +1,17 @@
 import axios from 'axios';
 import { authService } from './authService';
 
-const BASE_URL = 'http://localhost:8000/api/v1/accommodations';
+const getBaseUrl = () => {
+  // If running on localhost
+  if (window.location.hostname === 'localhost') {
+    return 'http://localhost:8000/api/v1/accommodations';
+  }
+  
+  // For mobile/other networks, use current host
+  return `${window.location.protocol}//${window.location.hostname}:8000/api/v1/accommodations`;
+};
+
+const BASE_URL = getBaseUrl();
 
 const api = axios.create({
   baseURL: BASE_URL,
