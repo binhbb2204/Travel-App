@@ -21,7 +21,10 @@ const TourCard = ({ tour }) => {
     >
       <Card className="card">
         <div className="tour__img">
-          <img src={photos} alt={title} />
+          <img 
+          src={photos && photos.length > 0 ? photos[0] : '/default-tour-image.jpg'}  
+          alt={title} 
+          />
           
           {featured && (
             <div className="featured-badge">Featured</div>

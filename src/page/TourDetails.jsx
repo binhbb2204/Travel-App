@@ -138,7 +138,12 @@ const TourDetails = () => {
                         </span>
                       </div>
                     </div>
-                    <p className="text-gray-600 text-sm md:text-base leading-relaxed mb-6">{desc}</p>
+                    <p 
+                    className="text-gray-600 text-sm md:text-base leading-relaxed mb-6" 
+                    style={{ whiteSpace: 'pre-wrap' }}
+                    >
+                      {desc}
+                    </p>
 
                     {/* Highlight Section */}
                     <div className="space-y-4">

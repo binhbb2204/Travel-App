@@ -16,13 +16,13 @@ const ToursPanel = () => {
     country: '',
     city: '',
     photos: [],
-    existingPhotos: [],
     price: '',
     duration: '',
     maxGroupSize: '',
     desc: '',
     featured: false,
-    highlights: ['']
+    highlights: [''],
+    reviews: []
   };
   const [formData, setFormData] = useState(initialFormState);
 
@@ -50,7 +50,6 @@ const ToursPanel = () => {
       
       const editFormData = {
         ...fullTour,
-        existingPhotos: fullTour.photos || [], 
         photos: []
       };
       
@@ -101,6 +100,11 @@ const ToursPanel = () => {
         ...prev,
         highlights: newHighlights,
       }));
+    } else if(name === 'desc'){
+      setFormData(prev => ({
+        ...prev,
+        [name]: value,
+      }))
     } else if (['price', 'duration', 'maxGroupSize'].includes(name)) {
       setFormData(prev => ({
         ...prev,
@@ -147,48 +151,51 @@ const ToursPanel = () => {
     try {
       const formPayload = new FormData();
       
-      // Append existing photo URLs
-      if (formData.existingPhotos) {
-        formData.existingPhotos.forEach(photoUrl => {
+      // Append new photo files
+      if (formData.photos.length > 0) {
+        formData.photos.forEach((photo) => {
+          formPayload.append('photos', photo);
+        });
+      }
+
+        // Append existing photo URLs if updating
+      if (selectedTour && selectedTour.photos) {
+        selectedTour.photos.forEach(photoUrl => {
           formPayload.append('existingPhotos', photoUrl);
         });
       }
       
-      // Append new photo files
-      formData.photos.forEach(photo => {
-        formPayload.append('photos', photo);
-      });
-  
       // Append other form data
       Object.keys(formData).forEach(key => {
-        if (key !== 'photos' && key !== 'existingPhotos') {
-            if (key === 'highlights') {
-              const nonEmptyHighlights = formData.highlights.filter(highlight => highlight.trim() !== '');
-              formPayload.append(key, nonEmptyHighlights);
-            } else if (key === 'reviews') {
-                // Only append non-empty reviews
-              const nonEmptyReviews = formData.reviews 
-                  ? formData.reviews.filter(review => review && review !== '') 
-                  : [];
+        if (key !== 'photos') {
+          if (key === 'highlights') {
+            const nonEmptyHighlights = formData.highlights
+            .filter(highlight => highlight.trim() !== '')
+            .map(highlight => highlight.trim());
+                    
+            nonEmptyHighlights.forEach(highlight => {
+              formPayload.append('highlights', highlight);
+            });
+          } else if (key === 'reviews') {
+            const nonEmptyReviews = formData.reviews 
+            ? formData.reviews.filter(review => review.trim() !== '') 
+            : [];
+                    
+            if (nonEmptyReviews.length > 0) {
               formPayload.append(key, JSON.stringify(nonEmptyReviews));
-            } else {
-              formPayload.append(key, formData[key]);
             }
+          } else {
+            formPayload.append(key, formData[key]);
+          }
         }
       });
   
       let result;
       if (selectedTour) {
-        try {
-            result = await tourService.updateTour(selectedTour._id, formPayload);
-            setTours(tours.map(tour => 
-                tour._id === selectedTour._id ? result : tour
-            ));
-        } catch (error) {
-            console.error('Detailed update error:', error.response?.data || error.message);
-            setError(`Failed to update tour: ${error.response?.data?.message || error.message}`);
-            return;
-        }
+        result = await tourService.updateTour(selectedTour._id, formPayload);
+        setTours(tours.map(tour => 
+          tour._id === selectedTour._id ? result : tour
+        ));
       } else {
         // Create new tour
         result = await tourService.createTour(formPayload);
@@ -429,11 +436,11 @@ const ToursPanel = () => {
               </div>
               
               {/* Display Existing Photos */}
-              {formData.existingPhotos && formData.existingPhotos.length > 0 && (
+              {selectedTour && selectedTour.photos && selectedTour.photos.length > 0 && (
                 <div className="mt-4">
                   <h4 className="text-md font-semibold text-gray-700 mb-2">Existing Photos</h4>
                   <div className="flex flex-wrap gap-3">
-                    {formData.existingPhotos.map((photoUrl, index) => (
+                    {selectedTour.photos.map((photoUrl, index) => (
                       <div key={`existing-${index}`} className="relative group">
                         <img 
                           src={photoUrl} 
@@ -443,9 +450,12 @@ const ToursPanel = () => {
                         <button 
                           type="button"
                           onClick={() => {
+                            // Update the tour's photos by removing the specific photo
+                            const updatedPhotos = selectedTour.photos.filter((_, i) => i !== index);
+                            setSelectedTour(prev => ({ ...prev, photos: updatedPhotos }));
                             setFormData(prev => ({
                               ...prev,
-                              existingPhotos: prev.existingPhotos.filter((_, i) => i !== index)
+                              photos: prev.photos || []
                             }));
                           }}
                           className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1.5 
@@ -458,6 +468,7 @@ const ToursPanel = () => {
                   </div>
                 </div>
               )}
+
 
               {/* Display New Uploaded Photos */}
               {formData.photos && formData.photos.length > 0 && (
@@ -511,6 +522,7 @@ const ToursPanel = () => {
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg 
                 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
                 transition duration-300"
+                style={{ whiteSpace: 'pre-wrap' }}
                 rows="6"
                 required
               />
