@@ -4,6 +4,7 @@ import { MapPin, Users, Star, Clock, DollarSign, Heart, CheckCircle, Menu, X } f
 import { useParams } from 'react-router-dom';
 import { useFavorites } from '../ui/Context/FavoritesContext';
 import { tourService } from '../data/Service/tourService';
+import { commentService } from '../data/Service/commentService';
 import ImageCarousel from '../ui/ImageCarousel/ImageCarousel';
 import calculateAvgRating from '../utils/avgRating';
 import '../styles/tour-details.css';
@@ -159,7 +160,7 @@ const TourDetails = () => {
                     </div>
 
                     {/* Reviews Preview */}
-                    {reviews && <CommentSection tourId={id} availableUsers={['user', 'admin']}/>}
+                    {reviews && <CommentSection tourId={id} commentService={commentService} availableUsers={['user', 'admin']}/>}
                   </div>
                 </div>
               </div>

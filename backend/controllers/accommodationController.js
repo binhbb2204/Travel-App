@@ -34,9 +34,10 @@ export const deleteAccommodation = async (req, res) => {
 
 export const getSingleAccommodation = async (req, res) => {
     console.log("Tried get single");
-    const id = req.params.id;
+    const { id } = req.params;
+
     try {
-        const acco = await Accommodation.findById(id);
+        const acco = await Accommodation.findById(id).populate('reviews');
         res.status(200).json({success: true, message: "Successfully found", data: acco,}); 
     } catch(error){
         res.status(500).json({success: false, message: "Failed to find. Try again"});
