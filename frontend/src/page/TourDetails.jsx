@@ -76,12 +76,12 @@ const TourDetails = () => {
   } = tour;
 
   const { totalRating, avgRating } = calculateAvgRating(reviews);
-  const isLiked = isFavorite(id);
+  const isLiked = isFavorite(id ,'tour');
   const ratedReviews = reviews.filter(review => review.rating !== null && review.rating > 0);
 
   const handleFavoriteClick = () => {
     if (isLiked) {
-      removeFromFavorites(id);
+      removeFromFavorites(id, 'tour');
     } else {
       addToFavorites(tour);
     }

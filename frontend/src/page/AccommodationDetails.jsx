@@ -39,7 +39,7 @@ const AccommodationDetails = () => {
   const ratedReviews = validReviews.filter(review => review.rating !== null && review.rating > 0);
 
   const { isFavorite, addToFavorites, removeFromFavorites } = useFavorites();
-  const isLiked = isFavorite(id);
+  const isLiked = isFavorite(id, 'accommodation');
   const [showBooking, setShowBooking] = useState(false);
 
   // Loading state
@@ -72,7 +72,7 @@ const AccommodationDetails = () => {
   
   const handleFavoriteClick = () => {
     if (isLiked) {
-      removeFromFavorites(id);
+      removeFromFavorites(id, 'accommodation');
     } else {
       addToFavorites(acco);
     }

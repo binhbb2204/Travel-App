@@ -9,16 +9,16 @@ import {
     getFeaturedAccommodations,
     getAccommodationCount
 } from '../controllers/accommodationController.js';
-    
+import uploadAccommodation from '../Config/uploadAccommodationMiddleware.js';
 
 
 const router = express.Router();
 
-router.post("/", createAccommodation);
+router.post("/", uploadAccommodation.array('photos'), createAccommodation);
 
 // router.delete("/:id", createAccommodation);
 
-router.put("/:id", updateAccommodation);
+router.put("/:id", uploadAccommodation.array('photos'), updateAccommodation);
 
 router.delete("/:id", deleteAccommodation);
 
