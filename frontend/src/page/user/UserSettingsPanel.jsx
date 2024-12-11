@@ -144,6 +144,7 @@ const UserSettingsPanel = () => {
               exit={{ width: 0, opacity: 0 }}
               className=" relative z-40 overflow-hidden"
             >
+              {/* Change variant color for sidebar here */}
               <UserSidebar activeTab={activeTab} setActiveTab={handleTabChange} variant="christmas"/>
             </motion.div>
           )}
