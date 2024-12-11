@@ -20,8 +20,8 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
-import { authService } from "../../data/Service/authService";
-import { userService } from '../../data/Service/userService';
+import { authService } from "../../../data/Service/authService";
+import { userService } from '../../../data/Service/userService';
 
 const UserSettingsPanel = () => {
   // const [newUsername, setNewUsername] = useState(username);
