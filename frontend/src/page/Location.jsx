@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Map, Plane, Compass, Sun, Star, Wind, Globe2 } from 'lucide-react';
 import ParallaxBackground from '../ui/ParallaxBackground';
+import ChristmasParallaxBackground from '../ui/ChristmasParallaxBackground';
 import { Section } from 'lucide-react';
 import { Container, Row, Col } from 'reactstrap'
 import FloatingElement from '../ui/FloatingElement';
@@ -19,8 +20,8 @@ const Location = () => {
     const itemsPerPage = 8;
 
     return (
-        <div  className="min-h-screen bg-white relative overflow-hidden">
-            <ParallaxBackground />
+        <div  className="min-h-screen bg-white relative overflow-hidden" style={{ marginBottom: "4rem" }}>
+            <ChristmasParallaxBackground />
             {/* Hero section */}
             <section className="relative min-h-screen flex items-center">
             <div className="container mx-auto px-4 pt-20">

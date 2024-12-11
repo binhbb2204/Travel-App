@@ -4,11 +4,12 @@ import { Menu, X } from 'lucide-react';
 import { authService } from "../../data/Service/authService";
 import { userService } from '../../data/Service/userService';
 import UserHeader from './components/UserHeader';
-import UserSidebar from './components/UserSidebar';
+import UserSidebar from './tabs/UserSidebar';
 import UserOverview from './tabs/UserOverview';
 import UserPasswordChange from './tabs/UserPasswordChange';
 import UserTransactions from './tabs/UserTransactions';
 import UserSecurity from './tabs/UserSecurity';
+import ChristmasParallaxBackground from '../../ui/ChristmasParallaxBackground';
 
 const UserSettingsPanel = () => {
   const [activeTab, setActiveTab] = useState('account');
@@ -117,17 +118,19 @@ const UserSettingsPanel = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 flex items-center mt-4 justify-center p-4">
+    <div className="min-h-screen bg-white flex items-center mt-4 justify-center p-4">
+      <ChristmasParallaxBackground/>
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="w-full max-w-6xl bg-white rounded-2xl shadow-2xl overflow-hidden flex"
+        className="w-full max-w-6xl bg-white rounded-2xl shadow-2xl overflow-hidden flex relative"
       >
+        {/* Mobile Sidebar Toggle Button */}
         <button
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className="md:hidden fixed top-4 right-1 z-2 bg-white/20  p-2 rounded-full mt-10"
+          className="md:hidden absolute top-4 right-4 z-50 bg-white/80 p-2 rounded-full shadow-md"
         >
-          {isSidebarOpen ? <X className="w-6 h-6 mt-16" /> : <Menu className="w-6 h-6 mt-16" />}
+          {isSidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
 
         <AnimatePresence>
@@ -139,9 +142,9 @@ const UserSettingsPanel = () => {
                 opacity: 1
               }}
               exit={{ width: 0, opacity: 0 }}
-              className="relative z-40 overflow-hidden"
+              className=" relative z-40 overflow-hidden"
             >
-              <UserSidebar activeTab={activeTab} setActiveTab={handleTabChange} variant="modern"/>
+              <UserSidebar activeTab={activeTab} setActiveTab={handleTabChange} variant="christmas"/>
             </motion.div>
           )}
         </AnimatePresence>

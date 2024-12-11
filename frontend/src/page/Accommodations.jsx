@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { accommodationService } from '../data/Service/accommodationService';
 import AccomodationSearchBox from '../ui/SearchBar/AccommodationSearchBox';
 import AccommodationCard from '../ui/Card/AccommodationCard';
+import ChristmasParallaxBackground from '../ui/ChristmasParallaxBackground';
 import Pagination from '../ui/Pagination/Pagination';
 import { useNavigate } from 'react-router-dom';
 import '../styles/accommodations.css';
@@ -148,93 +149,97 @@ const Accommodations = () => {
 
     return (
     <div className='min-h-screen bg-gray-50'>
-        {/* Search Section */}
-        <motion.div 
-            initial={{ opacity: 0 }} 
-            animate={{ opacity: 1 }} 
-            className="search__container text-white py-8 lg:py-16 mt-14 lg:mt-0"
-        >
-            <div className="container mx-auto px-4">
-                <motion.h1 
-                initial={{ y: -20, opacity: 0 }} 
-                animate={{ y: 0, opacity: 1 }} 
-                className="text-3xl lg:text-4xl font-bold text-center mb-6 lg:mb-8 mt-5 lg:mt-7"
-                >
-                    Find the Perfect Place for Your Stay!
-                </motion.h1>
-                <AccomodationSearchBox className ="box__detail"
-                searchParams={searchParams}
-                onSearchChange={handleSearchChange}
-                onSearch={handleSearch}
-                onReset={handleResetSearch}
-                countries={countries}
-                cities={cities}
-                    
-                onSubmit={handleSubmit}
-                />
-            </div>
-        </motion.div>
-        {/* Pagination */}
-        {filteredResults.length > 0 && (
-            <div className="mt-8">
-                <Pagination 
-                    totalPages={totalPages} 
-                    currentPage={currentPage} 
-                    onPageChange={handlePageChange} 
-                />
-            </div>
-        )}
-        {/* Results Section */}
-        {hasSubmitted && (
-            <div className="container mx-auto px-4 py-8">
-                {isLoading ? (
-                    <div className="text-center">Loading tours...</div>
-                ):
-                (
-                    <>
-                        {/* Tours Grid/List */}
-                        <div className={`${
-                            activeView === 'grid' 
-                            ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6' 
-                            : 'flex flex-col space-y-4'
-                        }`}>
-                            {getCurrentPageResults().map((acco) => (
-                            <motion.div
-                                key={acco.id}
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.3 }}
-                                className={activeView === 'list' ? 'w-full' : ''}
-                            >
-                                <AccommodationCard acco={acco} viewMode={activeView} />
-                            </motion.div>
-                            ))}
-                        </div>
-                        {/* No Results Message */}
-                        {filteredResults.length === 0 && (
-                            <motion.div 
-                                initial={{ opacity: 0 }} 
-                                animate={{ opacity: 1 }} 
-                                className="text-center py-8"
-                            >
-                                <p className="text-xl text-gray-600">No accommodations found matching your criteria.</p>
-                                <p className="text-gray-500 mt-2">Try adjusting your search filters.</p>
-                            </motion.div>
-                        )}
-                        {/* Pagination */}
-                        {filteredResults.length > 0 && (
-                            <div className="mt-8">
-                                <Pagination 
-                                    totalPages={totalPages} 
-                                    currentPage={currentPage} 
-                                    onPageChange={handlePageChange} 
-                                />
+        <ChristmasParallaxBackground/>
+        
+        <div className="relative z-2" style={{ marginBottom: "4rem" }}>
+            {/* Search Section */}
+            <motion.div 
+                initial={{ opacity: 0 }} 
+                animate={{ opacity: 1 }} 
+                className="search__container text-white py-8 lg:py-16 mt-14 lg:mt-0"
+            >
+                <div className="container mx-auto px-4">
+                    <motion.h1 
+                    initial={{ y: -20, opacity: 0 }} 
+                    animate={{ y: 0, opacity: 1 }} 
+                    className="text-3xl lg:text-4xl font-bold text-center mb-6 lg:mb-8 mt-5 lg:mt-7"
+                    >
+                        Find the Perfect Place for Your Stay!
+                    </motion.h1>
+                    <AccomodationSearchBox className ="box__detail"
+                    searchParams={searchParams}
+                    onSearchChange={handleSearchChange}
+                    onSearch={handleSearch}
+                    onReset={handleResetSearch}
+                    countries={countries}
+                    cities={cities}
+                        
+                    onSubmit={handleSubmit}
+                    />
+                </div>
+            </motion.div>
+            {/* Pagination */}
+            {filteredResults.length > 0 && (
+                <div className="mt-8">
+                    <Pagination 
+                        totalPages={totalPages} 
+                        currentPage={currentPage} 
+                        onPageChange={handlePageChange} 
+                    />
+                </div>
+            )}
+            {/* Results Section */}
+            {hasSubmitted && (
+                <div className="container mx-auto px-4 py-8">
+                    {isLoading ? (
+                        <div className="text-center">Loading tours...</div>
+                    ):
+                    (
+                        <>
+                            {/* Tours Grid/List */}
+                            <div className={`${
+                                activeView === 'grid' 
+                                ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6' 
+                                : 'flex flex-col space-y-4'
+                            }`}>
+                                {getCurrentPageResults().map((acco) => (
+                                <motion.div
+                                    key={acco.id}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.3 }}
+                                    className={activeView === 'list' ? 'w-full' : ''}
+                                >
+                                    <AccommodationCard acco={acco} viewMode={activeView} />
+                                </motion.div>
+                                ))}
                             </div>
-                        )}
-                    </>
-                )}
-            </div>
-        )}
+                            {/* No Results Message */}
+                            {filteredResults.length === 0 && (
+                                <motion.div 
+                                    initial={{ opacity: 0 }} 
+                                    animate={{ opacity: 1 }} 
+                                    className="text-center py-8"
+                                >
+                                    <p className="text-xl text-gray-600">No accommodations found matching your criteria.</p>
+                                    <p className="text-gray-500 mt-2">Try adjusting your search filters.</p>
+                                </motion.div>
+                            )}
+                            {/* Pagination */}
+                            {filteredResults.length > 0 && (
+                                <div className="mt-8">
+                                    <Pagination 
+                                        totalPages={totalPages} 
+                                        currentPage={currentPage} 
+                                        onPageChange={handlePageChange} 
+                                    />
+                                </div>
+                            )}
+                        </>
+                    )}
+                </div>
+            )}
+        </div>
     </div>  
     );
 };  

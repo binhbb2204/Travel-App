@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { Map, Plane, Compass, Sun, Star, Wind, Globe2, Calendar, Users, CreditCard,  Award, Section, } from 'lucide-react';
 import FloatingElement from './../ui/FloatingElement'; 
 import ParallaxBackground from './../ui/ParallaxBackground'; 
+import ChristmasParallaxBackground from '../ui/ChristmasParallaxBackground';
 import InteractiveGlobe from './../ui/InteractiveGlobe'; 
 import AnimatedSearchBar from '../ui/SearchBar/AnimatedSearchBar'; 
 import DestinationCard from '../ui/Card/DestinationCard'; 
@@ -22,7 +23,7 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-white relative overflow-hidden">
-      <ParallaxBackground />
+      <ChristmasParallaxBackground />
       
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center">

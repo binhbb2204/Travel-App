@@ -22,7 +22,7 @@ const NewsLetter = () => {
         }
     };
     return (
-        <section className="newsletter-container py-20 bg-blue-600 text-white">
+        <section className="newsletter-container py-20 bg-gradient-to-r from-[#2563eb] to-[#1d4ed8] text-white">
             <div className="container mx-auto px-4">
                 <motion.div
                 initial={{opacity: 0, y: 20}}
