@@ -49,6 +49,7 @@ const Routers = () => {
       // Add error notification here
     }
   };
+
   return (
     <Routes>
       <Route path='/' element={<Navigate to='/home' />} />
@@ -77,9 +78,13 @@ const Routers = () => {
         }
       />
       <Route path="/checkout" element={<Checkout />} />
-      <Route path="/user-settings" element={<UserSettingsPanel />} />
+      <Route
+        path="/user-settings"
+        element={
+          currentUser ? <UserSettingsPanel /> : <Navigate to="/login" />
+        }
+      />
       <Route path='/add-accommodation' element={<ModifyAccommodationForm />} />
-
     </Routes>
   )
 }

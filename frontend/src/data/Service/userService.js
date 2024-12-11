@@ -4,9 +4,9 @@ import { authService } from "../../data/Service/authService";
 const getBaseUrl = () => {
     // If running on localhost
     if (window.location.hostname === 'localhost') {
-      return 'http://localhost:8000/api/v1/users';
+        return 'http://localhost:8000/api/v1/users';
     }
-    
+
     // For mobile/other networks, use current host
     return `${window.location.protocol}//${window.location.hostname}:8000/api/v1/users`;
 };
@@ -56,6 +56,21 @@ export const userService = {
             return response.data.data;
         } catch (error) {
             console.error('Error fetching transactions:', error);
+            throw error;
+        }
+    },
+
+    updateUserPassword: async (userId, passwordData) => {
+        try {
+            const token = authService.getCurrentUser().token;
+            const response = await axios.put(`${BASE_URL}/${userId}/password`, passwordData, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Error updating password:', error);
             throw error;
         }
     },
