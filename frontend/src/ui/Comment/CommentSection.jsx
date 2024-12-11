@@ -62,7 +62,7 @@ const DeleteConfirmModal = ({
         </div>
     )
 }
-const CommentSection = ({ tourId, availableUsers = [] }) => {
+const CommentSection = ({ tourId, accoId, commentService, availableUsers = []  }) => {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
     const [rating, setRating] = useState(0);
@@ -73,13 +73,16 @@ const CommentSection = ({ tourId, availableUsers = [] }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+
+    const entityId = tourId || accoId;
+    const idParamName = tourId ? 'tourId' : 'accoId';
     const [deleteConfirmation, setDeleteConfirmation] = useState({
         isOpen: false,
         commentId: null,
         commentUsername: '',
     });
     
-    console.log(comments.id);
+    // console.log(comments.id);
     const isAuthenticated = () => {
         const token = localStorage.getItem('token');
         return !!token;
@@ -97,8 +100,7 @@ const CommentSection = ({ tourId, availableUsers = [] }) => {
     
         const fetchComments = async () => {
             try {
-                setIsLoading(true);
-                const response = await commentService.getComments(tourId);
+                const response = await commentService.getComments(entityId);
                 
                 const transformedComments = response.data.map(comment => ({
                     ...comment,
@@ -107,30 +109,25 @@ const CommentSection = ({ tourId, availableUsers = [] }) => {
                     likes: comment.likes || [],
                     createdAt: comment.createAt,
                     isLikedByCurrentUser: comment.likes.includes(currentUser?.id),
-                    
                 }));
                 
-                console.log('Transformed Comments:', transformedComments);
                 setComments(transformedComments);
             } catch (err) {
                 setError("Failed to load comments");
                 console.error(err);
-            } finally {
-                setIsLoading(false);
             }
         };
     
-        
         fetchComments();
-    }, [tourId]);
+    }, [entityId, commentService]);
 
     useEffect(() => {
         const saveComments = () => {
-            localStorage.setItem(`tour-comments-${tourId}`, JSON.stringify(comments));
+            localStorage.setItem(`tour-comments-${entityId}`, JSON.stringify(comments));
         };
 
         saveComments();
-    }, [comments, tourId]);
+    }, [comments, entityId]);
 
     const addComment = async (text, parentId = null, replyingToUser = null, taggedUsers = []) => {
         if (!isAuthenticated()) {
@@ -150,8 +147,8 @@ const CommentSection = ({ tourId, availableUsers = [] }) => {
                 rating: parentId ? null : (rating === 0 ? null : rating),
                 taggedUsers: taggedUsers
             }
-    
-            const response = await commentService.createComment(tourId, commentData);
+            
+            const response = await commentService.createComment(entityId, commentData);
             console.log('Full Comment Creation Response:', response);
             console.log('Comment Data:', response.data);
             console.log('Actual Comment:', response.data.data);

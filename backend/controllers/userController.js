@@ -90,3 +90,29 @@ export const deleteUser = async (req, res) => {
         });
     }
 };
+
+export const updateUserPassword = async (req, res) => {
+    const id = req.params.id;
+    const { currentPassword, newPassword } = req.body;
+
+    try {
+        const user = await User.findById(id);
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        const isMatch = await bcrypt.compare(currentPassword, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ success: false, message: 'Current password is incorrect' });
+        }
+
+        // Hash the new password before saving
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        user.password = hashedPassword;
+        const updatedUser = await user.save();
+
+        res.status(200).json({ success: true, data: updatedUser });
+    } catch (error) {
+        res.status(400).json({ success: false, message: error.message });
+    }
+};

@@ -3,6 +3,7 @@ import { Container, Row, Col, Form, ListGroup } from 'reactstrap';
 import { MapPin, Users, Star, Clock, DollarSign, Heart, CheckCircle, Menu, X } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import { useFavorites } from '../ui/Context/FavoritesContext';
+import { accommodationCommentService } from '../data/Service/accommodationCommentService';
 // import accommodationData from '../data/accommodationData';
 import ImageCarousel from '../ui/ImageCarousel/ImageCarousel';
 import calculateAvgRating from '../utils/avgRating';
@@ -10,7 +11,7 @@ import '../styles/accommodation-details.css'
 import CommentSection from '../ui/Comment/CommentSection';
 import AccommodationBooking from '../Booking/AccommodationBooking';
 import axios from 'axios';
-
+import { accommodationService } from '../data/Service/accommodationService';
 const AccommodationDetails = () => {
   const {id} = useParams();
   const [acco, setAcco] = useState(null);
@@ -21,8 +22,8 @@ const AccommodationDetails = () => {
   useEffect(() => {
     const fetchAccommodationDetail = async() => {
       try{
-        const accoData = await axios.get(`http://localhost:8000/api/v1/accommodations/${id.toString()}`);
-        setAcco(accoData.data.data);
+        const accoData = await accommodationService.getSingleAccommodation(id);
+        setAcco(accoData);
         setLoading(false);
       } catch (err) {
         setError(err);
@@ -38,7 +39,7 @@ const AccommodationDetails = () => {
   const ratedReviews = validReviews.filter(review => review.rating !== null && review.rating > 0);
 
   const { isFavorite, addToFavorites, removeFromFavorites } = useFavorites();
-  const isLiked = isFavorite(id);
+  const isLiked = isFavorite(id, 'accommodation');
   const [showBooking, setShowBooking] = useState(false);
 
   // Loading state
@@ -71,7 +72,7 @@ const AccommodationDetails = () => {
   
   const handleFavoriteClick = () => {
     if (isLiked) {
-      removeFromFavorites(id);
+      removeFromFavorites(id, 'accommodation');
     } else {
       addToFavorites(acco);
     }
@@ -146,7 +147,7 @@ const AccommodationDetails = () => {
                   </div>
 
                   {/* Reviews Preview */}
-                  {reviews && <CommentSection accoId={id} availableUsers={['user', 'admin']}/>}
+                  {reviews && <CommentSection accoId={id} commentService={accommodationCommentService} availableUsers={['user', 'admin']}/>}
                 </div>
               </div>
             </div>  

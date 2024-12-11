@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import './tour-card.css'; // Import the CSS
 import calculateAvgRating from '../../utils/avgRating';
 const TourCard = ({ tour }) => {
-  const {_id: id, title, city, photo, price, featured, reviews} = tour;
+  const {_id: id, title, city, photos, price, featured, reviews} = tour;
   console.log('Tour ID:', id);
   const {totalRating, avgRating} = calculateAvgRating(reviews)
 
@@ -21,7 +21,10 @@ const TourCard = ({ tour }) => {
     >
       <Card className="card">
         <div className="tour__img">
-          <img src={photo} alt={title} />
+          <img 
+          src={photos && photos.length > 0 ? photos[0] : '/default-tour-image.jpg'}  
+          alt={title} 
+          />
           
           {featured && (
             <div className="featured-badge">Featured</div>

@@ -1,7 +1,17 @@
 import axios from 'axios';
 import { authService } from './authService';
 
-const BASE_URL = 'http://localhost:8000/api/v1/tours';
+const getBaseUrl = () => {
+  // If running on localhost
+  if (window.location.hostname === 'localhost') {
+    return 'http://localhost:8000/api/v1/tours';
+  }
+  
+  // For mobile/other networks, use current host
+  return `${window.location.protocol}//${window.location.hostname}:8000/api/v1/tours`;
+};
+
+const BASE_URL = getBaseUrl();
 
 
 const api = axios.create({
@@ -37,23 +47,22 @@ export const tourService = {
     }
   },
 
-
   updateTour: async (tourId, tourData) => {
     try {
-      const user = authService.getCurrentUser();
-      if (user.role !== 'admin') {
-        throw new Error('Only admin can update tours');
-      }
+        const user = authService.getCurrentUser();
+        if (user.role !== 'admin') {
+            throw new Error('Only admin can update tours');
+        }
 
-      const response = await api.put(`${tourId}`, tourData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      return response.data.data;
+        const response = await api.put(`/${tourId}`, tourData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        return response.data.data;
     } catch (error) {
-      console.error(`Error updating tour with ID ${tourId}:`, error);
-      throw error;
+        console.error(`Error updating tour with ID ${tourId}:`, error);
+        throw error;
     }
   },
   
@@ -157,7 +166,7 @@ export const tourService = {
         throw new Error('Only admin can delete tours');
       }
 
-      const response = await api.delete(`${BASE_URL}/${tourId}`);
+      const response = await api.delete(`/${tourId}`);
       return response.data;
     } catch (error) {
       console.error(`Error deleting tour with ID ${tourId}:`, error);

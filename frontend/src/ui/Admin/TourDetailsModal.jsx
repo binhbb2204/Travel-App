@@ -9,12 +9,13 @@ const TourDetailsModal = ({ tour, onClose }) => {
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center overflow-y-auto p-4">
-            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl relative my-8">
+            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl relative my-8 max-h-[95vh] flex flex-col overflow-hidden">
                 {/* Modal Header */}
-                <div className="bg-gradient-to-r rounded-t-2xl from-blue-100 via-white to-blue-100 p-6 border-b relative">
+                <div className="bg-gradient-to-r rounded-t-2xl from-blue-100 via-white to-blue-100 p-6 border-b relative flex-shrink-0">
                     <button
                         onClick={onClose}
-                        className="absolute top-4 right-4 text-gray-600 hover:text-gray-900 z-10"
+                        className="absolute top-4 right-4 text-gray-600 hover:text-gray-900 z-10 
+                        bg-white/70 hover:bg-white/90 rounded-full p-1 shadow-md transition-all"
                     >
                         <X size={24} />
                     </button>
@@ -26,7 +27,7 @@ const TourDetailsModal = ({ tour, onClose }) => {
                 </div>
 
                 {/* Content Container */}
-                <div className="p-6">
+                <div className="overflow-y-auto flex-grow p-6">
                     {/* Images and Basic Info Section */}
                     <div className="grid md:grid-cols-2 gap-6 mb-6">
                         {/* Image Gallery */}
@@ -84,7 +85,7 @@ const TourDetailsModal = ({ tour, onClose }) => {
                                 <MessageSquareText className="mr-2 text-blue-600" size={20} />
                                 Tour Description
                             </h4>
-                            <p>{tour.desc}</p>
+                            <p style={{ whiteSpace: 'pre-wrap' }}>{tour.desc}</p>
                         </div>
 
                         <div className="tour-modal-highlights">

@@ -21,6 +21,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 import { authService } from "../../data/Service/authService";
+import { userService } from '../../data/Service/userService';
 
 const UserSettingsPanel = () => {
   // const [newUsername, setNewUsername] = useState(username);
@@ -58,23 +59,17 @@ const UserSettingsPanel = () => {
       setLoading(true);
       try {
         const userId = authService.getCurrentUser().userId;
-        const token = authService.getCurrentUser().token;
-        const response = await axios.get(`http://localhost:8000/api/v1/users/${userId}`, {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-          },
-        });
+        const userData = await userService.getSingleUser(userId);
         setUserData({
-          name: response.data.data.name,
-          email: response.data.data.email,
-          phone: response.data.data.phone,
-          gender: response.data.data.gender || '',
-          birthDate: response.data.data.birthDate || '',
+          name: userData.name,
+          email: userData.email,
+          phone: userData.phone,
+          gender: userData.gender || '',
+          birthDate: userData.birthDate || '',
         });
       } catch (err) {
-        console.error('Error fetching user information:', err);
-        setError('Failed to fetch user information.');
+        console.error('Failed to load user data:', err);
+        setError('Failed to load user data');
       } finally {
         setLoading(false);
       }
@@ -84,13 +79,8 @@ const UserSettingsPanel = () => {
       setLoading(true);
       try {
         const userId = authService.getCurrentUser().userId;
-        const token = authService.getCurrentUser().token;
-        const response = await axios.get(`http://localhost:8000/api/v1/users/${userId}/transactions`, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        });
-        setTransactions(response.data.data);
+        const transactionsData = await userService.getTransactionHistory(userId);
+        setTransactions(transactionsData);
       } catch (err) {
         console.error('Error fetching transactions:', err);
       } finally {
@@ -108,12 +98,8 @@ const UserSettingsPanel = () => {
 
     try {
       const userId = authService.getCurrentUser().userId;
-      const token = authService.getCurrentUser().token;
-      const response = await axios.put(`http://localhost:8000/api/v1/users/${userId}`, userData, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
+      await userService.updateUserProfile(userId, userData);
+
       setSavedMessage({
         type: 'success',
         text: 'Profile updated successfully!',
@@ -126,27 +112,31 @@ const UserSettingsPanel = () => {
       setError(errorMessage);
       setTimeout(() => setError(null), 5000);
     }
-
-    // setUsername(newUsername);
-    // localStorage.setItem('username', newUsername);
   };
 
   const handleSavePassword = async () => {
-
+    // For debugging
+    console.log("Save Password Clicked");
     try {
       const userId = authService.getCurrentUser().userId;
       const token = authService.getCurrentUser().token;
 
-      await axios.put(`http://localhost:8000/api/v1/users/${userId}/password`, {
+      if (passwordData.newPassword !== passwordData.confirmPassword) {
+        setError('New password and confirmation do not match.');
+        return;
+      }
+
+      await userService.updateUserPassword(userId, {
         currentPassword: passwordData.currentPassword,
         newPassword: passwordData.newPassword,
-      }, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
       });
 
       setSavedMessage({ type: 'success', text: 'Password updated successfully!' });
+      setPasswordData({
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: '',
+      });
     } catch (err) {
       const errorMessage = err.response?.data.message || 'Failed to update password.';
       setError(errorMessage);
@@ -391,7 +381,7 @@ const UserSettingsPanel = () => {
   const headerHeight = 'h-20';
 
   return (
-    <div className="bg-gradient-to-br from-blue-50 via-white to-blue-100 min-h-screen flex items-center justify-center p-4 lg:p-8">
+    <div className="bg-gradient-to-br from-blue-50 via-white to-blue-100 min-h-screen flex items-center justify-center p-4 lg:p-8 mt-0 md:mt-16">
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}

@@ -1,20 +1,48 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
 
 const FavoritesContext = createContext();
 
 export const FavoritesProvider = ({ children }) => {
-  const [favorites, setFavorites] = useState([]);
+  const loadFavorites = () => {
+    const favorites = localStorage.getItem('favorites');
+    return favorites ? JSON.parse(favorites) : []
+  }
+  const [favorites, setFavorites] = useState(loadFavorites());
 
-  const addToFavorites = (tour) => {
-    setFavorites(prev => [...prev, tour]);
+  useEffect(() => {
+    localStorage.setItem('favorites', JSON.stringify(favorites))
+  }, [favorites])
+
+  const addToFavorites = (item) => {
+    setFavorites(prev => {
+      // Determine the type of item (tour or accommodation)
+      const itemType = item.maxGroupSize ? 'tour' : 'accommodation';
+      
+      // Add a type property to the item
+      const favoriteItem = {
+        ...item,
+        type: itemType
+      };
+
+      // Check if the item already exists
+      if(prev.some((t) => t._id === item._id && t.type === itemType)){
+        return prev;
+      }
+      
+      return [...prev, favoriteItem];
+    })
   };
 
-  const removeFromFavorites = (tourId) => {
-    setFavorites(prev => prev.filter(tour => tour.id !== tourId));
+  const removeFromFavorites = (itemId, type) => {
+    setFavorites(prev => prev.filter(item => 
+      !(item._id === itemId && item.type === type)
+    ));
   };
 
-  const isFavorite = (tourId) => {
-    return favorites.some(tour => tour.id === tourId);
+  const isFavorite = (itemId, type) => {
+    return favorites.some(item => 
+      item._id === itemId && item.type === type
+    );
   };
 
   return (

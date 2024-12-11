@@ -4,6 +4,7 @@ import { MapPin, Users, Star, Clock, DollarSign, Heart, CheckCircle, Menu, X } f
 import { useParams } from 'react-router-dom';
 import { useFavorites } from '../ui/Context/FavoritesContext';
 import { tourService } from '../data/Service/tourService';
+import { commentService } from '../data/Service/commentService';
 import ImageCarousel from '../ui/ImageCarousel/ImageCarousel';
 import calculateAvgRating from '../utils/avgRating';
 import '../styles/tour-details.css';
@@ -75,12 +76,12 @@ const TourDetails = () => {
   } = tour;
 
   const { totalRating, avgRating } = calculateAvgRating(reviews);
-  const isLiked = isFavorite(id);
+  const isLiked = isFavorite(id ,'tour');
   const ratedReviews = reviews.filter(review => review.rating !== null && review.rating > 0);
 
   const handleFavoriteClick = () => {
     if (isLiked) {
-      removeFromFavorites(id);
+      removeFromFavorites(id, 'tour');
     } else {
       addToFavorites(tour);
     }
@@ -138,7 +139,12 @@ const TourDetails = () => {
                         </span>
                       </div>
                     </div>
-                    <p className="text-gray-600 text-sm md:text-base leading-relaxed mb-6">{desc}</p>
+                    <p 
+                    className="text-gray-600 text-sm md:text-base leading-relaxed mb-6" 
+                    style={{ whiteSpace: 'pre-wrap' }}
+                    >
+                      {desc}
+                    </p>
 
                     {/* Highlight Section */}
                     <div className="space-y-4">
@@ -154,7 +160,7 @@ const TourDetails = () => {
                     </div>
 
                     {/* Reviews Preview */}
-                    {reviews && <CommentSection tourId={id} availableUsers={['user', 'admin']}/>}
+                    {reviews && <CommentSection tourId={id} commentService={commentService} availableUsers={['user', 'admin']}/>}
                   </div>
                 </div>
               </div>

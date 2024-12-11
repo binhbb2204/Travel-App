@@ -64,9 +64,17 @@ const Header = () => {
   const userRole = localStorage.getItem('userRole');
 
   // For debugging
-  console.log("Username:", username);
-  console.log("User Role:", userRole);
-  console.log("Show Settings:", showSettings);
+  // console.log("Username:", username);
+  // console.log("User Role:", userRole);
+  // console.log("Show Settings:", showSettings);
+  const  groupedFavorites = favorites.reduce((acc, favorite) => {
+    const type = favorite.type === 'accommodation' ? 'accommodations' : 'tours';
+    if (!acc[type]) {
+      acc[type] = [];
+    }
+    acc[type].push(favorite);
+    return acc;
+  }, {})
 
   return (
     <header
@@ -125,7 +133,7 @@ const Header = () => {
 
             <div className="nav__actions d-flex align-items-center gap-4">
               {/* For testing the dark/light mode toggle button */}
-              <SwitchMode />
+              {/* <SwitchMode /> */}
 
               {/* Favorites Button */}
               <div className="relative">
@@ -158,23 +166,30 @@ const Header = () => {
                         <p className="text-gray-500 text-sm">No favorites yet</p>
                       ) : (
                         <div className="space-y-3 max-h-96 overflow-y-auto">
-                          {favorites.map((tour) => (
-                            <Link
-                              key={tour.id}
-                              to={`/tours/${tour.id}`}
-                              className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors duration-200"
-                              onClick={() => setShowFavorites(false)}
-                            >
-                              <img
-                                src={tour.photo}
-                                alt={tour.title}
-                                className="w-12 h-12 object-cover rounded"
-                              />
-                              <div className="flex-1 min-w-0">
-                                <h4 className="text-sm font-medium text-gray-900 truncate">{tour.title}</h4>
-                                <p className="text-xs text-gray-500">{tour.city}</p>
-                              </div>
-                            </Link>
+                          {Object.entries(groupedFavorites).map(([type, items]) => (
+                            <div key={type}>
+                              <h4 className="text-md font-medium text-gray-700 capitalize mb-2">
+                                {type}
+                              </h4>
+                              {items.map((item) => (
+                                <Link
+                                  key={item._id}
+                                  to={`/${type}/${item._id}`}
+                                  className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors duration-200"
+                                  onClick={() => setShowFavorites(false)}
+                                >
+                                  <img
+                                    src={item.photos[0]}
+                                    alt={item.title}
+                                    className="w-12 h-12 object-cover rounded"
+                                  />
+                                  <div className="flex-1 min-w-0">
+                                    <h4 className="text-sm font-medium text-gray-900 truncate">{item.title}</h4>
+                                    <p className="text-xs text-gray-500">{item.city}, {item.country}</p>
+                                  </div>
+                                </Link>
+                              ))}
+                            </div>
                           ))}
                         </div>
                       )}
@@ -213,7 +228,7 @@ const Header = () => {
                           <Link to="/admin-panel">Admin Panel</Link>
                         </li>
                       )}
-                      {userRole === 'user' && (
+                      {(userRole === 'user' || userRole === 'admin') && (
                         <li className="p-2 hover:bg-gray-100 cursor-pointer text-blue-500 font-bold">
                           <Link to="/user-settings">User Settings</Link>
                         </li>
@@ -256,7 +271,7 @@ const Header = () => {
             >
               {isMobileMenuOpen ? <X className={'w-6 h-6 text-gray-700'} /> : <Menu className={'w-6 h-6 text-gray-700'} />}
             </button>
-            
+
           </div>
         </Row>
       </Container>

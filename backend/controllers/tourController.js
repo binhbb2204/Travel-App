@@ -2,31 +2,78 @@ import Tour from "../Models/Tour.js";
 
 // Create a new tour
 export const createTour = async (req, res) => {
-    const newTour = new Tour(req.body);
-
     try {
+        const { title, country, city, price, duration, maxGroupSize, desc, featured, highlights } = req.body;
+
+        // Collect uploaded file URLs from Cloudinary
+        const photoUrls = req.files.map((file) => file.path);
+
+        // Create the new tour
+        const newTour = new Tour({
+            title,
+            country,
+            city,
+            price,
+            duration,
+            maxGroupSize,
+            desc,
+            featured: featured || false,
+            highlights: highlights || [],
+            photos: photoUrls, // Add uploaded photos
+        });
+
         const savedTour = await newTour.save();
-        res.status(200).json({ success: true, data: savedTour });
+        res.status(201).json({
+            success: true,
+            message: 'Tour created successfully',
+            data: savedTour,
+        });
     } catch (error) {
-        res.status(404).json({
+        res.status(400).json({
             success: false,
             message: error.message,
         });
     }
 };
 
+
 // Update an existing tour
 export const updateTour = async (req, res) => {
     const id = req.params.id;
     try {
+        // Find the existing tour
+        const existingTour = await Tour.findById(id);
+        
+        if (!existingTour) {
+            return res.status(404).json({
+                success: false,
+                message: 'Tour not found'
+            });
+        }
+
+        const existingPhotos = existingTour.photos || [];
+
+        const newPhotoUrls = req.files ? req.files.map((file) => file.path) : [];
+
+        const updatedPhotos = [...existingPhotos, ...newPhotoUrls];
+
+        const updateData = {
+            ...req.body,
+            photos: updatedPhotos
+        };
+
         const updatedTour = await Tour.findByIdAndUpdate(
             id,
-            { $set: req.body },
+            { $set: updateData },
             { new: true }
         );
-        res.status(200).json({ success: true, data: updatedTour });
+
+        res.status(200).json({ 
+            success: true, 
+            data: updatedTour 
+        });
     } catch (error) {
-        res.status(404).json({
+        res.status(500).json({
             success: false,
             message: error.message,
         });

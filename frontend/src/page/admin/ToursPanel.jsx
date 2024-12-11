@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Plus, Edit, Trash2, EyeIcon, Star, X, ImagePlus, MapPin, Landmark, Clock, DollarSign, Users, FileText } from 'lucide-react';
+import { Plus, Edit, Trash2, EyeIcon, Star, X, ImagePlus, MapPin, Landmark, Clock, DollarSign, Users, FileText, Copy } from 'lucide-react';
 import { tourService } from '../../data/Service/tourService';
 import TourDetailsModal from '../../ui/Admin/TourDetailsModal';
 const ToursPanel = () => {
@@ -21,7 +21,8 @@ const ToursPanel = () => {
     maxGroupSize: '',
     desc: '',
     featured: false,
-    highlights: ['']
+    highlights: [''],
+    reviews: []
   };
   const [formData, setFormData] = useState(initialFormState);
 
@@ -46,7 +47,13 @@ const ToursPanel = () => {
     try {
       const fullTour = await tourService.getSingleTour(tour._id);
       setSelectedTour(fullTour);
-      setFormData(fullTour);
+      
+      const editFormData = {
+        ...fullTour,
+        photos: []
+      };
+      
+      setFormData(editFormData);
       setIsViewMode(false);
       setIsCreatingTour(true);
     } catch (err) {
@@ -81,32 +88,37 @@ const ToursPanel = () => {
     const { name, value, files } = e.target;
 
     if (name === 'photos') {
-      const photoFiles = Array.from(files).map(file => 
-        URL.createObjectURL(file)
-      );
+      const selectedFiles = Array.from(files);
       setFormData(prev => ({
         ...prev,
-        photos: [...prev.photos, ...photoFiles]
+        photos: [...prev.photos, ...selectedFiles],
       }));
     } else if (name === 'highlights') {
       const newHighlights = [...formData.highlights];
       newHighlights[index] = value;
       setFormData(prev => ({
         ...prev,
-        highlights: newHighlights
+        highlights: newHighlights,
       }));
+    } else if(name === 'desc'){
+      setFormData(prev => ({
+        ...prev,
+        [name]: value,
+      }))
     } else if (['price', 'duration', 'maxGroupSize'].includes(name)) {
       setFormData(prev => ({
         ...prev,
-        [name]: value === '' ? '' : Number(value)
+        [name]: value === '' ? '' : Number(value),
       }));
     } else {
       setFormData(prev => ({
         ...prev,
-        [name]: value
+        [name]: value,
       }));
     }
   };
+
+  
 
   // Add highlight
   const addHighlight = () => {
@@ -135,22 +147,61 @@ const ToursPanel = () => {
   // Submit new tour
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+  
     try {
+      const formPayload = new FormData();
+      
+      // Append new photo files
+      if (formData.photos.length > 0) {
+        formData.photos.forEach((photo) => {
+          formPayload.append('photos', photo);
+        });
+      }
+
+        // Append existing photo URLs if updating
+      if (selectedTour && selectedTour.photos) {
+        selectedTour.photos.forEach(photoUrl => {
+          formPayload.append('existingPhotos', photoUrl);
+        });
+      }
+      
+      // Append other form data
+      Object.keys(formData).forEach(key => {
+        if (key !== 'photos') {
+          if (key === 'highlights') {
+            const nonEmptyHighlights = formData.highlights
+            .filter(highlight => highlight.trim() !== '')
+            .map(highlight => highlight.trim());
+                    
+            nonEmptyHighlights.forEach(highlight => {
+              formPayload.append('highlights', highlight);
+            });
+          } else if (key === 'reviews') {
+            const nonEmptyReviews = formData.reviews 
+            ? formData.reviews.filter(review => review.trim() !== '') 
+            : [];
+                    
+            if (nonEmptyReviews.length > 0) {
+              formPayload.append(key, JSON.stringify(nonEmptyReviews));
+            }
+          } else {
+            formPayload.append(key, formData[key]);
+          }
+        }
+      });
+  
       let result;
       if (selectedTour) {
-        // Update existing tour
-        result = await tourService.updateTour(selectedTour._id, formData);
-        // Update tours list
+        result = await tourService.updateTour(selectedTour._id, formPayload);
         setTours(tours.map(tour => 
           tour._id === selectedTour._id ? result : tour
         ));
       } else {
         // Create new tour
-        result = await tourService.createTour(formData);
+        result = await tourService.createTour(formPayload);
         setTours([...tours, result]);
       }
-      
+  
       // Reset form and state
       setFormData(initialFormState);
       setIsCreatingTour(false);
@@ -161,14 +212,7 @@ const ToursPanel = () => {
       setError('Failed to save tour');
     }
   };
-
-  const handleCancel = () => {
-    setIsCreatingTour(false);
-    setSelectedTour(null);
-    setIsViewMode(false);
-    setFormData(initialFormState);
-  };
-
+  
   // Render loading state
   if (isLoading) {
     return (
@@ -369,7 +413,7 @@ const ToursPanel = () => {
 
             {/* Photos Upload */}
             <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-              <h3 className="text-lg font-semibold text-gray-700 mb-4">Upload Tour Photos</h3>
+              <h3 className="text-lg font-semibold text-gray-700 mb-4">Tour Photos</h3>
               <div className="flex items-center justify-center w-full">
                 <label className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-blue-300 rounded-lg cursor-pointer 
                 hover:bg-blue-50 transition-colors group">
@@ -390,25 +434,82 @@ const ToursPanel = () => {
                   />
                 </label>
               </div>
-              <div className="flex flex-wrap gap-3 mt-4">
-                {formData.photos.map((photo, index) => (
-                  <div key={index} className="relative group">
-                    <img 
-                      src={photo} 
-                      alt={`Tour ${index + 1}`} 
-                      className="w-32 h-32 object-cover rounded-lg" 
-                    />
-                    <button 
-                      type="button"
-                      onClick={() => removePhoto(index)}
-                      className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 
-                      opacity-0 group-hover:opacity-100 transition-opacity"
-                    >
-                      <X size={16} />
-                    </button>
+              
+              {/* Display Existing Photos */}
+              {selectedTour && selectedTour.photos && selectedTour.photos.length > 0 && (
+                <div className="mt-4">
+                  <h4 className="text-md font-semibold text-gray-700 mb-2">Existing Photos</h4>
+                  <div className="flex flex-wrap gap-3">
+                    {selectedTour.photos.map((photoUrl, index) => (
+                      <div key={`existing-${index}`} className="relative group">
+                        <img 
+                          src={photoUrl} 
+                          alt={`Existing Tour ${index + 1}`} 
+                          className="w-44 h-48 object-cover rounded-lg shadow-md" 
+                        />
+                        <button 
+                          type="button"
+                          onClick={() => {
+                            // Update the tour's photos by removing the specific photo
+                            const updatedPhotos = selectedTour.photos.filter((_, i) => i !== index);
+                            setSelectedTour(prev => ({ ...prev, photos: updatedPhotos }));
+                            setFormData(prev => ({
+                              ...prev,
+                              photos: prev.photos || []
+                            }));
+                          }}
+                          className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1.5 
+                          opacity-100 transition-opacity hover:bg-red-600"
+                        >
+                          <X size={16} />
+                        </button>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+                </div>
+              )}
+
+
+              {/* Display New Uploaded Photos */}
+              {formData.photos && formData.photos.length > 0 && (
+                <div className="mt-4">
+                  <h4 className="text-md font-semibold text-gray-700 mb-2">New Photos</h4>
+                  <div className="flex flex-wrap gap-3">
+                    {formData.photos.map((photo, index) => (
+                      <div key={`new-${index}`} className="relative group">
+                        <img 
+                          src={URL.createObjectURL(photo)} 
+                          alt={`New Tour ${index + 1}`} 
+                          className="w-44 h-48 object-cover rounded-lg shadow-md" 
+                        />
+                        <button 
+                          type="button"
+                          onClick={() => {
+                            setFormData(prev => ({
+                              ...prev,
+                              photos: prev.photos.filter((_, i) => i !== index)
+                            }));
+                          }}
+                          className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1.5 
+                          opacity-100 transition-opacity hover:bg-red-600"
+                        >
+                          <X size={16} />
+                        </button>
+                        <div className="bg-gray-100 p-2 rounded-lg text-xs break-words flex items-center justify-between mt-1 w-64">
+                          <span className="font-semibold mr-2">URL:</span> 
+                          <span className="flex-grow truncate">{photo.name}</span>
+                          <button 
+                            onClick={() => navigator.clipboard.writeText(photo.name)}
+                            className="ml-2 text-blue-500 hover:text-blue-700"
+                          >
+                            <Copy size={16} />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Description */}
@@ -421,6 +522,7 @@ const ToursPanel = () => {
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg 
                 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
                 transition duration-300"
+                style={{ whiteSpace: 'pre-wrap' }}
                 rows="6"
                 required
               />

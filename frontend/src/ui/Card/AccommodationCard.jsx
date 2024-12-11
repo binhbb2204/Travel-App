@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import './accommodation-card.css';
 import calculateAvgRating from '../../utils/avgRating';
 const AccommodationCard = ({ acco }) => {
-  const {_id: id, title, city, photo, price, featured, reviews} = acco;
+  const {_id: id, title, city, photos, price, featured, reviews} = acco;
   const {totalRating, avgRating} = calculateAvgRating(reviews)
   return (
     <motion.div
@@ -18,7 +18,10 @@ const AccommodationCard = ({ acco }) => {
     >
       <Card className="card">
         <div className="acco__img">
-          <img src={photo} alt={title} />
+          <img 
+          src={photos && photos.length > 0 ? photos[0] : '/default-tour-image.jpg'}   
+          alt={title} 
+          />
           
           {featured && (
             <div className="featured-badge">Featured</div>
