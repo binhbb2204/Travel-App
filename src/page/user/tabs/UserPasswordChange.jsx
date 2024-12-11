@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Lock, Eye, EyeOff, ShieldCheck, AlertTriangle, RefreshCw } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { userService } from '../../../data/Service/userService';
 import { authService } from '../../../data/Service/authService';
-
 
 const UserPasswordChange = () => {
     const [passwordData, setPasswordData] = useState({
@@ -56,16 +55,16 @@ const UserPasswordChange = () => {
 
         try {
             const userId = authService.getCurrentUser().userId;
-            
+
             await userService.updateUserPassword(userId, {
                 currentPassword: passwordData.currentPassword,
                 newPassword: passwordData.newPassword,
             });
 
             // Success handling
-            setSavedMessage({ 
-                type: 'success', 
-                text: 'Password updated successfully!' 
+            setSavedMessage({
+                type: 'success',
+                text: 'Password updated successfully!'
             });
 
             // Reset form
@@ -102,8 +101,20 @@ const UserPasswordChange = () => {
         }
     ];
 
+    useEffect(() => {
+        let timer;
+        if (error) {
+            timer = setTimeout(() => setError(null), 1500); // 1.5 seconds 
+        }
+        if (savedMessage) {
+            timer = setTimeout(() => setSavedMessage(null), 1500); // 1.5 seconds 
+        }
+
+        return () => clearTimeout(timer); 
+    }, [error, savedMessage]);
+
     return (
-        <motion.div 
+        <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
@@ -138,7 +149,7 @@ const UserPasswordChange = () => {
             </div>
 
             {passwordFields.map((field) => (
-                <motion.div 
+                <motion.div
                     key={field.key}
                     className="flex items-center space-x-2 md:space-x-3 w-full"
                     whileHover={{ scale: 1.02 }}
@@ -151,18 +162,18 @@ const UserPasswordChange = () => {
                             placeholder={field.placeholder}
                             className="w-full px-3 py-2 text-sm md:text-base border rounded-md focus:ring-2 focus:ring-blue-500"
                             value={passwordData[field.key]}
-                            onChange={(e) => setPasswordData({ 
-                                ...passwordData, 
-                                [field.key]: e.target.value 
+                            onChange={(e) => setPasswordData({
+                                ...passwordData,
+                                [field.key]: e.target.value
                             })}
                         />
-                        <button 
-                            type="button" 
+                        <button
+                            type="button"
                             className="absolute right-2 top-1/2 transform -translate-y-1/2"
                             onClick={() => togglePasswordVisibility(field.key)}
                         >
-                            {showPasswords[field.key] ? 
-                                <EyeOff className="text-blue-600 w-4 h-4 md:w-5 md:h-5" /> : 
+                            {showPasswords[field.key] ?
+                                <EyeOff className="text-blue-600 w-4 h-4 md:w-5 md:h-5" /> :
                                 <Eye className="text-blue-600 w-4 h-4 md:w-5 md:h-5" />
                             }
                         </button>
@@ -174,7 +185,7 @@ const UserPasswordChange = () => {
             <div className="bg-blue-50 p-3 rounded-lg flex items-center space-x-3">
                 <AlertTriangle className="text-yellow-600 w-5 h-5" />
                 <p className="text-sm text-blue-800">
-                   Password must be at least 8 characters long and include a mix of uppercase, lowercase, numbers, and symbols.
+                    Password must be at least 8 characters long and include a mix of uppercase, lowercase, numbers, and symbols.
                 </p>
             </div>
         </motion.div>

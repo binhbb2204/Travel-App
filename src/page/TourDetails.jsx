@@ -91,7 +91,7 @@ const TourDetails = () => {
   return (
     <>
       <ChristmasParallaxBackground/>
-      <section className='relative z-10' style={{ marginBottom: "6rem" }}>
+      <section className='relative z-10' style={{ marginBottom: "1rem" }}>
         <Row>
           <Col lg='8'>
             <div className="max-w-7xl mx-auto px-4 py-4 md:py-8 mt-4">

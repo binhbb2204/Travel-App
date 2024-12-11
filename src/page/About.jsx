@@ -59,9 +59,11 @@ const About = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-white relative overflow-hidden">
-            <ParallaxBackground />
-            <ChristmasParallaxBackground/>
+        <div className="min-h-screen bg-white relative overflow-hidden -z-10">
+            {/* <ParallaxBackground /> */}
+            <div className="absolute inset-0 -z-10">
+                <ChristmasParallaxBackground />
+            </div>
             <div className="h-16 md:h-24"></div>    {/* seperate the header and the video */}
 
             {/* Video Section */}
@@ -87,7 +89,7 @@ const About = () => {
             </section>
 
             {/* Hero Section */}
-            <section className="relative pt-20 pb-12 md:py-20 z-10">
+            <section className="relative pt-20 pb-12 md:py-20 z-20 space-y-6">
                 <div className="container mx-auto px-4">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -106,7 +108,7 @@ const About = () => {
             </section>
 
             {/* Stats Section */}
-            <section className="py-12 bg-gray-50">
+            <section className="py-12 bg-gray-50 z-10">
                 <div className="container mx-auto px-4">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -132,7 +134,7 @@ const About = () => {
             </section>
 
             {/* Mission Section */}
-            <section className="py-12 md:py-20 z-10">
+            <section className="py-12 md:py-20 z-10 space-y-6">
                 <div className="container mx-auto px-4">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
