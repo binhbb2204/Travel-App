@@ -132,7 +132,7 @@ const Tours = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <ChristmasParallaxBackground/>
-      <div className="relative z-2" style={{ marginBottom: "4rem" }}>
+      <div className="relative z-2">
         {/* Search Section */}
         <motion.div 
           initial={{ opacity: 0 }} 
