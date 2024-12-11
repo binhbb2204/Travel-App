@@ -1,4 +1,4 @@
-// Temporarily uses this class, dont delete it
+// This class is for referencing, don't delete it yet
 import React, { useEffect, useState } from 'react';
 import {
   User,

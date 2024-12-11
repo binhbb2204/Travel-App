@@ -18,7 +18,8 @@ const UserSecurity = () => {
             icon: <Shield className="text-blue-600 w-5 h-5 md:w-6 md:h-6" />,
             title: 'Login Activity',
             type: 'button',
-            buttonText: 'View Recent'
+            buttonText: 'View Recent',
+            onClick: () => setLoginActivityExpanded(!loginActivityExpanded)
         }
     ];
 
@@ -62,14 +63,14 @@ const UserSecurity = () => {
                         {option.type === 'button' && (
                             <button 
                                 className="bg-blue-600 text-white px-3 py-1.5 md:px-4 md:py-2 rounded-md text-xs md:text-sm hover:bg-blue-700 flex items-center"
-                                onClick={() => setLoginActivityExpanded(!loginActivityExpanded)}
+                                onClick={option.onClick}
                             >
                                 {option.buttonText}
                                 <ChevronRight className="ml-1 w-4 h-4" />
                             </button>
                         )}
                     </div>
-                    {loginActivityExpanded && (
+                    {loginActivityExpanded && option.type === 'button' && (
                         <motion.div
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: 'auto' }}

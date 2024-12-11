@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { User, Mail, Phone, Calendar, Users, Pencil, Edit, X, Save } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const UserOverview = ({ userData, setUserData, handleSave }) => {
+const UserProfile = ({ userData, setUserData, handleSave }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [showMessage, setShowMessage] = useState(false);
 
@@ -183,4 +183,4 @@ const UserOverview = ({ userData, setUserData, handleSave }) => {
     );
 };
 
-export default UserOverview;
+export default UserProfile;

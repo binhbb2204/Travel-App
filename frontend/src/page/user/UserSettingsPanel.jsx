@@ -3,9 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { authService } from "../../data/Service/authService";
 import { userService } from '../../data/Service/userService';
-import UserHeader from './components/UserHeader';
-import UserSidebar from './tabs/UserSidebar';
-import UserOverview from './tabs/UserOverview';
+// import UserHeader from './components/UserHeader';
+import UserSidebar from './components/UserSidebar';
+import UserProfile from "./tabs/UserProfile";
 import UserPasswordChange from './tabs/UserPasswordChange';
 import UserTransactions from './tabs/UserTransactions';
 import UserSecurity from './tabs/UserSecurity';
@@ -105,7 +105,7 @@ const UserSettingsPanel = () => {
   const renderTabContent = () => {
     switch (activeTab) {
       case 'account':
-        return <UserOverview userData={userData} setUserData={setUserData}  handleSave={handleSave}/>;
+        return <UserProfile userData={userData} setUserData={setUserData}  handleSave={handleSave}/>;
       case 'password':
         return <UserPasswordChange passwordData={passwordData} setPasswordData={setPasswordData} />;
       case 'transactions':
@@ -113,7 +113,7 @@ const UserSettingsPanel = () => {
       case 'security':
         return <UserSecurity />;
       default:
-        return <UserOverview userData={userData} setUserData={setUserData} />;
+        return <UserProfile userData={userData} setUserData={setUserData} />;
     }
   };
 
