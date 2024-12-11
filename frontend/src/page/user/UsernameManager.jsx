@@ -1,7 +1,7 @@
 // user/UsernameManager.jsx
 import React, { useState, useEffect } from 'react';
 import Header from "../../Header/Header";
-import UserOverview from "./tabs/UserOverview";
+import UserProfile from './tabs/UserProfile';
 
 const UsernameManager = () => {
     const [username, setUsername] = useState(localStorage.getItem('username') || '');
@@ -13,7 +13,7 @@ const UsernameManager = () => {
     return (
         <div>
             <Header username={username} />
-            <UserOverview username={username} setUsername={setUsername} />
+            <UserProfile username={username} setUsername={setUsername} />
         </div>
     );
 };
