@@ -1,6 +1,7 @@
 import React from 'react';
 import TourCard from '../Card/TourCard';
 import tourData from '../../data/tourData';
+import { tourService } from '../../data/Service/tourService';
 import { Col } from 'reactstrap';
 import { motion } from 'framer-motion';
 

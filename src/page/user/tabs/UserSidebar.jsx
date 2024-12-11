@@ -4,7 +4,8 @@ import {
   Lock, 
   CreditCard, 
   ShieldCheck, 
-  Compass 
+  Compass,
+  TreePine,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -27,7 +28,7 @@ const UserSidebar = ({
     },
     { 
       key: 'transactions', 
-      label: 'My Trips', 
+      label: 'Transactions', 
       icon: <Compass className="w-5 h-5" />
     },
     { 
@@ -58,19 +59,59 @@ const UserSidebar = ({
       container: "h-full flex flex-col justify-between p-2 text-gray-800 bg-gray-50",
       activeItem: "bg-blue-500 text-white",
       hoverItem: "hover:bg-blue-100"
+    },
+    christmas: {
+      container: "h-full flex flex-col justify-between p-4 text-white bg-gradient-to-br from-cyan-500 via-blue-300 to-cyan-300 shadow-lg border-4 border-white/20",
+      activeItem: "bg-white/30 ring-2 ring-white/30 font-bold text-white",
+      hoverItem: "hover:bg-white/10"
     }
   };
 
   const currentVariant = variants[variant] || variants.default;
 
   return (
-    <div className={`${currentVariant.container} ${className}`}>
-      <div className="space-y-2">
-        <div className="flex items-center space-x-3 mb-6">
-          <Compass className="w-8 h-8" />
-          <h2 className="text-xl font-bold">TravelSync</h2>
-        </div>
-        
+    <div className={`
+      ${currentVariant.container} 
+      ${className} 
+      h-full 
+      w-full 
+      flex flex-col
+      relative
+      overflow-hidden
+    `}>
+      {/* Snowflake decorations */}
+      <div className="absolute top-0 left-0 right-0 bottom-0 pointer-events-none">
+        {[...Array(20)].map((_, i) => (
+          <div 
+            key={i} 
+            className="absolute bg-white/50 rounded-full opacity-50"
+            style={{
+              width: `${Math.random() * 4}px`,
+              height: `${Math.random() * 4}px`,
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDuration: `${5 + Math.random() * 5}s`,
+              animationName: 'fall',
+              animationIterationCount: 'infinite',
+              animationTimingFunction: 'linear'
+            }}
+          />
+        ))}
+      </div>
+
+      <style jsx>{`
+        @keyframes fall {
+          from { transform: translateY(-10%); }
+          to { transform: translateY(120vh) rotate(360deg); }
+        }
+      `}</style>
+      
+      <div className="flex items-center space-x-3 mb-6 relative z-10">
+        <TreePine className="w-8 h-8 text-white"/>
+        <h2 className="text-xl font-bold">Settings</h2>
+      </div>
+      
+      <div className="flex-grow space-y-2 relative z-10">
         {sidebarItems.map((item) => (
           <motion.button
             key={item.key}
@@ -80,6 +121,7 @@ const UserSidebar = ({
             className={`
               w-full flex items-center space-x-3 p-3 rounded-lg 
               transition-all duration-200 
+              h-12 
               ${activeTab === item.key 
                 ? currentVariant.activeItem 
                 : currentVariant.hoverItem
@@ -92,8 +134,8 @@ const UserSidebar = ({
         ))}
       </div>
       
-      <div className="text-xs opacity-50 text-center">
-        © 2024 TravelSync
+      <div className="text-xs opacity-50 text-center mt-auto pb-4 relative z-10">
+        © 2024 TABTravelCorp. ❄️🎄✈️
       </div>
     </div>
   );

@@ -142,7 +142,7 @@ const Header = () => {
                   onClick={() => setShowFavorites(!showFavorites)}
                 >
                   <Heart
-                    className="w-6 h-6 text-gray-700 hover:text-blue-500"
+                    className="w-6 h-6 text-gray-900 hover:text-blue-500"
                     stroke="currentColor"
                     strokeWidth={2}
                     fill="none"
@@ -204,7 +204,7 @@ const Header = () => {
                 onClick={() => setShowSettings(prev => !prev)}
               >
                 <Settings
-                  className="w-6 h-6 text-gray-700 hover:text-blue-500"
+                  className="w-6 h-6 text-gray-900 hover:text-blue-500"
                   stroke="currentColor"
                   strokeWidth={2}
                   fill="none"
@@ -249,7 +249,7 @@ const Header = () => {
                   className="p-2 rounded-full relative"
                 >
                   <TicketsPlane
-                    className="w-6 h-6 text-gray-700 hover:text-blue-500"
+                    className="w-6 h-6 text-gray-900 hover:text-blue-500"
                     stroke="currentColor"
                     strokeWidth={2}
                     fill="none"

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Users, Target, Globe, Award, Heart } from 'lucide-react';
 import ParallaxBackground from '../ui/ParallaxBackground';
+import ChristmasParallaxBackground from '../ui/ChristmasParallaxBackground';
 import teamMemberImage1 from '../images/binhbb.jpg';
 import teamMemberImage2 from '../images/ice.jpg';
 import teamMemberImage3 from '../images/nature.jpg';
@@ -60,6 +61,7 @@ const About = () => {
     return (
         <div className="min-h-screen bg-white relative overflow-hidden">
             <ParallaxBackground />
+            <ChristmasParallaxBackground/>
             <div className="h-16 md:h-24"></div>    {/* seperate the header and the video */}
 
             {/* Video Section */}

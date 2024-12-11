@@ -5,7 +5,7 @@ import UsersPanel from "./UsersPanel";
 import ToursPanel from './ToursPanel';
 import AccommodationsPanel from './AccommodationsPanel';
 import OverviewPanel from "./OverviewPanel";
-import TransactionPanel from "./TransactionPanel";
+import TransactionsPanel from "./TransactionsPanel";
 import { Activity } from 'lucide-react';
 import { useUsers } from "./UsersContext";
 
@@ -62,7 +62,7 @@ const AdminPanel = () => {
       case 'accommodations':
         return <AccommodationsPanel />;
       case 'transactions':
-        return <TransactionPanel />;
+        return <TransactionsPanel />;
       default:
         return (
           <div className="bg-white rounded-lg shadow-sm">

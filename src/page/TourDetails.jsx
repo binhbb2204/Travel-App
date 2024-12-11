@@ -10,6 +10,7 @@ import calculateAvgRating from '../utils/avgRating';
 import '../styles/tour-details.css';
 import CommentSection from '../ui/Comment/CommentSection';
 import Booking from '../Booking/Booking';
+import ChristmasParallaxBackground from '../ui/ChristmasParallaxBackground';
 
 const TourDetails = () => {
   const { id } = useParams();
@@ -89,7 +90,8 @@ const TourDetails = () => {
 
   return (
     <>
-      <section>
+      <ChristmasParallaxBackground/>
+      <section className='relative z-10' style={{ marginBottom: "6rem" }}>
         <Row>
           <Col lg='8'>
             <div className="max-w-7xl mx-auto px-4 py-4 md:py-8 mt-4">
@@ -107,7 +109,8 @@ const TourDetails = () => {
                 </button>
               </div>
               {/* Content Grid */}
-              <div className="gap-6 md:gap-8">
+              
+              <div className="gap-6 md:gap-8 relative">
                 {/* Main Content */}
                 <div className="lg:col-span-2 space-y-6">
                   <div className="bg-white rounded-xl p-4 md:p-6 shadow-sm">
@@ -158,10 +161,9 @@ const TourDetails = () => {
                         ))}
                       </div>
                     </div>
-
-                    {/* Reviews Preview */}
-                    {reviews && <CommentSection tourId={id} commentService={commentService} availableUsers={['user', 'admin']}/>}
                   </div>
+                  {/* Reviews Preview */}
+                  {reviews && <CommentSection tourId={id} commentService={commentService} availableUsers={['user', 'admin']}/>}
                 </div>
               </div>
             </div>  

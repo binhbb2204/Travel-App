@@ -10,6 +10,7 @@ import calculateAvgRating from '../utils/avgRating';
 import '../styles/accommodation-details.css'
 import CommentSection from '../ui/Comment/CommentSection';
 import AccommodationBooking from '../Booking/AccommodationBooking';
+import ChristmasParallaxBackground from '../ui/ChristmasParallaxBackground';
 import axios from 'axios';
 import { accommodationService } from '../data/Service/accommodationService';
 const AccommodationDetails = () => {
@@ -80,7 +81,8 @@ const AccommodationDetails = () => {
 
   return (
     <>
-      <section className='page-section'>
+      <ChristmasParallaxBackground/>
+      <section className='page-section relative z-10' style={{ marginBottom: "6rem" }}>
         <Row>
           <Col lg='8'>
             <div className="max-w-7xl mx-auto px-4 py-4 md:py-8 mt-4">
@@ -98,7 +100,7 @@ const AccommodationDetails = () => {
                   </button>
                 </div>
                 {/* Content Grid */}
-                <div className="gap-6 md:gap-8">
+                <div className="gap-6 md:gap-8 relative">
                   {/* Main Content */}
                   <div className="lg:col-span-2 space-y-6">
                     <div className="bg-white rounded-xl p-4 md:p-6 shadow-sm">
