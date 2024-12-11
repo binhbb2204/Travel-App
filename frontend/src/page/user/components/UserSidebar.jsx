@@ -119,7 +119,7 @@ const UserSidebar = ({
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className={`
-              w-full flex items-center space-x-3 p-3 rounded-lg 
+              w-full flex items-center space-x-3 p-3 rounded-lg
               transition-all duration-200 
               h-12 
               ${activeTab === item.key 

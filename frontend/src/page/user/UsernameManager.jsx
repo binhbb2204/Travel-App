@@ -13,7 +13,7 @@ const UsernameManager = () => {
     return (
         <div>
             <Header username={username} />
-            <UserOverview username={username} setUsername={setUsername} />
+            <UserProfile username={username} setUsername={setUsername} />
         </div>
     );
 };
