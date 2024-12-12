@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema(
     },
     gender: {
       type: String,
-      enum: ['male', 'female', 'other'], // Gender options matching the frontend
+      enum: ['Male', 'Female', 'Other'], // Gender options matching the frontend
       required: true,
     },
     email: {

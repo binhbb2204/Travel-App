@@ -11,6 +11,16 @@ const getBaseUrl = () => {
 };
 const BASE_URL = getBaseUrl();
 export const authService = {
+    register: async (userData) => {
+        try {
+            const response = await axios.post(`${BASE_URL}/register`, userData);
+            return response.data;
+
+        } catch (error) {
+            console.error('Register failed:', error.response ? error.response.data : error.message);
+            throw error;
+        }
+    },
     login: async (email, password) => {
         try {
             const response = await axios.post(`${BASE_URL}/login`, { email, password });

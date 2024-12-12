@@ -40,7 +40,7 @@ export const tourService = {
       }
 
       const response = await api.post('', tourData);
-      return response.data.data;
+      return response.data;
     } catch (error) {
       console.error('Error creating tour:', error);
       throw error;
