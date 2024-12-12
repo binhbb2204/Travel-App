@@ -592,6 +592,7 @@ const ToursPanel = () => {
           <table className="w-full">
             <thead>
               <tr className="bg-gray-100 text-left">
+                <th className="p-4">ID</th>
                 <th className="p-4">Title</th>
                 <th className="p-4">Country</th>
                 <th className="p-4">Price</th>
@@ -603,6 +604,7 @@ const ToursPanel = () => {
             <tbody>
               {tours.map(tour => (
                 <tr key={tour._id} className="border-b hover:bg-gray-50 transition">
+                  <td className="p-4">{tour._id}</td>
                   <td className="p-4 flex items-center">
                     {tour.featured && <Star className="text-yellow-500 mr-2" size={16} />}
                     <span>{tour.title}</span>
