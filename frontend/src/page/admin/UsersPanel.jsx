@@ -1,12 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Container, Row, Col, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, Table, Alert } from 'reactstrap';
-import { Plus, Edit, Trash2, EyeIcon, Landmark } from 'lucide-react';
+import {
+    Container,
+    Row,
+    Col,
+    Button,
+    Modal,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
+    Form,
+    FormGroup,
+    Label,
+    Input,
+    Table,
+    Alert
+} from 'reactstrap';
+import { Edit, Trash2, EyeIcon, Landmark } from 'lucide-react';
 import { authService } from "../../data/Service/authService";
 
 const UsersPanel = () => {
     const [users, setUsers] = useState([]);
     const [editModal, setEditModal] = useState(false);
+    const [viewModal, setViewModal] = useState(false); // State for viewing user details
     const [currentUser, setCurrentUser] = useState(null);
     const [notification, setNotification] = useState({ message: '', visible: false });
     const token = authService.getCurrentUser().token;
@@ -37,6 +53,10 @@ const UsersPanel = () => {
         setEditModal(!editModal);
     };
 
+    const toggleViewModal = () => {
+        setViewModal(!viewModal);
+    };
+
     const handleEditSubmit = async (event) => {
         event.preventDefault();
         const updatedUser = {
@@ -55,9 +75,10 @@ const UsersPanel = () => {
             });
             setUsers(users.map(user => (user._id === currentUser._id ? updatedUser : user)));
             setNotification({ message: 'Update successful. Your changes have been saved!', visible: true });
+
             setTimeout(() => {
                 setNotification({ ...notification, visible: false });
-            }, 2000); 
+            }, 2000);
             toggleEditModal(null);
         } catch (error) {
             console.error('Error updating user:', error);
@@ -80,7 +101,8 @@ const UsersPanel = () => {
     };
 
     const handleViewUser = (user) => {
-        alert(`Viewing details for ${user.name}`);
+        setCurrentUser(user);
+        toggleViewModal();
     };
 
     return (
@@ -131,14 +153,12 @@ const UsersPanel = () => {
                                                     >
                                                         <EyeIcon size={18} />
                                                     </button>
-
                                                     <button
                                                         onClick={() => toggleEditModal(user)}
                                                         className="text-green-500 hover:bg-green-50 p-2 rounded-full flex items-center justify-center"
                                                     >
                                                         <Edit size={18} />
                                                     </button>
-
                                                     <button
                                                         onClick={() => handleDelete(user)}
                                                         className="text-red-500 hover:bg-red-50 p-2 rounded-full flex items-center justify-center"
@@ -189,6 +209,38 @@ const UsersPanel = () => {
                         </Form>
                     )}
                 </ModalBody>
+            </Modal>
+
+            {/* View User Info Modal */}
+            <Modal isOpen={viewModal} toggle={toggleViewModal} centered>
+                <ModalHeader toggle={toggleViewModal}>User Information</ModalHeader>
+                <ModalBody>
+                    {currentUser && (
+                        <Table striped>
+                            <tbody>
+                                <tr>
+                                    <th>Name</th>
+                                    <td>{currentUser.name}</td>
+                                </tr>
+                                <tr>
+                                    <th>Email</th>
+                                    <td>{currentUser.email}</td>
+                                </tr>
+                                <tr>
+                                    <th>Phone</th>
+                                    <td>{currentUser.phone}</td>
+                                </tr>
+                                <tr>
+                                    <th>Gender</th>
+                                    <td>{currentUser.gender}</td>
+                                </tr>
+                            </tbody>
+                        </Table>
+                    )}
+                </ModalBody>
+                <ModalFooter>
+                    <Button color="secondary" onClick={toggleViewModal}>Close</Button>
+                </ModalFooter>
             </Modal>
         </Container>
     );
