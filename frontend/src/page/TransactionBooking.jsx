@@ -7,6 +7,7 @@ import {authService} from '../data/Service/authService';
 import {accommodationService} from '../data/Service/accommodationService';
 import {tourService} from '../data/Service/tourService';
 import {tourBookingService} from '../data/Service/tourBookingService';
+import { transactionService } from '../data/Service/transactionService';
 
 const TransactionBooking = () => {
     const [step, setStep] = useState(1);
@@ -14,6 +15,7 @@ const TransactionBooking = () => {
     const [success, setSuccess] = useState(false);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const location = useLocation();
+    const [cardNumber, setCardNumber] = useState("");
     // const bookingData = location.state?.bookingData || {};
     // const bookingData2 = location.state?.bookingData2 || {};
     const combinedTotalPrice = location.state?.combinedTotalPrice || 0;
@@ -54,6 +56,7 @@ const TransactionBooking = () => {
     //     </button>
     // );
     const [bookingData, setBookingData] = useState({
+        tour_Id : 'none',
         tour_title: 'Unknown Title',
         tour_date: 'none',
         tour_adults: 1,
@@ -70,6 +73,7 @@ const TransactionBooking = () => {
     });
 
     const [bookingData2, setBookingData2] = useState({
+        acco_Id : 'none',
         acco_title: "Unknown Accommodation",
         acco_checkin: 'none',
         acco_checkout: 'none',
@@ -98,6 +102,7 @@ const TransactionBooking = () => {
                     const accoData = await accommodationService.getSingleAccommodation(accoBookData.accommodationId);
                     if (accoBookData) {
                         setBookingData2({
+                            acco_Id: accoData._id || 'none',
                             acco_title: accoBookData.accommodationName || "Unknown Accommodation",
                             acco_checkin: accoBookData.checkInDate ? new Date(accoBookData.checkInDate).toLocaleDateString() : 'none',
                             acco_checkout: accoBookData.checkOutDate ? new Date(accoBookData.checkOutDate).toLocaleDateString() : 'none',
@@ -138,6 +143,7 @@ const TransactionBooking = () => {
                     const tourData = await tourService.getSingleTour(tourBookData.tourId);
                     if (tourBookData) {
                         setBookingData({
+                            tour_Id: tourData._id || 'none',
                             tour_title: tourBookData.tourName || "Unknown Title",
                             tour_date: tourBookData.date ? new Date(tourBookData.date).toLocaleDateString() : 'none',
                             tour_adults: tourBookData.adults || 1,
@@ -231,11 +237,22 @@ const TransactionBooking = () => {
     const handleSubmit = async (e) => {
         if(payForAccommodation){
             try {
-                const userId = authService.getCurrentUser().userId;
+                const userData = authService.getCurrentUser();
                 const updateData = {
                     status: "Confirmed", 
                 };
-                await accommodationBookingService.updateUserAccoBook(userId, "Pending", updateData);
+                await accommodationBookingService.updateUserAccoBook(userData.userId, "Pending", updateData);
+                const transactionData = {
+                    userId : userData.userId,
+                    email : bookingData2.acco_email,
+                    experienceId : bookingData2.acco_Id,
+                    experienceName : bookingData2.acco_title,
+                    type: "Accommodation",
+                    totalPrice : bookingData2.acco_totalPrice,
+                    cardNumber : cardNumber,
+                    date: new Date().toISOString()
+                }
+                await transactionService.createTransaction(transactionData);
             } catch (error) {
                 console.error("Unable to pay");
             }        
@@ -243,11 +260,23 @@ const TransactionBooking = () => {
            
         if(payForTour){
             try {
-                const userId = authService.getCurrentUser().userId;
+                const userData = authService.getCurrentUser();
                 const updateData = {
                     status: "Confirmed", 
                 };
-                await tourBookingService.updateUserTourBook(userId, "Pending", updateData);
+                await tourBookingService.updateUserTourBook(userData.userId, "Pending", updateData);
+                const transactionData = {
+                    userId : userData.userId,
+                    email : bookingData.tour_email,
+                    experienceId : bookingData.tour_Id,
+                    experienceName : bookingData.tour_title,
+                    type: "Tour",
+                    totalPrice : bookingData.tour_totalPrice,
+                    cardNumber : cardNumber,
+                    date: new Date().toISOString()
+                }
+                console.log(transactionData);
+                await transactionService.createTransaction(transactionData);
             } catch (error) {
                 console.error("Unable to pay");
             }        
@@ -259,7 +288,7 @@ const TransactionBooking = () => {
         setTimeout(() => {
             setLoading(false);
             setSuccess(true);
-            setTimeout(() => setStep(3), 500);
+            setTimeout(() => setStep(3), 200);
             // setTimeout(() => navigate('/checkout'), 500);
         }, 2000);
 
@@ -465,6 +494,8 @@ const TransactionBooking = () => {
                                         type="text"
                                         placeholder="Card Number"
                                         className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        value={cardNumber}
+                                        onChange={(e) => setCardNumber(e.target.value)}
                                         required
                                         />
 

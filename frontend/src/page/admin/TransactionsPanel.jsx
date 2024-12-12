@@ -4,10 +4,13 @@ import { Plus, Edit, Trash2, EyeIcon, Star, X, ImagePlus, MapPin, Landmark, Cloc
 import { transactionService } from '../../data/Service/transactionService';
 import { tourService } from '../../data/Service/tourService';
 import { accommodationService } from '../../data/Service/accommodationService';
+import AccommodationDetailsModal from '../../ui/Admin/AccommodationDetailsModal';
+import TourDetailsModal from '../../ui/Admin/TourDetailsModal';
 
 // import TransactionDetailsModal from '../../ui/Admin/TransactionDetailsModal';
 const TransactionsPanel = () => {
   const [transactions, setTransactions] = useState([]);
+  const [transDetail, setTransDetail] = useState();
   const [detailsBook, setDetailsBook] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 //   const [selectedBook, setSelectedBook] = useState(null);
@@ -72,6 +75,7 @@ const TransactionsPanel = () => {
 
   const handleViewTransaction = async (trans) => {
     try {
+      setTransDetail(trans);
       if(trans.type === "Tour"){
         const tourDetail = await tourService.getSingleTour(trans.experienceId);
         setDetailsBook(tourDetail);
@@ -554,12 +558,18 @@ const TransactionsPanel = () => {
           </table>
         </div>
       )}
-      {/* {detailsBook && (
-        <TransactionDetailsModal 
-          trans={detailsBook} 
+      {detailsBook && transDetail.type === "Tour" && (
+        <TourDetailsModal 
+          tour={detailsBook} 
           onClose={() => setDetailsBook(null)} 
         />
-      )} */}
+      )}
+      {detailsBook && transDetail.type === "Accommodation" && (
+        <AccommodationDetailsModal 
+          acco={detailsBook} 
+          onClose={() => setDetailsBook(null)} 
+        />
+      )}
     </div>
   );
 };
