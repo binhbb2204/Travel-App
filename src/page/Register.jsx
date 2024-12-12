@@ -6,15 +6,15 @@ import '../styles/register.css';
 import { useUsers } from "./admin/UsersContext";
 import axios from 'axios';
 import { Eye, EyeOff } from 'lucide-react';
-
+import { authService } from '../data/Service/authService';
 const Register = () => {
 
   const { addUser } = useUsers();
 
   const genderOptions = [
-    { value: 'male', label: 'Male' },
-    { value: 'female', label: 'Female' },
-    { value: 'other', label: 'Other' },
+    { value: 'Male', label: 'Male' },
+    { value: 'Female', label: 'Female' },
+    { value: 'Other', label: 'Other' },
     // Add more genders here C:
   ];
 
@@ -55,8 +55,8 @@ const Register = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:8000/api/v1/auth/register', formData);
-      setSuccess(response.data.message);
+      const response = await authService.register(formData)
+      setSuccess(response.message || 'Registration successful');
       setTimeout(() => {
         navigate('/login');
       }, 2000); // Delay (ms)

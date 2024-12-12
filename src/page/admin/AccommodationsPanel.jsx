@@ -1,6 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Plus, Edit, Trash2, EyeIcon, Star, X, ImagePlus, MapPin, Landmark, Hotel, DollarSign, Users, FileText, Copy } from 'lucide-react';
+import { 
+  Plus, 
+  Edit, 
+  Trash2, 
+  EyeIcon, 
+  Star, 
+  X, 
+  ImagePlus, 
+  MapPin, 
+  Landmark, 
+  DollarSign, 
+  Users, 
+  FileText, 
+  Copy, 
+  Menu,
+  ArrowLeft,
+  Hotel } from 'lucide-react';
 import { accommodationService } from '../../data/Service/accommodationService';
 import AccommodationDetailsModal from '../../ui/Admin/AccommodationDetailsModal';
 const AccommodationsPanel = () => {
@@ -11,6 +27,10 @@ const AccommodationsPanel = () => {
   const [error, setError] = useState(null);
   const [isCreatingAccommodation, setIsCreatingAccommodation] = useState(false);
   const [isViewMode, setIsViewMode] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [showFullText, setShowFullText] = useState(false);
+
   const initialFormState = {
     title: '',
     country: '',
@@ -26,6 +46,15 @@ const AccommodationsPanel = () => {
   };
   const [formData, setFormData] = useState(initialFormState);
 
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
   // Fetch accommodations on component mount
   useEffect(() => {
     const fetchAccommodations = async () => {
@@ -58,6 +87,18 @@ const AccommodationsPanel = () => {
       setIsCreatingAccommodation(true);
     } catch (err) {
       setError('Failed to fetch accommodation details');
+    }
+  };
+
+  const cancelTourCreation = () => {
+    setIsCreatingAccommodation(false);
+    setFormData(initialFormState);
+    setSelectedAccommodation(null);
+    setIsViewMode(false);
+    
+    // If on mobile, close any open menus
+    if (isMobile) {
+      setIsMobileMenuOpen(false);
     }
   };
 
@@ -255,34 +296,99 @@ const AccommodationsPanel = () => {
 
   return (
     <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
+
+      {isMobile && (
+        <div className="bg-gradient-to-r from-blue-100 via-white to-blue-100 p-4 
+                        flex justify-between items-center border-b border-blue-100">
+          <h2 className="text-xl font-bold text-gray-800 flex items-center">
+            <Landmark className="mr-3 text-blue-600" size={20} />
+            Tours Management
+          </h2>
+          <button 
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="text-blue-600 hover:bg-blue-100 p-2 rounded-lg"
+          >
+            <Menu size={24} />
+          </button>
+        </div>
+      )}
+
+      {/* Mobile Slide-out Menu */}
+      {isMobile && isMobileMenuOpen && (
+        <div className="fixed inset-0 z-50 bg-white">
+          <div className="bg-gradient-to-r from-blue-100 via-white to-blue-100 p-4 
+                          flex justify-between items-center border-b border-blue-100">
+            <h2 className="text-xl font-bold text-gray-800">Menu</h2>
+            <button 
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="text-red-500 hover:bg-red-100 p-2 rounded-lg"
+            >
+              <X size={24} />
+            </button>
+          </div>
+          <div className="p-4 space-y-4">
+            <button 
+              onClick={() => {
+                setIsCreatingAccommodation(true);
+                setIsMobileMenuOpen(false);
+              }}
+              className="w-full bg-blue-600 text-white px-5 py-3 rounded-lg 
+              hover:bg-blue-700 transition-all duration-300"
+            >
+              <Plus className="mr-2 inline" size={20} /> Create New Tour
+            </button>
+          </div>
+        </div>
+      )}
+
+      {isMobile && isCreatingAccommodation && (
+        <div className="bg-gradient-to-r from-blue-100 via-white to-blue-100 p-4 
+                        flex justify-between items-center border-b border-blue-100">
+          <button 
+            onClick={cancelTourCreation}
+            className="flex items-center text-gray-600 hover:text-gray-800"
+          >
+            <ArrowLeft className="mr-2" size={20} /> Cancel
+          </button>
+          <h2 className="text-xl font-bold text-gray-800">
+            {selectedAccommodation ? 'Edit Accommodation' : 'Create New Accommodation'}
+          </h2>
+          <div></div> {/* Spacer to center the title */}
+        </div>
+      )}
+
+
       {/* Panel Header */}
-      <div className="bg-gradient-to-r from-blue-100 via-white to-blue-100 p-6 
+      {!isMobile && (
+        <div className="bg-gradient-to-r from-blue-100 via-white to-blue-100 p-6 
                     flex justify-between items-center border-b border-blue-100">
-        <h2 className="text-2xl font-bold text-gray-800 flex items-center">
-          <Landmark className="mr-3 text-blue-600" size={24} />
-          Accommodations Management
-        </h2>
-        {!isCreatingAccommodation ? (
-          
-          <button 
-            onClick={() => setIsCreatingAccommodation(true)}
-            className="group flex items-center bg-blue-600 text-white px-5 py-2.5 rounded-lg 
-            hover:bg-blue-700 transition-all duration-300 ease-in-out 
-            transform hover:-translate-y-1 hover:shadow-lg"
-          >
-            <Plus className="mr-2 group-hover:rotate-180 transition-transform" size={20} /> Create New Accommodation
-          </button>
-        ) : (
-          <button 
-            onClick={() => setIsCreatingAccommodation(false)}
-            className="group flex items-center bg-red-500 text-white px-5 py-2.5 rounded-lg 
-            hover:bg-red-600 transition-all duration-300 ease-in-out 
-            transform hover:-translate-y-1 hover:shadow-lg"
-          >
-            <X className="mr-2 group-hover:rotate-180 transition-transform" size={20} /> Cancel
-          </button>
-        )}
-      </div>
+          <h2 className="text-2xl font-bold text-gray-800 flex items-center">
+            <Landmark className="mr-3 text-blue-600" size={24} />
+            Accommodations Management
+          </h2>
+          {!isCreatingAccommodation ? (
+            
+            <button 
+              onClick={() => setIsCreatingAccommodation(true)}
+              className="group flex items-center bg-blue-600 text-white px-5 py-2.5 rounded-lg 
+              hover:bg-blue-700 transition-all duration-300 ease-in-out 
+              transform hover:-translate-y-1 hover:shadow-lg"
+            >
+              <Plus className="mr-2 group-hover:rotate-180 transition-transform" size={20} /> Create New Accommodation
+            </button>
+          ) : (
+            <button 
+              onClick={() => setIsCreatingAccommodation(false)}
+              className="group flex items-center bg-red-500 text-white px-5 py-2.5 rounded-lg 
+              hover:bg-red-600 transition-all duration-300 ease-in-out 
+              transform hover:-translate-y-1 hover:shadow-lg"
+            >
+              <X className="mr-2 group-hover:rotate-180 transition-transform" size={20} /> Cancel
+            </button>
+          )}
+        </div>
+      )}
+      
 
       {/* Inline Accommodation Creation Form */}
       {isCreatingAccommodation && (
@@ -388,18 +494,31 @@ const AccommodationsPanel = () => {
             <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
               <h3 className="text-lg font-semibold text-gray-700 mb-4">Accommodation Highlights</h3>
               {formData.highlights.map((highlight, index) => (
-                <div key={index} className="flex mb-3">
-                  <input
-                    type="text"
-                    name="highlights"
-                    value={highlight}
-                    onChange={(e) => handleChange(e, index)}
-                    placeholder="Accommodation Highlight"
-                    className="flex-grow px-5 py-2.5 border border-gray-300 rounded-lg 
-                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
-                    transition duration-300 mr-3"
-                    required
-                  />
+                <div key={index} className="flex flex-col sm:flex-row mb-3 space-y-2 sm:space-y-0 sm:space-x-3">
+                  <div className="relative w-full">
+                    <input
+                      type="text"
+                      name="highlights"
+                      value={highlight}
+                      onChange={(e) => handleChange(e, index)}
+                      placeholder="Accommodation Highlight"
+                      className="w-full px-4 py-2.5 pr-10 border border-gray-300 rounded-lg 
+                      focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
+                      transition duration-300"
+                      required
+                    />
+                    {highlight.length > 30 && (
+                      <button
+                        type="button"
+                        onClick={() => setShowFullText(!showFullText)}
+                        className="absolute right-2 top-1/2 transform -translate-y-1/2 
+                        text-gray-500 hover:text-blue-600 transition-colors"
+                        title="Show full text"
+                      >
+                        {showFullText ? '✖' : '👁'}
+                      </button>
+                    )}
+                  </div>
                   {index > 0 && (
                     <button
                       type="button"
@@ -410,13 +529,36 @@ const AccommodationsPanel = () => {
                       Remove
                     </button>
                   )}
-                </div>
+                  {highlight.length > 30 && showFullText && (
+                    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+                      <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full relative">
+                        <button
+                          onClick={() => setShowFullText(false)}
+                          className="absolute top-2 right-2 text-gray-600 hover:text-gray-900"
+                        >
+                          ✖
+                        </button>
+                        <h4 className="text-lg font-semibold mb-4">Full Highlight</h4>
+                        <p className="break-words text-gray-700">{highlight}</p>
+                        <div className="mt-4 flex justify-end">
+                          <button
+                            onClick={() => setShowFullText(false)}
+                            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                          >
+                            Close
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div> 
               ))}
+              
               <button
                 type="button"
                 onClick={addHighlight}
-                className="bg-blue-500 text-white px-4 py-2.5 rounded-lg 
-                hover:bg-blue-600 transition-colors mt-2"
+                className="mt-2 w-full bg-blue-500 text-white px-4 py-2.5 rounded-lg 
+                    hover:bg-blue-600 transition-colors"
               >
                 Add Highlight
               </button>

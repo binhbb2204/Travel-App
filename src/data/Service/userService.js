@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { authService } from "../../data/Service/authService";
 
+import { authService } from './authService';
 const getBaseUrl = () => {
     // If running on localhost
     if (window.location.hostname === 'localhost') {
@@ -13,7 +13,38 @@ const getBaseUrl = () => {
 
 const BASE_URL = getBaseUrl();
 
+const api = axios.create({
+    baseURL: BASE_URL,
+  });
+  
+  api.interceptors.request.use(
+    (config) => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+);
+
 export const userService = {
+    getAllUsers: async () => {
+        try {
+            const token = authService.getCurrentUser().token;
+            const response = await axios.get(`${BASE_URL}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                }
+            });
+            return response.data.data;
+        } catch (error) {
+            console.error('Error fetching all tours:', error);
+            throw error;
+        }
+    },
     getSingleUser: async (userId) => {
         try {
             const token = authService.getCurrentUser().token;
