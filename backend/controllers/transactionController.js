@@ -35,10 +35,38 @@ export const getSingleTransaction = async (req, res) => {
 export const getAllTransaction = async (req, res) => {
     try {
         const trans = await Transaction.find({});
-        res.status(200).json({success: true, countr: accos.length, message: "Successfully get", data: trans,}); 
+        res.status(200).json({success: true, countr: trans.length, message: "Successfully get", data: trans,}); 
         console.log("Tried");
     } catch(error){
         res.status(500).json({success: false, message: "Failed to get. Try again"});
     }
 };
 
+export const getUserTransaction = async (req, res) => {
+    const { userId } = req.query;
+
+    try {
+        const query = {};
+
+        if (userId) query.userId = userId;
+
+        const trans = await Transaction.find(query);
+
+        if (trans.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "No bookings found for the given user and status.",
+            });
+        }
+        res.status(200).json({
+            success: true,
+            message: "Successfully retrieved bookings",
+            data: bookings,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Failed to fetch bookings. Try again.",
+        });
+    }
+};

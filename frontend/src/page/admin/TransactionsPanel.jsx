@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Plus, Edit, Trash2, EyeIcon, Star, X, ImagePlus, MapPin, Landmark, Clock, DollarSign, Users, FileText } from 'lucide-react';
-// import { transactionService } from '../../data/Service/transactionService';
+import { transactionService } from '../../data/Service/transactionService';
+import { tourService } from '../../data/Service/tourService';
+import { accommodationService } from '../../data/Service/accommodationService';
+import AccommodationDetailsModal from '../../ui/Admin/AccommodationDetailsModal';
+import TourDetailsModal from '../../ui/Admin/TourDetailsModal';
+
 // import TransactionDetailsModal from '../../ui/Admin/TransactionDetailsModal';
 const TransactionsPanel = () => {
   const [transactions, setTransactions] = useState([]);
+  const [transDetail, setTransDetail] = useState();
   const [detailsBook, setDetailsBook] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 //   const [selectedBook, setSelectedBook] = useState(null);
@@ -27,19 +33,19 @@ const TransactionsPanel = () => {
 
   // Fetch transactions on component mount
   useEffect(() => {
-    // const fetchTransactions = async () => {
-    //   try {
-    //     setIsLoading(true);
-    //     const fetchedTransactions = await transactionService.getAllTransactions();
-    //     setTransactions(fetchedTransactions);
-    //     setIsLoading(false);
-    //   } catch (err) {
-    //     setError('Failed to fetch transactions');
-    //     setIsLoading(false);
-    //   }
-    // };
+    const fetchTransactions = async () => {
+      try {
+        setIsLoading(true);
+        const fetchedTransactions = await transactionService.getAllTransactions();
+        setTransactions(fetchedTransactions);
+        setIsLoading(false);
+      } catch (err) {
+        setError('Failed to fetch transactions');
+        setIsLoading(false);
+      }
+    };
 
-    // fetchTransactions();
+    fetchTransactions();
   }, []);
 
 //   const handleEditTour = async (tour) => {
@@ -69,68 +75,74 @@ const TransactionsPanel = () => {
 
   const handleViewTransaction = async (trans) => {
     try {
-      const fullTransaction = await transactionService.getSingleTour(trans._id);
-      setDetailsBook(fullTransaction);
+      setTransDetail(trans);
+      if(trans.type === "Tour"){
+        const tourDetail = await tourService.getSingleTour(trans.experienceId);
+        setDetailsBook(tourDetail);
+      } else {
+        const accoDetail = await accommodationService.getSingleAccommodation(trans.experienceId);
+        setDetailsBook(accoDetail);
+      }
     } catch (err) {
       setError('Failed to fetch transaction details');
     }
   };
 
   // Form change handler
-  const handleChange = (e, index = null) => {
-    const { name, value, files } = e.target;
+  // const handleChange = (e, index = null) => {
+  //   const { name, value, files } = e.target;
 
-    if (name === 'photos') {
-      const photoFiles = Array.from(files).map(file => 
-        URL.createObjectURL(file)
-      );
-      setFormData(prev => ({
-        ...prev,
-        photos: [...prev.photos, ...photoFiles]
-      }));
-    } else if (name === 'highlights') {
-      const newHighlights = [...formData.highlights];
-      newHighlights[index] = value;
-      setFormData(prev => ({
-        ...prev,
-        highlights: newHighlights
-      }));
-    } else if (['price', 'duration', 'maxGroupSize'].includes(name)) {
-      setFormData(prev => ({
-        ...prev,
-        [name]: value === '' ? '' : Number(value)
-      }));
-    } else {
-      setFormData(prev => ({
-        ...prev,
-        [name]: value
-      }));
-    }
-  };
+  //   if (name === 'photos') {
+  //     const photoFiles = Array.from(files).map(file => 
+  //       URL.createObjectURL(file)
+  //     );
+  //     setFormData(prev => ({
+  //       ...prev,
+  //       photos: [...prev.photos, ...photoFiles]
+  //     }));
+  //   } else if (name === 'highlights') {
+  //     const newHighlights = [...formData.highlights];
+  //     newHighlights[index] = value;
+  //     setFormData(prev => ({
+  //       ...prev,
+  //       highlights: newHighlights
+  //     }));
+  //   } else if (['price', 'duration', 'maxGroupSize'].includes(name)) {
+  //     setFormData(prev => ({
+  //       ...prev,
+  //       [name]: value === '' ? '' : Number(value)
+  //     }));
+  //   } else {
+  //     setFormData(prev => ({
+  //       ...prev,
+  //       [name]: value
+  //     }));
+  //   }
+  // };
 
-  // Add highlight
-  const addHighlight = () => {
-    setFormData(prev => ({
-      ...prev,
-      highlights: [...prev.highlights, '']
-    }));
-  };
+  // // Add highlight
+  // const addHighlight = () => {
+  //   setFormData(prev => ({
+  //     ...prev,
+  //     highlights: [...prev.highlights, '']
+  //   }));
+  // };
 
-  // Remove highlight
-  const removeHighlight = (indexToRemove) => {
-    setFormData(prev => ({
-      ...prev,
-      highlights: prev.highlights.filter((_, index) => index !== indexToRemove)
-    }));
-  };
+  // // Remove highlight
+  // const removeHighlight = (indexToRemove) => {
+  //   setFormData(prev => ({
+  //     ...prev,
+  //     highlights: prev.highlights.filter((_, index) => index !== indexToRemove)
+  //   }));
+  // };
 
-  // Remove photo
-  const removePhoto = (indexToRemove) => {
-    setFormData(prev => ({
-      ...prev,
-      photos: prev.photos.filter((_, index) => index !== indexToRemove)
-    }));
-  };
+  // // Remove photo
+  // const removePhoto = (indexToRemove) => {
+  //   setFormData(prev => ({
+  //     ...prev,
+  //     photos: prev.photos.filter((_, index) => index !== indexToRemove)
+  //   }));
+  // };
 
   // Submit new tour
 //   const handleSubmit = async (e) => {
@@ -490,11 +502,12 @@ const TransactionsPanel = () => {
           <table className="w-full">
             <thead>
               <tr className="bg-gray-100 text-left">
+                <th className="p-4">User Email</th>
                 <th className="p-4">Experience Title</th>
-                <th className="p-4">Country</th>
                 <th className="p-4">Price</th>
                 <th className="p-4">Type</th>
                 <th className="p-4">Transaction Date</th>
+                <th className="p-4">Card Number</th>
                 <th className="p-4">Detail</th>
               </tr>
             </thead>
@@ -502,11 +515,11 @@ const TransactionsPanel = () => {
               {transactions.map(trans => (
                 <tr key={trans._id} className="border-b hover:bg-gray-50 transition">
                   <td className="p-4 flex items-center">
-                    {trans.featured && <Star className="text-yellow-500 mr-2" size={16} />}
-                    <span>{trans.title}</span>
+                    {/* {trans.featured && <Star className="text-yellow-500 mr-2" size={16} />} */}
+                    <span>{trans.email}</span>
                   </td>
-                  <td className="p-4">{trans.country}</td>
-                  <td className="p-4">${trans.price}</td>
+                  <td className="p-4">{trans.experienceName}</td>
+                  <td className="p-4">${trans.totalPrice}</td>
                   <td className="p-4">{trans.type}</td>
                   {/* <td className="p-4">
                     {tour.featured ? (
@@ -515,7 +528,8 @@ const TransactionsPanel = () => {
                       <span className="text-gray-500">No</span>
                     )}
                   </td> */}
-                  <td className="p-4">{trans.date}</td>                  
+                  <td className="p-4">{trans.date}</td>       
+                  <td className="p-4">{trans.cardNumber}</td>           
                   <td className="p-4">
                     <div className="flex space-x-2">
                       <button 
@@ -544,12 +558,18 @@ const TransactionsPanel = () => {
           </table>
         </div>
       )}
-      {/* {detailsBook && (
-        <TransactionDetailsModal 
-          trans={detailsBook} 
+      {detailsBook && transDetail.type === "Tour" && (
+        <TourDetailsModal 
+          tour={detailsBook} 
           onClose={() => setDetailsBook(null)} 
         />
-      )} */}
+      )}
+      {detailsBook && transDetail.type === "Accommodation" && (
+        <AccommodationDetailsModal 
+          acco={detailsBook} 
+          onClose={() => setDetailsBook(null)} 
+        />
+      )}
     </div>
   );
 };
