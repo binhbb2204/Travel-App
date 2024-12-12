@@ -126,51 +126,53 @@ const UsersPanel = () => {
                                 <p className="text-gray-500">No users registered yet. Create your first user!</p>
                             </div>
                         ) : (
-                            <Table striped>
-                                <thead>
-                                    <tr className="bg-gray-100 text-left">
-                                        <th className="p-4">ID</th>
-                                        <th className="p-4">Name</th>
-                                        <th className="p-4">Email</th>
-                                        <th className="p-4">Phone</th>
-                                        <th className="p-4">Gender</th>
-                                        <th className="p-4">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {users.map((user, index) => (
-                                        <tr key={user._id} className="border-b hover:bg-white transition">
-                                            <td className="p-4">{index + 1}</td>
-                                            <td className="p-4">{user.name}</td>
-                                            <td className="p-4">{user.email}</td>
-                                            <td className="p-4">{user.phone}</td>
-                                            <td className="p-4">{user.gender}</td>
-                                            <td className="p-3">
-                                                <div className="flex items-center gap-1">
-                                                    <button
-                                                        onClick={() => handleViewUser(user)}
-                                                        className="text-blue-500 hover:bg-blue-50 p-2 rounded-full flex items-center justify-center"
-                                                    >
-                                                        <EyeIcon size={18} />
-                                                    </button>
-                                                    <button
-                                                        onClick={() => toggleEditModal(user)}
-                                                        className="text-green-500 hover:bg-green-50 p-2 rounded-full flex items-center justify-center"
-                                                    >
-                                                        <Edit size={18} />
-                                                    </button>
-                                                    <button
-                                                        onClick={() => handleDelete(user)}
-                                                        className="text-red-500 hover:bg-red-50 p-2 rounded-full flex items-center justify-center"
-                                                    >
-                                                        <Trash2 size={18} />
-                                                    </button>
-                                                </div>
-                                            </td>
+                            <div className="max-h-[600px] overflow-y-auto"> 
+                                <table className="w-full">
+                                    <thead>
+                                        <tr className="bg-gray-100 text-left">
+                                            <th className="p-4">ID</th>
+                                            <th className="p-4">Name</th>
+                                            <th className="p-4">Email</th>
+                                            <th className="p-4">Phone</th>
+                                            <th className="p-4">Gender</th>
+                                            <th className="p-4">Actions</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </Table>
+                                    </thead>
+                                    <tbody>
+                                        {users.map((user, index) => (
+                                            <tr key={user._id} className="border-b hover:bg-white transition ">
+                                                <td className="p-4">{user._id}</td>
+                                                <td className="p-4">{user.name}</td>
+                                                <td className="p-4">{user.email}</td>
+                                                <td className="p-4">{user.phone}</td>
+                                                <td className="p-4">{user.gender}</td>
+                                                <td className="p-4">
+                                                    <div className="flex items-center gap-1">
+                                                        <button
+                                                            onClick={() => handleViewUser(user)}
+                                                            className="text-blue-500 hover:bg-blue-50 p-2 rounded-full flex items-center justify-center"
+                                                        >
+                                                            <EyeIcon size={18} />
+                                                        </button>
+                                                        <button
+                                                            onClick={() => toggleEditModal(user)}
+                                                            className="text-green-500 hover:bg-green-50 p-2 rounded-full flex items-center justify-center"
+                                                        >
+                                                            <Edit size={18} />
+                                                        </button>
+                                                        <button
+                                                            onClick={() => handleDelete(user)}
+                                                            className="text-red-500 hover:bg-red-50 p-2 rounded-full flex items-center justify-center"
+                                                        >
+                                                            <Trash2 size={18} />
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
                         )}
                     </div>
                 </Col>
@@ -203,8 +205,27 @@ const UsersPanel = () => {
                                 </Input>
                             </FormGroup>
                             <ModalFooter>
-                                <Button type="submit" color="primary">Save Changes</Button>
-                                <Button color="secondary" onClick={() => toggleEditModal(null)}>Cancel</Button>
+                                <button 
+                                type="submit" 
+                                className="w-full sm:w-auto 
+                                px-4 py-2 text-sm 
+                                bg-blue-500 text-white 
+                                hover:bg-blue-600 
+                                rounded-md
+                                transition-colors duration-200"
+                                >
+                                    Save Changes
+                                </button>
+                                <button 
+                                className="w-full sm:w-auto 
+                                px-4 py-2 text-sm 
+                                bg-red-500 text-white 
+                                hover:bg-red-600 
+                                rounded-md
+                                transition-colors duration-200" onClick={() => toggleEditModal(null)}
+                                >
+                                    Cancel
+                                </button>
                             </ModalFooter>
                         </Form>
                     )}
