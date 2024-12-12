@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Map, Plane, Compass, Sun, Star, Wind, Globe2, Calendar, Users, CreditCard,  Award, Section, } from 'lucide-react';
+import { Map, Plane, Compass, Sun, Star, Wind, Globe2, Calendar, Users, CreditCard,  Award, Section, SnowflakeIcon } from 'lucide-react';
 import FloatingElement from './../ui/FloatingElement'; 
 import ParallaxBackground from './../ui/ParallaxBackground'; 
 import ChristmasParallaxBackground from '../ui/ChristmasParallaxBackground';
@@ -26,17 +26,17 @@ const Home = () => {
       <ChristmasParallaxBackground />
       
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center">
-        <div className="container mx-auto px-4">
+      <section className="relative min-h-screen flex items-center px-4 sm:px-6 lg:px-8">
+        <div className="container mx-auto">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}
             style={{ y: y1, opacity }}
-            className="absolute top-24 md:top-10 right-4 md:right-10 z-10"
+            className="absolute top-16 sm:top-24 md:top-10 right-4 sm:right-6 md:right-10 z-10"
           >
             <FloatingElement delay={0.2}>
-              <Sun className="w-16 h-16 text-yellow-400" />
+              <SnowflakeIcon className="w-10 sm:w-12 md:w-16 h-10 sm:h-12 md:h-16 text-white" />
             </FloatingElement>
           </motion.div>
 
@@ -45,22 +45,23 @@ const Home = () => {
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}
             style={{ y: y2, opacity }}
-            className="absolute bottom-10 left-4 md:left-10 z-10"
+            className="absolute bottom-6 sm:bottom-8 md:bottom-10 left-4 sm:left-6 md:left-10 z-10"
           >
             <FloatingElement delay={0.5}>
-              <i className="ri-hotel-line hotel__icon"></i>
+              <i className="ri-hotel-line hotel__icon text-2xl sm:text-3xl md:text-4xl"></i>
             </FloatingElement>
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mt-8 md:mt-0">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center">
             <motion.div
               initial={{ opacity: 0, x: -100 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
+              
             >
-              <h1 className="custom-heading text-3xl md:text-5xl lg:text-6xl leading-tight md:leading-normal">
+              <h1 className="custom-heading text-2xl sm:text-3xl md:text-5xl lg:text-6xl leading-tight mb-4">
                 Travel Everywhere With
-                <div className="relative inline-block ml-2 md:ml-4">
+                <div className="relative inline-block ml-2 sm:ml-3 md:ml-4">
                   <span className="text-gradient">
                     TAB
                   </span>
@@ -91,8 +92,8 @@ const Home = () => {
               <ImageDisplay/>
             </motion.div>
           </div>
-          {/* make flexible size for mobile and pc for searchbar */}
-          <div className="w-full px-2 md:px-4 mt-6 md:mt-8">
+          
+          <div className="w-full px-2 sm:px-4 mt-6 sm:mt-8 lg:mt-10">
             <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
