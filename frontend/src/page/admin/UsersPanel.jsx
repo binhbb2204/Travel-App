@@ -1,46 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import {
-    Container,
-    Row,
-    Col,
-    Button,
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    Form,
-    FormGroup,
-    Label,
-    Input,
-    Table
-} from 'reactstrap';
-import { Edit, Delete } from "lucide-react";
-import './userspanel.css';
+import { Container, Row, Col, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, Table, Alert } from 'reactstrap';
+import { Plus, Edit, Trash2, EyeIcon, Landmark } from 'lucide-react';
 import { authService } from "../../data/Service/authService";
 
 const UsersPanel = () => {
     const [users, setUsers] = useState([]);
     const [editModal, setEditModal] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
+    const [notification, setNotification] = useState({ message: '', visible: false });
     const token = authService.getCurrentUser().token;
 
     useEffect(() => {
         const fetchUsers = async () => {
-            console.log('Fetching users...');
-            console.log('Token:', token);
-
             try {
                 const response = await axios.get('http://localhost:8000/api/v1/users', {
-                    credentials: "include",
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
-                    // withCredentials: true,
                 });
-
-                console.log('Response data:', response.data);
-
                 if (response.data.success) {
                     setUsers(response.data.data);
                 } else {
@@ -76,6 +54,10 @@ const UsersPanel = () => {
                 },
             });
             setUsers(users.map(user => (user._id === currentUser._id ? updatedUser : user)));
+            setNotification({ message: 'Update successful. Your changes have been saved!', visible: true });
+            setTimeout(() => {
+                setNotification({ ...notification, visible: false });
+            }, 2000); 
             toggleEditModal(null);
         } catch (error) {
             console.error('Error updating user:', error);
@@ -97,41 +79,73 @@ const UsersPanel = () => {
         }
     };
 
+    const handleViewUser = (user) => {
+        alert(`Viewing details for ${user.name}`);
+    };
+
     return (
         <Container>
+            {notification.visible && (
+                <Alert color="success" toggle={() => setNotification({ ...notification, visible: false })}>
+                    {notification.message}
+                </Alert>
+            )}
             <Row>
                 <Col lg='12' className="m-auto">
-                    <div className="users__panel">
-                        <h2 className="users__title">Registered Accounts from customers and admins</h2>
+                    <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
+                        <div className="bg-gradient-to-r from-blue-100 via-white to-blue-100 p-6 flex justify-between items-center border-b border-blue-100">
+                            <h2 className="text-2xl font-bold text-gray-800 flex items-center">
+                                <Landmark className="mr-3 text-blue-600" size={24} />
+                                User Management
+                            </h2>
+                        </div>
                         {users.length === 0 ? (
-                            <p className="text-gray-500">No users registered yet.</p>
+                            <div className="p-4 flex justify-center items-center h-96">
+                                <p className="text-gray-500">No users registered yet. Create your first user!</p>
+                            </div>
                         ) : (
                             <Table striped>
                                 <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Phone</th>
-                                        <th>Gender</th>
-                                        <th>Actions</th>
+                                    <tr className="bg-gray-100 text-left">
+                                        <th className="p-4">ID</th>
+                                        <th className="p-4">Name</th>
+                                        <th className="p-4">Email</th>
+                                        <th className="p-4">Phone</th>
+                                        <th className="p-4">Gender</th>
+                                        <th className="p-4">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {users.map((user, index) => (
-                                        <tr key={user._id}>
-                                            <td>{index + 1}</td>
-                                            <td>{user.name}</td>
-                                            <td>{user.email}</td>
-                                            <td>{user.phone}</td>
-                                            <td>{user.gender}</td>
-                                            <td>
-                                                <Button color="warning" onClick={() => toggleEditModal(user)}>
-                                                    <Edit className="icon" />
-                                                </Button>
-                                                <Button color="danger" className="ml-2" onClick={() => handleDelete(user)}>
-                                                    <Delete className="icon" />
-                                                </Button>
+                                        <tr key={user._id} className="border-b hover:bg-white transition">
+                                            <td className="p-4">{index + 1}</td>
+                                            <td className="p-4">{user.name}</td>
+                                            <td className="p-4">{user.email}</td>
+                                            <td className="p-4">{user.phone}</td>
+                                            <td className="p-4">{user.gender}</td>
+                                            <td className="p-3">
+                                                <div className="flex items-center gap-1">
+                                                    <button
+                                                        onClick={() => handleViewUser(user)}
+                                                        className="text-blue-500 hover:bg-blue-50 p-2 rounded-full flex items-center justify-center"
+                                                    >
+                                                        <EyeIcon size={18} />
+                                                    </button>
+
+                                                    <button
+                                                        onClick={() => toggleEditModal(user)}
+                                                        className="text-green-500 hover:bg-green-50 p-2 rounded-full flex items-center justify-center"
+                                                    >
+                                                        <Edit size={18} />
+                                                    </button>
+
+                                                    <button
+                                                        onClick={() => handleDelete(user)}
+                                                        className="text-red-500 hover:bg-red-50 p-2 rounded-full flex items-center justify-center"
+                                                    >
+                                                        <Trash2 size={18} />
+                                                    </button>
+                                                </div>
                                             </td>
                                         </tr>
                                     ))}
