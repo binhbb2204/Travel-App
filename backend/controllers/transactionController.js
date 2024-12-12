@@ -1,3 +1,4 @@
+import { query } from "express";
 import Transaction from "../Models/Transaction.js";
 
 export const createTransaction = async (req,res) => {
@@ -61,12 +62,16 @@ export const getUserTransaction = async (req, res) => {
         res.status(200).json({
             success: true,
             message: "Successfully retrieved bookings",
-            data: bookings,
+            data: trans,
         });
     } catch (error) {
         res.status(500).json({
             success: false,
             message: "Failed to fetch bookings. Try again.",
+            error: error.message,
+
         });
+        console.log("Query:", query);
+
     }
 };

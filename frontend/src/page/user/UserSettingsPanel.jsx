@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { authService } from "../../data/Service/authService";
 import { userService } from '../../data/Service/userService';
+import { transactionService } from '../../data/Service/transactionService';
 // import UserHeader from './components/UserHeader';
 import UserSidebar from './components/UserSidebar';
 import UserProfile from "./tabs/UserProfile";
@@ -10,6 +11,7 @@ import UserPasswordChange from './tabs/UserPasswordChange';
 import UserTransactions from './tabs/UserTransactions';
 import UserSecurity from './tabs/UserSecurity';
 import ChristmasParallaxBackground from '../../ui/ChristmasParallaxBackground';
+
 
 const UserSettingsPanel = () => {
   const [activeTab, setActiveTab] = useState('account');
@@ -28,10 +30,8 @@ const UserSettingsPanel = () => {
     newPassword: '',
     confirmPassword: '',
   });
-  const [transactions, setTransactions] = useState({
-    tours: [],
-    accommodations: []
-  });
+  const [transactions, setTransactions] = useState({ tours: [], accommodations: [] });
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -48,6 +48,7 @@ const UserSettingsPanel = () => {
           gender: userData.gender || '',
           birthDate: userData.birthDate || '',
         });
+        
       } catch (err) {
         console.error('Failed to load user data:', err);
         setError('Failed to load user data');
@@ -56,12 +57,33 @@ const UserSettingsPanel = () => {
       }
     };
 
+    // useEffect(() => {
+    //   const fetchTransactionInfo = async () => {
+    //     try {
+    //       const userId = authService.getCurrentUser().userId;
+    //       const transData = await transactionService.getUserTransaction(userId);
+    //       const acco = transData.filter((item) => item.type === 'Accommodation');
+    //       const tour = transData.filter((item) => item.type === 'Tour');
+    //       setTransactions({tour, acco});
+    //     } catch (error) {
+    //       console.error('Failed to load user transaction:', err);
+    //     }
+    //   }
+    //   fetchTransactionInfo();
+    // }, []);
+
     const fetchTransactionHistory = async () => {
       setLoading(true);
       try {
         const userId = authService.getCurrentUser().userId;
-        const transactionsData = await userService.getTransactionHistory(userId);
-        setTransactions(transactionsData);
+        // const transData = await transactionService.getUserTransaction(userId);
+        const transData = await transactionService.getAllTransactions();
+        const accommodations = transData.filter((item) => item.type === 'Accommodation');
+        const tours = transData.filter((item) => item.type === 'Tour');
+        setTransactions({tours, accommodations});
+        console.log(userId);
+        console.log(transData)
+        console.log(transactions)
       } catch (err) {
         console.error('Error fetching transactions:', err);
       } finally {

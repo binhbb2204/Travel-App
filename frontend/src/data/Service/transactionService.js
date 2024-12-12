@@ -18,6 +18,7 @@ export const transactionService = {
         });
     } catch (error) {
         console.error('Error creating accommodations booking:', error);
+
         throw error;
     }
   },
@@ -71,6 +72,8 @@ export const transactionService = {
       return response.data.data;
       
     } catch (error) {
+      console.log(userId);
+
         console.error(`Error finding transaction`, error);
         // throw error;
         return 0;
