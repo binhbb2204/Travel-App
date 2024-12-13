@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Trash2 } from 'lucide-react'; 
 import { useCart } from '../ui/Context/CartContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { 
@@ -20,6 +21,7 @@ const Checkout = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [bookingData, setBookingData] = useState({
+        tour_Id: 'none',
         tour_title: 'Unknown Title',
         tour_date: 'none',
         tour_adults: 1,
@@ -36,6 +38,7 @@ const Checkout = () => {
     });
 
     const [bookingData2, setBookingData2] = useState({
+        acco_Id: 'none',
         acco_title: "Unknown Accommodation",
         acco_checkin: 'none',
         acco_checkout: 'none',
@@ -54,14 +57,15 @@ const Checkout = () => {
 
     const [loading1, setLoading1] = useState(true); // Track if data is loading
     const [loading2, setLoading2] = useState(true); // Track if data is loading
+    const userId = authService.getCurrentUser().userId;
 
     useEffect(() => {
         const fetchBookingData = async () => {
             try {
-                const userId = authService.getCurrentUser().userId;
                 const accoBookData = await accommodationBookingService.getUserAccoBook(userId, "Pending");
                 if (accoBookData) {
                     setBookingData2({
+                        acco_Id: accoBookData._id || 'none',
                         acco_title: accoBookData.accommodationName || "Unknown Accommodation 2",
                         acco_checkin: accoBookData.checkInDate ? new Date(accoBookData.checkInDate).toLocaleDateString() : 'none',
                         acco_checkout: accoBookData.checkOutDate ? new Date(accoBookData.checkOutDate).toLocaleDateString() : 'none',
@@ -96,10 +100,10 @@ const Checkout = () => {
     useEffect(() => {
         const fetchBookingData = async () => {
             try {
-                const userId = authService.getCurrentUser().userId;
                 const tourBookData = await tourBookingService.getUserTourBook(userId, "Pending");
                 if (tourBookData) {
                     setBookingData({
+                        tour_Id: tourBookData._id || 'none',
                         tour_title: tourBookData.tourName || "Unknown Title",
                         tour_date: tourBookData.date ? new Date(tourBookData.date).toLocaleDateString() : 'none',
                         tour_adults: tourBookData.adults || 1,
@@ -243,6 +247,17 @@ const Checkout = () => {
 
     const { totalPrice, totalServiceCharge } = calculateTotal();
 
+    
+    const handleRemoveBooking = async (id, type) => {
+        if(type === "Accommodation"){
+            await accommodationBookingService.deleteAccoBook(id);
+        }
+        if(type === "Tour"){
+            await tourBookingService.deleteTourBook(id);
+        }
+        window.location.reload();
+    };
+
     if(loading1 && loading2){
         // return <div>Loading...</div>;
         return (
@@ -288,7 +303,10 @@ const Checkout = () => {
                                     <h2 className="text-base font-medium text-gray-800">
                                         Tour Booking Information
                                     </h2>
-                                    <MapPin className="w-5 h-5 text-gray-500" />
+                                    <Trash2
+                                        className="w-5 h-5 text-red-500 cursor-pointer hover:text-red-700"
+                                        onClick={() => handleRemoveBooking(bookingData.tour_Id, "Tour")}
+                                    />
                                 </div>
 
                                 <div className="p-4 space-y-6">
@@ -382,7 +400,10 @@ const Checkout = () => {
                                     <h2 className="text-base font-medium text-gray-800">
                                         Accommodation Booking Information
                                     </h2>
-                                    <MapPin className="w-5 h-5 text-gray-500" />
+                                    <Trash2
+                                        className="w-5 h-5 text-red-500 cursor-pointer hover:text-red-700"
+                                        onClick={() => handleRemoveBooking(bookingData2.acco_Id, "Accommodation")}
+                                    />
                                 </div>
                                 <div className="p-4 space-y-6">
                                     {/* Tour Details */}
