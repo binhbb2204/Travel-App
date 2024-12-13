@@ -1,0 +1,100 @@
+/* Christmas Register Stylesheet */
+@keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+  
+  @keyframes snowfall {
+    0% {
+      transform: translateY(-100%);
+      opacity: 0.5;
+    }
+    100% {
+      transform: translateY(100vh);
+      opacity: 0;
+    }
+  }
+  
+  .christmas-register-background {
+    position: relative;
+    background: linear-gradient(135deg, #e6f2ff 0%, #ffffff 100%);
+    overflow: hidden;
+  }
+  
+  .christmas-register-background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+    background-size: 30px 30px;
+    opacity: 0.3;
+    z-index: 1;
+  }
+  
+  /* Snowflake Animation */
+  .snowflake {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.7;
+    pointer-events: none;
+    animation: snowfall linear infinite;
+  }
+  
+  /* Input Styling Enhancements */
+  input, select {
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  }
+  
+  input:focus, select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 640px) {
+    .christmas-register-background {
+      padding: 1rem;
+    }
+  }
+  
+  /* Winter Theme Color Variables */
+  :root {
+    --winter-blue-100: #e6f2ff;
+    --winter-blue-200: #b3d9ff;
+    --winter-blue-300: #80bfff;
+    --winter-blue-400: #4da6ff;
+    --winter-blue-500: #1a8cff;
+    --winter-blue-600: #0073e6;
+    --winter-blue-700: #005cb3;
+    --winter-blue-800: #004080;
+    --winter-blue-900: #00264d;
+  }
+  
+  /* Accessibility and Print Styles */
+  @media print {
+    .christmas-register-background {
+      background: white;
+    }
+  }
+  
+  /* Subtle Hover Effects */
+  .hover-lift {
+    transition: transform 0.3s ease;
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-5px);
+  }
