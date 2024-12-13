@@ -78,8 +78,8 @@ const UserSettingsPanel = () => {
         const userId = authService.getCurrentUser().userId;
         // const transData = await transactionService.getUserTransaction(userId);
         const transData = await transactionService.getAllTransactions();
-        const accommodations = transData.filter((item) => item.type === 'Accommodation');
-        const tours = transData.filter((item) => item.type === 'Tour');
+        const accommodations = transData.filter((item) => item.type === 'Accommodation' && item.userId === userId);
+        const tours = transData.filter((item) => item.type === 'Tour' && item.userId === userId );
         setTransactions({tours, accommodations});
         console.log(userId);
         console.log(transData)
