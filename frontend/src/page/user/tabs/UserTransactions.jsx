@@ -53,21 +53,20 @@
 
 import React from 'react';
 import { CreditCard } from 'lucide-react';
-import { useNavigate } from 'react-router-dom'; // Assuming you're using React Router
-// import { format } from 'date-fns'; // A library for formatting dates (optional)
+import { useNavigate } from 'react-router-dom'; 
 
 const UserTransactions = ({ transactions }) => {
 
-    const tours = transactions?.tours ?? []; // Use empty array if undefined
-    const accommodations = transactions?.accommodations ?? []; // Use empty array if undefined
+    const tours = transactions?.tours ?? []; 
+    const accommodations = transactions?.accommodations ?? []; 
     const navigate = useNavigate();
 
     const formatDate = (date) => {
         try {
-            const options = { year: 'numeric', month: 'long', day: 'numeric' }; // e.g., December 12, 2024
+            const options = { year: 'numeric', month: 'long', day: 'numeric' }; 
             return new Date(date).toLocaleDateString(undefined, options);
         } catch {
-            return date; // Fallback in case of invalid date
+            return date;
         }
     };
 
@@ -91,8 +90,8 @@ const UserTransactions = ({ transactions }) => {
                                 {tour.experienceName}
                             </p>
                             <div className="text-sm text-gray-600 flex justify-between">
-                                <span>{formatDate(tour.date)}</span>
-                                <span className="font-semibold">{tour.totalPrice}</span>
+                                <span>Transaction Date: {formatDate(tour.date)}</span>
+                                <span className="font-semibold">${tour.totalPrice}</span>
                             </div>
                         </div>
                     ))
@@ -119,8 +118,8 @@ const UserTransactions = ({ transactions }) => {
                                 {accommodation.experienceName}
                             </p>
                             <div className="text-sm text-gray-600 flex justify-between">
-                                <span>{formatDate(accommodation.date)}</span>
-                                <span className="font-semibold">{accommodation.totalPrice}</span>
+                                <span>Transaction Date: {formatDate(accommodation.date)}</span>
+                                <span className="font-semibold">${accommodation.totalPrice}</span>
                             </div>
                         </div>
                     ))
