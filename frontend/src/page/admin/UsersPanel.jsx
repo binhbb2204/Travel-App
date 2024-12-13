@@ -18,6 +18,7 @@ import {
 } from 'reactstrap';
 import { Edit, Trash2, EyeIcon, Landmark } from 'lucide-react';
 import { authService } from "../../data/Service/authService";
+import { userService } from "../../data/Service/userService"
 
 const UsersPanel = () => {
     const [users, setUsers] = useState([]);
@@ -30,15 +31,12 @@ const UsersPanel = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/api/v1/users', {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-                if (response.data.success) {
-                    setUsers(response.data.data);
+                const response = await userService.getAllUsers();
+                console.log('Full response:', response);
+                if (response) {
+                    setUsers(response);
                 } else {
-                    console.error('Failed to fetch users:', response.data.message);
+                    console.error('Failed to fetch users:', response.message);
                 }
             } catch (error) {
                 console.error('Error fetching users:', error);
@@ -68,11 +66,7 @@ const UsersPanel = () => {
         };
 
         try {
-            await axios.put(`http://localhost:8000/api/v1/users/${currentUser._id}`, updatedUser, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+            await userService.updateUserProfile(currentUser._id, updatedUser)
             setUsers(users.map(user => (user._id === currentUser._id ? updatedUser : user)));
             setNotification({ message: 'Update successful. Your changes have been saved!', visible: true });
 

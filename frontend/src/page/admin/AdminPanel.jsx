@@ -11,6 +11,7 @@ import { useUsers } from "./UsersContext";
 
 const AdminPanel = () => {
   const [activeTab, setActiveTab] = useState('overview');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const { clearUsers } = useUsers();
 
@@ -87,9 +88,15 @@ const AdminPanel = () => {
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         onLogout={handleLogout}
+        isMobileMenuOpen={isMobileMenuOpen}
+        setIsMobileMenuOpen={setIsMobileMenuOpen}
       />
 
-      <div className="ml-64 p-8">
+      <div className={`
+        p-4 md:p-8 
+        ${isMobileMenuOpen ? 'md:ml-64' : 'md:ml-64'}
+        transition-all duration-300
+      `}>
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>
