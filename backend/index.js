@@ -14,6 +14,7 @@ import tourBookingRoute from './routes/tourbooking.js';
 import accoBookingRoute from './routes/accommodationBooking.js';
 import accoCommentRoute from './routes/accom_comment.js'
 import transactionRoute from './routes/transactions.js'
+import otpRoute from './routes/otp.js';
 
 dotenv.config();
 
@@ -47,6 +48,7 @@ app.use('/api/v1/accommodations', accoRoute);
 app.use('/api/v1/tour_booking', tourBookingRoute);
 app.use('/api/v1/accommodation_booking', accoBookingRoute);
 app.use('/api/v1/transactions', transactionRoute);
+app.use('/api/v1/otp', otpRoute);
 // Error handling for file upload or other server issues
 app.use((err, req, res, next) => {
   if (err instanceof multer.MulterError) {
