@@ -12,7 +12,6 @@ import UserTransactions from './tabs/UserTransactions';
 import UserSecurity from './tabs/UserSecurity';
 import ChristmasParallaxBackground from '../../ui/ChristmasParallaxBackground';
 
-
 const UserSettingsPanel = () => {
   const [activeTab, setActiveTab] = useState('account');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);

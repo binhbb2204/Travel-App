@@ -10,11 +10,11 @@ const UserProfile = ({ userData, setUserData, handleSave }) => {
         handleSave();
         setIsEditing(false);
         setShowMessage(true);
-        setTimeout(() => setShowMessage(false), 3000); 
+        setTimeout(() => setShowMessage(false), 3000);
     };
 
     return (
-        <motion.div 
+        <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
@@ -27,7 +27,7 @@ const UserProfile = ({ userData, setUserData, handleSave }) => {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => setIsEditing(true)}
-                        className="bg-white text-blue-600 px-5 py-2.5 rounded-xl hover:bg-blue-50 flex items-center font-semibold transition-all"
+                        className="bg-blue-600 text-white px-5 py-2.5 rounded-xl hover:bg-blue-700 flex items-center font-semibold transition-all"
                     >
                         <Edit className="mr-2 w-5 h-5" /> Edit Profile
                     </motion.button>
@@ -53,14 +53,14 @@ const UserProfile = ({ userData, setUserData, handleSave }) => {
                 )}
                 <AnimatePresence>
                     {showMessage && (
-                        <motion.div 
+                        <motion.div
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: 10 }}
                             className="absolute top-full right-0 mt-2 bg-green-100 border border-green-400 text-green-800 text-sm px-4 py-2 rounded shadow-md flex items-center"
                         >
                             <span>Changes saved successfully!</span>
-                            <motion.div 
+                            <motion.div
                                 className="ml-2 w-6 h-1 bg-green-400 rounded-full"
                                 initial={{ width: '100%' }}
                                 animate={{ width: 0 }}
@@ -74,7 +74,7 @@ const UserProfile = ({ userData, setUserData, handleSave }) => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 <div className="space-y-4 sm:space-y-6">
                     {/* Username Field */}
-                    <motion.div 
+                    <motion.div
                         className="bg-blue-50 p-3 sm:p-4 rounded-lg shadow-sm"
                         whileHover={{ scale: 1.02 }}
                         transition={{ type: "spring", stiffness: 300 }}
@@ -86,7 +86,8 @@ const UserProfile = ({ userData, setUserData, handleSave }) => {
                                 type="text"
                                 value={userData.name}
                                 onChange={(e) => setUserData({ ...userData, name: e.target.value })}
-                                className="w-full bg-transparent text-sm sm:text-lg font-medium focus:outline-none"
+                                className="w-full bg-transparent text-sm sm:text-lg font-medium focus:outline-none border-none"
+                                style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
                                 disabled={!isEditing}
                             />
                             {isEditing && <Pencil className="text-blue-600 w-4 h-4 sm:w-5 sm:h-5" />}
@@ -94,7 +95,7 @@ const UserProfile = ({ userData, setUserData, handleSave }) => {
                     </motion.div>
 
                     {/* Email Field */}
-                    <motion.div 
+                    <motion.div
                         className="bg-blue-50 p-3 sm:p-4 rounded-lg shadow-sm"
                         whileHover={{ scale: 1.02 }}
                         transition={{ type: "spring", stiffness: 300 }}
@@ -107,6 +108,7 @@ const UserProfile = ({ userData, setUserData, handleSave }) => {
                                 value={userData.email}
                                 onChange={(e) => setUserData({ ...userData, email: e.target.value })}
                                 className="w-full bg-transparent text-sm sm:text-lg focus:outline-none"
+                                style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
                                 disabled={!isEditing}
                             />
                             {isEditing && <Pencil className="text-blue-600 w-4 h-4 sm:w-5 sm:h-5" />}
@@ -114,7 +116,7 @@ const UserProfile = ({ userData, setUserData, handleSave }) => {
                     </motion.div>
 
                     {/* Phone Field */}
-                    <motion.div 
+                    <motion.div
                         className="bg-blue-50 p-3 sm:p-4 rounded-lg shadow-sm"
                         whileHover={{ scale: 1.02 }}
                         transition={{ type: "spring", stiffness: 300 }}
@@ -127,6 +129,7 @@ const UserProfile = ({ userData, setUserData, handleSave }) => {
                                 value={userData.phone}
                                 onChange={(e) => setUserData({ ...userData, phone: e.target.value })}
                                 className="w-full bg-transparent text-sm sm:text-lg focus:outline-none"
+                                style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
                                 disabled={!isEditing}
                             />
                             {isEditing && <Pencil className="text-blue-600 w-4 h-4 sm:w-5 sm:h-5" />}
@@ -136,7 +139,7 @@ const UserProfile = ({ userData, setUserData, handleSave }) => {
 
                 <div className="space-y-4 sm:space-y-6">
                     {/* Date of Birth Field */}
-                    <motion.div 
+                    <motion.div
                         className="bg-blue-50 p-3 sm:p-4 rounded-lg shadow-sm"
                         whileHover={{ scale: 1.02 }}
                         transition={{ type: "spring", stiffness: 300 }}
@@ -149,6 +152,7 @@ const UserProfile = ({ userData, setUserData, handleSave }) => {
                                 value={userData.birthDate}
                                 onChange={(e) => setUserData({ ...userData, birthDate: e.target.value })}
                                 className="w-full bg-transparent text-sm sm:text-lg focus:outline-none"
+                                style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
                                 disabled={!isEditing}
                             />
                             {isEditing && <Pencil className="text-blue-600 w-4 h-4 sm:w-5 sm:h-5" />}
@@ -156,7 +160,7 @@ const UserProfile = ({ userData, setUserData, handleSave }) => {
                     </motion.div>
 
                     {/* Gender Field */}
-                    <motion.div 
+                    <motion.div
                         className="bg-blue-50 p-3 sm:p-4 rounded-lg shadow-sm"
                         whileHover={{ scale: 1.02 }}
                         transition={{ type: "spring", stiffness: 300 }}
@@ -168,6 +172,7 @@ const UserProfile = ({ userData, setUserData, handleSave }) => {
                                 value={userData.gender}
                                 onChange={(e) => setUserData({ ...userData, gender: e.target.value })}
                                 className="w-full bg-transparent text-sm sm:text-lg focus:outline-none"
+                                style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
                                 disabled={!isEditing}
                             >
                                 <option value="Male">Male</option>

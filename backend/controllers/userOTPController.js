@@ -14,6 +14,7 @@ const transporter = nodemailer.createTransport({
 const generatedOTP = () => {
     return `${Math.floor(1000 + Math.random() * 9000)}`;
 }
+
 export const sendOTPVerificationEmail = async (req, res) => {
     try {
         const { email, userId } = req.body;
@@ -101,7 +102,7 @@ export const verifyOTP = async(req, res) => {
 
         res.status(200).json({
             status: true,
-            message: "Email verified successfully"
+            message: "Email verified successfully!"
         })
     } catch (error) {
         res.status(500).json({
