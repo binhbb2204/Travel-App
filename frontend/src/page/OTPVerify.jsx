@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { Alert, Form } from 'reactstrap';
 import { otpService } from '../data/Service/otpService';
 import ChristmasParallaxBackground from "../ui/ChristmasParallaxBackground";
-import { Gift } from 'lucide-react';
+import { Gift, AlertTriangle, ShieldCheck } from 'lucide-react';
 
 const OTPVerify = () => {
     const [otp, setOtp] = useState('');
@@ -31,47 +32,65 @@ const OTPVerify = () => {
     };
 
     return (
-        <div className="relative min-h-screen flex items-center justify-center">
+        <div className="min-h-screen bg-gradient-to-br from-blue-100 to-white flex items-center justify-center p-4 relative overflow-hidden">
             <ChristmasParallaxBackground />
-            <div className="absolute inset-0 flex items-center justify-center">
-                <Form onSubmit={handleOtpSubmit} className="bg-white p-6 rounded shadow-md z-10">
-                    <h2 className="text-lg font-bold mb-4">OTP Verification</h2>
-                    {error && <Alert color="danger">{error}</Alert>}
-                    {success && <Alert color="success">{success}</Alert>}
 
-                    <input
-                        type="text"
-                        placeholder="Enter OTP code here..."
-                        value={otp}
-                        onChange={(e) => setOtp(e.target.value)}
-                        className="w-full p-2 border rounded mb-4"
-                        required
-                    />
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                className="bg-white bg-opacity-80 backdrop-blur-lg rounded-2xl shadow-2xl p-8 w-full max-w-md z-10 border-4 border-blue-300"
+            >
+                <div className="text-center mb-6">
+                    <div className="flex justify-center items-center mb-4">
+                        <Gift className="text-blue-600 mr-2" size={40} />
+                        <h1 className="text-3xl font-bold text-blue-800">OTP Verification</h1>
+                    </div>
+                    <p className="text-blue-600">One more step to secure your account!</p>
+                </div>
 
-                    <button
-                        type="submit"
-                        className="flex items-center justify-center w-full p-2 rounded text-white transition-all duration-300"
-                        style={{
-                            background: 'linear-gradient(90deg, #4c6ef5, #007bff)',
-                            boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-                            border: 'none',
-                            minHeight: '50px'
-                        }}
-                        onMouseEnter={(e) => {
-                            e.target.style.background = 'linear-gradient(90deg, #3a5bc9, #0062cc)'; 
-                        }}
-                        onMouseLeave={(e) => {
-                            e.target.style.background = 'linear-gradient(90deg, #4c6ef5, #007bff)'; 
-                        }}
-                    >
-                        <span className="flex items-center font-bold">
-                            Verify
+                {/* Error Alert */}
+                {error && (
+                    <Alert color="danger" className="mb-4 flex items-center">
+                        <AlertTriangle className="mr-2 text-red-600" size={20} />
+                        {error}
+                    </Alert>
+                )}
+
+                {/* Success Alert */}
+                {success && (
+                    <Alert color="success" className="mb-4 flex items-center">
+                        <ShieldCheck className="mr-2 text-green-600" size={20} />
+                        {success}
+                    </Alert>
+                )}
+
+                <Form onSubmit={handleOtpSubmit}>
+                    <div className="space-y-4">
+                        <div className="relative">
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <ShieldCheck className="text-blue-500" size={20} />
+                            </div>
+                            <input
+                                type="text"
+                                placeholder="Enter 6-digit OTP"
+                                value={otp}
+                                onChange={(e) => setOtp(e.target.value)}
+                                required
+                                className="w-full pl-10 pr-3 py-2 border-2 border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300"
+                            />
+                        </div>
+
+                        <button
+                            type="submit"
+                            className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition flex items-center justify-center"
+                        >
+                            Verify OTP
                             <Gift className="ml-2" size={20} />
-                        </span>
-                    </button>
-
+                        </button>
+                    </div>
                 </Form>
-            </div>
+            </motion.div>
         </div>
     );
 };
