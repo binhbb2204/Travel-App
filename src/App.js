@@ -9,6 +9,7 @@ import { CartProvider } from './ui/Context/CartContext';
 import AdminPanel from './page/admin/AdminPanel';
 import { UserProvider } from "./page/admin/UsersContext";
 import UserSettingsPanel from "./page/user/UserSettingsPanel";
+import OTPVerify from "./page/OTPVerify";
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/user-settings" element={<UserSettingsPanel />} />
         <Route path="/admin" element={<AdminPanel />} />
+        <Route path="/otp-verify" element={<OTPVerify />} />
       </Routes>
     </Router>
   );

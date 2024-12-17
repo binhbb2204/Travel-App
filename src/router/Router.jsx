@@ -18,12 +18,13 @@ import AccommodationDetails from '../page/AccommodationDetails'
 import { clearRouteParams } from '../utils/queryParamManager'
 import UserSettingsPanel from "../page/user/UserSettingsPanel"
 import ModifyAccommodationForm from '../page/ModifyAccommodationForm'
+import OTPVerify from "../page/OTPVerify"
 import { authService } from "../data/Service/authService"
+import Header from '../Header/Header'
 
 const Routers = () => {
   const location = useLocation();
   const currentUser = authService.getCurrentUser();
-
 
   const handleAddTour = async (formData) => {
     try {
@@ -51,41 +52,49 @@ const Routers = () => {
   };
 
   return (
-    <Routes>
-      <Route path='/' element={<Navigate to='/home' />} />
-      <Route path='/home' element={<Home />} />
-      <Route path='/about' element={<About />} />
-      <Route path='/tours' element={<Tours />} />
-      <Route path='/tours/:id' element={<TourDetails />} />
-      <Route path='/login' element={<Login />} />
-      <Route path='/register' element={<Register />} />
-      <Route path='/tours/search' element={<SearchResultList />} />
-      <Route path='/exotic_tours' element={<Location />} />
-      <Route path='/add-tour' element={<AddTourForm />} />
-      <Route path='/accommodations' element={<Accommodations />} />
-      <Route path='/accommodations/:id' element={<AccommodationDetails />} />
-      {/* <Route path='/accommodations/search' element={<SearchResultList />} /> */}
-      <Route path='/transportations' element={<Transportations />} />
-      <Route path='/transaction' element={<TransactionBooking />} />
-      <Route
-        path="/admin-panel"
-        element={
-          currentUser && currentUser.role === 'admin' ? (
-            <AdminPanel />
-          ) : (
-            <Navigate to="/home" />
-          )
-        }
-      />
-      <Route path="/checkout" element={<Checkout />} />
-      <Route
-        path="/user-settings"
-        element={
-          currentUser ? <UserSettingsPanel /> : <Navigate to="/login" />
-        }
-      />
-      <Route path='/add-accommodation' element={<ModifyAccommodationForm />} />
-    </Routes>
+    // <>
+    //   {/* Render header only if the current path is not OTP verify */}
+    //   {location.pathname !== '/otp-verify' && <Header />}
+
+      <Routes>
+        <Route path='/' element={<Navigate to='/home' />} />
+        <Route path='/home' element={<Home />} />
+        <Route path='/about' element={<About />} />
+        <Route path='/tours' element={<Tours />} />
+        <Route path='/tours/:id' element={<TourDetails />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
+        <Route path='/tours/search' element={<SearchResultList />} />
+        <Route path='/exotic_tours' element={<Location />} />
+        <Route path='/add-tour' element={<AddTourForm />} />
+        <Route path='/accommodations' element={<Accommodations />} />
+        <Route path='/accommodations/:id' element={<AccommodationDetails />} />
+        {/* <Route path='/accommodations/search' element={<SearchResultList />} /> */}
+        <Route path='/transportations' element={<Transportations />} />
+        <Route path='/transaction' element={<TransactionBooking />} />
+
+        <Route path="/otp-verify" element={<OTPVerify />} />
+
+        <Route
+          path="/admin-panel"
+          element={
+            currentUser && currentUser.role === 'admin' ? (
+              <AdminPanel />
+            ) : (
+              <Navigate to="/home" />
+            )
+          }
+        />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route
+          path="/user-settings"
+          element={
+            currentUser ? <UserSettingsPanel /> : <Navigate to="/login" />
+          }
+        />
+        <Route path='/add-accommodation' element={<ModifyAccommodationForm />} />
+      </Routes>
+    // </>
   )
 }
 

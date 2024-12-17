@@ -1,4 +1,5 @@
 import axios from "axios";
+
 const getBaseUrl = () => {
     // If running on localhost
     if (window.location.hostname === 'localhost') {
@@ -14,7 +15,6 @@ export const otpService = {
     sendOTPVerificationEmail: async (email, userId) => {
         try {
             const response = await axios.post(`${BASE_URL}/send`, {email, userId});
-
             return {
                 success: true,
                 data: response.data,

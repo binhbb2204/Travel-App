@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Container, Row, Button } from 'reactstrap';
-import { NavLink, Link, useNavigate } from 'react-router-dom';
+import { NavLink, Link, useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X, Heart, Settings, TicketsPlane } from 'lucide-react';
 import { useFavorites } from '../ui/Context/FavoritesContext';
 import { useCart } from '../ui/Context/CartContext';
@@ -9,8 +9,8 @@ import { motion } from 'framer-motion';
 import { authService } from '../data/Service/authService';
 import './header.css';
 // import SwitchMode from '../ui/SwitchMode/SwitchMode'
-import UserProfile from '../page/user/tabs/UserProfile'
-import UsernameManager from "../page/user/UsernameManager";
+// import UserProfile from '../page/user/tabs/UserProfile'
+// import UsernameManager from "../page/user/UsernameManager";
 
 const nav_links = [
   { path: '/home', display: 'Home' },
@@ -29,6 +29,10 @@ const Header = () => {
   const [showSettings, setShowSettings] = useState(false);
   const { cartItems } = useCart();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // For testing
+  // if (location.pathname === '/otp-verify') return <></>;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -67,7 +71,7 @@ const Header = () => {
   // console.log("Username:", username);
   // console.log("User Role:", userRole);
   // console.log("Show Settings:", showSettings);
-  const  groupedFavorites = favorites.reduce((acc, favorite) => {
+  const groupedFavorites = favorites.reduce((acc, favorite) => {
     const type = favorite.type === 'accommodation' ? 'accommodations' : 'tours';
     if (!acc[type]) {
       acc[type] = [];

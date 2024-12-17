@@ -1,20 +1,21 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import { motion } from 'framer-motion';
 
 const ChristmasParallaxBackground = () => {
   // Create snowflakes with random properties
-  const createSnowflakes = () => {
+  const snowflakes = useMemo(() => {
     return Array.from({ length: 100 }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
       delay: Math.random() * 5,
       size: Math.random() * 4 + 2,
-      speed: Math.random() * 3 + 1
+      speed: Math.random() * 3 + 1,
+
+      horizontalDrift: Math.random() * 10 - 5
     }));
-  };
+  }, []);
 
-  const snowflakes = createSnowflakes();
-
+  
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
       {/* Gradient background resembling winter sky */}
@@ -40,7 +41,7 @@ const ChristmasParallaxBackground = () => {
             y: ['0vh', '110vh'],
             x: [
               `${flake.x}%`, 
-              `${flake.x + Math.random() * 10 - 5}%`
+              `${flake.x + flake.horizontalDrift}%`
             ]
           }}
           transition={{

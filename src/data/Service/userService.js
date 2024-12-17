@@ -45,6 +45,7 @@ export const userService = {
             throw error;
         }
     },
+    
     getSingleUser: async (userId) => {
         try {
             const token = authService.getCurrentUser().token;
