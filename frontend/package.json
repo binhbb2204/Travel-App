@@ -32,7 +32,8 @@
     "reactstrap": "^9.2.3",
     "recharts": "^2.13.3",
     "remixicon": "^4.5.0",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "styled-components": "^6.1.13"
   },
   "browserslist": {
     "production": [
