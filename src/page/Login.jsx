@@ -92,7 +92,7 @@ const Login = () => {
 
   
   return (
-    <div className="christmas-login-background min-h-screen bg-gradient-to-br from-blue-100 to-white flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-white flex items-center justify-center p-4 relative overflow-hidden">
       
       <ChristmasParallaxBackground/>
 

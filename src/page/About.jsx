@@ -10,8 +10,8 @@ import backgroundImage from '../images/travel.jpg';
 import aboutVideo from '../images/home-bg-final_2.mp4';
 
 // Sponsors Logo
-import QatarAirways from '../images/logo/QatarAirways.jpg';
-import Trivago from '../images/logo/Trivago.jpg';
+import QatarAirways from '../images/logo/QatarAirways_t.jpg';
+import Trivago from '../images/logo/Trivago_t.png';
 import Agoda from '../images/logo/Agoda.png';
 import AmericanAirlines from '../images/logo/AmericanAirlines.png';
 import EtihadAirways from '../images/logo/EtihadAirways.png';
@@ -216,7 +216,7 @@ const About = () => {
                     <h2 className="text-3xl md:text-3xl font-bold mb-6 text-gray-800">Our Beloved Sponsors</h2>
                     <div className="flex flex-wrap justify-center">
                         <img src={EtihadAirways} alt="Etihad Airways" style={{ height: '5rem', width: 'auto' }} className="mx-2" />
-                        <img src={QatarAirways} alt="Qatar Airways" style={{ height: '5rem', width: 'auto' }} className="logo mx-2" />
+                        <img src={QatarAirways} alt="Qatar Airways" style={{ height: '4rem', width: 'auto' }} className="logo mx-2" />
                         <img src={AmericanAirlines} alt="American Airlines" style={{ height: '5rem', width: 'auto' }} className="logo mx-2" />
                         <img src={VietjetAir} alt="Vietjet Air" style={{ height: '5rem', width: 'auto' }} className="logo mx-2" />
                         <img src={VietnamAirlines} alt="Vietnam Airlines" style={{ height: '5rem', width: 'auto' }} className="logo mx-2" />

@@ -130,7 +130,7 @@ const Register = () => {
   };
 
   return (
-    <div className="christmas-register-background min-h-screen bg-gradient-to-br from-blue-100 to-white flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-white flex items-center justify-center p-4 relative overflow-hidden">
       <ChristmasParallaxBackground/>
 
       {/* Main Register Card */}
@@ -138,7 +138,7 @@ const Register = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: isVisible ? 1 : 0, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="bg-white bg-opacity-80 backdrop-blur-lg rounded-2xl shadow-2xl p-8 w-full max-w-md z-10 border-4 border-blue-300"
+        className="bg-white bg-opacity-80 backdrop-blur-lg rounded-2xl shadow-2xl p-8 w-full max-w-md z-10 border-4 border-blue-300 mt-14"
       >
         <div className="text-center mb-6">
           <div className="flex justify-center items-center mb-4">
