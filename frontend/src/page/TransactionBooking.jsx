@@ -235,8 +235,14 @@ const TransactionBooking = () => {
     };
 
     const handleSubmit = async (e) => {
-        setStep(3);
-        
+        // setLoading(true);
+        setTimeout(() => {
+            // setLoading(false);
+            setSuccess(true);
+            setTimeout(() => setStep(3), 100);
+            setTimeout(() => navigate('/checkout'), 900);
+        }, 2000);
+
         if(payForAccommodation){
             try {
                 const userData = authService.getCurrentUser();
@@ -285,15 +291,7 @@ const TransactionBooking = () => {
         
         }
            
-        e.preventDefault();
-        setLoading(true);
-
-        // setTimeout(() => {
-        //     setLoading(false);
-        //     setSuccess(true);
-        //     setTimeout(() => setStep(3), 200);
-        //     // setTimeout(() => navigate('/checkout'), 500);
-        // }, 2000);
+        // e.preventDefault();
 
     };
 
