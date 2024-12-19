@@ -93,7 +93,10 @@ const Checkout = () => {
                 setLoading1(false); // Set loading to false after data is fetched
             }
         };
-    
+        setSelectedBookings({
+            tour: false,
+            accommodation: false
+        });
         fetchBookingData();
     }, []);
 
@@ -131,7 +134,10 @@ const Checkout = () => {
                 setLoading2(false); // Set loading to false after data is fetched
             }
         };
-    
+        setSelectedBookings({
+            tour: false,
+            accommodation: false
+        });
         fetchBookingData();
     }, []);
 
