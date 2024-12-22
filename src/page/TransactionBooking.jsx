@@ -25,6 +25,7 @@ const TransactionBooking = () => {
     
     // const { addToCart } = useCart();
     const navigate = useNavigate();
+    
 
     
     // const handleAddToCart = () => {
@@ -235,64 +236,64 @@ const TransactionBooking = () => {
     };
 
     const handleSubmit = async (e) => {
-        // setLoading(true);
-        setTimeout(() => {
-            // setLoading(false);
-            setSuccess(true);
-            setTimeout(() => setStep(3), 100);
-            setTimeout(() => navigate('/checkout'), 900);
-        }, 2000);
-
-        if(payForAccommodation){
-            try {
-                const userData = authService.getCurrentUser();
+        e.preventDefault();
+        setLoading(true);
+    
+        try {
+            const userData = authService.getCurrentUser();
+            if (payForAccommodation) {
                 const updateData = {
-                    status: "Confirmed", 
+                    status: "Confirmed"
                 };
                 await accommodationBookingService.updateUserAccoBook(userData.userId, "Pending", updateData);
+                
                 const transactionData = {
-                    userId : userData.userId,
-                    email : bookingData2.acco_email,
-                    experienceId : bookingData2.acco_Id,
-                    experienceName : bookingData2.acco_title,
+                    userId: userData.userId,
+                    email: bookingData2.acco_email,
+                    experienceId: bookingData2.acco_Id,
+                    experienceName: bookingData2.acco_title,
                     type: "Accommodation",
-                    totalPrice : bookingData2.acco_totalPrice,
-                    cardNumber : cardNumber,
+                    totalPrice: bookingData2.acco_totalPrice,
+                    cardNumber: cardNumber,
                     date: new Date().toISOString()
-                }
+                };
                 await transactionService.createTransaction(transactionData);
-            } catch (error) {
-                console.error("Unable to pay");
-            }        
-        }
-           
-        if(payForTour){
-            try {
-                const userData = authService.getCurrentUser();
+            }
+    
+            if (payForTour) {
                 const updateData = {
-                    status: "Confirmed", 
+                    status: "Confirmed"
                 };
                 await tourBookingService.updateUserTourBook(userData.userId, "Pending", updateData);
+                
                 const transactionData = {
-                    userId : userData.userId,
-                    email : bookingData.tour_email,
-                    experienceId : bookingData.tour_Id,
-                    experienceName : bookingData.tour_title,
+                    userId: userData.userId,
+                    email: bookingData.tour_email,
+                    experienceId: bookingData.tour_Id,
+                    experienceName: bookingData.tour_title,
                     type: "Tour",
-                    totalPrice : bookingData.tour_totalPrice,
-                    cardNumber : cardNumber,
+                    totalPrice: bookingData.tour_totalPrice,
+                    cardNumber: cardNumber,
                     date: new Date().toISOString()
-                }
-                console.log(transactionData);
+                };
                 await transactionService.createTransaction(transactionData);
-            } catch (error) {
-                console.error("Unable to pay");
-            }        
-        
+            }
+    
+            setSuccess(true);
+            setStep(3);
+            
+            // setTimeout(() => {
+            //     navigate('/checkout');
+            // }, 1500);
+    
+        } catch (error) {
+            console.error("Transaction failed:", error);
+            
+            setSuccess(false);
+            
+        } finally {
+            setLoading(false);
         }
-           
-        // e.preventDefault();
-
     };
 
     const handleBack = () => {
