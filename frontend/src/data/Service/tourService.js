@@ -54,6 +54,16 @@ export const tourService = {
             throw new Error('Only admin can update tours');
         }
 
+        // If tourData is FormData, add the photos to keep
+        if (tourData instanceof FormData) {
+            // Add the list of photos to keep
+            if (tourData.has('existingPhotos')) {
+                const photosToKeep = tourData.getAll('existingPhotos');
+                tourData.delete('existingPhotos'); // Remove the old field
+                tourData.append('photosToKeep', JSON.stringify(photosToKeep));
+            }
+        }
+
         const response = await api.put(`/${tourId}`, tourData, {
             headers: {
                 'Content-Type': 'multipart/form-data'

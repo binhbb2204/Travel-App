@@ -51,16 +51,25 @@ export const updateTour = async (req, res) => {
             });
         }
 
-        const existingPhotos = existingTour.photos || [];
+        // Get the list of photos to keep from the request body
+        const photosToKeep = req.body.photosToKeep ? JSON.parse(req.body.photosToKeep) : [];
+        
+        // Filter existing photos based on photosToKeep array
+        const remainingPhotos = existingTour.photos.filter(photo => photosToKeep.includes(photo));
 
+        // Add any new uploaded photos
         const newPhotoUrls = req.files ? req.files.map((file) => file.path) : [];
 
-        const updatedPhotos = [...existingPhotos, ...newPhotoUrls];
+        // Combine remaining old photos with new photos
+        const updatedPhotos = [...remainingPhotos, ...newPhotoUrls];
 
         const updateData = {
             ...req.body,
             photos: updatedPhotos
         };
+
+        // Remove the photosToKeep field from updateData as it's not part of the tour model
+        delete updateData.photosToKeep;
 
         const updatedTour = await Tour.findByIdAndUpdate(
             id,
