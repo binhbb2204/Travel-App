@@ -194,7 +194,16 @@ const TransactionsPanel = () => {
       </div>
     );
   }
-
+  function maskCardNumber(cardNumber) {
+    if (!cardNumber) return '';
+    const visibleDigits = 3; // Number of visible digits at the start
+    const maskChar = '*'; // Character for masking
+  
+    const visiblePart = cardNumber.slice(0, visibleDigits);
+    const maskedPart = maskChar.repeat(cardNumber.length - visibleDigits);
+  
+    return visiblePart + maskedPart;
+  }
   // Render error state
   if (error) {
     return (
@@ -529,7 +538,7 @@ const TransactionsPanel = () => {
                     )}
                   </td> */}
                   <td className="p-4">{trans.date}</td>       
-                  <td className="p-4">{trans.cardNumber}</td>           
+                  <td className="p-4">{maskCardNumber(trans.cardNumber)}</td>           
                   <td className="p-4">
                     <div className="flex space-x-2">
                       <button 
