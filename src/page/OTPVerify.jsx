@@ -9,6 +9,7 @@ import { Gift, AlertTriangle, ShieldCheck } from 'lucide-react';
 const OTPVerify = () => {
     const [otp, setOtp] = useState('');
     const [error, setError] = useState(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [success, setSuccess] = useState(null);
     const navigate = useNavigate();
     const userId = localStorage.getItem('userId');
@@ -21,13 +22,20 @@ const OTPVerify = () => {
 
         try {
             const response = await otpService.verifyOTP(userId, otp);
+            
+            if (!response.success) {
+                throw new Error(response.error || 'OTP verification failed');
+            }
             setSuccess(response.message);
-
+            localStorage.setItem('otpVerified', 'true');
             setTimeout(() => {
                 navigate('/home');
             }, 1500);
         } catch (error) {
             setError(error.response?.data.message || 'OTP verification failed. Please try again.');
+            setOtp('');
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -84,8 +92,9 @@ const OTPVerify = () => {
                         <button
                             type="submit"
                             className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition flex items-center justify-center"
+                            disabled={isSubmitting}
                         >
-                            Verify OTP
+                            {isSubmitting ? 'Verifying...' : 'Verify OTP'}
                             <Gift className="ml-2" size={20} />
                         </button>
                     </div>
