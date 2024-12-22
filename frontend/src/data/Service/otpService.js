@@ -33,6 +33,10 @@ export const otpService = {
                 otp
             });
 
+            if (!response.data.status) {
+                throw new Error(response.data.message || "OTP verification failed");
+            }
+
             return {
                 success: true,
                 data: response.data,

@@ -87,6 +87,8 @@ const Login = () => {
 
       localStorage.setItem('userId', userId);
 
+      localStorage.removeItem('otpVerified');
+
       if (enableOTP) {
         await otpService.sendOTPVerificationEmail(credentials.email, userId);
         setLoadingMessage(
