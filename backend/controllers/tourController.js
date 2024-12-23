@@ -165,8 +165,9 @@ export const deleteTour = async (req, res) => {
 };
 
 export const searchTours = async (req, res) => {
-    const { country, city, duration, maxGroupSize, minPrice, maxPrice } = req.query;
+    const { keyword, country, city, duration, maxGroupSize, minPrice, maxPrice } = req.query;
 
+    const titleRegex = keyword ? new RegExp(keyword, 'i') : undefined;
     const countryRegex = country ? new RegExp(country, 'i') : undefined;
     const cityRegex = city ? new RegExp(city, 'i') : undefined;
 
@@ -179,6 +180,7 @@ export const searchTours = async (req, res) => {
     try {
         const query = {};
 
+        if(titleRegex) query.title = titleRegex;
         // Adding filters for country, city, duration, and group size
         if (countryRegex) query.country = countryRegex;
         if (cityRegex) query.city = cityRegex;

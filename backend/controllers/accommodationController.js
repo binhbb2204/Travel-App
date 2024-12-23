@@ -115,9 +115,9 @@ export const getAllAccommodation = async (req, res) => {
 };
 
 export const getAccommodationBySearch = async (req,res) => {
-    const { title, country, city, type, groupSize, minPrice, maxPrice } = req.query;
+    const { keyword, country, city, type, groupSize, minPrice, maxPrice } = req.query;
 
-    const titleRegex = title ? new RegExp(title, 'i') : undefined;
+    const titleRegex = keyword ? new RegExp(keyword, 'i') : undefined;
     const countryRegex = country ? new RegExp(country, 'i') : undefined;
     const cityRegex = city ? new RegExp(city, 'i') : undefined;
     const typeRegex = type ? new RegExp(type, 'i') : undefined;    
