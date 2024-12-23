@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Users, Target, Globe, Award, Heart } from 'lucide-react';
 import ParallaxBackground from '../ui/ParallaxBackground';
 import ChristmasParallaxBackground from '../ui/ChristmasParallaxBackground';
-import teamMemberImage1 from '../images/binhbb.jpg';
+import teamMemberImage1 from '../images/nature.jpg';
 import teamMemberImage2 from '../images/ice.jpg';
 import teamMemberImage3 from '../images/nature.jpg';
 import backgroundImage from '../images/travel.jpg';
