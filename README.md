@@ -213,39 +213,59 @@ The system uses 6 main MongoDB collections:
 ## 📱 Screenshots
 
 ### Main Interface
-![Home Screen](img_rm/home1.png)
 
-![Home Screen Scrolled](img_rm/home2.png)
+![Home Screen](img_rm/home1.png)  
+*Figure 1: Home Screen*
+
+![Home Screen Scrolled](img_rm/home2.png)  
+*Figure 2: Home Screen Scrolled*
 
 ### User Authentication
-![Login Page](img_rm/login.png)
 
-![Register Page](img_rm/register.png)
+![Login Page](img_rm/login.png)  
+*Figure 3: Login Page*
+
+![Register Page](img_rm/register.png)  
+*Figure 4: Register Page*
 
 ### Core Features
-![Tour Searching](img_rm/tourSearch.png)
 
-![Booking Searching](img_rm/accoSearch.png)
+![Tour Searching](img_rm/tourSearch.png)  
+*Figure 5: Tour Searching*
 
-![Searching Result](img_rm/searchResult.png)
+![Booking Searching](img_rm/accoSearch.png)  
+*Figure 6: Accommodation Searching*
 
-![User Setting](img_rm/userSetting.png)
+![Searching Result](img_rm/searchResult.png)  
+*Figure 7: Search Results Display*
+
+![User Setting](img_rm/userSetting.png)  
+*Figure 8: User Settings Page*
 
 ### Booking Process
-![Booking Overview](img_rm/bookingOverview.png)
 
-![Booking Cart](img_rm/payment1.png)
+![Booking Overview](img_rm/bookingOverview.png)  
+*Figure 9: Booking Overview*
 
-![Process Payment](img_rm/payment2.png)
+![Booking Cart](img_rm/payment1.png)  
+*Figure 10: Booking Cart*
 
-![Payment Confirmation](img_rm/payment3.png)
+![Process Payment](img_rm/payment2.png)  
+*Figure 11: Payment Form*
+
+![Payment Confirmation](img_rm/payment3.png)  
+*Figure 12: Payment Confirmation Screen*
 
 ### Admin Panel
-![Booking Management](img_rm/admin1.png)
 
-![Booking Detail](img_rm/admin2.png)
+![Booking Management](img_rm/admin1.png)  
+*Figure 13: Admin – Booking Management*
 
-![Add New Booking](img_rm/admin3.png)
+![Booking Detail](img_rm/admin2.png)  
+*Figure 14: Admin – Booking Detail View*
+
+![Add New Booking](img_rm/admin3.png)  
+*Figure 15: Admin – Add New Booking Form*
 
 ## 👥 Team
 
@@ -290,13 +310,13 @@ The project follows a hybrid approach combining:
 - Mobile responsiveness improvements needed
 - Performance optimization for large datasets
 
-## 🤝 Contributing
+## 🤝 Top contributors:
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+<a href="https://github.com/binhbb2204/railway-app-web/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=binhbb2204/railway-app-web" alt="contrib.rocks image" />
+</a>
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## 📄 License
 
