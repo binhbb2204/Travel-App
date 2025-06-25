@@ -13,7 +13,6 @@ A comprehensive web-based travel platform that integrates various travel-related
 - [Database Schema](#database-schema)
 - [Screenshots](#screenshots)
 - [Team](#team)
-- [Contributing](#contributing)
 - [License](#license)
 
 ## 🎯 Overview
@@ -309,14 +308,6 @@ The project follows a hybrid approach combining:
 - Limited advanced search filters
 - Mobile responsiveness improvements needed
 - Performance optimization for large datasets
-
-## 🤝 Top contributors:
-
-<a href="https://github.com/binhbb2204/railway-app-web/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=binhbb2204/railway-app-web" alt="contrib.rocks image" />
-</a>
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## 📄 License
 
