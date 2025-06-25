@@ -213,31 +213,39 @@ The system uses 6 main MongoDB collections:
 ## 📱 Screenshots
 
 ### Main Interface
-[Image of Home Screen - Modern landing page with hero section and featured tours]
+![Home Screen](img_rm/home1.png)
 
-[Image of Home Screen Scrolled - Additional content sections and call-to-action areas]
+![Home Screen Scrolled](img_rm/home2.png)
 
 ### User Authentication
-[Image of Login Screen - Clean login form with email and password fields]
+![Login Page](img_rm/login.png)
 
-[Image of Register Screen - User registration form with required fields]
+![Register Page](img_rm/register.png)
 
 ### Core Features
-[Image of Tour Searching Screen - Advanced search interface with filters]
+![Tour Searching](img_rm/tourSearch.png)
 
-[Image of About Screen - Information about the platform and services]
+![Booking Searching](img_rm/accoSearch.png)
 
-[Image of User Settings Screen - Profile management interface]
+![Searching Result](img_rm/searchResult.png)
+
+![User Setting](img_rm/userSetting.png)
 
 ### Booking Process
-[Image of Tour Booking Input Form - Detailed booking form with user inputs]
+![Booking Overview](img_rm/bookingOverview.png)
 
-[Image of Tour Booking Overview - Booking confirmation and summary page]
+![Booking Cart](img_rm/payment1.png)
 
-### Database Structure
-[Image of MongoDB Database Structure - Visual representation of database collections]
+![Process Payment](img_rm/payment2.png)
 
-[Image of Database Sample Data - Example of stored data structure]
+![Payment Confirmation](img_rm/payment3.png)
+
+### Admin Panel
+![Booking Management](img_rm/admin1.png)
+
+![Booking Detail](img_rm/admin2.png)
+
+![Add New Booking](img_rm/admin3.png)
 
 ## 👥 Team
 
